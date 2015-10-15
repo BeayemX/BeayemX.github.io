@@ -6,6 +6,7 @@ var lineWidth = 3;
 var lineColor = "#000";
 var lineEndingRadius = 10;
 
+var gridCellNumber = 20;
 var gridSize = 75;
 var gridPointSize = 6;
 var gridPointLineWidth = 2;

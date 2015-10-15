@@ -105,10 +105,12 @@ function DrawGridPoint(screenpos)
 
 function DrawGrid()
 {
-	//context.lineWidth = gridPointLineWidth;
-	
+	// TODO remove?
 	var width = canvas.width / gridSize;
 	var height = canvas.height / gridSize;
+
+	width = gridCellNumber;
+	height = gridCellNumber;
 
 	for (var y=0; y<height+1; ++y)
 	{
