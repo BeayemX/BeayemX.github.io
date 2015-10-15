@@ -24,8 +24,8 @@ function OnLoad()
   	canvas.style.background = canvasColor;
   	ResizeCanvas();
 
-  	canvasOffset.x = canvas.width * 0.5 - gridCellNumber * gridSize * 0.5;
-  	canvasOffset.y = canvas.height * 0.5 - gridCellNumber * gridSize * 0.5;
+  	canvasOffset.x = canvas.width * 0.5;
+  	canvasOffset.y = canvas.height * 0.5;
   	Redraw();
   	ForTestingPurposeOnly();
 }

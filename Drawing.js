@@ -112,9 +112,9 @@ function DrawGrid()
 	width = gridCellNumber;
 	height = gridCellNumber;
 
-	for (var y=0; y<height+1; ++y)
+	for (var y=-height * 0.5; y<height * 0.5+1; ++y)
 	{
-		for (var x=0; x<width+1; ++x)
+		for (var x=-width * 0.5; x<width * 0.5 + 1; ++x)
 		{
 			if (x % bigGridSize == 0 || y % bigGridSize == 0)
 			{

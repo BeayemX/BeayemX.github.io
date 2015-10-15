@@ -134,10 +134,16 @@ function MouseUp(e)
 
 function MouseScroll(e)
 {
-	console.log("scroll: " + e.deltaY);
 	if (e.deltaY < 0) // upscroll
-		gridSize += 2;
+		Zoom(1.1);
 	else
-		gridSize -= 2;
+		Zoom(0.9);
+
+	MouseMove(e);
 	Redraw();
+}
+
+function Zoom(delta)
+{
+	gridSize *= delta;
 }
