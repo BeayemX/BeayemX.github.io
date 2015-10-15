@@ -1,0 +1,29 @@
+.body {
+	background-color: #ccc;
+}
+.canvasaa {
+	background-color: #aaa;
+	border: 1px solid black;
+}
+
+
+* { /* to remove the top and left whitespace */
+	margin:0;
+	padding:0;
+} 
+
+html {
+	width:100%; /* just to be sure these are full screen*/
+	height:100%; /* just to be sure these are full screen*/
+}	
+
+body {
+	width:100%; /* just to be sure these are full screen*/
+	height:100%; /* just to be sure these are full screen*/
+	background-color: #ccc;
+} 
+
+canvas { 
+	display:block; /* To remove the scrollbars */
+	position: absolute; 
+} 
