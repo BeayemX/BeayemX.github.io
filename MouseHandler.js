@@ -110,6 +110,12 @@ function MouseUp(e)
 			GridPositionChanged();
 		}
 	}
+
+	else if (e.button == 1) // MMB
+	{
+		var screenPos = GetMousePos(e);
+		state = StateEnum.IDLE;
+	}
 }
 
 function MouseScroll(e)
