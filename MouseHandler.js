@@ -3,14 +3,28 @@ var oldPos = {x: -1, y: -1};
 function MouseMove(e)
 {
 	var newPos = GetMousePos(e);
-	var oldGridPoint = GetGridPos(oldPos);
-	currentGridPosition = GetGridPos(newPos);
-	var delta = {
-		x: currentGridPosition.x - oldGridPoint.x,
-		y: currentGridPosition.y - oldGridPoint.y
+	if (state != StateEnum.PANNING)
+	{
+		var oldGridPoint = GetGridPos(oldPos);
+		currentGridPosition = GetGridPos(newPos);
+		var gridPosDelta = {
+			x: currentGridPosition.x - oldGridPoint.x,
+			y: currentGridPosition.y - oldGridPoint.y
+		}
+		if (gridPosDelta.x != 0 || gridPosDelta.y != 0)
+			GridPositionChanged(e, gridPosDelta);
 	}
-	if (delta.x != 0 || delta.y != 0)
-		GridPositionChanged(e, delta);
+	else // while panning
+	{
+		var screenPosDelta = {
+			x: newPos.x - oldPos.x,
+			y: newPos.y - oldPos.y
+		}
+
+		canvasOffset.x += screenPosDelta.x;
+		canvasOffset.y += screenPosDelta.y;
+		Redraw();
+	}
 
 	oldPos = newPos;
 }

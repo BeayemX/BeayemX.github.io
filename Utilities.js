@@ -7,11 +7,20 @@ function GetMousePos(e)
 	};
 }
 
+function GetMousePosConsideringOffset(e) 
+{
+	var rect = canvas.getBoundingClientRect();
+	return {
+		x: e.clientX - rect.left - canvasOffset.x,
+		y: e.clientY - rect.top - canvasOffset.y
+	};
+}
+
 function GridpointToScreenpoint(gridpoint)
 {
 	return {
-		x: gridpoint.x * gridSize,
-		y: gridpoint.y * gridSize
+		x: gridpoint.x * gridSize + canvasOffset.x,
+		y: gridpoint.y * gridSize + canvasOffset.y
 	};
 }
 
@@ -19,8 +28,8 @@ function GridpointToScreenpoint(gridpoint)
 function GetGridPos(screenPos) // TODO rename to ScreenpointToGridpoint
 {
 	return new GridPoint(
-		Math.round(screenPos.x / gridSize),	
-		Math.round(screenPos.y / gridSize)
+		Math.round((screenPos.x - canvasOffset.x) / gridSize),	
+		Math.round((screenPos.y - canvasOffset.y) / gridSize)
 	);
 }
 

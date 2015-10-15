@@ -44,6 +44,12 @@ function DrawGridLine(line, endpoint)
 		endX = endpoint.x * gridSize;
 		endY = endpoint.y * gridSize;
 	}
+
+	startX += canvasOffset.x;
+	startY += canvasOffset.y;
+	endX += canvasOffset.x;
+	endY += canvasOffset.y;
+
 	if (arguments.length == 1)
 	{
 		var selectedPoints = line.SelectedPoints();
@@ -93,5 +99,77 @@ function DrawGridLine(line, endpoint)
 function DrawGridPoint(screenpos)
 {
 	var gridPoint = GetGridPos(screenpos);
-	DrawCircle(gridPoint.x * gridSize, gridPoint.y * gridSize, gridPointSize);
+	DrawCircle(gridPoint.x * gridSize + canvasOffset.x, gridPoint.y * gridSize + canvasOffset.y, gridPointSize);
+}
+
+
+function DrawGrid()
+{
+	//context.lineWidth = gridPointLineWidth;
+	
+	var width = canvas.width / gridSize;
+	var height = canvas.height / gridSize;
+
+	for (var y=0; y<height+1; ++y)
+	{
+		for (var x=0; x<width+1; ++x)
+		{
+			if (x % bigGridSize == 0 || y % bigGridSize == 0)
+			{
+				context.lineWidth = bigGridPointLineWidth;
+				context.strokeStyle = bigGridPointLineColor;
+				context.fillStyle = bigGridPointFillColor;
+			}
+			else
+			{
+				context.lineWidth = gridPointLineWidth;
+				context.strokeStyle = gridPointLineColor;
+				context.fillStyle = gridPointFillColor;
+			}
+			// TODO why don't i use DrawGridPoint? at the begin of this method '/ gridSize'. here '*gridSize'...
+			DrawCircle(x*gridSize + canvasOffset.x, y*gridSize + canvasOffset.y, gridPointSize);
+		}
+	}
+
+}
+
+function DrawStoredLines() // RENAME DrawStoredLines or sth...
+{
+	context.lineWidth = lineWidth;
+	
+	// context.lineWidth = gridPointLineWidth;
+	//context.strokeStyle = "#000";
+	//context.fillStyle = "#000";
+	
+	for (var i=0; i<lines.length; ++i)
+	{
+		DrawGridLine(lines[i]);
+	}
+}
+
+function DrawPreview()
+{
+	//DrawHelpers();
+	
+	context.strokeStyle = previewLineColor;
+	context.fillStyle = previewLineColor;
+	if (state == StateEnum.DRAWING)
+	{
+		var start = GetGridPos(downPoint);
+		var end = currentGridPosition;//GetGridPos(vec2);
+		context.lineWidth = lineWidth;
+
+		DrawGridLine(start, end);
+	}
+
+	DrawGridPoint(GridpointToScreenpoint(currentGridPosition));
+}
+
+function DrawHelpers()
+{
+	context.strokeStyle = helperColor;
+	context.lineWidth = helperLineWidth;
+	var screenpos = GridpointToScreenpoint(currentGridPosition);
+	DrawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
+	DrawLineFromTo(screenpos.x, 0, screenpos.x, canvas.height);
 }
