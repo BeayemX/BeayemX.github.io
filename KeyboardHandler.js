@@ -72,8 +72,8 @@ function KeyDown(e)
 		case 86: // V
 			if (state == StateEnum.IDLE)
 			{	
-				PasteLines();
-				state = StateEnum.GRABBING;
+				if (PasteLines())
+					state = StateEnum.GRABBING;
 			}
 			break;
 

@@ -90,7 +90,7 @@ function PasteLines()
 {
 	var logo = sessionStorage.getItem("Clipboard");
 	if (!logo)
-		return;
+		return false;
 
 	ClearSelection();	
 
@@ -110,11 +110,11 @@ function PasteLines()
 	}
 	console.log("Lines pasted from clipboard!");
 	Redraw();
+	return true;
 }
 
 function TakeScreenshot()
 {
-
 	var w=window.open('about:blank','image from canvas');
 	// also save blueprint
 	//w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
