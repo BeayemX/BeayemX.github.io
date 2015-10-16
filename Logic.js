@@ -49,10 +49,10 @@ function Redraw()
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	
 	if (state != StateEnum.RENDERPREVIEW)
+  {
 		DrawGrid();
+    DrawHelpers();
+  }
 	
 	DrawStoredLines();
-	
-	if (state != StateEnum.RENDERPREVIEW)
-		DrawHelpers();
 }
