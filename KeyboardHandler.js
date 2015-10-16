@@ -44,29 +44,42 @@ function KeyDown(e)
 				DeleteSelectedLines();
 			break;
 		case 73: // I
-			InvertSelection();
+			if (state == StateEnum.IDLE)
+				InvertSelection();
 			break;
 		case 68:
-			DuplicateLines();
-			state = StateEnum.GRABBING;
+			if (state == StateEnum.IDLE)
+			{
+				DuplicateLines();
+				state = StateEnum.GRABBING;
+			}	
 			break;
 
 		case 9: // TAB
-			state = StateEnum.RENDERPREVIEW;
-  			canvas.style.background = 'white';
-			Redraw();
+			if (state == StateEnum.IDLE)
+			{
+				state = StateEnum.RENDERPREVIEW;
+	  			canvas.style.background = 'white';
+				Redraw();
+			}
 			break;
 
 		case 67: // C
-			CopyLinesToClipboard();
+			if (state == StateEnum.IDLE)
+				CopyLinesToClipboard();
 			break;
 
 		case 86: // V
-			PasteLines();
+			if (state == StateEnum.IDLE)
+			{	
+				PasteLines();
+				state = StateEnum.GRABBING;
+			}
 			break;
-			
+
 		case 13: // Enter
-			TakeScreenshot();
+			if (state == StateEnum.IDLE)
+				TakeScreenshot();
 			break;
 
 		default:
