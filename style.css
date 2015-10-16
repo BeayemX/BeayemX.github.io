@@ -25,9 +25,14 @@ canvas {
 } 
 
 button {
-	width: 100%;
+	width: 80%;
 	margin-top: 10;
+	margin-left: 10%;
+	margin-right: 10%;
 	padding: 5;
+
+	font-family: 'Roboto', sans-serif;
+	font-size: 12pt;
 }
 
 div
@@ -42,13 +47,18 @@ div
 
 #notificationarea
 {
-	margin-top: 15;
-	font-size: 22;
-	padding: 15 40 15 40;
-	border-radius: 15px;
 	position: absolute;
 	top: 0;
+
 	text-align: center;
+
+	font-family: 'Oswald', sans-serif;
+	font-size: 16pt;
+
+	margin-top: 15;
+	padding: 15 40 15 40;
+
+	border-radius: 15px;
 
 	z-index: 1;
 }
