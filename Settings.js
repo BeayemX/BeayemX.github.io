@@ -4,7 +4,7 @@ var canvasHeightFactor = 0.8;
 
 var lineWidth = 3;
 var lineColor = "#000";
-var lineEndingRadius = 10;
+var lineEndingRadius = 4;
 
 var gridCellNumber = 32;
 var gridSize = 55;

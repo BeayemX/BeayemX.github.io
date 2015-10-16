@@ -95,8 +95,8 @@ function DrawGridLine(line, endpoint)
 
 	if (state != StateEnum.RENDERPREVIEW)
 	{
-		DrawCircle(startX, startY, gridPointSize);
-		DrawCircle(endX, endY, gridPointSize);
+		DrawCircle(startX, startY, lineEndingRadius);
+		DrawCircle(endX, endY, lineEndingRadius);
 	}
 }
 
