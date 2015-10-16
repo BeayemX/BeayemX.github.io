@@ -53,6 +53,7 @@ function KeyDown(e)
 
 		case 9: // TAB
 			state = StateEnum.RENDERPREVIEW;
+  			canvas.style.background = 'white';
 			Redraw();
 			break;
 
@@ -76,6 +77,7 @@ function KeyUp(e)
 	{
 		case 9: // TAB
 			state = StateEnum.IDLE;
+  			canvas.style.background = canvasColor;
 			Redraw();
 			break;
 	}
