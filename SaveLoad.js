@@ -78,3 +78,41 @@ function DeleteSavedLogo(logoName)
 		console.log("deleted")
 	}
 }
+
+function CopyLinesToClipboard()
+{
+	var selectedLines = GetSelectedLines();
+	sessionStorage.setItem("Clipboard", JSON.stringify(selectedLines));
+	console.log("Lines copied to clipboard!");
+}
+
+function PasteLines()
+{
+	var logo = sessionStorage.getItem("Clipboard");
+	if (!logo)
+		return;
+
+	ClearSelection();	
+
+	var linesArray = JSON.parse(logo);
+
+	for (var i=0; i<linesArray.length; ++i)
+	{
+		lines.push(
+			new Line(
+				linesArray[i].start.x,
+				linesArray[i].start.y,
+				linesArray[i].end.x,
+				linesArray[i].end.y, 
+				true
+			)
+		);
+	}
+	console.log("Lines pasted from clipboard!");
+	Redraw();
+}
+
+function TakeScreenshot()
+{
+
+}

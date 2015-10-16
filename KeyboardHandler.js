@@ -57,6 +57,14 @@ function KeyDown(e)
 			Redraw();
 			break;
 
+		case 67: // C
+			CopyLinesToClipboard();
+			break;
+
+		case 86: // V
+			PasteLines();
+			break;
+
 		default:
 			console.log("KeyDown(): \n"
 				+ "keyCode: " + e.keyCode + "\n"

@@ -6,10 +6,16 @@ var StateEnum = {
 	PANNING: 5
 }
 
-function Line(x1, y1, x2, y2)
+function Line(x1, y1, x2, y2, selected)
 {
 	this.start = new GridPoint(x1, y1);
 	this.end = new GridPoint(x2, y2);
+
+	if (arguments.length == 5)
+	{
+		this.start.selected = selected;
+		this.end.selected = selected;
+	}
 	
 	this.SelectedPoints = function()
 	{
