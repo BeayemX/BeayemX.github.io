@@ -1,6 +1,8 @@
 var canvasColor = "#888";
-var canvasWidthFactor = 0.9;
+var canvasWidthFactor = 0.95;
 var canvasHeightFactor = 0.8;
+
+var toolareaWidth = 200;
 
 var lineWidth = 3;
 var lineColor = "#000";

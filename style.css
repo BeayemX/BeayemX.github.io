@@ -1,16 +1,8 @@
-.body {
-	background-color: #ccc;
+*
+{
+	margin: 0;
+	padding: 0;
 }
-.canvasaa {
-	background-color: #aaa;
-	border: 1px solid black;
-}
-
-
-* { /* to remove the top and left whitespace */
-	margin:0;
-	padding:0;
-} 
 
 html {
 	width:100%; /* just to be sure these are full screen*/
@@ -21,9 +13,29 @@ body {
 	width:100%; /* just to be sure these are full screen*/
 	height:100%; /* just to be sure these are full screen*/
 	background-color: #ccc;
+	overflow: hidden;
 } 
 
 canvas { 
 	display:block; /* To remove the scrollbars */
-	position: absolute; 
+	position: absolute;
+
+	margin:0;
+	padding:0;
 } 
+
+button {
+	width: 100%;
+	margin-top: 10;
+	padding: 5;
+}
+
+div
+{
+	border: 1px black solid;
+}
+
+#toolarea {
+	overflow: auto;
+	position: absolute;
+}
