@@ -6,22 +6,22 @@ var lineWidth = 3;
 var lineColor = "#000";
 var lineEndingRadius = 10;
 
-var gridCellNumber = 20;
-var gridSize = 75;
+var gridCellNumber = 32;
+var gridSize = 55;
 var gridPointSize = 6;
 var gridPointLineWidth = 2;
 var gridPointLineColor = "#000";
 var gridPointFillColor = "#999";
 
 
-var bigGridSize = 5;
+var bigGridSize = 8;
 var bigGridPointSize = 6;
 var bigGridPointLineWidth = 1;
 var bigGridPointLineColor = "#000";
 var bigGridPointFillColor = "#777";
 
-var helperColor = "#555";
-var helperLineWidth = 1;
+var helperColor = "#5bb";
+var helperLineWidth = 2;
 
-var previewLineColor = "rgba(0, 255,127,0.3)";
+var previewLineColor = "#090";
 var selectionColor = "#f90";

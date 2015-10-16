@@ -49,7 +49,11 @@ function KeyDown(e)
 		case 68:
 			DuplicateLines();
 			state = StateEnum.GRABBING;
+			break;
 
+		case 9: // TAB
+			state = StateEnum.RENDERPREVIEW;
+			Redraw();
 			break;
 
 		default:
@@ -68,4 +72,11 @@ function KeyDown(e)
 
 function KeyUp(e)
 {
+	switch(e.keyCode)
+	{
+		case 9: // TAB
+			state = StateEnum.IDLE;
+			Redraw();
+			break;
+	}
 }

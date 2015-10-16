@@ -53,15 +53,15 @@ function DrawGridLine(line, endpoint)
 	if (arguments.length == 1)
 	{
 		var selectedPoints = line.SelectedPoints();
-		if ( selectedPoints == 2)
-		{
-			context.strokeStyle = selectionColor;
-			context.fillStyle = selectionColor;	
-		}
-		else if ( selectedPoints == 0)
+		if ( selectedPoints == 0 || state == StateEnum.RENDERPREVIEW)
 		{
 			context.strokeStyle = lineColor;
 			context.fillStyle = lineColor;	
+		}
+		else if ( selectedPoints == 2)
+		{
+			context.strokeStyle = selectionColor;
+			context.fillStyle = selectionColor;	
 		}
 		else
 		{
@@ -92,8 +92,12 @@ function DrawGridLine(line, endpoint)
 	}
 
 	DrawLineFromTo(startX, startY, endX, endY);
-	DrawCircle(startX, startY, gridPointSize);
-	DrawCircle(endX, endY, gridPointSize);
+
+	if (state != StateEnum.RENDERPREVIEW)
+	{
+		DrawCircle(startX, startY, gridPointSize);
+		DrawCircle(endX, endY, gridPointSize);
+	}
 }
 
 function DrawGridPoint(screenpos)
@@ -105,6 +109,12 @@ function DrawGridPoint(screenpos)
 
 function DrawGrid()
 {
+	context.lineWidth = 1;
+	context.strokeStyle = 'darkred';
+
+	DrawLineFromTo(0, canvasOffset.y, canvas.width, canvasOffset.y);
+	DrawLineFromTo(canvasOffset.x, 0, canvasOffset.x, canvas.height);
+
 	// TODO remove?
 	var width = canvas.width / gridSize;
 	var height = canvas.height / gridSize;
@@ -169,8 +179,9 @@ function DrawPreview()
 
 function DrawHelpers()
 {
-	context.strokeStyle = helperColor;
 	context.lineWidth = helperLineWidth;
+	context.strokeStyle = helperColor;
+
 	var screenpos = GridpointToScreenpoint(currentGridPosition);
 	DrawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
 	DrawLineFromTo(screenpos.x, 0, screenpos.x, canvas.height);

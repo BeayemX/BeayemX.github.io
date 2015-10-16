@@ -47,7 +47,12 @@ function ResizeCanvas()
 function Redraw()
 {
 	context.clearRect(0, 0, canvas.width, canvas.height);
-	DrawGrid();
+	
+	if (state != StateEnum.RENDERPREVIEW)
+		DrawGrid();
+	
 	DrawStoredLines();
-	DrawHelpers();
+	
+	if (state != StateEnum.RENDERPREVIEW)
+		DrawHelpers();
 }
