@@ -7,7 +7,6 @@ function KeyDown(e)
 			ReloadPage(true);
 			break;
 		case 116: // F5
-			AutoSave();
 			ReloadPage(false);
 			break;
 
@@ -92,6 +91,7 @@ function KeyDown(e)
 				+ "altKey: " + e.altKey + "\n"
 				+ "shiftKey: " + e.shiftKey + "\n"
 				);
+			Notify("Keycode: " + e.keyCode);
 	}
 
 	if (e.keyCode != 123) // F12

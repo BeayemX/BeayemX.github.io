@@ -27,3 +27,7 @@ var helperLineWidth = 2;
 
 var previewLineColor = "#090";
 var selectionColor = "#f90";
+
+var notificationDuration = 2000;
+var notificationColorHalf = 'rgba(255, 127, 0, 0.75)';
+var notificationColorFull = 'rgba(255, 127, 0, 1)';

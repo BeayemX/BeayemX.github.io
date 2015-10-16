@@ -12,15 +12,18 @@ function OnLoad()
 	window.addEventListener("contextmenu", function(e) {e.preventDefault(); return false;} );
   window.addEventListener('resize', ResizeCanvas, false);
 
-
 	canvas = document.getElementById('canvas');
   context = canvas.getContext('2d');
   toolarea = document.getElementById('toolarea');
+  notificationarea = document.getElementById('notificationarea');
 
   canvas.addEventListener("mousemove", MouseMove);
   canvas.addEventListener("mouseup", MouseUp);
   canvas.addEventListener("mousedown", MouseDown);
-  window.addEventListener("mousewheel", MouseScroll); 
+  canvas.addEventListener("mousewheel", MouseScroll); 
+
+  notificationarea.addEventListener("mouseenter", NotificationEnter);
+  notificationarea.addEventListener("mouseout", NotificationExit);
 
   canvas.style.background = canvasColor;
   ResizeCanvas();
@@ -31,19 +34,23 @@ function OnLoad()
   LoadAutoSave();
 
   Redraw();
-	ForTestingPurposeOnly();
+	// ForTestingPurposeOnly();
 }
 
 function ForTestingPurposeOnly()
 {
-	console.log("State: " + state);
+	Notify("State: asdf asfasf joiehf andfub kjsdf ui4 3ub alks<br><br>asdf:<br> asökfd asödfj ajsöfd<br>jdf 3b4k lasbf 2");
 }
 
-function ResizeCanvas()
+function ResizeCanvas() // TODO rename to LayoutGUI
 {
   toolarea.style.width = toolareaWidth;
-  toolarea.style.left= 0;
+  toolarea.style.left = 0;
   toolarea.style.top = window.innerHeight * 0.5 - toolarea.offsetHeight * 0.5;
+
+  //notificationarea.style.minWidth = 250;
+  //notificationarea.style.minHeight = 50;
+  notificationarea.style.top = 0;
 
   canvas.width = window.innerWidth * canvasWidthFactor - toolareaWidth;
   canvas.height = window.innerHeight * canvasHeightFactor;

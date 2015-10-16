@@ -86,7 +86,7 @@ function CopyLinesToClipboard()
 {
 	var selectedLines = GetSelectedLines();
 	sessionStorage.setItem(clipboardFileName, JSON.stringify(selectedLines));
-	console.log("Lines copied to clipboard!");
+	Notify("Lines copied to clipboard!");
 }
 
 function PasteLines()
@@ -111,7 +111,7 @@ function PasteLines()
 			)
 		);
 	}
-	console.log("Lines pasted from clipboard!");
+	Notify("Lines pasted from clipboard!");
 	Redraw();
 	return true;
 }
@@ -128,12 +128,12 @@ function TakeScreenshot()
 
 	state = StateEnum.IDLE;
 	Redraw();
-	console.log("Picture saved!");
+	Notify("Picture saved!");
 }
 
 function AutoSave()
 {
-	console.log("AutoSaved!");
+	Notify("AutoSaved!");
 	sessionStorage.setItem(autosaveFileName, JSON.stringify(lines));
 }
 
@@ -156,7 +156,7 @@ function LoadAutoSave()
 			)
 		);
 	}
-	console.log("AutoSave loaded!");
+	Notify("AutoSave loaded!");
 	Redraw();
 	return true;	
 }
