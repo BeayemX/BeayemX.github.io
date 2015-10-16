@@ -1,3 +1,6 @@
+var autosaveFileName = "AutoSave";
+var clipboardFileName = "Clipboard";
+
 function Save()
 {
 	var logoName = prompt("Save logo as: ");
@@ -82,13 +85,13 @@ function DeleteSavedLogo(logoName)
 function CopyLinesToClipboard()
 {
 	var selectedLines = GetSelectedLines();
-	sessionStorage.setItem("Clipboard", JSON.stringify(selectedLines));
+	sessionStorage.setItem(clipboardFileName, JSON.stringify(selectedLines));
 	console.log("Lines copied to clipboard!");
 }
 
 function PasteLines()
 {
-	var logo = sessionStorage.getItem("Clipboard");
+	var logo = sessionStorage.getItem(clipboardFileName);
 	if (!logo)
 		return false;
 
@@ -126,4 +129,34 @@ function TakeScreenshot()
 	state = StateEnum.IDLE;
 	Redraw();
 	console.log("Picture saved!");
+}
+
+function AutoSave()
+{
+	console.log("AutoSaved!");
+	sessionStorage.setItem(autosaveFileName, JSON.stringify(lines));
+}
+
+function LoadAutoSave()
+{
+	var logo = sessionStorage.getItem(autosaveFileName);
+	if (!logo)
+		return false;
+
+	var linesArray = JSON.parse(logo);
+
+	for (var i=0; i<linesArray.length; ++i)
+	{
+		lines.push(
+			new Line(
+				linesArray[i].start.x,
+				linesArray[i].start.y,
+				linesArray[i].end.x,
+				linesArray[i].end.y
+			)
+		);
+	}
+	console.log("AutoSave loaded!");
+	Redraw();
+	return true;	
 }

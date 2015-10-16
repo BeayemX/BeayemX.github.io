@@ -7,14 +7,17 @@ function KeyDown(e)
 			ReloadPage(true);
 			break;
 		case 116: // F5
+			AutoSave();
 			ReloadPage(false);
 			break;
 
 		case 83: // S
 			if (e.ctrlKey)
 				Save();
+			else
+				AutoSave();
 			break;
-		case 79:
+		case 79: // O
 			if (e.ctrlKey)
 				Open();
 			break;
