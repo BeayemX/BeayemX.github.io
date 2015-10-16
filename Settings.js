@@ -1,7 +1,5 @@
 var canvasColor = "#888";
 
-var toolareaWidth = 200;
-
 var lineWidth = 3;
 var lineColor = "#000";
 var lineEndingRadius = 4;

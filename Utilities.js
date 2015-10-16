@@ -225,3 +225,8 @@ function GetSelectedLines()
 	}
 	return selectedLines;
 }
+
+function DropDownSelected(bla)
+{
+	Notify(savedfilesdropdown.options[ savedfilesdropdown.selectedIndex ].value);
+}

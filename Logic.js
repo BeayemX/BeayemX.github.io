@@ -1,5 +1,8 @@
 var canvas;
 var context;
+var notificationarea;
+var savedfilesdropdown;
+
 var lines = [];
 var state = StateEnum.IDLE;
 var currentGridPosition = {x: 0, y: 0};
@@ -16,6 +19,7 @@ function OnLoad()
   context = canvas.getContext('2d');
   toolarea = document.getElementById('toolarea');
   notificationarea = document.getElementById('notificationarea');
+  savedfilesdropdown = document.getElementById('savedfilesdropdown');
 
   canvas.addEventListener("mousemove", MouseMove);
   canvas.addEventListener("mouseup", MouseUp);
@@ -24,6 +28,8 @@ function OnLoad()
 
   notificationarea.addEventListener("mouseenter", NotificationEnter);
   notificationarea.addEventListener("mouseout", NotificationExit);
+
+  savedfilesdropdown.addEventListener("change", DropDownSelected)
 
   canvas.style.background = canvasColor;
   ResizeCanvas();
@@ -44,15 +50,12 @@ function ForTestingPurposeOnly()
 
 function ResizeCanvas() // TODO rename to LayoutGUI
 {
-  toolarea.style.width = toolareaWidth;
-  toolarea.style.left = 0;
   toolarea.style.top = window.innerHeight * 0.5 - toolarea.offsetHeight * 0.5;
-
   notificationarea.style.top = 0;
 
-  canvas.width = window.innerWidth - toolareaWidth;
+  canvas.width = window.innerWidth - toolarea.offsetWidth;
   canvas.height = window.innerHeight
-  canvas.style.left = toolareaWidth;
+  canvas.style.left = toolarea.offsetWidth;
   canvas.style.top = 0;
   Redraw();
 }

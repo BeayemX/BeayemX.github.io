@@ -83,7 +83,10 @@ function KeyDown(e)
 			if (state == StateEnum.IDLE)
 				TakeScreenshot();
 			break;
-
+		case 70: // F // TODO improve. zoom to selection / zoom fit / etc ... 
+			canvasOffset = {x: canvas.width * 0.5, y: canvas.height * 0.5 };
+			Redraw();
+			break;
 		default:
 			console.log("KeyDown(): \n"
 				+ "keyCode: " + e.keyCode + "\n"
