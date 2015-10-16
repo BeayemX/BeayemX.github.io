@@ -115,4 +115,15 @@ function PasteLines()
 function TakeScreenshot()
 {
 
+	var w=window.open('about:blank','image from canvas');
+	// also save blueprint
+	//w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
+
+	state = StateEnum.RENDERPREVIEW;
+	Redraw();
+	w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
+
+	state = StateEnum.IDLE;
+	Redraw();
+	console.log("Picture saved!");
 }

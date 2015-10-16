@@ -64,6 +64,10 @@ function KeyDown(e)
 		case 86: // V
 			PasteLines();
 			break;
+			
+		case 13: // Enter
+			TakeScreenshot();
+			break;
 
 		default:
 			console.log("KeyDown(): \n"
