@@ -48,14 +48,12 @@ function ResizeCanvas() // TODO rename to LayoutGUI
   toolarea.style.left = 0;
   toolarea.style.top = window.innerHeight * 0.5 - toolarea.offsetHeight * 0.5;
 
-  //notificationarea.style.minWidth = 250;
-  //notificationarea.style.minHeight = 50;
   notificationarea.style.top = 0;
 
-  canvas.width = window.innerWidth * canvasWidthFactor - toolareaWidth;
-  canvas.height = window.innerHeight * canvasHeightFactor;
-  canvas.style.left = window.innerWidth * (1-canvasWidthFactor) * 0.5 + toolareaWidth;
-  canvas.style.top = window.innerHeight * (1-canvasHeightFactor) * 0.5;
+  canvas.width = window.innerWidth - toolareaWidth;
+  canvas.height = window.innerHeight
+  canvas.style.left = toolareaWidth;
+  canvas.style.top = 0;
   Redraw();
 }
 

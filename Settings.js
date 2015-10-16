@@ -1,6 +1,4 @@
 var canvasColor = "#888";
-var canvasWidthFactor = 0.95;
-var canvasHeightFactor = 0.8;
 
 var toolareaWidth = 200;
 
