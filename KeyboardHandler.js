@@ -58,7 +58,7 @@ function KeyDown(e)
 			break;
 
 		case 9: // TAB
-			if (currentState == StateEnum.IDLE)
+			//if (currentState == StateEnum.IDLE)
 			{
 				SetState(StateEnum.RENDERPREVIEW);
 	  			canvas.style.background = 'white';
@@ -107,7 +107,7 @@ function KeyUp(e)
 	switch(e.keyCode)
 	{
 		case 9: // TAB
-			SetState(StateEnum.IDLE);
+			SetState(previousState);
   			canvas.style.background = canvasColor;
 			Redraw();
 			break;
