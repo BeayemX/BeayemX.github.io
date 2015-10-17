@@ -214,3 +214,8 @@ function UpdateDropdown(lastAddedLogoName)
 
  	savedfilesdropdown.selectedIndex = selectedIndex;
 }
+
+function DropDownSelected()
+{
+	Open(savedfilesdropdown.options[ savedfilesdropdown.selectedIndex ].value);
+}
