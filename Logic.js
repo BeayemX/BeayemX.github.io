@@ -37,7 +37,7 @@ function OnLoad()
   canvasOffset.x = canvas.width * 0.5;
   canvasOffset.y = canvas.height * 0.5;
 
-  LoadAutoSave();
+  LoadStartupFile();
   UpdateDropdown();
 
   Redraw();

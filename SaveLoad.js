@@ -1,3 +1,4 @@
+var startupFileName = "StartUp";
 var autosaveFileName = "AutoSave";
 var clipboardFileName = "Clipboard";
 
@@ -134,11 +135,41 @@ function TakeScreenshot()
 	Notify("Picture saved!");
 }
 
+function SaveStartupFile()
+{
+	Notify("Startup file saved!");
+	localStorage.setItem(startupFileName, JSON.stringify(lines));
+}
+
+function LoadStartupFile()
+{
+	var logo = localStorage.getItem(startupFileName);
+	if (!logo)
+		return false;
+
+	lines = [];
+	var linesArray = JSON.parse(logo);
+
+	for (var i=0; i<linesArray.length; ++i)
+	{
+		lines.push(
+			new Line(
+				linesArray[i].start.x,
+				linesArray[i].start.y,
+				linesArray[i].end.x,
+				linesArray[i].end.y
+			)
+		);
+	}
+	Notify("Startup file loaded!");
+	Redraw();
+	return true;	
+}
+
 function AutoSave()
 {
 	Notify("AutoSaved!");
 	sessionStorage.setItem(autosaveFileName, JSON.stringify(lines));
-	UpdateDropdown();
 }
 
 function LoadAutoSave()
@@ -163,7 +194,7 @@ function LoadAutoSave()
 	}
 	Notify("AutoSave loaded!");
 	Redraw();
-	return true;	
+	return true;
 }
 
 function UpdateDropdown(lastAddedLogoName)
