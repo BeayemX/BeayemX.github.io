@@ -76,7 +76,9 @@ function Redraw()
   }
 	
 	DrawStoredLines();
-  DrawPreciseSelection();
+  
+  if (!IsRendering())
+    DrawPreciseSelection();
 }
 
 function SetState(state)
