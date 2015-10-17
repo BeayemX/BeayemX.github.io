@@ -56,12 +56,12 @@ function DrawGridLine(line, endpoint)
 		if ( selectedPoints == 0 || IsRendering())
 		{
 			context.strokeStyle = lineColor;
-			context.fillStyle = lineColor;	
+			context.fillStyle = lineColorFill;
 		}
 		else if ( selectedPoints == 2)
 		{
 			context.strokeStyle = selectionColor;
-			context.fillStyle = selectionColor;	
+			context.fillStyle = selectionColorFill;	
 		}
 		else
 		{
@@ -83,8 +83,8 @@ function DrawGridLine(line, endpoint)
 				GridpointToScreenpoint(gradientEnd).x, 
 				GridpointToScreenpoint(gradientEnd).y);
 
-			gradient.addColorStop(0, selectionColor);
-			gradient.addColorStop(1, lineColor);
+			gradient.addColorStop(0, selectionColorFill);
+			gradient.addColorStop(1, lineColorFill);
 			
 			context.strokeStyle = gradient;
 			context.fillStyle = gradient;	

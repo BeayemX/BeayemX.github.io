@@ -2,6 +2,7 @@ var canvasColor = "#888";
 
 var lineWidth = 3;
 var lineColor = "#000";
+var lineColorFill = 'rgba(0, 0, 0, 1)';
 var lineEndingRadius = 4;
 
 var gridCellNumber = 32;
@@ -23,12 +24,13 @@ var helperLineWidth = 2;
 
 var previewLineColor = "#090";
 var selectionColor = "#f90";
+var selectionColorFill = 'rgba(255, 127, 0, 1)';
 var borderSelectionColor = 'rgba(255, 127, 0, 0.5)';
 
 var notificationDuration = 2000;
 var notificationColorHalf = 'rgba(255, 127, 0, 0.75)';
 var notificationColorFull = 'rgba(255, 127, 0, 1)';
 
-var preciseSelectionLineWidth = 1;
-var preciseSelectionSelectionColor = 'rgba(255, 127, 0, 0.5)';
-var preciseSelectionNoSelectionColor = 'rgba(0, 0, 0, 0.5)';
+var preciseSelectionLineWidth = 2;
+var preciseSelectionSelectionColor = 'rgba(255, 127, 0, 0)';
+var preciseSelectionNoSelectionColor = 'rgba(0, 0, 0, 0)';
