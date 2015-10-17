@@ -128,7 +128,7 @@ function MouseUp(e)
 	else if (e.button == 1) // MMB
 	{
 		var screenPos = GetMousePos(e);
-		SetState(StateEnum.IDLE);
+		SetState(previousState);
 	}
 }
 

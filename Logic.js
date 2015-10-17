@@ -83,6 +83,7 @@ function SetState(state)
   
   previousState = currentState;
   currentState = state;
+  //console.log(previousState  + " --> " + currentState);
 }
 
 function IsRendering()

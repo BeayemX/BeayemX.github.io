@@ -1,9 +1,9 @@
 var StateEnum = {
-	IDLE: 1,
-	DRAWING: 2, 
-	GRABBING: 3,
-	RENDERPREVIEW: 4,
-	PANNING: 5
+	IDLE: "idle",
+	DRAWING: "drawing", 
+	GRABBING: "grabbing",
+	RENDERPREVIEW: "renderpreview",
+	PANNING: "panning"
 }
 
 function Line(x1, y1, x2, y2, selected)
