@@ -274,17 +274,6 @@ function SelectWithinBorderSelection()
 	}
 }
 
-function DrawPreciseSelection()
-{
-	var points = GetPreciseSelectionEntries();
-	for (var i=0; i<points.length; ++i)
-	{
-		context.fillStyle = (points[i].selected) ? selectionColor : lineColor;
-
-		DrawCircle(points[i].x, points[i].y, gridPointSize);
-	}
-}
-
 function GetOtherPointBelongingToLine(point)
 {
 	for (var i=0; i<lines.length; ++i)

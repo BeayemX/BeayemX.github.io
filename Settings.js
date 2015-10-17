@@ -28,3 +28,7 @@ var borderSelectionColor = 'rgba(255, 127, 0, 0.5)';
 var notificationDuration = 2000;
 var notificationColorHalf = 'rgba(255, 127, 0, 0.75)';
 var notificationColorFull = 'rgba(255, 127, 0, 1)';
+
+var preciseSelectionLineWidth = 1;
+var preciseSelectionSelectionColor = 'rgba(255, 127, 0, 0.5)';
+var preciseSelectionNoSelectionColor = 'rgba(0, 0, 0, 0.5)';

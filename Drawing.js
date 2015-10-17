@@ -205,3 +205,16 @@ function DrawBorderSelection()
 	context.fillRect(leftTop.x, leftTop.y, size.x, size.y);
 	context.stroke();
 }
+
+function DrawPreciseSelection()
+{
+	var points = GetPreciseSelectionEntries();
+	context.lineWidth = preciseSelectionLineWidth;
+	for (var i=0; i<points.length; ++i)
+	{
+		context.fillStyle = (points[i].selected) ? preciseSelectionSelectionColor : preciseSelectionNoSelectionColor;
+		context.strokeStyle = (points[i].selected) ? selectionColor : lineColor;
+
+		DrawCircle(points[i].x, points[i].y, gridPointSize);
+	}
+}
