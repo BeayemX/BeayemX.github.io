@@ -2,9 +2,10 @@ var StateEnum = {
 	IDLE: "idle",
 	DRAWING: "drawing", 
 	GRABBING: "grabbing",
-	RENDERPREVIEW: "renderpreview",
-	PANNING: "panning"
+	RENDERPREVIEW: "renderpreview"
 }
+
+var isPanning = false;
 
 function Line(x1, y1, x2, y2, selected)
 {

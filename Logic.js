@@ -83,11 +83,11 @@ function SetState(state)
   
   previousState = currentState;
   currentState = state;
-  //console.log(previousState  + " --> " + currentState);
+  console.log(previousState  + " --> " + currentState);
 }
 
 function IsRendering()
 {
-  return currentState == StateEnum.RENDERPREVIEW ||
-  (currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
+  return currentState == StateEnum.RENDERPREVIEW; // ||
+  //(currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
 }

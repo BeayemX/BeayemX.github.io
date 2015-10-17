@@ -3,7 +3,7 @@ var oldPos = {x: -1, y: -1};
 function MouseMove(e)
 {
 	var newPos = GetMousePos(e);
-	if (currentState != StateEnum.PANNING)
+	if (!isPanning)
 	{
 		var oldGridPoint = GetGridPos(oldPos);
 		currentGridPosition = GetGridPos(newPos);
@@ -88,7 +88,7 @@ function MouseDown(e)
 	else if (e.button == 1) // MMB
 	{
 		var screenPos = GetMousePos(e);
-		SetState(StateEnum.PANNING);
+		isPanning = true;
 	}
 	else
 	{
@@ -128,7 +128,7 @@ function MouseUp(e)
 	else if (e.button == 1) // MMB
 	{
 		var screenPos = GetMousePos(e);
-		SetState(previousState);
+		isPanning = false;
 	}
 }
 
