@@ -43,3 +43,61 @@ function Mirror()
 	}
 	Redraw();
 }
+
+function Rotate(clockwise)
+{
+	var minX = Infinity;
+	var minY = Infinity;
+	var selLines = GetSelectedLines();
+
+	for (var i=0; i<selLines.length; ++i)
+	{
+		minX = Math.min(minX, selLines[i].start.x);
+		minY = Math.min(minY, selLines[i].start.y);
+
+		minX = Math.min(minX, selLines[i].end.x);
+		minY = Math.min(minY, selLines[i].end.y);
+	}
+	
+	for (var i=0; i<selLines.length; ++i)
+	{
+		var tmp = selLines[i].start.x;
+		selLines[i].start.x = selLines[i].start.y;
+		selLines[i].start.y = tmp;
+
+		if (clockwise)
+			selLines[i].start.x = -selLines[i].start.x
+		else
+			selLines[i].start.y = -selLines[i].start.y
+
+		tmp = selLines[i].end.x;
+		selLines[i].end.x = selLines[i].end.y;
+		selLines[i].end.y = tmp;
+
+		if (clockwise)
+			selLines[i].end.x = -selLines[i].end.x
+		else
+			selLines[i].end.y = -selLines[i].end.y
+	}
+
+	var newMinX = Infinity;
+	var newMinY = Infinity;
+
+	for (var i=0; i<selLines.length; ++i)
+	{
+		newMinX = Math.min(newMinX, selLines[i].start.x);
+		newMinY = Math.min(newMinY, selLines[i].start.y);
+
+		newMinX = Math.min(newMinX, selLines[i].end.x);
+		newMinY = Math.min(newMinY, selLines[i].end.y);
+	}
+	
+	for (var i=0; i<selLines.length; ++i)
+	{
+		selLines[i].start.x += minX - newMinX;
+		selLines[i].start.y += minY - newMinY;
+		selLines[i].end.x += minX - newMinX;
+		selLines[i].end.y += minY - newMinY;
+	}
+	Redraw();
+}
