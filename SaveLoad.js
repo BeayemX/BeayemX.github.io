@@ -220,6 +220,9 @@ function UpdateDropdown(lastAddedLogoName)
 	var selectedIndex = 0;
 	for (var i=0; i<keys.length; ++i)
 	{
+		if (keys[i] == startupFileName)
+			continue;
+
 		var element = document.createElement("option");
 		element.textContent = keys[i];
 		element.value = keys[i];
