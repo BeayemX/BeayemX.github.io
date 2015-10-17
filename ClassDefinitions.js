@@ -2,7 +2,8 @@ var StateEnum = {
 	IDLE: "idle",
 	DRAWING: "drawing", 
 	GRABBING: "grabbing",
-	RENDERPREVIEW: "renderpreview"
+	RENDERPREVIEW: "renderpreview",
+	BORDERSELECTION: "borderselection"
 }
 
 var isPanning = false;
@@ -25,6 +26,7 @@ function Line(x1, y1, x2, y2, selected)
 		else return 0;
 	};
 }
+
 function GridPoint(x, y)
 {
 	this.x = x;

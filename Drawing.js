@@ -186,3 +186,22 @@ function DrawHelpers()
 	DrawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
 	DrawLineFromTo(screenpos.x, 0, screenpos.x, canvas.height);
 }
+
+function DrawBorderSelection()
+{
+	if (currentState != StateEnum.BORDERSELECTION || !borderSelectionStart || !borderSelectionEnd)
+		return;
+
+	context.strokeStyle = selectionColor;
+	context.fillStyle = borderSelectionColor;
+
+	var leftTop = GridpointToScreenpoint(borderSelectionStart);
+	var size = {
+		x: (borderSelectionEnd.x - borderSelectionStart.x) * gridSize,
+		y: (borderSelectionEnd.y - borderSelectionStart.y) * gridSize
+	};
+
+	context.rect(leftTop.x, leftTop.y, size.x, size.y);
+	context.fillRect(leftTop.x, leftTop.y, size.x, size.y);
+	context.stroke();
+}

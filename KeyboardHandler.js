@@ -87,6 +87,9 @@ function KeyDown(e)
 			canvasOffset = {x: canvas.width * 0.5, y: canvas.height * 0.5 };
 			Redraw();
 			break;
+		case 66: // B
+			SetState(StateEnum.BORDERSELECTION);
+		break;
 		default:
 			console.log("KeyDown(): \n"
 				+ "keyCode: " + e.keyCode + "\n"

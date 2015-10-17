@@ -225,3 +225,51 @@ function GetSelectedLines()
 	}
 	return selectedLines;
 }
+
+var borderSelectionStart = null;
+var borderSelectionEnd = null;
+var borderSelectType = null;
+function StartBorderSelection(selectType)
+{
+	borderSelectType = selectType
+	borderSelectionStart = {x: currentGridPosition.x, y: currentGridPosition.y};
+	borderSelectionEnd = {x: currentGridPosition.x, y: currentGridPosition.y};
+}
+
+function EndBorderSelection(performSelection)
+{
+	if (performSelection)
+		SelectWithinBorderSelection();
+
+	borderSelectionStart = null;
+	borderSelectionEnd = null;
+	borderSelectType = null;
+
+	SetState(StateEnum.IDLE);
+
+	Redraw();
+}
+
+function SelectWithinBorderSelection()
+{
+	var points = GetAllPoints();
+
+	var min = {
+		x: Math.min(borderSelectionStart.x, borderSelectionEnd.x),
+		y: Math.min(borderSelectionStart.y, borderSelectionEnd.y)
+	};
+	var max = {
+		x: Math.max(borderSelectionStart.x, borderSelectionEnd.x),
+		y: Math.max(borderSelectionStart.y, borderSelectionEnd.y)
+	};
+
+	for (var i=0; i<points.length; ++i)
+	{
+		if (
+			points[i].x >= min.x && points[i].x <= max.x
+			&& 
+			points[i].y >= min.y && points[i].y <= max.y
+			)
+			points[i].selected = borderSelectType;
+	}
+}

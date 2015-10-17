@@ -71,6 +71,7 @@ function Redraw()
   {
 		DrawGrid();
     DrawHelpers();
+    DrawBorderSelection();
   }
 	
 	DrawStoredLines();
@@ -83,7 +84,7 @@ function SetState(state)
   
   previousState = currentState;
   currentState = state;
-  console.log(previousState  + " --> " + currentState);
+  // console.log(previousState  + " --> " + currentState);
 }
 
 function IsRendering()

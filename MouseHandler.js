@@ -36,6 +36,13 @@ function GridPositionChanged(e, delta)
 		var points = GetAllSelectedPoints();
 		MovePointsBy(points, delta);
 	}
+	else if (currentState == StateEnum.BORDERSELECTION)
+	{
+		if (borderSelectionStart)
+		{
+			borderSelectionEnd = {x: currentGridPosition.x, y: currentGridPosition.y};
+		}
+	}
 
 	Redraw();
 	
@@ -63,6 +70,10 @@ function MouseDown(e)
 			CheckForCrapLines();
 			SetState(StateEnum.IDLE);
 		}
+		else if (currentState == StateEnum.BORDERSELECTION)
+		{
+			StartBorderSelection(true);
+		}
 	}
 	else if (e.button == 2) // RMB
 	{
@@ -83,12 +94,24 @@ function MouseDown(e)
 			var points = GetAllSelectedPoints();
 			MovePointsBy(points, resetDelta);
 		}
+		else if (currentState == StateEnum.BORDERSELECTION)
+		{
+			EndBorderSelection();
+		}
 		Redraw();
 	}
 	else if (e.button == 1) // MMB
 	{
-		var screenPos = GetMousePos(e);
-		isPanning = true;
+
+		if (currentState == StateEnum.BORDERSELECTION)
+		{
+			StartBorderSelection(false);
+		}
+		else
+		{
+			var screenPos = GetMousePos(e);
+			isPanning = true;
+		}
 	}
 	else
 	{
@@ -123,12 +146,23 @@ function MouseUp(e)
 			SetState(StateEnum.IDLE);
 			GridPositionChanged();
 		}
+		else if (currentState == StateEnum.BORDERSELECTION)
+		{
+			EndBorderSelection(true);
+		}
 	}
 
 	else if (e.button == 1) // MMB
 	{
-		var screenPos = GetMousePos(e);
-		isPanning = false;
+
+		if (currentState == StateEnum.BORDERSELECTION)
+		{
+			EndBorderSelection(true);
+		}
+		else
+		{
+			isPanning = false;
+		}
 	}
 }
 
