@@ -148,7 +148,6 @@ function LoadStartupFile()
 
 function AutoSave()
 {
-	Notify("File saved into AutoSave file!");
 	sessionStorage.setItem(autosaveFileName, JSON.stringify(lines));
 }
 
@@ -172,7 +171,6 @@ function LoadAutoSave()
 			)
 		);
 	}
-	Notify("AutoSave loaded!");
 	Redraw();
 	return true;
 }
