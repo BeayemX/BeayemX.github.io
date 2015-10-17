@@ -19,7 +19,8 @@ function OnLoad()
 
 	canvas = document.getElementById('canvas');
   context = canvas.getContext('2d');
-  toolarea = document.getElementById('toolarea');
+  leftarea = document.getElementById('leftarea');
+  rightarea = document.getElementById('rightarea');
   notificationarea = document.getElementById('notificationarea');
   savedfilesdropdown = document.getElementById('savedfilesdropdown');
 
@@ -55,12 +56,13 @@ function ForTestingPurposeOnly()
 
 function ResizeCanvas() // TODO rename to LayoutGUI
 {
-  toolarea.style.top = window.innerHeight * 0.5 - toolarea.offsetHeight * 0.5;
+  // leftarea.style.top = window.innerHeight * 0.5 - leftarea.offsetHeight * 0.5;
+  // rightarea.style.top = window.innerHeight * 0.5 - rightarea.offsetHeight * 0.5;
   notificationarea.style.top = 0;
 
-  canvas.width = window.innerWidth - toolarea.offsetWidth;
+  canvas.width = window.innerWidth - leftarea.offsetWidth - rightarea.offsetWidth;
   canvas.height = window.innerHeight
-  canvas.style.left = toolarea.offsetWidth;
+  canvas.style.left = leftarea.offsetWidth;
   canvas.style.top = 0;
   Redraw();
 }

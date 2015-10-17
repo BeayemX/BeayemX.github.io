@@ -44,11 +44,22 @@ div
 {
 	/*border: 1px black solid; /**/
 }
-
-#toolarea {
+.toolarea {
+	overflow: auto;
+	position: absolute;
+}
+#leftarea
+{
 	overflow: auto;
 	position: absolute;
 	left: 0;
+	width: 200;
+}
+#rightarea
+{
+	overflow: auto;
+	position: absolute;
+	right: 0;
 	width: 200;
 }
 
@@ -71,5 +82,6 @@ div
 }
 .toolcategory
 {
+	margin-top: 25px;
 	margin-bottom: 25px;
 }

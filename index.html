@@ -20,7 +20,7 @@
 	</head>
 	<body onload="OnLoad()">
 		<div id="notificationarea"></div>
-		<div id="toolarea" width="150">
+		<div id="leftarea" class="toolarea" width="150">
 			
 			<div class="toolcategory">
 				<p>Files</p>
@@ -39,12 +39,15 @@
 				<button type="button" onclick="Rotate(false)">Rotate Counter-Clockwise</button>
 			</div>	
 			
+			
+			
+		</div>
+		<canvas id="canvas"></canvas>
+		<div id="rightarea" class="toolarea" width="150">
 			<div class="toolcategory">
 				<p>Help</p>
 				<button type="button" onclick="ReshowLastNotification()">Re-Show last notification</button>
 			</div>
-			
 		</div>
-		<canvas id="canvas"></canvas>
 	</body>
 </html>
