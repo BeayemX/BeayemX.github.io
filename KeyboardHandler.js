@@ -89,6 +89,7 @@ function KeyDown(e)
 			break;
 		case 66: // B
 			SetState(StateEnum.BORDERSELECTION);
+			Redraw();
 		break;
 		default:
 			console.log("KeyDown(): \n"

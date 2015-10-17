@@ -70,11 +70,13 @@ function Redraw()
 	if (!IsRendering())
   {
 		DrawGrid();
-    DrawHelpers();
+    if (currentState == StateEnum.BORDERSELECTION)
+      DrawHelpers();
     DrawBorderSelection();
   }
 	
 	DrawStoredLines();
+  DrawPreciseSelection();
 }
 
 function SetState(state)

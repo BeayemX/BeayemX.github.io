@@ -81,7 +81,7 @@ function MouseDown(e)
 		{
 			if (!e.shiftKey)
 				ClearSelection();
-			points = GetAllPointsAt(GetGridPos(point));
+			points = GetNearestSelection(point);
 			ChangeSelectionForPoints(points);
 		}
 		else if (currentState == StateEnum.GRABBING) // cancel grab

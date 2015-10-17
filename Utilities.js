@@ -273,3 +273,101 @@ function SelectWithinBorderSelection()
 			points[i].selected = borderSelectType;
 	}
 }
+
+function DrawPreciseSelection()
+{
+	var points = GetPreciseSelectionEntries();
+	for (var i=0; i<points.length; ++i)
+	{
+		context.fillStyle = (points[i].selected) ? selectionColor : lineColor;
+
+		DrawCircle(points[i].x, points[i].y, gridPointSize);
+	}
+}
+
+function GetOtherPointBelongingToLine(point)
+{
+	for (var i=0; i<lines.length; ++i)
+	{
+		if (lines[i].start === point)
+			return lines[i].end;
+
+		else if (lines[i].end === point)
+			return lines[i].start;
+	}
+}
+function Distance(v1, v2)
+{
+	var vec2 = {
+		x: v2.x - v1.x,
+		y: v2.y - v1.y
+	}
+	return Math.sqrt(vec2.x * vec2.x + vec2.y * vec2.y);
+}
+
+function Normalize(vec2)
+{
+	var magnitude = Math.sqrt(vec2.x * vec2.x + vec2.y * vec2.y);
+
+	vec2.x /= magnitude;
+	vec2.y /= magnitude;
+}
+
+function GetNearestSelection(mousePos)
+{
+	var precisePoints = GetPreciseSelectionEntries();
+
+	var minDistance = {
+		index: 0,
+		distance: Infinity
+	};
+
+	for (var i=0; i<precisePoints.length; ++i)
+	{
+		var dist = Distance(precisePoints[i], mousePos);
+
+		if (dist < minDistance.distance)
+		{
+			minDistance.index = i;
+			minDistance.distance = dist;
+		}
+	}
+
+	if (minDistance.index != 0)
+	{
+		return [precisePoints[minDistance.index].point];
+	}
+
+	return GetAllPointsAt(GetGridPos(mousePos));
+}
+
+function GetPreciseSelectionEntries()
+{
+	var points = GetAllPointsAt(currentGridPosition);
+	var screenPos = GridpointToScreenpoint(currentGridPosition);
+	var precisePoints = [screenPos];
+
+	if (points.length <= 1)
+		return precisePoints
+
+	for (var i=0; i<points.length; ++i)
+	{
+		var otherPoint = GetOtherPointBelongingToLine(points[i]);
+		var direction = {
+			x: otherPoint.x - points[i].x,
+			y: otherPoint.y - points[i].y};
+
+		Normalize(direction);
+
+		var preciseRadius = gridSize * 0.5 - gridPointSize * 2;
+		var precisePoint = {
+			x: screenPos.x + direction.x * preciseRadius, 
+			y: screenPos.y + direction.y * preciseRadius,
+			selected: points[i].selected,
+			point: points[i]
+		};
+
+		precisePoints.push(precisePoint);
+	}
+	return precisePoints;
+}
