@@ -4,9 +4,15 @@ function KeyDown(e)
 	switch(e.keyCode)
 	{
 		case 82: // R
-			ReloadPage(true);
+			if (e.ctrlKey)
+				ReloadPage(true);
+			else if (e.shiftKey)
+				Rotate(false);
+			else 
+				Rotate(true);
 			break;
 		case 116: // F5
+			AutoSave();
 			ReloadPage(false);
 			break;
 
@@ -14,7 +20,7 @@ function KeyDown(e)
 			if (e.ctrlKey)
 				Save();
 			else
-				AutoSave();
+				Mirror();
 			break;
 		case 79: // O
 			break;
