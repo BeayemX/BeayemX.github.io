@@ -38,6 +38,7 @@ function OnLoad()
   canvasOffset.y = canvas.height * 0.5;
 
   LoadAutoSave();
+  UpdateDropdown();
 
   Redraw();
 	// ForTestingPurposeOnly();

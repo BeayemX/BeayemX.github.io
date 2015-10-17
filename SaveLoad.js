@@ -21,10 +21,12 @@ function Save()
 	}
 
 	localStorage.setItem(logoName, JSON.stringify(lines));
+	UpdateDropdown(logoName);
 }
 
-function Open()
+function Open(logoName)
 {
+	/*
 	var text = "Open logo: \n";
 	// var keys = [];
 	for(var i=0; i<localStorage.length; ++i) 
@@ -43,7 +45,7 @@ function Open()
 		return;
 	}
 	
-
+	*/
 	var logo = localStorage.getItem(logoName);
 
 	if (!logo)
@@ -80,6 +82,7 @@ function DeleteSavedLogo(logoName)
 		localStorage.removeItem(logoName);
 		console.log("deleted")
 	}
+	UpdateDropdown();
 }
 
 function CopyLinesToClipboard()
@@ -135,6 +138,7 @@ function AutoSave()
 {
 	Notify("AutoSaved!");
 	sessionStorage.setItem(autosaveFileName, JSON.stringify(lines));
+	UpdateDropdown();
 }
 
 function LoadAutoSave()
@@ -143,6 +147,7 @@ function LoadAutoSave()
 	if (!logo)
 		return false;
 
+	lines = [];
 	var linesArray = JSON.parse(logo);
 
 	for (var i=0; i<linesArray.length; ++i)
@@ -159,4 +164,44 @@ function LoadAutoSave()
 	Notify("AutoSave loaded!");
 	Redraw();
 	return true;	
+}
+
+function UpdateDropdown(lastAddedLogoName)
+{
+	while (savedfilesdropdown.lastChild) 
+ 		savedfilesdropdown.removeChild(savedfilesdropdown.lastChild);
+
+	var keys = [];
+
+	for(var i=0; i<localStorage.length; ++i) 
+		keys.push(localStorage.key(i));
+
+
+
+	var firstEntry = document.createElement("option");
+	firstEntry.setAttribute("disabled", "");
+	firstEntry.setAttribute("selected", "");
+	firstEntry.setAttribute("display", "none");
+	firstEntry.textContent = "Select file to load";
+	firstEntry.value = "";
+	savedfilesdropdown.appendChild(firstEntry)
+
+	var selectedIndex = 0;
+	for (var i=0; i<keys.length; ++i)
+	{
+		var element = document.createElement("option");
+		element.textContent = keys[i];
+		element.value = keys[i];
+		savedfilesdropdown.appendChild(element);
+
+		if (keys[i] == lastAddedLogoName)
+			selectedIndex = i + 1;
+	}
+
+ 	savedfilesdropdown.selectedIndex = selectedIndex;
+}
+
+function DropDownSelected()
+{
+	Open(savedfilesdropdown.options[ savedfilesdropdown.selectedIndex ].value);
 }
