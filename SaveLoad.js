@@ -49,6 +49,8 @@ function Open(logoName)
 			)
 		);
 	}
+ 	
+ 	savedfilesdropdown.selectedIndex = 0;
 	Redraw();
 }
 
@@ -210,7 +212,8 @@ function UpdateDropdown(lastAddedLogoName)
 			selectedIndex = i + 1;
 	}
 
- 	savedfilesdropdown.selectedIndex = selectedIndex;
+ 	savedfilesdropdown.selectedIndex = 0;
+ 	// savedfilesdropdown.selectedIndex = selectedIndex;
 }
 
 function DropDownSelected()
