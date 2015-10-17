@@ -227,3 +227,22 @@ function NewFile()
 		Reload(false);
 	}
 }
+
+function GenerateStartUpFile()
+{
+	Notify("Startup File Generated!");
+	var startuplines = 
+	[{"start":{"x":-8,"y":-3,"selected":false},"end":{"x":-8,"y":-1,"selected":false}},{"start":{"x":-8,"y":-1,"selected":false},"end":{"x":-7,"y":-1,"selected":false}},{"start":{"x":-6,"y":-2,"selected":false},"end":{"x":-6,"y":-1,"selected":false}},{"start":{"x":-6,"y":-1,"selected":false},"end":{"x":-5,"y":-1,"selected":false}},{"start":{"x":-5,"y":-1,"selected":false},"end":{"x":-5,"y":-2,"selected":false}},{"start":{"x":-5,"y":-2,"selected":false},"end":{"x":-6,"y":-2,"selected":false}},{"start":{"x":-4,"y":-2,"selected":false},"end":{"x":-4,"y":-1,"selected":false}},{"start":{"x":-4,"y":-1,"selected":false},"end":{"x":-3,"y":-1,"selected":false}},{"start":{"x":-3,"y":-1,"selected":false},"end":{"x":-3,"y":-2,"selected":false}},{"start":{"x":-3,"y":-2,"selected":false},"end":{"x":-4,"y":-2,"selected":false}},{"start":{"x":-3,"y":-1,"selected":false},"end":{"x":-3,"y":0,"selected":false}},{"start":{"x":-3,"y":0,"selected":false},"end":{"x":-4,"y":0,"selected":false}},{"start":{"x":-2,"y":-2,"selected":true},"end":{"x":-2,"y":-1,"selected":true}},{"start":{"x":-2,"y":-1,"selected":true},"end":{"x":-1,"y":-1,"selected":true}},{"start":{"x":-1,"y":-1,"selected":true},"end":{"x":-1,"y":-2,"selected":true}},{"start":{"x":-1,"y":-2,"selected":true},"end":{"x":-2,"y":-2,"selected":true}},{"start":{"x":-6,"y":0,"selected":false},"end":{"x":-6,"y":2,"selected":false}},{"start":{"x":-6,"y":2,"selected":false},"end":{"x":-5,"y":1,"selected":false}},{"start":{"x":-5,"y":1,"selected":false},"end":{"x":-6,"y":0,"selected":false}},{"start":{"x":5,"y":1,"selected":false},"end":{"x":5,"y":2,"selected":false}},{"start":{"x":5,"y":1,"selected":false},"end":{"x":6,"y":1,"selected":false}},{"start":{"x":5,"y":2,"selected":false},"end":{"x":6,"y":1,"selected":false}},{"start":{"x":5,"y":2,"selected":false},"end":{"x":6,"y":2,"selected":false}},{"start":{"x":-1,"y":1,"selected":false},"end":{"x":-2,"y":1,"selected":false}},{"start":{"x":-2,"y":1,"selected":false},"end":{"x":-1,"y":2,"selected":false}},{"start":{"x":-1,"y":2,"selected":false},"end":{"x":-2,"y":2,"selected":false}},{"start":{"x":0,"y":1,"selected":false},"end":{"x":0,"y":2,"selected":false}},{"start":{"x":1,"y":1,"selected":false},"end":{"x":1,"y":2,"selected":false}},{"start":{"x":1,"y":2,"selected":false},"end":{"x":2,"y":2,"selected":false}},{"start":{"x":2,"y":2,"selected":false},"end":{"x":2,"y":1,"selected":false}},{"start":{"x":2,"y":1,"selected":false},"end":{"x":1,"y":1,"selected":false}},{"start":{"x":2,"y":2,"selected":false},"end":{"x":2,"y":3,"selected":false}},{"start":{"x":2,"y":3,"selected":false},"end":{"x":1,"y":3,"selected":false}},{"start":{"x":3,"y":1,"selected":false},"end":{"x":3,"y":2,"selected":false}},{"start":{"x":3,"y":1,"selected":false},"end":{"x":4,"y":1,"selected":false}},{"start":{"x":4,"y":1,"selected":false},"end":{"x":4,"y":2,"selected":false}},{"start":{"x":-4,"y":1,"selected":false},"end":{"x":-4,"y":2,"selected":false}},{"start":{"x":-4,"y":1,"selected":false},"end":{"x":-3,"y":1,"selected":false}},{"start":{"x":-4,"y":2,"selected":false},"end":{"x":-3,"y":1,"selected":false}},{"start":{"x":-4,"y":2,"selected":false},"end":{"x":-3,"y":2,"selected":false}},{"start":{"x":7,"y":2,"selected":false},"end":{"x":7,"y":1,"selected":false}},{"start":{"x":7,"y":1,"selected":false},"end":{"x":8,"y":1,"selected":false}}]
+	
+	for (var i=0; i<startuplines.length; ++i)
+	{
+		lines.push(
+			new Line(
+				startuplines[i].start.x,
+				startuplines[i].start.y,
+				startuplines[i].end.x,
+				startuplines[i].end.y
+			)
+		);
+	}
+}
