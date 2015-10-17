@@ -50,7 +50,7 @@ function KeyDown(e)
 				InvertSelection();
 			break;
 		case 68:
-			if (currentState == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE || currentState == StateEnum.GRABBING)
 			{
 				DuplicateLines();
 				SetState(StateEnum.GRABBING);
