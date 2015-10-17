@@ -24,6 +24,11 @@ canvas {
 	padding:0;
 } 
 
+p{
+	font-size: 14pt;
+	font-family: 'Oswald', sans-serif;
+	text-align: center;
+}
 button, select {
 	width: 80%;
 	margin-top: 10;
@@ -63,4 +68,8 @@ div
 	border-radius: 15px;
 
 	z-index: 1;
+}
+.toolcategory
+{
+	margin-bottom: 25px;
 }
