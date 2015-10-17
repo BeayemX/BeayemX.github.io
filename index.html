@@ -21,20 +21,27 @@
 	<body onload="OnLoad()">
 		<div id="notificationarea"></div>
 		<div id="toolarea" width="150">
+			
+			<div class="toolcategory">
+				<p>Files</p>
+				<select id="savedfilesdropdown"></select>
+				<button type="button" onclick="LoadAutoSave()">Load AutoSave File</button>
+				<button type="button" onclick="SaveStartupFile()">Set as startup file</button>
+			</div>
+
 			<div class="toolcategory">
 				<p>Tools</p>
 				<button type="button" onclick="Button1()">Subdivide</button>
 				<button type="button" onclick="Button1()">Mirror</button>
 				<button type="button" onclick="Button1()">Rotate Clockwise</button>
 				<button type="button" onclick="Button1()">Rotate Counter-Clockwise</button>
+			</div>	
+			
+			<div class="toolcategory">
+				<p>Help</p>
 				<button type="button" onclick="ReshowLastNotification()">Re-Show last notification</button>
 			</div>
-			<div class="toolcategory">
-				<p>File Stuff</p>
-				<button type="button" onclick="SaveStartupFile()">Set as startup file</button>
-				<button type="button" onclick="LoadAutoSave()">Load AutoSave File</button>
-				<select id="savedfilesdropdown"></select>
-			</div>
+			
 		</div>
 		<canvas id="canvas"></canvas>
 	</body>

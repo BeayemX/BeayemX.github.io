@@ -213,7 +213,7 @@ function UpdateDropdown(lastAddedLogoName)
 	firstEntry.setAttribute("disabled", "");
 	firstEntry.setAttribute("selected", "");
 	firstEntry.setAttribute("display", "none");
-	firstEntry.textContent = "Select file to load";
+	firstEntry.textContent = "Load file:";
 	firstEntry.value = "";
 	savedfilesdropdown.appendChild(firstEntry)
 
