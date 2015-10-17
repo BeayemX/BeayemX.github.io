@@ -168,7 +168,7 @@ function LoadStartupFile()
 
 function AutoSave()
 {
-	Notify("AutoSaved!");
+	Notify("File saved into AutoSave file!");
 	sessionStorage.setItem(autosaveFileName, JSON.stringify(lines));
 }
 
