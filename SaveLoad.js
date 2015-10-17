@@ -217,3 +217,13 @@ function DropDownSelected()
 {
 	Open(savedfilesdropdown.options[ savedfilesdropdown.selectedIndex ].value);
 }
+
+function NewFile()
+{
+	if (confirm("Do you want to discard your LogoDesign and start from scratch?"))
+	{
+		lines = [];
+		AutoSave();
+		Reload(false);
+	}
+}
