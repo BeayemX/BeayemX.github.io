@@ -4,7 +4,9 @@ var notificationarea;
 var savedfilesdropdown;
 
 var lines = [];
-var state = StateEnum.IDLE;
+var currentState = StateEnum.IDLE;
+var previousState = StateEnum.IDLE;
+
 var currentGridPosition = {x: 0, y: 0};
 var canvasOffset = {x: 0, y: 0};
 
@@ -65,11 +67,26 @@ function Redraw()
 {
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	
-	if (state != StateEnum.RENDERPREVIEW)
+	if (!IsRendering())
   {
 		DrawGrid();
     DrawHelpers();
   }
 	
 	DrawStoredLines();
+}
+
+function SetState(state)
+{
+  if (currentState == state)
+    return;
+  
+  previousState = currentState;
+  currentState = state;
+}
+
+function IsRendering()
+{
+  return currentState == StateEnum.RENDERPREVIEW ||
+  (currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
 }

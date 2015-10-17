@@ -53,7 +53,7 @@ function DrawGridLine(line, endpoint)
 	if (arguments.length == 1)
 	{
 		var selectedPoints = line.SelectedPoints();
-		if ( selectedPoints == 0 || state == StateEnum.RENDERPREVIEW)
+		if ( selectedPoints == 0 || IsRendering())
 		{
 			context.strokeStyle = lineColor;
 			context.fillStyle = lineColor;	
@@ -93,7 +93,7 @@ function DrawGridLine(line, endpoint)
 
 	DrawLineFromTo(startX, startY, endX, endY);
 
-	if (state != StateEnum.RENDERPREVIEW)
+	if (!IsRendering())
 	{
 		DrawCircle(startX, startY, lineEndingRadius);
 		DrawCircle(endX, endY, lineEndingRadius);
@@ -165,7 +165,7 @@ function DrawPreview()
 	
 	context.strokeStyle = previewLineColor;
 	context.fillStyle = previewLineColor;
-	if (state == StateEnum.DRAWING)
+	if (currentState == StateEnum.DRAWING)
 	{
 		var start = GetGridPos(downPoint);
 		var end = currentGridPosition;//GetGridPos(vec2);

@@ -3,7 +3,7 @@ var oldPos = {x: -1, y: -1};
 function MouseMove(e)
 {
 	var newPos = GetMousePos(e);
-	if (state != StateEnum.PANNING)
+	if (currentState != StateEnum.PANNING)
 	{
 		var oldGridPoint = GetGridPos(oldPos);
 		currentGridPosition = GetGridPos(newPos);
@@ -31,7 +31,7 @@ function MouseMove(e)
 
 function GridPositionChanged(e, delta)
 {
-	if (state == StateEnum.GRABBING)
+	if (currentState == StateEnum.GRABBING)
 	{
 		var points = GetAllSelectedPoints();
 		MovePointsBy(points, delta);
@@ -39,7 +39,7 @@ function GridPositionChanged(e, delta)
 
 	Redraw();
 	
-	if (state == StateEnum.IDLE || state == StateEnum.DRAWING)
+	if (currentState == StateEnum.IDLE || currentState == StateEnum.DRAWING)
 	{
 		DrawPreview(e);
 	}
@@ -52,30 +52,30 @@ function MouseDown(e)
 
 	if (e.button == 0) // LMB
 	{
-		if (state == StateEnum.IDLE)
+		if (currentState == StateEnum.IDLE)
 		{
-			state = StateEnum.DRAWING;
+			SetState(StateEnum.DRAWING);
 			downPoint = {x: point.x, y: point.y};
 			GridPositionChanged();
 		}
-		else if (state == StateEnum.GRABBING)
+		else if (currentState == StateEnum.GRABBING)
 		{
 			CheckForCrapLines();
-			state = StateEnum.IDLE;
+			SetState(StateEnum.IDLE);
 		}
 	}
 	else if (e.button == 2) // RMB
 	{
-		if (state == StateEnum.IDLE)
+		if (currentState == StateEnum.IDLE)
 		{
 			if (!e.shiftKey)
 				ClearSelection();
 			points = GetAllPointsAt(GetGridPos(point));
 			ChangeSelectionForPoints(points);
 		}
-		else if (state == StateEnum.GRABBING) // cancel grab
+		else if (currentState == StateEnum.GRABBING) // cancel grab
 		{
-			state = StateEnum.IDLE;
+			SetState(StateEnum.IDLE);
 			var resetDelta = {
 				x: grabStartPosition.x - currentGridPosition.x,
 				y: grabStartPosition.y - currentGridPosition.y
@@ -88,7 +88,7 @@ function MouseDown(e)
 	else if (e.button == 1) // MMB
 	{
 		var screenPos = GetMousePos(e);
-		state = StateEnum.PANNING;
+		SetState(StateEnum.PANNING);
 	}
 	else
 	{
@@ -106,7 +106,7 @@ function MouseUp(e)
 {
 	if (e.button == 0) // LMB
 	{
-		if (state == StateEnum.DRAWING)
+		if (currentState == StateEnum.DRAWING)
 		{
 			var point = GetMousePos(e);
 			gridLineStart = GetGridPos(downPoint);
@@ -120,7 +120,7 @@ function MouseUp(e)
 						gridLineEnd.y
 						));
 			downPoint = undefined;
-			state = StateEnum.IDLE;
+			SetState(StateEnum.IDLE);
 			GridPositionChanged();
 		}
 	}
@@ -128,7 +128,7 @@ function MouseUp(e)
 	else if (e.button == 1) // MMB
 	{
 		var screenPos = GetMousePos(e);
-		state = StateEnum.IDLE;
+		SetState(StateEnum.IDLE);
 	}
 }
 

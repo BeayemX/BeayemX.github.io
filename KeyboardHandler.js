@@ -26,61 +26,61 @@ function KeyDown(e)
 			break;
 		case 71: // G
 			// TODO create isSthSelected() which returns after first find...
-			if (state == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE)
 			{
 				if (GetAllSelectedPoints().length > 0) 
 				{
-					state = StateEnum.GRABBING;
+					SetState(StateEnum.GRABBING);
 					grabStartPosition = currentGridPosition;
 				}
 			}
 			break;
 
 		case 65: // A
-			if (state == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE)
 				SelectAllToggle();
 			break;
 
 		case 88: // X
-			if (state == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE)
 				DeleteSelectedLines();
 			break;
 		case 73: // I
-			if (state == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE)
 				InvertSelection();
 			break;
 		case 68:
-			if (state == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE)
 			{
 				DuplicateLines();
-				state = StateEnum.GRABBING;
+				SetState(StateEnum.GRABBING);
 			}	
 			break;
 
 		case 9: // TAB
-			if (state == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE)
 			{
-				state = StateEnum.RENDERPREVIEW;
+				SetState(StateEnum.RENDERPREVIEW);
 	  			canvas.style.background = 'white';
 				Redraw();
 			}
 			break;
 
 		case 67: // C
-			if (state == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE)
 				CopyLinesToClipboard();
 			break;
 
 		case 86: // V
-			if (state == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE)
 			{	
 				if (PasteLines())
-					state = StateEnum.GRABBING;
+					SetState(StateEnum.GRABBING);
 			}
 			break;
 
 		case 13: // Enter
-			if (state == StateEnum.IDLE)
+			if (currentState == StateEnum.IDLE)
 				TakeScreenshot();
 			break;
 		case 70: // F // TODO improve. zoom to selection / zoom fit / etc ... 
@@ -107,7 +107,7 @@ function KeyUp(e)
 	switch(e.keyCode)
 	{
 		case 9: // TAB
-			state = StateEnum.IDLE;
+			SetState(StateEnum.IDLE);
   			canvas.style.background = canvasColor;
 			Redraw();
 			break;

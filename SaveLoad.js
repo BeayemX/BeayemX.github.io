@@ -126,11 +126,11 @@ function TakeScreenshot()
 	// also save blueprint
 	//w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
 
-	state = StateEnum.RENDERPREVIEW;
+	SetState(StateEnum.RENDERPREVIEW);
 	Redraw();
 	w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
 
-	state = StateEnum.IDLE;
+	SetState(StateEnum.IDLE);
 	Redraw();
 	Notify("Picture saved!");
 }
