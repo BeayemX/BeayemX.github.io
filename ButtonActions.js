@@ -20,3 +20,26 @@ function Subdivide()
 	CheckForCrapLines();
 	Redraw();
 }
+
+function Mirror()
+{
+	var minX = Infinity
+	var maxX = -Infinity
+	var selLines = GetSelectedLines();
+
+	for (var i=0; i<selLines.length; ++i)
+	{
+		minX = Math.min(minX, selLines[i].start.x);
+		maxX = Math.max(maxX, selLines[i].start.x);
+
+		minX = Math.min(minX, selLines[i].end.x);
+		maxX = Math.max(maxX, selLines[i].end.x);
+	}
+	
+	for (var i=0; i<selLines.length; ++i)
+	{
+		selLines[i].start.x -= (selLines[i].start.x - minX) * 2 - (maxX-minX);
+		selLines[i].end.x -= (selLines[i].end.x - minX) * 2 - (maxX-minX);
+	}
+	Redraw();
+}
