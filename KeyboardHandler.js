@@ -17,8 +17,6 @@ function KeyDown(e)
 				AutoSave();
 			break;
 		case 79: // O
-			if (e.ctrlKey)
-				Open();
 			break;
 
 		case 46: // DEL

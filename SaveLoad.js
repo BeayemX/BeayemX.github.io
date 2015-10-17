@@ -27,26 +27,6 @@ function Save()
 
 function Open(logoName)
 {
-	/*
-	var text = "Open logo: \n";
-	// var keys = [];
-	for(var i=0; i<localStorage.length; ++i) 
-	{
-		//keys.push(localStorage.key(i));
-		text += "- " + localStorage.key(i) + "\n";
-	    // var key = localStorage.key(i);
-	    // var value = localStorage[key];
-	    // console.log(key + " => " + value);
-	}
-
-	var logoName = prompt(text);
-	if (!logoName)
-	{
-		alert("Invalid name!");
-		return;
-	}
-	
-	*/
 	var logo = localStorage.getItem(logoName);
 
 	if (!logo)
