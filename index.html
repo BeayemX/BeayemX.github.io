@@ -23,11 +23,9 @@
 		<div id="leftarea" class="toolarea" width="150">
 			
 			<div class="toolcategory">
-				<p>Files</p>
+				<p>File</p>
 				<button type="button" onclick="NewFile()">New file</button>
-				<button type="button" onclick="LoadStartupFile()">Load startup file</button>
-				<button type="button" onclick="SaveStartupFile()">Set as startup file</button>
-				<button type="button" onclick="LoadAutoSave()">Load AutoSave File</button>
+				<button type="button" onclick="Save()">Save as</button>
 				<select id="savedfilesdropdown"></select>
 			</div>
 
@@ -39,14 +37,19 @@
 				<button type="button" onclick="Rotate(false)">Rotate Counter-Clockwise</button>
 			</div>	
 			
-			
+			<div class="toolcategory">
+				<p>Help</p>
+				<button type="button" onclick="ReshowLastNotification()">Re-Show last notification</button>
+			</div>
 			
 		</div>
 		<canvas id="canvas"></canvas>
 		<div id="rightarea" class="toolarea" width="150">
 			<div class="toolcategory">
-				<p>Help</p>
-				<button type="button" onclick="ReshowLastNotification()">Re-Show last notification</button>
+				<p>Dev Stuff</p>
+				<button type="button" onclick="SaveStartupFile()">Set as startup file</button>
+				<button type="button" onclick="LoadStartupFile()">Load startup file</button>
+				<button type="button" onclick="LoadAutoSave()">Load AutoSave File</button>
 			</div>
 		</div>
 	</body>

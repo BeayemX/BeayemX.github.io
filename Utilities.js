@@ -360,3 +360,11 @@ function GetPreciseSelectionEntries()
 	}
 	return precisePoints;
 }
+function ToggleDevArea()
+{
+	if (rightarea.style.visibility == "hidden")
+		rightarea.style.visibility = "visible";
+	else
+		rightarea.style.visibility = "hidden";
+	ResizeCanvas();
+}

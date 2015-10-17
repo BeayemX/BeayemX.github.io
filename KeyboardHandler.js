@@ -95,6 +95,9 @@ function KeyDown(e)
 			SetState(StateEnum.BORDERSELECTION);
 			Redraw();
 		break;
+		case 27:
+			ToggleDevArea();
+		break;
 		default:
 			console.log("KeyDown(): \n"
 				+ "keyCode: " + e.keyCode + "\n"

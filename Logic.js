@@ -2,6 +2,8 @@ var canvas;
 var context;
 var notificationarea;
 var savedfilesdropdown;
+var leftarea;
+var rightarea;
 
 var lines = [];
 var currentState = StateEnum.IDLE;
@@ -21,6 +23,8 @@ function OnLoad()
   context = canvas.getContext('2d');
   leftarea = document.getElementById('leftarea');
   rightarea = document.getElementById('rightarea');
+  rightarea.style.visibility = "visible";
+
   notificationarea = document.getElementById('notificationarea');
   savedfilesdropdown = document.getElementById('savedfilesdropdown');
 
@@ -61,7 +65,10 @@ function ResizeCanvas() // TODO rename to LayoutGUI
   // rightarea.style.top = window.innerHeight * 0.5 - rightarea.offsetHeight * 0.5;
   notificationarea.style.top = 0;
 
-  canvas.width = window.innerWidth - leftarea.offsetWidth - rightarea.offsetWidth;
+  canvas.width = window.innerWidth - leftarea.offsetWidth;
+  if (rightarea.style.visibility == "visible")
+    canvas.width -= rightarea.offsetWidth;
+
   canvas.height = window.innerHeight
   canvas.style.left = leftarea.offsetWidth;
   canvas.style.top = 0;
