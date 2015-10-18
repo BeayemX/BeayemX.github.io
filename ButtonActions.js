@@ -101,3 +101,8 @@ function Rotate(clockwise)
 	}
 	Redraw();
 }
+function ToggleGridType()
+{
+	showGrid = !showGrid;
+	Redraw();
+}

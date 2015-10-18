@@ -26,7 +26,7 @@
 				<p>File</p>
 				<button type="button" onclick="NewFile()">New file</button>
 				<button type="button" onclick="Save()">Save as</button>
-				<select id="savedfilesdropdown"></select>
+				<select id="savedfilesdropdown" multiple size="6" style='height: 100%; display:block;'></select>
 			</div>
 
 			<div class="toolcategory">
@@ -40,6 +40,7 @@
 			<div class="toolcategory">
 				<p>Help</p>
 				<button type="button" onclick="ReshowLastNotification()">Re-Show last notification</button>
+				<button type="button" onclick="ToggleGridType()">Toggle grid type</button>
 			</div>
 			
 		</div>

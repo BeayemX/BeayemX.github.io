@@ -108,41 +108,80 @@ function DrawGridPoint(screenpos)
 
 
 function DrawGrid()
-{
-	context.lineWidth = 1;
+{	
+	if (!showGrid)
+	{
+		// TODO remove?
+		var width = canvas.width / gridSize;
+		var height = canvas.height / gridSize;
+
+		width = gridCellNumber;
+		height = gridCellNumber;
+		for (var y=-height * 0.5; y<height * 0.5+1; ++y)
+		{
+			for (var x=-width * 0.5; x<width * 0.5 + 1; ++x)
+			{
+				if (x % bigGridSize == 0 || y % bigGridSize == 0)
+				{
+					context.lineWidth = bigGridPointLineWidth;
+					context.strokeStyle = bigGridPointLineColor;
+					context.fillStyle = bigGridPointFillColor;
+				}
+				else
+				{
+					context.lineWidth = gridPointLineWidth;
+					context.strokeStyle = gridPointLineColor;
+					context.fillStyle = gridPointFillColor;
+				}
+				// TODO why don't i use DrawGridPoint? at the begin of this method '/ gridSize'. here '*gridSize'...
+				DrawCircle(x*gridSize + canvasOffset.x, y*gridSize + canvasOffset.y, gridPointSize);
+			}
+		} 
+	} 
+	else 
+	{	
+		var size = gridCellNumber * 0.5;
+
+		for (var i=-size; i<=size; ++i)
+		{
+			if (i % bigGridSize == 0)
+			{
+				context.lineWidth = 2;
+				context.strokeStyle = gridBigLineColor;
+
+			}
+			else if (Math.round(i % (bigGridSize * 0.5) == 0))
+			{
+				context.lineWidth = 2;
+				context.strokeStyle = gridLineColor;	
+			}
+			else 
+			{
+				context.lineWidth = 1;
+				context.strokeStyle = gridLineColor;
+
+			}
+
+			DrawLineFromTo(
+				-size	 * gridSize + canvasOffset.x,
+				i* gridSize + canvasOffset.y,
+				size 	 * gridSize + canvasOffset.x,
+				i * gridSize + canvasOffset.y
+			);
+			DrawLineFromTo(
+				i * gridSize + canvasOffset.x,
+				-size 	 * gridSize + canvasOffset.y,
+				i * gridSize + canvasOffset.x,
+				size 	 * gridSize + canvasOffset.y
+			);
+		}
+	}
+
+	context.lineWidth = 2;
 	context.strokeStyle = 'darkred';
 
 	DrawLineFromTo(0, canvasOffset.y, canvas.width, canvasOffset.y);
 	DrawLineFromTo(canvasOffset.x, 0, canvasOffset.x, canvas.height);
-
-	// TODO remove?
-	var width = canvas.width / gridSize;
-	var height = canvas.height / gridSize;
-
-	width = gridCellNumber;
-	height = gridCellNumber;
-
-	for (var y=-height * 0.5; y<height * 0.5+1; ++y)
-	{
-		for (var x=-width * 0.5; x<width * 0.5 + 1; ++x)
-		{
-			if (x % bigGridSize == 0 || y % bigGridSize == 0)
-			{
-				context.lineWidth = bigGridPointLineWidth;
-				context.strokeStyle = bigGridPointLineColor;
-				context.fillStyle = bigGridPointFillColor;
-			}
-			else
-			{
-				context.lineWidth = gridPointLineWidth;
-				context.strokeStyle = gridPointLineColor;
-				context.fillStyle = gridPointFillColor;
-			}
-			// TODO why don't i use DrawGridPoint? at the begin of this method '/ gridSize'. here '*gridSize'...
-			DrawCircle(x*gridSize + canvasOffset.x, y*gridSize + canvasOffset.y, gridPointSize);
-		}
-	}
-
 }
 
 function DrawStoredLines() // RENAME DrawStoredLines or sth...

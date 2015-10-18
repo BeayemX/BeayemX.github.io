@@ -12,6 +12,8 @@ var previousState = StateEnum.IDLE;
 var currentGridPosition = {x: 0, y: 0};
 var canvasOffset = {x: 0, y: 0};
 
+var showGrid = true; // TODO RENAME
+
 function OnLoad()
 {
 	window.addEventListener( "keydown", KeyDown, false )
