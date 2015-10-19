@@ -93,7 +93,7 @@ function DrawGridLine(line, endpoint)
 
 	DrawLineFromTo(startX, startY, endX, endY);
 
-	if (!IsRendering())
+	if (!IsRendering() && showHandles)
 	{
 		DrawCircle(startX, startY, lineEndingRadius);
 		DrawCircle(endX, endY, lineEndingRadius);

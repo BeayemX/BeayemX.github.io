@@ -1,3 +1,7 @@
+var showHandles = true;
+var showAdvancedHandles = false;
+
+
 function Button1()
 {
 	console.log("button pressed");
@@ -105,4 +109,16 @@ function ToggleGridType()
 {
 	showGrid = !showGrid;
 	Redraw();
+}
+
+function ToggleHandles(button)
+{
+    showHandles = !showHandles;   
+
+    if (showHandles)
+        button.innerHTML = "Hide line handles";
+    else
+        button.innerHTML = "Show line handles";
+
+    Redraw();
 }
