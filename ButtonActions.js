@@ -122,3 +122,15 @@ function ToggleHandles(button)
 
     Redraw();
 }
+
+function ToggleAdvancedHandles(button)
+{
+    showAdvancedHandles = !showAdvancedHandles;
+
+    if (showAdvancedHandles)
+        button.innerHTML = "Disable Advanced handles";
+    else
+        button.innerHTML = "Enable Advanced handles";
+
+    Redraw();
+}

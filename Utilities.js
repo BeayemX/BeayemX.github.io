@@ -336,7 +336,7 @@ function GetPreciseSelectionEntries()
 	var screenPos = GridpointToScreenpoint(currentGridPosition);
 	var precisePoints = [screenPos];
 
-	if (points.length <= 1)
+	if (points.length <= 1 || !showAdvancedHandles)
 		return precisePoints
 
 	for (var i=0; i<points.length; ++i)
