@@ -225,6 +225,7 @@ function UpdateDropdown(lastAddedLogoName)
 	}
 
  	savedfilesdropdown.selectedIndex = 0;
+    savedfilesdropdown.setAttribute("size", keys.length);
  	// savedfilesdropdown.selectedIndex = selectedIndex;
 }
 
