@@ -24,7 +24,7 @@ function Save(ask)
                 return;
             }
         }
-        currentlyOpenedFile = logoName;
+        SetCurrentFile(logoName);
     }
     else
         logoName = currentlyOpenedFile;
@@ -59,7 +59,7 @@ function Open(logoName)
 	}
  	
  	savedfilesdropdown.selectedIndex = 0;
-    currentlyOpenedFile = logoName;
+    SetCurrentFile(logoName);
 	Redraw();
 }
 
@@ -153,7 +153,7 @@ function LoadStartupFile()
 		);
 	}
 	Notify("Startup file loaded!");
-    currentlyOpenedFile = null;
+    SetCurrentFile(null);
 	Redraw();
 	return true;	
 }
@@ -183,7 +183,8 @@ function LoadAutoSave()
 			)
 		);
 	}
-    currentlyOpenedFile = null;
+
+    SetCurrentFile(null);
 	Redraw();
 	return true;
 }
@@ -238,7 +239,7 @@ function NewFile()
 	{
 		lines = [];
 		AutoSave();
-        currentlyOpenedFile = null;
+        SetCurrentFile(null);
 		Reload(false);
 	}
 }
@@ -260,4 +261,15 @@ function GenerateStartUpFile()
 			)
 		);
 	}
+}
+
+function SetCurrentFile(fileName)
+{
+    currentlyOpenedFile = fileName;
+    var text = "LogoDesigner";
+    
+    if (fileName)
+        text += " - " + fileName
+        
+    document.title = text;
 }
