@@ -25,7 +25,9 @@
 			<div class="toolcategory">
 				<p>File</p>
 				<button type="button" onclick="NewFile()">New file</button>
-				<button type="button" onclick="Save()">Save as</button>
+				<button type="button" onclick="Save(false)">Save</button>
+                <button type="button" onclick="Save(true)">Save as</button>
+
 				<select id="savedfilesdropdown" multiple size="6" style='height: 100%; display:block;'></select>
 			</div>
 

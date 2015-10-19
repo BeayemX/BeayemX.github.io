@@ -1,26 +1,34 @@
 var startupFileName = "StartUp";
 var autosaveFileName = "AutoSave";
 var clipboardFileName = "Clipboard";
+var currentlyOpenedFile = null;
 
-function Save()
+function Save(ask)
 {
-	var logoName = prompt("Save logo as: ");
-	if (!logoName)
-	{
-		alert("Invalid name. Logo not saved!");
-		return;
-	}
+    var logoName;
+    if (ask || !currentlyOpenedFile)
+    {
+        logoName = prompt("Save logo as: ");
+        if (!logoName)
+        {
+            alert("Invalid name. Logo not saved!");
+            return;
+        }
 
-	var logo = localStorage.getItem(logoName);
-	if (logo)
-	{
-		if(!confirm("Logo with that name already exists. Do you want to overwrite it?"))
-		{
-			alert("Not overwritten bla bla")
-			return;
-		}
-	}
-
+        var logo = localStorage.getItem(logoName);
+        if (logo)
+        {
+            if(!confirm("Logo with that name already exists. Do you want to overwrite it?"))
+            {
+                alert("Not overwritten bla bla")
+                return;
+            }
+        }
+        currentlyOpenedFile = logoName;
+    }
+    else
+        logoName = currentlyOpenedFile;
+    
 	localStorage.setItem(logoName, JSON.stringify(lines));
 	UpdateDropdown(logoName);
 }
@@ -51,6 +59,7 @@ function Open(logoName)
 	}
  	
  	savedfilesdropdown.selectedIndex = 0;
+    currentlyOpenedFile = logoName;
 	Redraw();
 }
 
@@ -144,6 +153,7 @@ function LoadStartupFile()
 		);
 	}
 	Notify("Startup file loaded!");
+    currentlyOpenedFile = null;
 	Redraw();
 	return true;	
 }
@@ -173,6 +183,7 @@ function LoadAutoSave()
 			)
 		);
 	}
+    currentlyOpenedFile = null;
 	Redraw();
 	return true;
 }
@@ -227,6 +238,7 @@ function NewFile()
 	{
 		lines = [];
 		AutoSave();
+        currentlyOpenedFile = null;
 		Reload(false);
 	}
 }
