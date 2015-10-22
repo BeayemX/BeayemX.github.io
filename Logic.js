@@ -58,7 +58,7 @@ function OnLoad()
 
 function ForTestingPurposeOnly()
 {
-	Notify("State: asdf asfasf joiehf andfub kjsdf ui4 3ub alks<br><br>asdf:<br> asökfd asödfj ajsöfd<br>jdf 3b4k lasbf 2");
+	Notify("Test Function called!");
 }
 
 function ResizeCanvas() // TODO rename to LayoutGUI

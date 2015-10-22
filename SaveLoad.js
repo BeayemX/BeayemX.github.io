@@ -31,6 +31,7 @@ function Save(ask)
     
 	localStorage.setItem(logoName, JSON.stringify(lines));
 	UpdateDropdown(logoName);
+	Notify("File saved!");
 }
 
 function Open(logoName)
