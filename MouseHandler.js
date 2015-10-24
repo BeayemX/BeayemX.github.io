@@ -11,8 +11,10 @@ function MouseMove(e)
 			x: currentGridPosition.x - oldGridPoint.x,
 			y: currentGridPosition.y - oldGridPoint.y
 		}
-		if (gridPosDelta.x != 0 || gridPosDelta.y != 0)
-			GridPositionChanged(e, gridPosDelta);
+		if (gridPosDelta.x != 0 || gridPosDelta.y != 0) {
+		    GridPositionChanged(e, gridPosDelta);
+		    WriteToStatusbar("x: " + currentGridPosition.x + " | " + "y: " + currentGridPosition.y);
+        }
 	}
 	else // while panning
 	{

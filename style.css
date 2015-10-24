@@ -86,3 +86,32 @@ div
 	margin-top: 25px;
 	margin-bottom: 25px;
 }
+#menubar{
+    width: 100%;
+    height: 40px;
+    background-color: azure;
+}
+.menuentry{
+    width: 100px;
+    float: left;
+    text-align: center;
+    padding: 10px;
+	font-family: 'Roboto', sans-serif;
+}
+.menuentry:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#statusbar {
+    position: absolute;
+    height: 40px;
+    background-color: orange;
+    width: 100%;
+    bottom: 0px;
+	font-family: 'Roboto', sans-serif;
+}
+#statusbarentry{
+    text-align: right;
+    padding-top: 10px;
+    padding-right: 10px;
+}
