@@ -135,7 +135,8 @@ function SelectAllPoints()
 
 function ClearSelection()
 {
-	SelectPoints(GetAllSelectedPoints(), false);
+    SelectPoints(GetAllSelectedPoints(), false);
+    CheckForCrapLines();
 }
 
 function DeleteSelectedLines()
@@ -163,29 +164,27 @@ function CheckForCrapLines()
 				DeleteArrayEntry(lines, lines[i]);
 	}
 
-	// overlapping lines
-	for (var i=0; i<lines.length; ++i)
+    // overlapping lines
+	var deletedLinesCounter = 0;
+	for (var i=lines.length-1; i>=0; --i)
 	{
-		for (var j=0; j<lines.length; ++j)
-
-		{
-			if (i!=j &&
-				(  lines[i].start.x == lines[j].start.x
-				&& lines[i].start.y == lines[j].start.y
-				&& lines[i].end.x == lines[j].end.x
-				&& lines[i].end.y == lines[j].end.y )
-				||
-				(  lines[i].start.x == lines[j].end.x
-				&& lines[i].start.y == lines[j].end.y
-				&& lines[i].end.x == lines[j].start.x
-				&& lines[i].end.y == lines[j].start.y )
-				)
-			{
-				DeleteArrayEntry(lines, lines[j]);
-				continue;
+	    for (var j = lines.length-1; j > i; --j)
+	    {
+	        if (lines[i].SelectedPoints() == 0 &&
+                LinesOverlapping(lines[i], lines[j]))
+	        {
+			    DeleteArrayEntry(lines, lines[j]);
+			    ++deletedLinesCounter;
+			    continue;
 			}
 		}
-	}	
+	}
+	if (deletedLinesCounter > 0)
+	{
+	    console.log("CheckForCrapLines removed " + deletedLinesCounter + " lines.");
+	    Redraw();
+	}
+	console.log("lines.length: " + lines.length);
 }
 
 function InvertSelection()
@@ -211,7 +210,7 @@ function DuplicateLines()
 			selectedLines[i].end.y
 			))
 	}
-
+	CheckForCrapLines();
 }
 
 function GetSelectedLines()
@@ -367,4 +366,17 @@ function ToggleDevArea()
 	else
 		rightarea.style.visibility = "hidden";
 	ResizeCanvas();
+}
+
+function LinesOverlapping(line1, line2)
+{
+    return (line1.start.x == line2.start.x
+    && line1.start.y == line2.start.y
+	&& line1.end.x == line2.end.x
+	&& line1.end.y == line2.end.y )
+	||
+    (  line1.start.x == line2.end.x
+    && line1.start.y == line2.end.y
+    && line1.end.x == line2.start.x
+    && line1.end.y == line2.start.y);
 }

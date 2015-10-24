@@ -142,6 +142,7 @@ function MouseUp(e)
 						gridLineEnd.x,
 						gridLineEnd.y
 						));
+			CheckForCrapLines();
 			downPoint = undefined;
 			SetState(StateEnum.IDLE);
 			GridPositionChanged();
