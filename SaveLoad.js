@@ -237,12 +237,12 @@ function DropDownSelected()
 
 function NewFile()
 {
-	if (confirm("Do you want to discard your LogoDesign and start from scratch?"))
+	//if (confirm("Do you want to discard your LogoDesign and start from scratch?"))
 	{
 		lines = [];
 		AutoSave();
-        SetCurrentFile(null);
-		Reload(false);
+		SetCurrentFile(null);
+		Redraw();
 	}
 }
 
