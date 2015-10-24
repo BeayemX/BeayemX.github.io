@@ -408,6 +408,6 @@ function CalculateCenter(lines) {
         Math.round((max.x + min.x) / 2),
         Math.round((max.y + min.y) / 2)
         );
-    console.log(center);
+
     return center;
 }
