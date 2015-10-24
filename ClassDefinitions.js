@@ -1,3 +1,5 @@
+"use strict";
+
 var StateEnum = {
 	IDLE: "idle",
 	DRAWING: "drawing", 
@@ -38,3 +40,13 @@ function GridPoint(x, y)
 		this.selected = true;
 	}
 }
+
+
+class Vector2
+{
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+

@@ -1,3 +1,5 @@
+"use strict";
+
 var canvas;
 var context;
 var notificationarea;
@@ -19,46 +21,53 @@ function OnLoad()
 	window.addEventListener( "keydown", KeyDown, false )
 	window.addEventListener( "keyup", KeyUp, false )
 	window.addEventListener("contextmenu", function(e) {e.preventDefault(); return false;} );
-  window.addEventListener('resize', ResizeCanvas, false);
+    window.addEventListener('resize', ResizeCanvas, false);
 
 	canvas = document.getElementById('canvas');
-  context = canvas.getContext('2d');
-  leftarea = document.getElementById('leftarea');
-  rightarea = document.getElementById('rightarea');
-  rightarea.style.visibility = "visible";
+    context = canvas.getContext('2d');
+    leftarea = document.getElementById('leftarea');
+    rightarea = document.getElementById('rightarea');
+    rightarea.style.visibility = "visible";
 
-  notificationarea = document.getElementById('notificationarea');
-  savedfilesdropdown = document.getElementById('savedfilesdropdown');
+    notificationarea = document.getElementById('notificationarea');
+    savedfilesdropdown = document.getElementById('savedfilesdropdown');
 
-  canvas.addEventListener("mousemove", MouseMove);
-  canvas.addEventListener("mouseup", MouseUp);
-  canvas.addEventListener("mousedown", MouseDown);
-  canvas.addEventListener("mousewheel", MouseScroll); 
+    canvas.addEventListener("mousemove", MouseMove);
+    canvas.addEventListener("mouseup", MouseUp);
+    canvas.addEventListener("mousedown", MouseDown);
+    canvas.addEventListener("mousewheel", MouseScroll); 
 
-  notificationarea.addEventListener("mouseenter", NotificationEnter);
-  notificationarea.addEventListener("mouseout", NotificationExit);
+    notificationarea.addEventListener("mouseenter", NotificationEnter);
+    notificationarea.addEventListener("mouseout", NotificationExit);
 
-  savedfilesdropdown.addEventListener("change", DropDownSelected)
+    savedfilesdropdown.addEventListener("change", DropDownSelected)
 
-  canvas.style.background = canvasColor;
-  ResizeCanvas();
+    canvas.style.background = canvasColor;
+    ResizeCanvas();
 
-  canvasOffset.x = canvas.width * 0.5;
-  canvasOffset.y = canvas.height * 0.5;
-  
-  if (!LoadAutoSave())
-    if (!LoadStartupFile())
-      GenerateStartUpFile();
+    canvasOffset.x = canvas.width * 0.5;
+    canvasOffset.y = canvas.height * 0.5;
 
-  UpdateDropdown();
+    LoadAutoSave();
 
-  Redraw();
+    /*
+    if (!LoadAutoSave())
+        if (!LoadStartupFile())
+            GenerateStartUpFile();
+    //*/
+    UpdateDropdown();
+
+    Redraw();
 	// ForTestingPurposeOnly();
 }
 
 function ForTestingPurposeOnly()
 {
-	Notify("Test Function called!");
+    Notify("Test Function called!");
+    var v = new Vector2(0, 0);
+    v.x = 5;
+    console.log(v.x);
+    console.log(v.y);
 }
 
 function ResizeCanvas() // TODO rename to LayoutGUI
