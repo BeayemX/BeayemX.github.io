@@ -170,7 +170,7 @@ function CheckForCrapLines()
 	{
 	    for (var j = lines.length-1; j > i; --j)
 	    {
-	        if (lines[i].SelectedPoints() == 0 &&
+	        if (lines[i].SelectedPoints == 0 &&
                 LinesOverlapping(lines[i], lines[j]))
 	        {
 			    DeleteArrayEntry(lines, lines[j]);

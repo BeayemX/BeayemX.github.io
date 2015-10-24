@@ -53,7 +53,7 @@ function DrawGridLine(line, endpoint)
 
 	if (arguments.length == 1)
 	{
-		var selectedPoints = line.SelectedPoints();
+		var selectedPoints = line.SelectedPoints;
 		if ( selectedPoints == 0 || IsRendering())
 		{
 			context.strokeStyle = lineColor;
