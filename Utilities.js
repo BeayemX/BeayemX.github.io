@@ -225,6 +225,17 @@ function GetSelectedLines()
 	return selectedLines;
 }
 
+function GetUnselectedLines()
+{
+    var points = GetAllSelectedPoints();
+    var selectedLines = [];
+    for (var i = 0; i < lines.length; ++i) {
+        if (lines[i].start.selected == false && lines[i].end.selected == false)
+            selectedLines.push(lines[i]);
+    }
+    return selectedLines;
+}
+
 var borderSelectionStart = null;
 var borderSelectionEnd = null;
 var borderSelectType = null;

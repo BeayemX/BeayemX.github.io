@@ -1,3 +1,4 @@
+"use strict"
 function DrawLineFromTo(x1, y1, x2, y2)
 {
 	context.beginPath();
@@ -190,12 +191,14 @@ function DrawStoredLines() // RENAME DrawStoredLines or sth...
 	
 	// context.lineWidth = gridPointLineWidth;
 	//context.strokeStyle = "#000";
-	//context.fillStyle = "#000";
-	
-	for (var i=0; i<lines.length; ++i)
-	{
-		DrawGridLine(lines[i]);
-	}
+    //context.fillStyle = "#000";
+
+	var unselLines = GetUnselectedLines();
+	var selLines = GetSelectedLines();
+    for (var line of unselLines)
+	    DrawGridLine(line);
+    for (var line of selLines)
+		DrawGridLine(line);
 }
 
 function DrawPreview()
