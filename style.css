@@ -79,6 +79,7 @@ div
 	border-radius: 15px;
 
 	z-index: 1;
+    visibility: hidden;
 }
 .toolcategory
 {

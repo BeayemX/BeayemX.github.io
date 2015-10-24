@@ -1,7 +1,7 @@
 var notificationTimeout;
 function Notify(text)
 {
-	notificationarea.style.display = 'block';
+	notificationarea.style.visibility = 'visible';
 	notificationarea.innerHTML = text;
   	notificationarea.style.left = window.innerWidth * 0.5 - notificationarea.offsetWidth * 0.5;
   	notificationarea.style.backgroundColor = notificationColorHalf;
@@ -24,7 +24,7 @@ function NotificationExit()
 
 function ClearNotification()
 {
-	notificationarea.style.display = 'none';
+	notificationarea.style.visibility = 'hidden';
 }
 
 function ReshowLastNotification()
