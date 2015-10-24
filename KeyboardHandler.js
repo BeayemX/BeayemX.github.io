@@ -97,7 +97,13 @@ function KeyDown(e)
 		break;
 		case 27:
 			ToggleDevArea();
-		break;
+			break;
+        case 187: // +
+            IncreaseSize(2);
+            break;
+	    case 189: // -
+	        IncreaseSize(0.5);
+            break;
 		default:
 			console.log("KeyDown(): \n"
 				+ "keyCode: " + e.keyCode + "\n"
