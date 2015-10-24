@@ -405,8 +405,8 @@ function CalculateCenter(lines) {
     }
 
     var center = new Vector2(
-        Math.round((max.x + min.x) / 2),
-        Math.round((max.y + min.y) / 2)
+        Math.round((max.x + min.x) * 0.5),
+        Math.round((max.y + min.y) * 0.5)
         );
 
     return center;
