@@ -391,3 +391,23 @@ function LinesOverlapping(line1, line2)
     && line1.end.x == line2.start.x
     && line1.end.y == line2.start.y);
 }
+
+
+function CalculateCenter(lines) {
+    var min = new Vector2(Infinity, Infinity);
+    var max = new Vector2(-Infinity, -Infinity);
+
+    for (var line of lines) {
+        min.x = Math.min(min.x, line.start.x);
+        min.y = Math.min(min.y, line.start.y);
+        max.x = Math.max(max.x, line.end.x);
+        max.y = Math.max(max.y, line.end.y);
+    }
+
+    var center = new Vector2(
+        Math.round((max.x + min.x) / 2),
+        Math.round((max.y + min.y) / 2)
+        );
+    console.log(center);
+    return center;
+}

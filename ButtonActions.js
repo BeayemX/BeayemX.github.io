@@ -27,8 +27,8 @@ function Subdivide()
 
 function Mirror()
 {
-	var minX = Infinity
-	var maxX = -Infinity
+    var minX = Infinity;
+    var maxX = -Infinity;
 	var selLines = GetSelectedLines();
 
 	for (var i=0; i<selLines.length; ++i)
@@ -131,6 +131,28 @@ function ToggleAdvancedHandles(button)
         button.innerHTML = "Disable Advanced handles";
     else
         button.innerHTML = "Enable Advanced handles";
+
+    Redraw();
+}
+function IncreaseSize(factor)
+{
+    var selLines = GetSelectedLines();
+    var center = CalculateCenter(selLines);
+
+    for (var line of selLines)
+    {
+        line.start.x = Math.round(line.start.x * factor);
+        line.start.y = Math.round(line.start.y * factor);
+        line.end.x = Math.round(line.end.x * factor);
+        line.end.y = Math.round(line.end.y * factor);
+    }
+
+    var newCenter = CalculateCenter(selLines);
+    var delta = new Vector2(center.x - newCenter.x,
+        center.y - newCenter.y);
+
+    var points = GetAllSelectedPoints();
+    MovePointsBy(points, delta)
 
     Redraw();
 }
