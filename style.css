@@ -110,8 +110,17 @@ div
     bottom: 0px;
 	font-family: 'Roboto', sans-serif;
 }
-#statusbarentry{
-    text-align: right;
+.statusbarentry {
+    position: absolute;
     padding-top: 10px;
+}
+#statusbarentryleft{
+    left: 0px;
+    text-align: left;
+    padding-left: 10px;
+}
+#statusbarentryright{
+    right: 0px;
+    text-align: right;
     padding-right: 10px;
 }

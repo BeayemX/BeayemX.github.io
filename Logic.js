@@ -5,7 +5,9 @@ var context;
 var notificationarea;
 var savedfilesdropdown;
 var menubar;
-var statusbarentry;
+var statusbar;
+var statusbarentryleft;
+var statusbarentryright;
 var leftarea;
 var rightarea;
 
@@ -28,7 +30,9 @@ function OnLoad()
 	canvas = document.getElementById('canvas');
 	context = canvas.getContext('2d');
 	menubar = document.getElementById("menubar");
-	statusbarentry = document.getElementById("statusbarentry");
+	statusbar = document.getElementById("statusbar");
+	statusbarentryleft = document.getElementById("statusbarentryleft");
+	statusbarentryright = document.getElementById("statusbarentryright");
     leftarea = document.getElementById('leftarea');
     rightarea = document.getElementById('rightarea');
     rightarea.style.visibility = "visible";
@@ -84,7 +88,7 @@ function ResizeCanvas() // TODO rename to LayoutGUI
   if (rightarea.style.visibility == "visible")
     canvas.width -= rightarea.offsetWidth;
 
-  canvas.height = window.innerHeight - menubar.offsetHeight - statusbarentry.offsetHeight;
+  canvas.height = window.innerHeight - menubar.offsetHeight - statusbar.offsetHeight;
   canvas.style.left = leftarea.offsetWidth;
   canvas.style.top = menubar.offsetHeight;
   Redraw();
@@ -124,7 +128,9 @@ function IsRendering()
   //(currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
 }
 
-function WriteToStatusbar(text)
-{
-    statusbarentry.innerHTML = text;
+function WriteToStatusbarLeft(text) {
+    statusbarentryleft.innerHTML = text;
+}
+function WriteToStatusbarRight(text) {
+    statusbarentryright.innerHTML = text;
 }

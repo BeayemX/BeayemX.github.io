@@ -13,7 +13,8 @@ function MouseMove(e)
 		}
 		if (gridPosDelta.x != 0 || gridPosDelta.y != 0) {
 		    GridPositionChanged(e, gridPosDelta);
-		    WriteToStatusbar("x: " + currentGridPosition.x + " | " + "y: " + currentGridPosition.y);
+		    WriteToStatusbarRight("x: " + currentGridPosition.x + " | " + "y: " + currentGridPosition.y);
+		    WriteToStatusbarLeft("x: " + currentGridPosition.x + " | " + "y: " + currentGridPosition.y);
         }
 	}
 	else // while panning
