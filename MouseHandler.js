@@ -13,7 +13,6 @@ function MouseMove(e)
 		}
 		if (gridPosDelta.x != 0 || gridPosDelta.y != 0) {
 		    GridPositionChanged(e, gridPosDelta);
-		    WriteToStatusbarRight("x: " + currentGridPosition.x + " | " + "y: " + currentGridPosition.y);
 		    WriteToStatusbarLeft("x: " + currentGridPosition.x + " | " + "y: " + currentGridPosition.y);
         }
 	}

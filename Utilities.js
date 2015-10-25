@@ -179,12 +179,15 @@ function CheckForCrapLines()
 			}
 		}
 	}
+	var text = lines.length + " lines";
+
 	if (deletedLinesCounter > 0)
 	{
-	    console.log("CheckForCrapLines removed " + deletedLinesCounter + " lines.");
 	    Redraw();
+	    text += " (" + deletedLinesCounter + " cleaned up)";
 	}
-	console.log("lines.length: " + lines.length);
+
+	WriteToStatusbarRight(text);
 }
 
 function InvertSelection()
