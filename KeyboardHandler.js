@@ -56,8 +56,11 @@ function KeyDown(e)
 		case 68:
 			if (currentState == StateEnum.IDLE || currentState == StateEnum.GRABBING)
 			{
-				DuplicateLines();
-				SetState(StateEnum.GRABBING);
+			    if (SelectionPresent())
+                {
+				    DuplicateLines();
+				    SetState(StateEnum.GRABBING);
+			    }
 			}	
 			break;
 

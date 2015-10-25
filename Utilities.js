@@ -411,3 +411,12 @@ function CalculateCenter(lines) {
 
     return center;
 }
+
+function SelectionPresent()
+{
+    for (var line of lines) {
+        if (line.start.selected || line.end.selected)
+            return true;
+    }
+    return false;
+}
