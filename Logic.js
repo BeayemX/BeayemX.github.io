@@ -56,7 +56,11 @@ function OnLoad()
     canvasOffset.x = canvas.width * 0.5;
     canvasOffset.y = canvas.height * 0.5;
 
-    LoadAutoSave();
+    LoadURLParameters();
+
+    if (urlParameters)
+        if (!urlParameters["file"] || !Open(urlParameters["file"]))
+                LoadAutoSave();
 
     /*
     if (!LoadAutoSave())
@@ -64,18 +68,17 @@ function OnLoad()
             GenerateStartUpFile();
     //*/
     UpdateDropdown();
-
+    CheckForCrapLines(); // HACK to display line amount in status bar
     Redraw();
 	// ForTestingPurposeOnly();
 }
 
-function ForTestingPurposeOnly()
-{
+function ForTestingPurposeOnly() {
     Notify("Test Function called!");
-    var v = new Vector2(0, 0);
-    v.x = 5;
-    console.log(v.x);
-    console.log(v.y);
+}
+
+function ForTestingPurposeOnly2() {
+    Notify("Test Function 2 called!");
 }
 
 function ResizeCanvas() // TODO rename to LayoutGUI

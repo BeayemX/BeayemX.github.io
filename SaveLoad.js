@@ -40,8 +40,8 @@ function Open(logoName)
 
 	if (!logo)
 	{
-		alert("Logo doesn't exist!");
-		return;
+		Notify("Logo '" + logoName + "' doesn't exist!");
+		return false;
 	}
 
 	var linesArray = JSON.parse(logo);
@@ -61,7 +61,8 @@ function Open(logoName)
  	
  	savedfilesdropdown.selectedIndex = 0;
     SetCurrentFile(logoName);
-	Redraw();
+    Redraw();
+    return true;
 }
 
 function DeleteSavedLogo(logoName)
@@ -273,4 +274,28 @@ function SetCurrentFile(fileName)
         text += " - " + fileName
         
     document.title = text;
+}
+
+function SaveToDisk()
+{
+    var name = prompt("Save as: ");
+
+    if (name) {
+        var data = JSON.stringify(lines);
+        var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
+        saveAs(blob, name + ".json");
+    }
+}
+
+var urlParameters = [];
+function LoadURLParameters()
+{
+    var text = window.location.search.substring(1);
+    var pairs = text.split('&');
+
+    for (var pair of pairs)
+    {
+        var keyValuePair = pair.split('=');
+        urlParameters[keyValuePair[0]] = keyValuePair[1];
+    }
 }
