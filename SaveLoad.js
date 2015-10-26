@@ -59,7 +59,8 @@ function Open(logoName)
 		);
 	}
  	
- 	savedfilesdropdown.selectedIndex = 0;
+	savedfilesdropdown.selectedIndex = 0;
+	savedfilesdropdown.blur();
     SetCurrentFile(logoName);
     Redraw();
     return true;
