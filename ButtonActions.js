@@ -139,20 +139,37 @@ function IncreaseSize(factor)
     var selLines = GetSelectedLines();
     var center = CalculateCenter(selLines);
 
+    var correctlyScalable = true;
+
     for (var line of selLines)
     {
-        line.start.x = Math.round(line.start.x * factor);
-        line.start.y = Math.round(line.start.y * factor);
-        line.end.x = Math.round(line.end.x * factor);
-        line.end.y = Math.round(line.end.y * factor);
+        if (
+            line.start.x * factor % 1 != 0 ||
+            line.start.y * factor % 1 != 0 ||
+            line.end.x * factor % 1 != 0 ||
+            line.end.y * factor % 1 != 0)
+        {
+            correctlyScalable = false;
+            break;
+        }
     }
 
-    var newCenter = CalculateCenter(selLines);
-    var delta = new Vector2(center.x - newCenter.x,
-        center.y - newCenter.y);
+    if (correctlyScalable || confirm("Cant scale correctly. Do you really want to proceed?")) {
+        for (var line of selLines)
+        {
+            line.start.x = Math.round(line.start.x * factor);
+            line.start.y = Math.round(line.start.y * factor);
+            line.end.x = Math.round(line.end.x * factor);
+            line.end.y = Math.round(line.end.y * factor);
+        }
 
-    var points = GetAllSelectedPoints();
-    MovePointsBy(points, delta)
+        var newCenter = CalculateCenter(selLines);
+        var delta = new Vector2(center.x - newCenter.x,
+            center.y - newCenter.y);
 
-    Redraw();
+        var points = GetAllSelectedPoints();
+        MovePointsBy(points, delta)
+
+        Redraw();
+    }
 }
