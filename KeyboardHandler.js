@@ -116,8 +116,12 @@ function KeyDown(e)
 				);
 	}
 
-	if (e.keyCode != 123 && (e.keyCode != 76 && e.ctrlKey) && e.keyCode!=117 ) // F12, ctrl+L, F6
-		e.preventDefault();
+	if (e.keyCode != 123 // F12
+	&& !(e.keyCode == 76 && e.ctrlKey) // ctrl+L, 
+	&&  e.keyCode!=117 ) // F6
+        e.preventDefault();
+
+
 }
 
 
