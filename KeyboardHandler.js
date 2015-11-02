@@ -53,12 +53,16 @@ function KeyDown(e)
 			if (currentState == StateEnum.IDLE)
 				InvertSelection();
 			break;
-		case 68:
+		case 68: // D
 			if (currentState == StateEnum.IDLE || currentState == StateEnum.GRABBING)
 			{
 			    if (SelectionPresent())
                 {
-				    DuplicateLines();
+			        DuplicateLines();
+			        grabStartPosition = {
+			            x: currentGridPosition.x,
+			            y: currentGridPosition.y
+			        };
 				    SetState(StateEnum.GRABBING);
 			    }
 			}	
@@ -81,8 +85,14 @@ function KeyDown(e)
 		case 86: // V
 			if (currentState == StateEnum.IDLE)
 			{	
-				if (PasteLines())
-					SetState(StateEnum.GRABBING);
+			    if (PasteLines())
+			    {
+			        grabStartPosition = {
+			            x: currentGridPosition.x,
+			            y: currentGridPosition.y
+			        };
+			        SetState(StateEnum.GRABBING);
+                }
 			}
 			break;
 
