@@ -124,6 +124,15 @@ function KeyDown(e)
 	        UpdateAdvancedHandlesButton();
 	        Redraw();
 	        break;
+
+	    case 90: // Z
+	        actionhistory.Undo();
+	        break;
+
+	    case 89: // Y
+	        actionhistory.Redo();
+	        break;
+
 		default:
 			console.log("KeyDown(): \n"
 				+ "keyCode: " + e.keyCode + "\n"

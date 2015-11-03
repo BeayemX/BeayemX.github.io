@@ -12,13 +12,14 @@
 		<script src="Drawing.js"></script>
 		<script src="ClassDefinitions.js"></script>
 		<script src="Utilities.js"></script>
-		<script src="Logic.js"></script>
+        <script src="Actions.js"></script>
         <script src="Files.js"></script>
         <script src="FileSaver.js"></script>
 		<script src="SaveLoad.js"></script>
 		<script src="Settings.js"></script>
 		<script src="ButtonActions.js"></script>
 		<script src="Notifications.js"></script>
+        <script src="Logic.js"></script>
 	</head>
 	<body onload="OnLoad()">
 		<div id="notificationarea"></div>
@@ -41,11 +42,11 @@
 			<div class="toolcategory">
 				<p>Tools</p>
 				<button type="button" onclick="Subdivide()">Subdivide</button>
-				<button type="button" onclick="Mirror()">Mirror</button>
-				<button type="button" onclick="Rotate(true)">Rotate Clockwise</button>
-                <button type="button" onclick="Rotate(false)">Rotate Counter-Clockwise</button>
-                <button type="button" onclick="IncreaseSize(2)">Double Size</button>
-				<button type="button" onclick="IncreaseSize(0.5)">Half Size</button>
+				<button type="button" onclick="Mirror()">Mirror [s]</button>
+				<button type="button" onclick="Rotate(true)">Rotate Clockwise [r]</button>
+                <button type="button" onclick="Rotate(false)">Rotate Counter-Clockwise [R]</button>
+                <button type="button" onclick="IncreaseSize(2)">Double Size [+]</button>
+				<button type="button" onclick="IncreaseSize(0.5)">Half Size [-]</button>
 			</div>	
 			
 			<div class="toolcategory">

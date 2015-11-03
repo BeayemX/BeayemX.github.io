@@ -76,7 +76,8 @@ function OnLoad()
     UpdateDropdown();
     CheckForCrapLines(); // HACK to display line amount in status bar
     Redraw();
-	// ForTestingPurposeOnly();
+    // ForTestingPurposeOnly();
+    TestActionHistory();
 }
 
 function ForTestingPurposeOnly() {
