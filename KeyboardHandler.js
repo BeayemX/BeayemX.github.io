@@ -116,7 +116,14 @@ function KeyDown(e)
             break;
 	    case 189: // -
 	        IncreaseSize(0.5);
-            break;
+	        break;
+
+	    case 17: // Ctrl
+	        showAdvancedHandles = !advancedHandlesState;
+	        GetNearestSelection(GridpointToScreenpoint(currentGridPosition));
+	        UpdateAdvancedHandlesButton();
+	        Redraw();
+	        break;
 		default:
 			console.log("KeyDown(): \n"
 				+ "keyCode: " + e.keyCode + "\n"
@@ -144,5 +151,11 @@ function KeyUp(e)
   			canvas.style.background = canvasColor;
 			Redraw();
 			break;
+
+	    case 17: // Ctrl
+	        showAdvancedHandles = advancedHandlesState;
+	        UpdateAdvancedHandlesButton();
+	        Redraw();
+	        break;
 	}
 }

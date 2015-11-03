@@ -20,6 +20,8 @@ var canvasOffset = {x: 0, y: 0};
 
 var showGrid = true; // TODO RENAME
 
+var advancedHandlesButton;
+
 function OnLoad()
 {
 	window.addEventListener( "keydown", KeyDown, false )
@@ -39,6 +41,9 @@ function OnLoad()
 
     notificationarea = document.getElementById('notificationarea');
     savedfilesdropdown = document.getElementById('savedfilesdropdown');
+
+    advancedHandlesButton = document.getElementById('advancedHandlesButton');
+    UpdateAdvancedHandlesButton();
 
     canvas.addEventListener("mousemove", MouseMove);
     canvas.addEventListener("mouseup", MouseUp);

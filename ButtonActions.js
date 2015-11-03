@@ -123,17 +123,25 @@ function ToggleHandles(button)
     Redraw();
 }
 
-function ToggleAdvancedHandles(button)
-{
-    showAdvancedHandles = !showAdvancedHandles;
+advancedHandlesState = false;
 
-    if (showAdvancedHandles)
-        button.innerHTML = "Advanced handles: ON";
-    else
-        button.innerHTML = "Advanced handles: OFF";
+function ToggleAdvancedHandles()
+{
+    advancedHandlesState = !advancedHandlesState;
+    showAdvancedHandles = advancedHandlesState;
+
+    UpdateAdvancedHandlesButton();
 
     Redraw();
 }
+function UpdateAdvancedHandlesButton()
+{
+    if (showAdvancedHandles)
+        advancedHandlesButton.innerHTML = "Advanced handles: ON";
+    else
+        advancedHandlesButton.innerHTML = "Advanced handles: OFF";
+}
+
 function IncreaseSize(factor)
 {
     var selLines = GetSelectedLines();
