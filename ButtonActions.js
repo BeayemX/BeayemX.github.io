@@ -128,9 +128,9 @@ function ToggleAdvancedHandles(button)
     showAdvancedHandles = !showAdvancedHandles;
 
     if (showAdvancedHandles)
-        button.innerHTML = "Disable Advanced handles";
+        button.innerHTML = "Advanced handles: ON";
     else
-        button.innerHTML = "Enable Advanced handles";
+        button.innerHTML = "Advanced handles: OFF";
 
     Redraw();
 }
