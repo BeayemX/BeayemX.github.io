@@ -43,7 +43,8 @@ function OnLoad()
     canvas.addEventListener("mousemove", MouseMove);
     canvas.addEventListener("mouseup", MouseUp);
     canvas.addEventListener("mousedown", MouseDown);
-    canvas.addEventListener("mousewheel", MouseScroll); 
+    canvas.addEventListener("mousewheel", MouseScroll);
+    canvas.addEventListener("mouseleave", MouseLeave);
 
     notificationarea.addEventListener("mouseenter", NotificationEnter);
     notificationarea.addEventListener("mouseout", NotificationExit);

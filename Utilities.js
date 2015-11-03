@@ -423,3 +423,12 @@ function SelectionPresent()
     }
     return false;
 }
+
+function MouseLeave()
+{
+    if (currentState == StateEnum.GRABBING)
+    {
+        // TODO should place cursor on other side of the canvas... 
+        // but doesn't work due to security reasons...
+    }
+}
