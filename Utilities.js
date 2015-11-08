@@ -97,13 +97,22 @@ function GetAllSelectedPoints()
 	return points;
 }
 
-function MovePointsBy(points, delta)
+function MovePointsBy(points, delta, createHistory)
 {
-	for (var i=0; i<points.length; ++i)
-	{
-		points[i].x += delta.x;
-		points[i].y += delta.y;
-	}
+    for (var i = 0; i < points.length; ++i) {
+        points[i].x += delta.x;
+        points[i].y += delta.y;
+    }
+
+    if (arguments.length == 3)
+    {
+        if (delta.x != 0 || delta.y != 0)
+        {
+            var curr = { x: currentGridPosition.x, y: currentGridPosition.y };
+            var start = { x: grabStartPosition.x, y: grabStartPosition.y };
+            actionhistory.PushAction(new MoveAction(points, curr, start));
+        }
+    }
 }
 
 function SelectAllToggle()

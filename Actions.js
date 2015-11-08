@@ -5,8 +5,6 @@ var actionhistory;
 function TestActionHistory()
 {
     actionhistory = new ActionHistory();
-    actionhistory.PushAction(new SelectAction());
-    actionhistory.PushAction(new MoveAction());
 }
 
 class ActionHistory
@@ -42,6 +40,7 @@ class ActionHistory
     Undo()
     {
         this.PopAction();
+        Redraw();
     }
     Redo()
     {
@@ -49,6 +48,7 @@ class ActionHistory
 
         if (action)
             this.PushAction(action, true);
+        Redraw();
     }
 }
 
@@ -68,16 +68,27 @@ class SelectAction {
 }
 
 class MoveAction {
-    constructor(delta) {
-        this.delta = delta;
+    // TODO shouldn't need to save points. if selection is also an action
+    constructor(points, current, start) {
+        this.points = points;
+        this.current = current;
+        this.start = start;
     }
 
     Do() {
-        console.log("MoveAction Do()");
+        var delta = {
+            x: this.current.x - this.start.x,
+            y: this.current.y - this.start.y
+        };
+        MovePointsBy(this.points, delta);
     }
 
     Undo() {
-        console.log("MoveAction Undo()");
+        var delta = {
+            x: this.start.x - this.current.x,
+            y: this.start.y - this.current.y
+        };
+        MovePointsBy(this.points, delta);
     }
 }
 class CreateAction {

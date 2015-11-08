@@ -37,6 +37,11 @@ class Vector2 {
         this.x = x;
         this.y = y;
     }
+
+    Copy()
+    {
+        return new Vector2(this.x, this.y);
+    }
 }
 
 class GridPoint extends Vector2 {
@@ -46,6 +51,10 @@ class GridPoint extends Vector2 {
 	        this.selected = selected;
 	    else
 	        this.selected = false;
+    }
+    Copy()
+    {
+        return new GridPoint(this.x, this.y, this.selected);
     }
 }
 

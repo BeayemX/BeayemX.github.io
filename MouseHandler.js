@@ -35,9 +35,9 @@ function GridPositionChanged(e, delta)
 {
 	if (currentState == StateEnum.GRABBING)
 	{
-		var points = GetAllSelectedPoints();
-		MovePointsBy(points, delta);
-	}
+	    var points = GetAllSelectedPoints();
+	    MovePointsBy(points, delta);
+    }
 	else if (currentState == StateEnum.BORDERSELECTION)
 	{
 		if (borderSelectionStart)
@@ -69,8 +69,16 @@ function MouseDown(e)
 		}
 		else if (currentState == StateEnum.GRABBING)
 		{
+		    // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
+            // added to history it will call Do()...
+		    var resetDelta = {
+		        x: grabStartPosition.x - currentGridPosition.x,
+		        y: grabStartPosition.y - currentGridPosition.y
+		    };
+		    MovePointsBy(GetAllSelectedPoints(), resetDelta, true);
 			CheckForCrapLines();
 			SetState(StateEnum.IDLE);
+			Redraw();
 		}
 		else if (currentState == StateEnum.BORDERSELECTION)
 		{
@@ -88,11 +96,11 @@ function MouseDown(e)
 		}
 		else if (currentState == StateEnum.GRABBING) // cancel grab
 		{
-			SetState(StateEnum.IDLE);
-			var resetDelta = {
-				x: grabStartPosition.x - currentGridPosition.x,
-				y: grabStartPosition.y - currentGridPosition.y
-			};
+		    SetState(StateEnum.IDLE);
+		    var resetDelta = {
+		        x: grabStartPosition.x - currentGridPosition.x,
+		        y: grabStartPosition.y - currentGridPosition.y
+		    };
 			var points = GetAllSelectedPoints();
 			MovePointsBy(points, resetDelta);
 		}
