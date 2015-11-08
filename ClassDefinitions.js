@@ -38,9 +38,27 @@ class Vector2 {
         this.y = y;
     }
 
-    Copy()
-    {
+    Copy() {
         return new Vector2(this.x, this.y);
+    }
+
+    Add(value) {
+        this.x += value;
+        this.y += value;
+    }
+
+    Subtract(value)
+    {
+        this.Add(-value);
+    }
+
+    Multiply(value) {
+        this.x *= value;
+        this.y *= value;
+    }
+
+    Divide(value) {
+        this.Multiply(1 / value);
     }
 }
 
