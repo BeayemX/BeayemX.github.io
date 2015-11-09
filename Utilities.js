@@ -1,4 +1,5 @@
-function GetMousePos(e) 
+"use strict"
+function GetMousePos(e)
 {
 	var rect = canvas.getBoundingClientRect();
 	return new Vector2(
@@ -27,10 +28,12 @@ function GridpointToScreenpoint(gridpoint)
 
 function GetGridPos(screenPos) // TODO rename to ScreenpointToGridpoint
 {
-	return new GridPoint(
+	var x = new GridPoint(
 		Math.round((screenPos.x - canvasOffset.x) / gridSize),	
 		Math.round((screenPos.y - canvasOffset.y) / gridSize)
 	);
+	return x;
+
 }
 
 function ReloadPage(ask)

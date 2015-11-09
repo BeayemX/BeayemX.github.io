@@ -22,10 +22,16 @@ var showGrid = true; // TODO RENAME
 
 var advancedHandlesButton;
 
+var keyboardHandler;
+var mouseHandler;
+
 function OnLoad()
 {
-	window.addEventListener( "keydown", KeyDown, false )
-	window.addEventListener( "keyup", KeyUp, false )
+    keyboardHandler = new KeyboardHandler();
+    mouseHandler = new MouseHandler();
+
+    window.addEventListener("keydown", keyboardHandler.KeyDown, false)
+    window.addEventListener("keyup", keyboardHandler.KeyUp, false)
 	window.addEventListener("contextmenu", function(e) {e.preventDefault(); return false;} );
     window.addEventListener('resize', ResizeCanvas, false);
 

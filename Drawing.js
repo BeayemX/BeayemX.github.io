@@ -209,7 +209,7 @@ function DrawPreview()
 	context.fillStyle = previewLineColor;
 	if (currentState == StateEnum.DRAWING)
 	{
-		var start = GetGridPos(downPoint);
+		var start = GetGridPos(mouseHandler.downPoint);
 		var end = currentGridPosition;//GetGridPos(vec2);
 		context.lineWidth = lineWidth;
 
