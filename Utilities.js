@@ -1,27 +1,27 @@
 function GetMousePos(e) 
 {
 	var rect = canvas.getBoundingClientRect();
-	return {
-		x: e.clientX - rect.left,
-		y: e.clientY - rect.top
-	};
+	return new Vector2(
+		e.clientX - rect.left,
+		e.clientY - rect.top
+	);
 }
 
 function GetMousePosConsideringOffset(e) 
 {
 	var rect = canvas.getBoundingClientRect();
-	return {
-		x: e.clientX - rect.left - canvasOffset.x,
-		y: e.clientY - rect.top - canvasOffset.y
-	};
+	return new Vector2(
+		e.clientX - rect.left - canvasOffset.x,
+		e.clientY - rect.top - canvasOffset.y
+	);
 }
 
 function GridpointToScreenpoint(gridpoint)
 {
-	return {
-		x: gridpoint.x * gridSize + canvasOffset.x,
-		y: gridpoint.y * gridSize + canvasOffset.y
-	};
+	return new Vector2(
+		gridpoint.x * gridSize + canvasOffset.x,
+		gridpoint.y * gridSize + canvasOffset.y
+	);
 }
 
 
@@ -307,22 +307,6 @@ function GetOtherPointBelongingToLine(point)
 			return lines[i].start;
 	}
 }
-function Distance(v1, v2)
-{
-	var vec2 = {
-		x: v2.x - v1.x,
-		y: v2.y - v1.y
-	}
-	return Math.sqrt(vec2.x * vec2.x + vec2.y * vec2.y);
-}
-
-function Normalize(vec2)
-{
-	var magnitude = Math.sqrt(vec2.x * vec2.x + vec2.y * vec2.y);
-
-	vec2.x /= magnitude;
-	vec2.y /= magnitude;
-}
 
 function GetNearestSelection(mousePos)
 {
@@ -335,7 +319,7 @@ function GetNearestSelection(mousePos)
 
 	for (var i=0; i<precisePoints.length; ++i)
 	{
-		var dist = Distance(precisePoints[i], mousePos);
+	    var dist = precisePoints[i].Distance(mousePos);
 
 		if (dist < minDistance.distance)
 		{
@@ -364,19 +348,19 @@ function GetPreciseSelectionEntries()
 	for (var i=0; i<points.length; ++i)
 	{
 		var otherPoint = GetOtherPointBelongingToLine(points[i]);
-		var direction = {
-			x: otherPoint.x - points[i].x,
-			y: otherPoint.y - points[i].y};
+		var direction = new Vector2(
+			otherPoint.x - points[i].x,
+			otherPoint.y - points[i].y);
 
-		Normalize(direction);
+		direction.Normalize();
 
 		var preciseRadius = gridSize * 0.5 - gridPointSize * 2;
-		var precisePoint = {
-			x: screenPos.x + direction.x * preciseRadius, 
-			y: screenPos.y + direction.y * preciseRadius,
-			selected: points[i].selected,
-			point: points[i]
-		};
+		var precisePoint = new PrecisePoint(
+			screenPos.x + direction.x * preciseRadius, 
+			screenPos.y + direction.y * preciseRadius,
+			points[i].selected,
+			points[i]
+		);
 
 		precisePoints.push(precisePoint);
 	}

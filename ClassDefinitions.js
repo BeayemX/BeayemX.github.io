@@ -60,6 +60,23 @@ class Vector2 {
     Divide(value) {
         this.Multiply(1 / value);
     }
+
+    Distance(other)
+    {
+        var vec2 = {
+            x: other.x - this.x,
+            y: other.y - this.y
+        }
+        return Math.sqrt(vec2.x * vec2.x + vec2.y * vec2.y);
+    }
+
+    Normalize()
+    {
+        var magnitude = Math.sqrt(this.x * this.x + this.y * this.y);
+
+        this.x /= magnitude;
+        this.y /= magnitude;
+    }
 }
 
 class GridPoint extends Vector2 {
@@ -73,6 +90,16 @@ class GridPoint extends Vector2 {
     Copy()
     {
         return new GridPoint(this.x, this.y, this.selected);
+    }
+}
+
+class PrecisePoint extends Vector2
+{
+    constructor (x, y, selected, point)
+    {
+        super(x, y);
+        this.selected = selected;
+        this.point = point;
     }
 }
 
