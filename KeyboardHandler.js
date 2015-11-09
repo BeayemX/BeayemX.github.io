@@ -8,64 +8,74 @@ class KeyboardHandler
     }
      KeyDown(e)
      {
-	    switch(e.keyCode)
-	    {
-		    case 82: // R
-			    if (e.ctrlKey)
-				    ReloadPage(true);
-			    else if (e.shiftKey)
-				    Rotate(false);
-			    else 
-				    Rotate(true);
-			    break;
-		    case 116: // F5
-			    AutoSave();
-			    ReloadPage(false);
-			    break;
+         switch(e.keyCode)
+         {
+             case 82: // R
+                 if (e.ctrlKey)
+                     ReloadPage(true);
+                 else if (e.shiftKey)
+                     Rotate(false);
+                 else 
+                     Rotate(true);
+                 break;
+             case 116: // F5
+                 AutoSave();
+                 ReloadPage(false);
+                 break;
 
-		    case 83: // S
-			    if (e.ctrlKey)
-				    Save();
-			    else
-				    Mirror();
-			    break;
-		    case 79: // O
-			    break;
+             case 83: // S
+                 if (e.ctrlKey)
+                     Save();
+                 else
+                     Mirror();
+                 break;
+             case 79: // O
+                 break;
 
-		    case 46: // DEL
-			    DeleteSavedLogo();
-			    break;
-		    case 71: // G
-			    // TODO create isSthSelected() which returns after first find...
-			    if (currentState == StateEnum.IDLE)
-			    {
-				    if (GetAllSelectedPoints().length > 0) 
-				    {
-					    SetState(StateEnum.GRABBING);
-					    this.grabStartPosition = currentGridPosition;
-				    }
-			    }
-			    break;
+             case 46: // DEL
+                 DeleteSavedLogo();
+                 break;
+             case 71: // G
+                 if (currentState == StateEnum.IDLE)
+                 {
+                     if (currentProject.currentFile.IsSomethingSelected()) 
+                     {
+                         SetState(StateEnum.GRABBING);
+                         this.grabStartPosition = currentGridPosition;
+                     }
+                 }
+                 break;
 
-		    case 65: // A
-			    if (currentState == StateEnum.IDLE)
-				    SelectAllToggle();
+             case 65: // A
+                 if (currentState == StateEnum.IDLE)
+                 {
+                     currentProject.currentFile.SelectAllToggle();
+                     Redraw();
+                 }
+
 			    break;
 
 		    case 88: // X
-			    if (currentState == StateEnum.IDLE)
-				    DeleteSelectedLines();
+		        if (currentState == StateEnum.IDLE)
+                {
+		            currentProject.currentFile.DeleteSelectedLines();
+			        Redraw();
+		        }
+
 			    break;
 		    case 73: // I
-			    if (currentState == StateEnum.IDLE)
-				    InvertSelection();
+		        if (currentState == StateEnum.IDLE)
+		        {
+			        currentProject.currentFile.InvertSelection();
+			        Redraw();
+		        }
 			    break;
 		    case 68: // D
 			    if (currentState == StateEnum.IDLE || currentState == StateEnum.GRABBING)
 			    {
-			        if (SelectionPresent())
+			        if (currentProject.currentFile.IsSomethingSelected())
                     {
-			            DuplicateLines();
+			            currentProject.currentFile.DuplicateLines();
 			            this.grabStartPosition = currentGridPosition.Copy();
 				        SetState(StateEnum.GRABBING);
 			        }

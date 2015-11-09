@@ -29,7 +29,7 @@ function Save(ask)
     else
         logoName = currentlyOpenedFile;
     
-	localStorage.setItem(logoName, JSON.stringify(lines));
+	localStorage.setItem(logoName, JSON.stringify(currentProject.currentFile.lines));
 	UpdateDropdown(logoName);
 	Notify("File saved!");
 }
@@ -46,10 +46,10 @@ function Open(logoName)
 
 	var linesArray = JSON.parse(logo);
 
-	lines = [];
+	currentProject.currentFile.lines = [];
 	for (var i=0; i<linesArray.length; ++i)
 	{
-		lines.push(
+	    currentProject.currentFile.AddLine(
 			new Line(
 				linesArray[i].start.x,
 				linesArray[i].start.y,
@@ -82,7 +82,7 @@ function DeleteSavedLogo(logoName)
 
 function CopyLinesToClipboard()
 {
-	var selectedLines = GetSelectedLines();
+	var selectedLines = currentProject.currentFile.GetSelectedLines();
 	sessionStorage.setItem(clipboardFileName, JSON.stringify(selectedLines));
 	Notify("Lines copied to clipboard!");
 }
@@ -93,13 +93,13 @@ function PasteLines()
 	if (!logo)
 		return false;
 
-	ClearSelection();	
+	currentProject.currentFile.ClearSelection();
 
 	var linesArray = JSON.parse(logo);
 
 	for (var i=0; i<linesArray.length; ++i)
 	{
-		lines.push(
+	    currentProject.currentFile.AddLine(
 			new Line(
 				linesArray[i].start.x,
 				linesArray[i].start.y,
@@ -135,6 +135,9 @@ function SaveStartupFile()
 	localStorage.setItem(startupFileName, JSON.stringify(lines));
 }
 
+// legacy not sure if needed
+// still using lines[] instead of currentProject.currentFile.lines
+/*
 function LoadStartupFile()
 {
 	var logo = localStorage.getItem(startupFileName);
@@ -160,10 +163,10 @@ function LoadStartupFile()
 	Redraw();
 	return true;	
 }
-
+//*/
 function AutoSave()
 {
-	sessionStorage.setItem(autosaveFileName, JSON.stringify(lines));
+    sessionStorage.setItem(autosaveFileName, JSON.stringify(currentProject.currentFile.lines));
 }
 
 function LoadAutoSave()
@@ -172,12 +175,12 @@ function LoadAutoSave()
 	if (!logo)
 		return false;
 
-	lines = [];
+	currentProject.currentFile.lines = [];
 	var linesArray = JSON.parse(logo);
 
 	for (var i=0; i<linesArray.length; ++i)
 	{
-		lines.push(
+	    currentProject.currentFile.AddLine(
 			new Line(
 				linesArray[i].start.x,
 				linesArray[i].start.y,
@@ -239,8 +242,10 @@ function DropDownSelected()
 function NewFile()
 {
 	//if (confirm("Do you want to discard your LogoDesign and start from scratch?"))
-	{
-		lines = [];
+    {
+        // TODO use next line?? but then not sure if autosave
+        // currentProject.AddFile(new File());
+	    currentProject.currentFile.lines = [];
 		AutoSave();
 		SetCurrentFile(null);
 		Redraw();

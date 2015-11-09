@@ -11,7 +11,6 @@ var statusbarentryright;
 var leftarea;
 var rightarea;
 
-var lines = [];
 var currentState = StateEnum.IDLE;
 var previousState = StateEnum.IDLE;
 
@@ -25,8 +24,12 @@ var advancedHandlesButton;
 var keyboardHandler;
 var mouseHandler;
 
+var currentProject;
+
 function OnLoad()
 {
+    currentProject = new Project();
+
     keyboardHandler = new KeyboardHandler();
     mouseHandler = new MouseHandler();
 
@@ -80,7 +83,7 @@ function OnLoad()
             GenerateStartUpFile();
     //*/
     UpdateDropdown();
-    CheckForCrapLines(); // HACK to display line amount in status bar
+    currentProject.currentFile.UpdateStats();
     Redraw();
     // ForTestingPurposeOnly();
     TestActionHistory();

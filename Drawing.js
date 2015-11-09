@@ -193,8 +193,8 @@ function DrawStoredLines() // RENAME DrawStoredLines or sth...
 	//context.strokeStyle = "#000";
     //context.fillStyle = "#000";
 
-	var unselLines = GetUnselectedLines();
-	var selLines = GetSelectedLines();
+	var unselLines = currentProject.currentFile.GetUnselectedLines();
+	var selLines = currentProject.currentFile.GetSelectedLines();
     for (var line of unselLines)
 	    DrawGridLine(line);
     for (var line of selLines)
@@ -250,7 +250,7 @@ function DrawBorderSelection()
 
 function DrawPreciseSelection()
 {
-	var points = GetPreciseSelectionEntries();
+	var points = currentProject.currentFile.GetPreciseSelectionEntries();
 	context.lineWidth = preciseSelectionLineWidth;
 	for (var i=0; i<points.length; ++i)
 	{

@@ -60,7 +60,7 @@ class MouseHandler
     {
 	    if (currentState == StateEnum.GRABBING)
 	    {
-	        var points = GetAllSelectedPoints();
+	        var points = currentProject.currentFile.GetAllSelectedPoints();
 	        MovePointsBy(points, delta);
         }
 	    else if (currentState == StateEnum.BORDERSELECTION)
@@ -99,8 +99,8 @@ class MouseHandler
 		            x: grabStartPosition.x - currentGridPosition.x,
 		            y: grabStartPosition.y - currentGridPosition.y
 		        };
-		        MovePointsBy(GetAllSelectedPoints(), resetDelta, true);
-			    CheckForCrapLines();
+		        MovePointsBy(currentProject.currentFile.GetAllSelectedPoints(), resetDelta, true);
+		        currentProject.currentFile.CleanUpFile();
 			    SetState(StateEnum.IDLE);
 			    Redraw();
 		    }
@@ -114,7 +114,7 @@ class MouseHandler
 		    if (currentState == StateEnum.IDLE)
 		    {
 			    if (!e.shiftKey)
-				    ClearSelection();
+				    currentProject.currentFile.ClearSelection();
 			    points = GetNearestSelection(point);
 			    ChangeSelectionForPoints(points);
 		    }
@@ -125,7 +125,7 @@ class MouseHandler
 		            x: grabStartPosition.x - currentGridPosition.x,
 		            y: grabStartPosition.y - currentGridPosition.y
 		        };
-			    var points = GetAllSelectedPoints();
+		        var points = currentProject.currentFile.GetAllSelectedPoints();
 			    MovePointsBy(points, resetDelta);
 		    }
 		    else if (currentState == StateEnum.BORDERSELECTION)
@@ -170,14 +170,13 @@ class MouseHandler
 			    this.gridLineEnd = GetGridPos(point);
 
 			    if (this.gridLineStart.x != this.gridLineEnd.x || this.gridLineStart.y != this.gridLineEnd.y)
-				    lines.push(
+                    currentProject.currentFile.AddLine(
 					    new Line(
 						    this.gridLineStart.x,
 						    this.gridLineStart.y,
 						    this.gridLineEnd.x,
 						    this.gridLineEnd.y
 						    ));
-			    CheckForCrapLines();
 			    this.downPoint = undefined;
 			    SetState(StateEnum.IDLE);
 			    this.GridPositionChanged();

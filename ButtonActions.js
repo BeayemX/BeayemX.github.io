@@ -9,7 +9,7 @@ function Button1()
 
 function Subdivide()
 {
-	var selectedLines = GetSelectedLines();
+	var selectedLines = currentProject.currentFile.GetSelectedLines();
 	for (var i=0; i<selectedLines.length; ++i)
 	{
 		var midPoint = 
@@ -17,11 +17,10 @@ function Subdivide()
 			x: Math.round((selectedLines[i].end.x + selectedLines[i].start.x) / 2),
 			y: Math.round((selectedLines[i].end.y + selectedLines[i].start.y) / 2)
 		}
-		lines.push(new Line(selectedLines[i].start.x, selectedLines[i].start.y, midPoint.x, midPoint.y, true));
-		lines.push(new Line(midPoint.x, midPoint.y, selectedLines[i].end.x, selectedLines[i].end.y, true));
-		DeleteArrayEntry(lines, selectedLines[i]);
+	    currentProject.currentFile.AddLine(new Line(selectedLines[i].start.x, selectedLines[i].start.y, midPoint.x, midPoint.y, true));
+	    currentProject.currentFile.AddLine(new Line(midPoint.x, midPoint.y, selectedLines[i].end.x, selectedLines[i].end.y, true));
+	    currentProject.currentFile.RemoveLine(selectedLines[i]);
 	}
-	CheckForCrapLines();
 	Redraw();
 }
 
@@ -29,7 +28,7 @@ function Mirror()
 {
     var minX = Infinity;
     var maxX = -Infinity;
-	var selLines = GetSelectedLines();
+    var selLines = currentProject.currentFile.GetSelectedLines();
 
 	for (var i=0; i<selLines.length; ++i)
 	{
@@ -52,7 +51,7 @@ function Rotate(clockwise)
 {
 	var minX = Infinity;
 	var minY = Infinity;
-	var selLines = GetSelectedLines();
+	var selLines = currentProject.currentFile.GetSelectedLines();
 
 	for (var i=0; i<selLines.length; ++i)
 	{
@@ -123,7 +122,7 @@ function ToggleHandles(button)
     Redraw();
 }
 
-advancedHandlesState = false;
+var advancedHandlesState = false;
 
 function ToggleAdvancedHandles()
 {
@@ -134,6 +133,7 @@ function ToggleAdvancedHandles()
 
     Redraw();
 }
+
 function UpdateAdvancedHandlesButton()
 {
     if (showAdvancedHandles)
@@ -144,7 +144,7 @@ function UpdateAdvancedHandlesButton()
 
 function IncreaseSize(factor)
 {
-    var selLines = GetSelectedLines();
+    var selLines = currentProject.currentFile.GetSelectedLines();
     var center = CalculateCenter(selLines);
 
     var correctlyScalable = true;
@@ -175,9 +175,9 @@ function IncreaseSize(factor)
         var delta = new Vector2(center.x - newCenter.x,
             center.y - newCenter.y);
 
-        var points = GetAllSelectedPoints();
+        var points = currentProject.currentFile.GetAllSelectedPoints();
         MovePointsBy(points, delta)
-
+        currentProject.currentFile.CleanUpFile();
         Redraw();
     }
 }
