@@ -61,6 +61,17 @@ class Vector2 {
         this.Multiply(1 / value);
     }
 
+    AddVector(other) {
+        this.x += other.x;
+        this.y += other.y;
+    }
+
+    SubtractVector(other)
+    {
+        this.x -= other.x;
+        this.y -= other.y;
+    }
+
     Distance(other)
     {
         var vec2 = {
