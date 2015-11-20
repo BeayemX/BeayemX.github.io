@@ -33,7 +33,13 @@ class File
         this.lines.push(line);
         this.CleanUpFile();
         this.UpdateStats();
-
+    }
+    
+    AddLines(duplLines)
+    {
+        this.lines = this.lines.concat(duplLines);
+        this.CleanUpFile();
+        this.UpdateStats();
     }
 
     RemoveLine(line)
@@ -225,16 +231,17 @@ class File
     DuplicateLines()
     {
         var selectedLines = this.GetSelectedLines();
-
+        var duplLines = [];
         for (var i=0; i<selectedLines.length; ++i)
         {
-            this.AddLine(new Line(
+            duplLines.push(new Line(
                 selectedLines[i].start.x,
                 selectedLines[i].start.y,
                 selectedLines[i].end.x,
                 selectedLines[i].end.y
                 ));
         }
+        this.AddLines(duplLines);
     }
 
     SelectAllToggle()
