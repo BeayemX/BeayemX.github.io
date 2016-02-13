@@ -77,7 +77,7 @@ class KeyboardHandler
 			        if (currentProject.currentFile.IsSomethingSelected())
                     {
 			            currentProject.currentFile.DuplicateLines();
-			            this.grabStartPosition = currentGridPosition.Copy();
+			            keyboardHandler.grabStartPosition = currentGridPosition.Copy();
 				        SetState(StateEnum.GRABBING);
 			        }
 			    }	
@@ -102,7 +102,7 @@ class KeyboardHandler
 			    {	
 			        if (PasteLines())
 			        {
-			            this.grabStartPosition = currentGridPosition.Copy();
+			            keyboardHandler.grabStartPosition = currentGridPosition.Copy();
 			            SetState(StateEnum.GRABBING);
                     }
 			    }

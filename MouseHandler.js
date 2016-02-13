@@ -121,7 +121,6 @@ class MouseHandler
 
 			    if (points != null)
 			    {
-			        console.log("resetted");
 			        keyboardHandler.grabStartPosition = {
 			            x: currentGridPosition.x,
 			            y: currentGridPosition.y

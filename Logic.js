@@ -14,7 +14,7 @@ var rightarea;
 var currentState = StateEnum.IDLE;
 var previousState = StateEnum.IDLE;
 
-var currentGridPosition = {x: 0, y: 0};
+var currentGridPosition = new GridPoint();
 var canvasOffset = {x: 0, y: 0};
 
 var showGrid = true; // TODO RENAME
