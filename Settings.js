@@ -1,4 +1,4 @@
-var canvasColor = "#888";
+var canvasColor = "#666";
 
 var lineWidth = 3;
 var lineColor = "#000";
@@ -12,12 +12,12 @@ var gridPointLineWidth = 2;
 var gridPointLineColor = "#000";
 var gridPointFillColor = "#999";
 
-var gridLineColor = '#559';
-var gridBigLineColor = '#337';
+var gridLineColor = '#3E3E42';
+var gridBigLineColor = '#44a';
 
 var bigGridSize = 8;
 var bigGridPointSize = 6;
-var bigGridPointLineWidth = 1;
+var bigGridPointLineWidth = 1; // TODO not used?
 var bigGridPointLineColor = "#000";
 var bigGridPointFillColor = "#777";
 
