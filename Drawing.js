@@ -21,7 +21,7 @@ function DrawCircle(centerX, centerY, radius)
 	context.beginPath();
 	//context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
 	context.rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
-	//context.stroke();
+	context.stroke();
 	context.fill();
 }
 
