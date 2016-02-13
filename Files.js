@@ -286,4 +286,46 @@ class File
             points[i].selected = !points[i].selected;
         }
     }
+    
+    GrowSelection(redraw)
+    {
+        let selectedPoints = this.GetAllSelectedPoints();
+        let allSelectedPoints = [];
+
+        for (var i = 0; i < selectedPoints.length; ++i)
+            allSelectedPoints = allSelectedPoints.concat(this.GetAllPointsAt(selectedPoints[i]));
+
+        for (var i = 0; i < allSelectedPoints.length; ++i)
+        {
+            let p = this.GetOtherPointBelongingToLine(allSelectedPoints[i]);
+            let pArray = this.GetAllPointsAt(p);
+
+            for (var j = 0; j < pArray.length; ++j)
+                pArray[j].selected = true;
+        }
+
+        if (redraw)
+            Redraw();
+    }
+
+    SelectLinked()
+    {
+        let selPointsNumOld = 0;
+        let maxIterations = 30;
+
+        for (var i = 0; i < maxIterations; i++) {
+            this.GrowSelection(false);
+            
+            let selPointsNum = this.GetAllSelectedPoints().length;
+            
+            if (selPointsNumOld == selPointsNum)
+                break;
+            else
+                selPointsNumOld = selPointsNum;
+        }
+        if (i == maxIterations)
+            Notify("Max Iteration Depth reached!");
+
+        Redraw();
+    }
 }

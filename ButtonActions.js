@@ -181,3 +181,12 @@ function IncreaseSize(factor)
         Redraw();
     }
 }
+
+function GrowSelection() {
+    currentProject.currentFile.GrowSelection(true);
+}
+function SelectLinked() {
+    currentProject.currentFile.SelectLinked();
+}
+
+SelectLinked

@@ -141,9 +141,12 @@ class KeyboardHandler
 	            actionhistory.Undo();
 	            break;
 
-	        case 89: // Y
-	            actionhistory.Redo();
-	            break;
+            case 89: // Y
+                actionhistory.Redo();
+                break;
+             case 76: // L
+                 currentProject.currentFile.SelectLinked();
+                break;
 
 		    default:
 			    console.log("KeyDown(): \n"
