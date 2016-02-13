@@ -41,7 +41,10 @@ class KeyboardHandler
                      if (currentProject.currentFile.IsSomethingSelected()) 
                      {
                          SetState(StateEnum.GRABBING);
-                         this.grabStartPosition = currentGridPosition;
+                         this.grabStartPosition = {
+                             x: currentGridPosition.x,
+                             y: currentGridPosition.y
+                         };
                      }
                  }
                  break;

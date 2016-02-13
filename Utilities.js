@@ -85,7 +85,7 @@ function MovePointsBy(points, delta, createHistory)
         if (delta.x != 0 || delta.y != 0)
         {
             var curr = { x: currentGridPosition.x, y: currentGridPosition.y };
-            var start = { x: grabStartPosition.x, y: grabStartPosition.y };
+            var start = { x: keyboardHandler.grabStartPosition.x, y: keyboardHandler.grabStartPosition.y };
             actionhistory.PushAction(new MoveAction(points, curr, start));
         }
     }

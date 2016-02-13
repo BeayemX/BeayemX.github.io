@@ -22,6 +22,7 @@ class MouseHandler
         this.gridLineStart;
         this.gridLineEnd;
         this.oldPos = new Vector2(-1, -1);
+        this.grabInitializedWithRMBDown = false;
     }
 
     MouseMove(e)
@@ -96,8 +97,8 @@ class MouseHandler
 		        // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
                 // added to history it will call Do()...
 		        var resetDelta = {
-		            x: grabStartPosition.x - currentGridPosition.x,
-		            y: grabStartPosition.y - currentGridPosition.y
+		            x: keyboardHandler.grabStartPosition.x - currentGridPosition.x,
+		            y: keyboardHandler.grabStartPosition.y - currentGridPosition.y
 		        };
 		        MovePointsBy(currentProject.currentFile.GetAllSelectedPoints(), resetDelta, true);
 		        currentProject.currentFile.CleanUpFile();
@@ -115,19 +116,19 @@ class MouseHandler
 		    {
 			    if (!e.shiftKey)
 				    currentProject.currentFile.ClearSelection();
-			    points = GetNearestSelection(point);
+			    let points = GetNearestSelection(point);
 			    ChangeSelectionForPoints(points);
-		    }
-		    else if (currentState == StateEnum.GRABBING) // cancel grab
-		    {
-		        SetState(StateEnum.IDLE);
-		        var resetDelta = {
-		            x: grabStartPosition.x - currentGridPosition.x,
-		            y: grabStartPosition.y - currentGridPosition.y
-		        };
-		        var points = currentProject.currentFile.GetAllSelectedPoints();
-			    MovePointsBy(points, resetDelta);
-		    }
+
+			    keyboardHandler.grabStartPosition = {
+			        x: currentGridPosition.x,
+			        y: currentGridPosition.y
+			    };
+			    if (points != null)
+			    {
+			        currentState = StateEnum.GRABBING;
+			        this.grabInitializedWithRMBDown = true;
+			    }
+		    }		  
 		    else if (currentState == StateEnum.BORDERSELECTION)
 		    {
 			    EndBorderSelection();
@@ -136,7 +137,6 @@ class MouseHandler
 	    }
 	    else if (e.button == 1) // MMB
 	    {
-
 		    if (currentState == StateEnum.BORDERSELECTION)
 		    {
 			    StartBorderSelection(false);
@@ -190,14 +190,36 @@ class MouseHandler
 	    else if (e.button == 1) // MMB
 	    {
 
-		    if (currentState == StateEnum.BORDERSELECTION)
-		    {
-			    EndBorderSelection(true);
-		    }
-		    else
-		    {
-			    isPanning = false;
-		    }
+	        if (currentState == StateEnum.BORDERSELECTION) {
+	            EndBorderSelection(true);
+	        }
+	        else {
+	            isPanning = false;
+	        }
+	    }
+	    else if (e.button == 2) // RMB
+	    {
+	        if (currentState == StateEnum.GRABBING) // cancel grab
+	        {
+	            var resetDelta = {
+	                x: keyboardHandler.grabStartPosition.x - currentGridPosition.x,
+	                y: keyboardHandler.grabStartPosition.y - currentGridPosition.y
+	            };
+
+	            if (this.grabInitializedWithRMBDown == false)
+	            {
+	                var points = currentProject.currentFile.GetAllSelectedPoints();
+	                MovePointsBy(points, resetDelta);
+	            }
+	            else
+	            {
+	                MovePointsBy(currentProject.currentFile.GetAllSelectedPoints(), resetDelta, true);
+	                currentProject.currentFile.CleanUpFile();
+	            }
+	            this.grabInitializedWithRMBDown = false;
+	            SetState(StateEnum.IDLE);
+	            Redraw();
+	        }
 	    }
     }
 
