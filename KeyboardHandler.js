@@ -41,10 +41,8 @@ class KeyboardHandler
                      if (currentProject.currentFile.IsSomethingSelected()) 
                      {
                          SetState(StateEnum.GRABBING);
-                         this.grabStartPosition = {
-                             x: currentGridPosition.x,
-                             y: currentGridPosition.y
-                         };
+                         // DON'T CALL WITH this.grabStartPosition because 'this' refers to caller, not THIS class!!!!
+                         keyboardHandler.grabStartPosition = currentGridPosition.Copy();
                      }
                  }
                  break;

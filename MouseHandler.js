@@ -119,12 +119,14 @@ class MouseHandler
 			    let points = GetNearestSelection(point);
 			    ChangeSelectionForPoints(points);
 
-			    keyboardHandler.grabStartPosition = {
-			        x: currentGridPosition.x,
-			        y: currentGridPosition.y
-			    };
 			    if (points != null)
 			    {
+			        console.log("resetted");
+			        keyboardHandler.grabStartPosition = {
+			            x: currentGridPosition.x,
+			            y: currentGridPosition.y
+			        };
+
 			        currentState = StateEnum.GRABBING;
 			        this.grabInitializedWithRMBDown = true;
 			    }
