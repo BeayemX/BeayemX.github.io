@@ -73,11 +73,6 @@ class MouseHandler
 	    }
 
 	    Redraw();
-	
-	    if (currentState == StateEnum.IDLE || currentState == StateEnum.DRAWING)
-	    {
-		    DrawPreview(e);
-	    }
     }
 
     MouseDown(e)
@@ -134,6 +129,11 @@ class MouseHandler
 		    {
 			    EndBorderSelection();
 		    }
+		    else if (currentState == StateEnum.DRAWING)
+		    {
+		        this.CancelLinePreview();
+		    }
+
 		    Redraw();
 	    }
 	    else if (e.button == 1) // MMB
@@ -178,8 +178,12 @@ class MouseHandler
 						    this.gridLineEnd.x,
 						    this.gridLineEnd.y
 						    ));
-			    this.downPoint = undefined;
-			    SetState(StateEnum.IDLE);
+
+			    if (ctrlDown)
+			        this.downPoint = point;
+			    else
+			        this.CancelLinePreview();
+
 			    this.GridPositionChanged();
 		    }
 		    else if (currentState == StateEnum.BORDERSELECTION)
@@ -238,5 +242,11 @@ class MouseHandler
     Zoom(delta)
     {
 	    gridSize *= delta;
+    }
+
+    CancelLinePreview()
+    {
+        this.downPoint = undefined;
+        SetState(StateEnum.IDLE);
     }
 }

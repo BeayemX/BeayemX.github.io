@@ -130,7 +130,8 @@ class KeyboardHandler
 	            IncreaseSize(0.5);
 	            break;
 
-	        case 17: // Ctrl
+             case 17: // Ctrl
+                 ctrlDown = true;
 	            showAdvancedHandles = !advancedHandlesState;
 	            GetNearestSelection(GridpointToScreenpoint(currentGridPosition));
 	            UpdateAdvancedHandlesButton();
@@ -174,6 +175,11 @@ class KeyboardHandler
 			    break;
 
 	        case 17: // Ctrl
+	            if (ctrlDown)
+	            {
+	                ctrlDown = false;
+	                mouseHandler.CancelLinePreview();
+	            }
 	            showAdvancedHandles = advancedHandlesState;
 	            UpdateAdvancedHandlesButton();
 	            Redraw();
