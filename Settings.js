@@ -12,7 +12,7 @@ var gridPointLineWidth = 2;
 var gridPointLineColor = "#000";
 var gridPointFillColor = "#999";
 
-var gridLineColor = '#111';
+var gridLineColor = '#444';
 var gridBigLineColor = '#000';
 
 var bigGridSize = 8;
