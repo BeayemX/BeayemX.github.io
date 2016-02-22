@@ -13,11 +13,11 @@ var gridPointLineColor = "#000";
 var gridPointFillColor = "#999";
 
 var gridLineColor = '#444';
-var gridBigLineColor = '#000';
+var gridBigLineColor = '#333';
 
 var bigGridSize = 8;
 var bigGridPointSize = 6;
-//var bigGridPointLineWidth = 14; // TODO not used?
+var bigGridPointLineWidth = 14;
 var bigGridPointLineColor = "#000";
 var bigGridPointFillColor = "#777";
 
