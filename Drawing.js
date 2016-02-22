@@ -220,14 +220,25 @@ function DrawPreview()
 	DrawGridPoint(GridpointToScreenpoint(currentGridPosition));
 }
 
-function DrawHelpers()
-{
-	context.lineWidth = helperLineWidth;
-	context.strokeStyle = helperColor;
+function DrawHelpers() {
+    context.lineWidth = helperLineWidth;
+    context.strokeStyle = helperColor;
 
-	var screenpos = GridpointToScreenpoint(currentGridPosition);
-	DrawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
-	DrawLineFromTo(screenpos.x, 0, screenpos.x, canvas.height);
+    var screenpos = GridpointToScreenpoint(currentGridPosition);
+    DrawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
+    DrawLineFromTo(screenpos.x, 0, screenpos.x, canvas.height);
+}
+
+function DrawHelpers2() {
+    context.lineWidth = helperLineWidth;
+    context.strokeStyle = helperColor2;
+
+    let screenpos = GridpointToScreenpoint(currentGridPosition);
+
+    let start = GridpointToScreenpoint(keyboardHandler.grabStartPosition);
+    DrawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
+    DrawLineFromTo(screenpos.x, 0, screenpos.x, canvas.height);
+    DrawLineFromTo(start.x, start.y, screenpos.x, screenpos.y);
 }
 
 function DrawBorderSelection()

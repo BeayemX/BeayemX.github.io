@@ -97,6 +97,7 @@ class MouseHandler
 		        };
 		        MovePointsBy(currentProject.currentFile.GetAllSelectedPoints(), resetDelta, true);
 		        currentProject.currentFile.CleanUpFile();
+		        grabInitializedWithKeyboard = false;
 			    SetState(StateEnum.IDLE);
 			    Redraw();
 		    }
@@ -222,6 +223,7 @@ class MouseHandler
 	                currentProject.currentFile.CleanUpFile();
 	            }
 	            this.grabInitializedWithRMBDown = false;
+	            grabInitializedWithKeyboard = false;
 	            SetState(StateEnum.IDLE);
 	            Redraw();
 	        }

@@ -21,6 +21,7 @@ var showGrid = true; // TODO RENAME
 
 var advancedHandlesButton;
 var ctrlDown;
+var grabInitializedWithKeyboard = false;
 
 var keyboardHandler;
 var mouseHandler;
@@ -120,6 +121,8 @@ function Redraw() {
         DrawGrid();
         if (currentState == StateEnum.BORDERSELECTION)
             DrawHelpers();
+        else if (grabInitializedWithKeyboard)
+            DrawHelpers2();
         DrawBorderSelection();
     }
 

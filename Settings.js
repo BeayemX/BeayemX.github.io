@@ -22,6 +22,7 @@ var bigGridPointLineColor = "#000";
 var bigGridPointFillColor = "#777";
 
 var helperColor = "#5bb";
+var helperColor2 = "#090";
 var helperLineWidth = 2;
 
 var previewLineColor = "#090";
