@@ -29,6 +29,7 @@ var mouseHandler;
 var currentProject;
 
 function OnLoad() {
+    console.log("Github pages.");
     currentProject = new Project();
 
     keyboardHandler = new KeyboardHandler();
