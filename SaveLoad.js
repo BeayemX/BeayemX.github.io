@@ -293,6 +293,29 @@ function SaveToDisk()
     }
 }
 
+function LoadFromDisk()
+{
+    let logo = prompt("Paste json-file content here: ");
+    if (logo)
+    {
+        linesArray = JSON.parse(logo);
+
+        currentProject.currentFile.lines = [];
+        for (var i = 0; i < linesArray.length; ++i) {
+            currentProject.currentFile.AddLine(
+			    new Line(
+				    linesArray[i].start.x,
+				    linesArray[i].start.y,
+				    linesArray[i].end.x,
+				    linesArray[i].end.y
+			    )
+		    );
+        }
+        SetCurrentFile(null);
+        Redraw();
+    }
+}
+
 var urlParameters = [];
 function LoadURLParameters()
 {
