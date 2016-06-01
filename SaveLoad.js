@@ -287,7 +287,7 @@ function SaveToDisk()
     var name = prompt("Save as: ");
 
     if (name) {
-        var data = JSON.stringify(lines);
+        var data = JSON.stringify(currentProject.currentFile.lines);
         var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
         saveAs(blob, name + ".json");
     }
