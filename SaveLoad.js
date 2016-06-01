@@ -346,23 +346,35 @@ function LoadFromDisk()
     let logo = prompt("Paste json-file content here: ");
     if (logo)
     {
-        linesArray = JSON.parse(logo);
-
-        currentProject.currentFile.lines = [];
-        for (var i = 0; i < linesArray.length; ++i) {
-            currentProject.currentFile.AddLine(
-			    new Line(
-				    linesArray[i].start.x,
-				    linesArray[i].start.y,
-				    linesArray[i].end.x,
-				    linesArray[i].end.y
-			    )
-		    );
-        }
-
-        SetCurrentFile(null);
-        Redraw();
+        GenerateLinesFromJSONString(logo);
     }
+}
+function GenerateLinesFromJSONString(jsonString)
+{
+    let linesArray = [];
+    try {
+        linesArray = JSON.parse(jsonString);
+    }
+    catch (err) {
+        console.log(err);
+        Notify("File type not supported!");
+        return;
+    }
+
+    currentProject.currentFile.lines = [];
+    for (var i = 0; i < linesArray.length; ++i) {
+        currentProject.currentFile.AddLine(
+            new Line(
+                linesArray[i].start.x,
+                linesArray[i].start.y,
+                linesArray[i].end.x,
+                linesArray[i].end.y
+            )
+        );
+    }
+
+    SetCurrentFile(null);
+    Redraw();
 }
 
 var urlParameters = [];
@@ -376,4 +388,31 @@ function LoadURLParameters()
         var keyValuePair = pair.split('=');
         urlParameters[keyValuePair[0]] = keyValuePair[1];
     }
+}
+
+function handleFileSelect(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    var files = evt.dataTransfer.files; // FileList object.
+
+    for (var i = 0, f; f = files[i]; i++) {
+        
+        let reader = new FileReader();
+        let jsonString = reader.readAsText(files[i]);
+        reader.onload = dndloaded;
+
+    }
+}
+
+function dndloaded(evt)
+{
+    var jsonString = evt.target.result;
+    GenerateLinesFromJSONString(jsonString);
+}
+
+function handleDragOver(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
