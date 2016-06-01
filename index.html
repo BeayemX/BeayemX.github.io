@@ -53,13 +53,6 @@
 				<button type="button" onclick="SelectLinked()">Select Linked [L]</button>
 			</div>	
 			
-			<div class="toolcategory">
-				<p>Help</p>
-				<button type="button" onclick="ReshowLastNotification()">Re-Show last notification</button>
-				<button type="button" onclick="ToggleGridType()">Toggle grid type</button>
-                <button type="button" onclick="ToggleHandles(this)">Hide line handles</button>
-                <button type="button" onclick="ToggleAdvancedHandles()" id="advancedHandlesButton"></button>
-			</div>
 			
 		</div>
 		<canvas id="canvas"></canvas>
@@ -72,6 +65,14 @@
 				<button type="button" onclick="LoadStartupFile()">Load startup file</button>
 				<button type="button" onclick="LoadAutoSave()">Load AutoSave File</button>
 			</div>
+
+            <div class="toolcategory">
+                <p>Help</p>
+                <button type="button" onclick="ReshowLastNotification()">Re-Show last notification</button>
+                <!-- TODO remove me and everything related <button type="button" onclick="ToggleGridType()">Toggle grid type</button>-->
+                <button type="button" onclick="ToggleHandles(this)">Hide line handles</button>
+                <button type="button" onclick="ToggleAdvancedHandles()" id="advancedHandlesButton"></button>
+            </div>
 		</div>
         <div id="statusbar">
             <div id="statusbarentryleft" class="statusbarentry"></div>
