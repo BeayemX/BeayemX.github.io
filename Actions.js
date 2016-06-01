@@ -52,18 +52,18 @@ class ActionHistory
     }
 }
 
-class SelectAction {
+class SelectLinesAction {
 
     constructor(points) {
         this.points = points;
     }
 
     Do() {
-        console.log("SelectAction Do()");
+        console.log("SelectLinesAction Do()");
     }
 
     Undo() {
-        console.log("SelectAction Undo()");
+        console.log("SelectLinesAction Undo()");
     }
 }
 
@@ -91,31 +91,31 @@ class MoveAction {
         MovePointsBy(this.points, delta);
     }
 }
-class CreateAction {
+class CreateLineAction {
     constructor(line)
     {
         this.line = line;
     }
 
     Do() {
-        console.log("MoveAction Do()");
+        console.log("CreateLineAction Do()");
     }
 
     Undo() {
-        console.log("MoveAction Undo()");
+        console.log("CreateLineAction Undo()");
     }
 }
-class DuplicateAction {
+class DuplicateLinesAction {
     constructor(lines) // TODO lines or points?
     {
         this.duplicateLines = lines;
     }
 
     Do() {
-        console.log("MoveAction Do()");
+        console.log("DuplicateLinesAction Do()");
     }
 
     Undo() {
-        console.log("MoveAction Undo()");
+        console.log("DuplicateLinesAction Undo()");
     }
 }
