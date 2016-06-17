@@ -79,10 +79,17 @@ function OnLoad() {
     canvasOffset.y = canvas.height * 0.5;
 
     LoadURLParameters();
-
+    
     if (urlParameters)
-        if (!urlParameters["file"] || !Open(urlParameters["file"]))
+    {
+        if (urlParameters["file"])
+        {
+            Open36EncodedString(urlParameters["file"])
+        }
+        else {
             LoadAutoSave();
+        }
+    }
 
     /*
     if (!LoadAutoSave())

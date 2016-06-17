@@ -66,6 +66,65 @@ function Open(logoName)
     return true;
 }
 
+function Open36EncodedString(string36)
+{
+    if (!string36)
+    {
+        string36 = urlParameters["file"];
+    }
+
+    let numbers = [];
+    for (let i = 0; i < string36.length; i+=2)
+    {
+        let currNumAsString = string36[i];
+        currNumAsString += string36[i + 1];
+        numbers.push(parseInt(currNumAsString, 36));
+    }
+
+    currentProject.currentFile.lines = [];
+
+    let shift = Math.round(parseInt("zz", 36) / 2);
+
+    for (var i = 0; i < numbers.length; ) {
+        currentProject.currentFile.AddLine(
+			new Line(
+				numbers[i++] - shift,
+				numbers[i++] - shift,
+				numbers[i++] - shift,
+				numbers[i++] - shift
+			)
+		);
+    }
+    Redraw();
+}
+
+function SaveAs36EncodedString()
+{
+    let lines = currentProject.currentFile.lines;
+    let encodedString = "";
+
+    let shift = Math.round(parseInt("zz", 36) / 2);
+
+    for (let i = 0; i < lines.length; ++i) {
+        encodedString += GetLeadingZeroEncodedString(lines[i].start.x + shift);
+        encodedString += GetLeadingZeroEncodedString(lines[i].start.y + shift);
+        encodedString += GetLeadingZeroEncodedString(lines[i].end.x + shift);
+        encodedString += GetLeadingZeroEncodedString(lines[i].end.y + shift);
+    }
+
+    window.location.search = "file=" + encodedString;
+}
+
+function GetLeadingZeroEncodedString(value)
+{
+    let returnString = value.toString(36);
+
+    if (returnString.length == 1)
+        returnString = "0" + returnString;
+
+    return returnString;
+}
+
 function DeleteSavedLogo(logoName)
 {
 	if (!logoName)
@@ -245,7 +304,8 @@ function NewFile()
     {
         // TODO use next line?? but then not sure if autosave
         // currentProject.AddFile(new File());
-	    currentProject.currentFile.lines = [];
+        currentProject.currentFile.lines = [];
+        window.location = window.location.pathname;
 		AutoSave();
 		SetCurrentFile(null);
 		Redraw();
