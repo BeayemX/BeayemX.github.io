@@ -75,9 +75,3 @@ function dndloaded(evt) {
     console.log("loaded: \n" + jsonString);
     saver.loadJSONFile(jsonString);
 }
-
-function handleDragOver(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-}
