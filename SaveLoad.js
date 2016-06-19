@@ -65,13 +65,7 @@ function handleFileSelect(evt) {
 
         let reader = new FileReader();
         let jsonString = reader.readAsText(files[i]);
-        reader.onload = dndloaded;
+        reader.onload = saver.dndloaded;
 
     }
-}
-
-function dndloaded(evt) {
-    var jsonString = evt.target.result;
-    console.log("loaded: \n" + jsonString);
-    saver.loadJSONFile(jsonString);
 }

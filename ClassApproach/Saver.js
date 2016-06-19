@@ -140,4 +140,11 @@ class Saver {
         evt.preventDefault();
         evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
+
+    dndloaded(evt) {
+        var jsonString = evt.target.result;
+
+        console.log("loaded: \n" + jsonString);
+        saver.loadJSONFile(jsonString); // TODO gay because of js-this-crap. have to call "this" with 'saver'
+    }
 }
