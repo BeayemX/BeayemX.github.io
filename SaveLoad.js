@@ -380,7 +380,7 @@ function handleFileSelect(evt) {
 function dndloaded(evt)
 {
     var jsonString = evt.target.result;
-    console.log(jsonString);
+    console.log("loaded: \n" + jsonString);
     saver.loadJSONFile(jsonString);
 }
 
