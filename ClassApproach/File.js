@@ -21,7 +21,7 @@ class File {
 
     }
 
-    addLine(line) // FIXME implement me
+    addLine(line)
     {
         this.currentObject.addLine(line);
     }

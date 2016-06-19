@@ -64,9 +64,6 @@ class Logic {
         canvas.addEventListener("mousewheel", evt => MOUSE_HANDLER.MouseScroll(evt));
         canvas.addEventListener("mouseleave", evt => MOUSE_HANDLER.MouseLeave(evt));
 
-        notificationarea.addEventListener("mouseenter", GUI.notificationEnter);
-        notificationarea.addEventListener("mouseout", GUI.notificationExit);
-
         // Setup the dnd listeners.
         let dropZone = document.body;
         dropZone.addEventListener('dragover', SAVER.handleDragOver, false);
@@ -77,10 +74,8 @@ class Logic {
 
         canvasOffset.x = canvas.width * 0.5;
         canvasOffset.y = canvas.height * 0.5;
-
     
         SAVER.loadAutoSave();
-
         DATA_MANAGER.currentFile.updateStats();
         DRAW_MANAGER.redraw();
         TestActionHistory(); // SIFU remove

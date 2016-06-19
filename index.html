@@ -43,13 +43,6 @@
 				<p>File</p>
 				<button type="button" onclick="SAVER.newFile()">New file</button>
                 <button type="button" onclick="SAVER.loadAutoSave()">Restore last session</button>
-				<!--        
-                <button type="button" onclick="Save(false)">Save</button>
-                <button type="button" onclick="Save(true)">Save as</button>
-                <button type="button" onclick="SaveAs36EncodedString()">Save to URL</button>
-                <button type="button" onclick="LoadFromDisk()">Load from disk</button>
-				<select id="savedfilesdropdown" style='height: 100%; display:block;'></select>
-                -->
                 <button type="button" onclick="SAVER.saveToDisk()">Save to disk</button>
                 <button type="button" onclick="EXPORTER.ExportAsSVG()">Export as SVG(not working)</button>
 			</div>
@@ -77,7 +70,6 @@
 
             <div class="toolcategory">
                 <p>Help</p>
-                <!--<button type="button" onclick="reshowLastNotification()">Re-Show last notification</button>-->
                 <button type="button" onclick="ToggleHandles(this)">Hide line handles</button>
                 <button type="button" onclick="ToggleAdvancedHandles()" id="advancedHandlesButton"></button>
             </div>

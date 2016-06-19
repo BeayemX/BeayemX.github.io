@@ -13,20 +13,18 @@ class Gui {
 
         this.notificationarea = document.getElementById('notificationarea');
         this.notificationTimeout;
-
     }
 
     writeToStatusbarLeft(text) {
         statusbarentryleft.innerHTML = text;
     }
+
     writeToStatusbarRight(text) {
         statusbarentryright.innerHTML = text;
     }
 
-    // TODO rework notifications... not needed?
-    
-    notify(text)
-    {
+    // TODO rework notifications. put somewhere in statusbar
+    notify(text) {
         console.log(text);
         /*
         notificationarea.style.visibility = 'visible';
@@ -39,20 +37,4 @@ class Gui {
         this.notificationTimeout = setTimeout(this.clearNotification, notificationDuration);
         */
     }
-    /*
-    notificationEnter()
-    {
-        this.clearTimeout(this.notificationTimeout);
-        this.notificationarea.style.backgroundColor = notificationColorFull;
-    }
-
-    notificationExit()
-    {
-        this.reshowLastNotification();
-    }
-
-    clearNotification()
-    {
-        this.notificationarea.style.visibility = 'hidden';
-    }*/
 }
