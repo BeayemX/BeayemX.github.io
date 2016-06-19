@@ -12,9 +12,9 @@ class KeyboardHandler {
                 if (e.ctrlKey)
                     UTILITIES.reloadPage(true);
                 else if (e.shiftKey)
-                    Rotate(false);
+                    LINE_MANIPULATOR.rotate(false);
                 else
-                    Rotate(true);
+                    LINE_MANIPULATOR.rotate(true);
                 break;
             case 116: // F5
                 SAVER.autoSave();
@@ -25,7 +25,7 @@ class KeyboardHandler {
                 if (e.ctrlKey)
                     SAVER.autoSave();
                 else
-                    Mirror();
+                    LINE_MANIPULATOR.mirror();
                 break;
             case 79: // O
                 break;
@@ -114,17 +114,17 @@ class KeyboardHandler {
                 ToggleDevArea();
                 break;
             case 187: // +
-                IncreaseSize(2);
+                LINE_MANIPULATOR.increaseSize(2);
                 break;
             case 189: // -
-                IncreaseSize(0.5);
+                LINE_MANIPULATOR.increaseSize(0.5);
                 break;
 
             case 17: // Ctrl
                 ctrlDown = true;
-                showAdvancedHandles = !advancedHandlesState;
+                LINE_MANIPULATOR.showAdvancedHandles = !LINE_MANIPULATOR.advancedHandlesState;
                 UTILITIES.getNearestSelection(UTILITIES.gridpointToScreenpoint(currentGridPosition));
-                UpdateAdvancedHandlesButton();
+                LINE_MANIPULATOR.updateAdvancedHandlesButton();
                 DRAW_MANAGER.redraw();
                 break;
 
@@ -167,8 +167,8 @@ class KeyboardHandler {
                     ctrlDown = false;
                     MOUSE_HANDLER.CancelLinePreview();
                 }
-                showAdvancedHandles = advancedHandlesState;
-                UpdateAdvancedHandlesButton();
+                LINE_MANIPULATOR.showAdvancedHandles = LINE_MANIPULATOR.advancedHandlesState;
+                LINE_MANIPULATOR.updateAdvancedHandlesButton();
                 DRAW_MANAGER.redraw();
                 break;
         }

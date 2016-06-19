@@ -21,6 +21,7 @@ let GUI;
 let UTILITIES;
 let EXPORTER;
 let ACTION_HISTORY;
+let LINE_MANIPULATOR;
 
 function onLoad()
 {
@@ -34,7 +35,7 @@ function onLoad()
     UTILITIES = new Utilities();
     EXPORTER = new Exporter();
     ACTION_HISTORY = new ActionHistory();
-
+    LINE_MANIPULATOR = new LineManipulator();
     LOGIC.start();
 }
 
@@ -58,7 +59,7 @@ class Logic {
         context = canvas.getContext('2d');
 
         advancedHandlesButton = document.getElementById('advancedHandlesButton');
-        UpdateAdvancedHandlesButton();
+        LINE_MANIPULATOR.updateAdvancedHandlesButton();
 
         canvas.addEventListener("mousemove", evt => MOUSE_HANDLER.MouseMove(evt));
         canvas.addEventListener("mouseup", evt => MOUSE_HANDLER.MouseUp(evt));

@@ -55,14 +55,14 @@
 
 			<div class="toolcategory">
 				<p>Tools</p>
-				<button type="button" onclick="Subdivide()">Subdivide</button>
-				<button type="button" onclick="Mirror()">Mirror [s]</button>
-				<button type="button" onclick="Rotate(true)">Rotate Clockwise [r]</button>
-                <button type="button" onclick="Rotate(false)">Rotate Counter-Clockwise [R]</button>
-                <button type="button" onclick="IncreaseSize(2)">Double Size [+]</button>
-                <button type="button" onclick="IncreaseSize(0.5)">Half Size [-]</button>
-                <button type="button" onclick="GrowSelection()">Grow Selection</button>
-				<button type="button" onclick="SelectLinked()">Select Linked [L]</button>
+				<button type="button" onclick="LINE_MANIPULATOR.subdivide()">Subdivide</button>
+				<button type="button" onclick="LINE_MANIPULATOR.mirror()">Mirror [s]</button>
+				<button type="button" onclick="LINE_MANIPULATOR.rotate(true)">Rotate Clockwise [r]</button>
+                <button type="button" onclick="LINE_MANIPULATOR.rotate(false)">Rotate Counter-Clockwise [R]</button>
+                <button type="button" onclick="LINE_MANIPULATOR.increaseSize(2)">Double Size [+]</button>
+                <button type="button" onclick="LINE_MANIPULATOR.increaseSize(0.5)">Half Size [-]</button>
+                <button type="button" onclick="LINE_MANIPULATOR.growSelection()">Grow Selection</button>
+				<button type="button" onclick="LINE_MANIPULATOR.selectLinked()">Select Linked [L]</button>
 			</div>	
 			
 			
@@ -76,8 +76,8 @@
 
             <div class="toolcategory">
                 <p>Help</p>
-                <button type="button" onclick="ToggleHandles(this)">Hide line handles</button>
-                <button type="button" onclick="ToggleAdvancedHandles()" id="advancedHandlesButton"></button>
+                <button type="button" onclick="LINE_MANIPULATOR.toggleHandles(this)">Hide line handles</button>
+                <button type="button" onclick="LINE_MANIPULATOR.toggleAdvancedHandles()" id="advancedHandlesButton"></button>
             </div>
 		</div>
         <div id="statusbar">

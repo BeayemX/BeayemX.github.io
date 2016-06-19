@@ -112,7 +112,7 @@
         var screenPos = UTILITIES.gridpointToScreenpoint(currentGridPosition);
         var precisePoints = [screenPos];
 
-        if (points.length <= 1 || !showAdvancedHandles)
+        if (points.length <= 1 || !LINE_MANIPULATOR.showAdvancedHandles)
             return precisePoints
 
         for (var i = 0; i < points.length; ++i) {

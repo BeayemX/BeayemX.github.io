@@ -135,7 +135,7 @@
 
         this.drawLineFromTo(startX, startY, endX, endY);
 
-        if (!LOGIC.isPreviewing() && showHandles) {
+        if (!LOGIC.isPreviewing() && LINE_MANIPULATOR.showHandles) {
             this.drawCircle(startX, startY, lineEndingRadius);
             this.drawCircle(endX, endY, lineEndingRadius);
         }
