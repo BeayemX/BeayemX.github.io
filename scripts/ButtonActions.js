@@ -125,7 +125,7 @@ class LineManipulator {
         this.advancedHandlesState = !this.advancedHandlesState;
         this.showAdvancedHandles = this.advancedHandlesState;
 
-        UpdateAdvancedHandlesButton();
+        this.updateAdvancedHandlesButton();
 
         DRAW_MANAGER.redraw();
     }

@@ -31,7 +31,7 @@ class KeyboardHandler {
                 break;
 
             case 71: // G
-                if (LOGIC.isState(StateEnum.IDLE)) {
+                if (LOGIC.currentState == StateEnum.IDLE) {
                     if (DATA_MANAGER.currentFile.isSomethingSelected()) {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
@@ -85,12 +85,12 @@ class KeyboardHandler {
                 break;
 
             case 67: // C
-                if (LOGIC.isState(StateEnum.IDLE))
+                if (LOGIC.currentState == StateEnum.IDLE)
                     SAVER.copyLinesToClipboard();
                 break;
 
             case 86: // V
-                if (LOGIC.isState(StateEnum.IDLE)) {
+                if (LOGIC.currentState == StateEnum.IDLE) {
                     if (SAVER.pasteLines()) {
                         KEYBOARD_HANDLER.grabStartPosition = currentGridPosition.Copy();
                         LOGIC.setState(StateEnum.GRABBING);
@@ -99,7 +99,7 @@ class KeyboardHandler {
                 break;
 
             case 13: // Enter
-                if (LOGIC.isState(StateEnum.IDLE))
+                if (LOGIC.currentState == StateEnum.IDLE)
                     EXPORTER.TakeScreenshot();
                 break;
             case 70: // F // TODO improve. zoom to selection / zoom fit / etc ... 

@@ -28,7 +28,7 @@
 
         if (!LOGIC.isPreviewing()) {
             this.drawGrid();
-            if (LOGIC.isState(StateEnum.BORDERSELECTION))
+            if (LOGIC.currentState == StateEnum.BORDERSELECTION)
                 this.drawHelpers();
             else if (grabInitializedWithKeyboard)
                 this.drawHelpers2();
@@ -40,7 +40,7 @@
         if (!LOGIC.isPreviewing())
             this.drawPreciseSelection();
 
-        if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.DRAWING) {
+        if (LOGIC.currentState == StateEnum.IDLE, StateEnum.DRAWING) {
             this.drawPreview();
         }
     }

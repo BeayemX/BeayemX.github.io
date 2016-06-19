@@ -111,12 +111,4 @@ class Logic {
         return this.currentState == StateEnum.RENDERPREVIEW; // ||
         //(currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
     }
-
-    isState(states) {
-        for (var i = 0; i < arguments.length; i++) {
-            if (this.currentState == arguments[i])
-                return true;
-        }
-        return false;
-    }
 }
