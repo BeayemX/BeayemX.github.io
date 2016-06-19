@@ -56,4 +56,46 @@ class Saver {
         DRAW_MANAGER.redraw();
         return;
     }
+
+    
+    autoSave()
+    {
+        localStorage.setItem(autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile));
+        console.log("Saved.")
+    }
+
+    loadAutoSave() // TODO combine with loading from file
+    {
+        let autoSaveFile = localStorage.getItem(autosaveFileName);
+        if (!autoSaveFile)
+            return;
+
+        DATA_MANAGER.currentFile.lineObjects = [];
+        let file = JSON.parse(autoSaveFile);
+        let objs = file.lineObjects;
+
+        for (var i = 0; i < objs.length; ++i) {
+            DATA_MANAGER.currentFile.currentObject = DATA_MANAGER.currentFile.addObject();
+
+            for (var j = 0; j < objs[i].lines.length; j++) {
+                DATA_MANAGER.currentFile.currentObject.addLine(
+                    new Line(
+                        objs[i].lines[j].start.x,
+                        objs[i].lines[j].start.y,
+                        objs[i].lines[j].end.x,
+                        objs[i].lines[j].end.y
+                    )
+                );
+            }
+        }
+
+        DRAW_MANAGER.redraw();
+    }
+
+
+    newFile() {
+        DATA_MANAGER.currentFile = new File();
+        DATA_MANAGER.currentFile.currentObject = DATA_MANAGER.currentFile.addObject();
+        DRAW_MANAGER.redraw();
+    }
 }

@@ -84,7 +84,7 @@ class Logic {
         canvasOffset.y = canvas.height * 0.5;
 
     
-        LoadAutoSave();
+        saver.loadAutoSave();
 
         DATA_MANAGER.currentFile.updateStats();
         DRAW_MANAGER.redraw();

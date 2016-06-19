@@ -15,13 +15,13 @@ class KeyboardHandler {
                     Rotate(true);
                 break;
             case 116: // F5
-                AutoSave();
+                saver.autoSave();
                 UTILITIES.reloadPage(false);
                 break;
 
             case 83: // S
                 if (e.ctrlKey)
-                    AutoSave();
+                    saver.autoSave();
                 else
                     Mirror();
                 break;

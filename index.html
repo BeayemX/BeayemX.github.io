@@ -41,8 +41,8 @@
 			
 			<div class="toolcategory">
 				<p>File</p>
-				<button type="button" onclick="NewFile()">New file</button>
-                <button type="button" onclick="LoadAutoSave()">Restore last session</button>
+				<button type="button" onclick="saver.newFile()">New file</button>
+                <button type="button" onclick="saver.loadAutoSave()">Restore last session</button>
 				<!--        
                 <button type="button" onclick="Save(false)">Save</button>
                 <button type="button" onclick="Save(true)">Save as</button>
@@ -73,7 +73,7 @@
 		<div id="rightarea" class="toolarea" width="150">
 			<div class="toolcategory">
 				<p>Dev Stuff</p>
-				<button type="button" onclick="LoadAutoSave()">Load AutoSave File</button>
+				<button type="button" onclick="saver.loadAutoSave()">Load AutoSave File</button>
 			</div>
 
             <div class="toolcategory">
