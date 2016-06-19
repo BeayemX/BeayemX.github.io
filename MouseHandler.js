@@ -18,6 +18,8 @@ class MouseHandler
 {
     constructor()
     {
+        console.log("MouseHandler created.");
+
         this.downPoint = new Vector2(-1, -1); // TODO rename downPointScreenpos
         this.gridLineStart;
         this.gridLineEnd;

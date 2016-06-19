@@ -145,7 +145,7 @@ class Saver {
         var jsonString = evt.target.result;
 
         console.log("loaded: \n" + jsonString);
-        saver.loadJSONFile(jsonString); // TODO gay because of js-this-crap. have to call "this" with 'saver'
+        SAVER.loadJSONFile(jsonString); // TODO gay because of js-this-crap. have to call "this" with 'saver'
     }
 
     handleFileSelect(evt) {
@@ -158,7 +158,7 @@ class Saver {
 
             let reader = new FileReader();
             let jsonString = reader.readAsText(files[i]);
-            reader.onload = saver.dndloaded;
+            reader.onload = SAVER.dndloaded;
         }
     }
 }

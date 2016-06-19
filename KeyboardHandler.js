@@ -2,6 +2,8 @@
 
 class KeyboardHandler {
     constructor() {
+        console.log("KeyboardHandler created.");
+
         this.grabStartPosition;
     }
     KeyDown(e) {
@@ -15,13 +17,13 @@ class KeyboardHandler {
                     Rotate(true);
                 break;
             case 116: // F5
-                saver.autoSave();
+                SAVER.autoSave();
                 UTILITIES.reloadPage(false);
                 break;
 
             case 83: // S
                 if (e.ctrlKey)
-                    saver.autoSave();
+                    SAVER.autoSave();
                 else
                     Mirror();
                 break;
@@ -84,12 +86,12 @@ class KeyboardHandler {
 
             case 67: // C
                 if (LOGIC.isState(StateEnum.IDLE))
-                    saver.copyLinesToClipboard();
+                    SAVER.copyLinesToClipboard();
                 break;
 
             case 86: // V
                 if (LOGIC.isState(StateEnum.IDLE)) {
-                    if (saver.pasteLines()) {
+                    if (SAVER.pasteLines()) {
                         keyboardHandler.grabStartPosition = currentGridPosition.Copy();
                         LOGIC.setState(StateEnum.GRABBING);
                     }
@@ -98,7 +100,7 @@ class KeyboardHandler {
 
             case 13: // Enter
                 if (LOGIC.isState(StateEnum.IDLE))
-                    TakeScreenshot();
+                    EXPORTER.TakeScreenshot();
                 break;
             case 70: // F // TODO improve. zoom to selection / zoom fit / etc ... 
                 canvasOffset = { x: canvas.width * 0.5, y: canvas.height * 0.5 };

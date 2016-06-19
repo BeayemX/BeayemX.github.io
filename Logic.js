@@ -14,7 +14,7 @@ var grabInitializedWithKeyboard = false;
 
 
 // SIFU TODO write in all caps... not posssible for gui..
-let saver;
+let SAVER;
 let DATA_MANAGER;
 let DRAW_MANAGER;
 let keyboardHandler;
@@ -22,17 +22,19 @@ let mouseHandler;
 let LOGIC;
 let GUI;
 let UTILITIES;
+let EXPORTER;
 
 function onLoad()
 {
     keyboardHandler = new KeyboardHandler();
     mouseHandler = new MouseHandler();
     LOGIC = new Logic();
-    saver = new Saver();
+    SAVER = new Saver();
     DATA_MANAGER = new DataManager();
     DRAW_MANAGER = new DrawManager();
     GUI = new Gui();
     UTILITIES = new Utilities();
+    EXPORTER = new Exporter();
 
     LOGIC.start();
 }
@@ -74,8 +76,8 @@ class Logic {
 
         // Setup the dnd listeners.
         let dropZone = document.body;
-        dropZone.addEventListener('dragover', saver.handleDragOver, false);
-        dropZone.addEventListener('drop', saver.handleFileSelect, false);
+        dropZone.addEventListener('dragover', SAVER.handleDragOver, false);
+        dropZone.addEventListener('drop', SAVER.handleFileSelect, false);
 
         canvas.style.background = canvasColor;
         this.layoutGUI();
@@ -84,7 +86,7 @@ class Logic {
         canvasOffset.y = canvas.height * 0.5;
 
     
-        saver.loadAutoSave();
+        SAVER.loadAutoSave();
 
         DATA_MANAGER.currentFile.updateStats();
         DRAW_MANAGER.redraw();
