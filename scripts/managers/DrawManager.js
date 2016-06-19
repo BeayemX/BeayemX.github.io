@@ -1,7 +1,6 @@
 ﻿class DrawManager {
     constructor() {
         console.log("DrawManager created.");
-
     }
 
     drawLineFromTo(x1, y1, x2, y2) {
@@ -17,18 +16,12 @@
         context.stroke();
     }
 
-
     drawCircle(centerX, centerY, radius) {
         context.beginPath();
         context.rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
         context.stroke();
         context.fill();
     }
-
-    drawObjects() {
-
-    }
-
 
     redraw() {
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -51,28 +44,6 @@
             this.drawPreview();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     drawGridLine(line, endpoint) {
         var startX;
