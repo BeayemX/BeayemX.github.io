@@ -261,7 +261,7 @@
                 selPointsNumOld = selPointsNum;
         }
         if (i == maxIterations)
-            notify("Max Iteration Depth reached!");
+            GUI.notify("Max Iteration Depth reached!");
 
         DRAW_MANAGER.redraw();
     }

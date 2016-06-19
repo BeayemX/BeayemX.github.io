@@ -4,10 +4,6 @@ class Saver {
         console.log("Saver created. ");
     }
 
-    saveAsFile() {
-        console.log("Saver working. ");
-    }
-
     saveToDisk()
     {
         var name = prompt("Save as: ");
@@ -17,11 +13,47 @@ class Saver {
         }
     }
 
+    // TODO create method in file-class which creates object where only the important information is saved and save that as json
     saveAsJSON(name)
     {
-        let data = JSON.stringify(DATA_MANAGER.currentFile.lines, null, '\t');
+        let data = JSON.stringify(DATA_MANAGER.currentFile.lineObjects, null, '\t');
 
         let blob = new Blob([data], { type: "text/plain;charset=utf-8" });
         saveAs(blob, name + ".json");
+    }
+    
+    loadJSONFile(jsonString)
+    {
+        let file;
+        try {
+            file = JSON.parse(jsonString);
+        }
+        catch (err) {
+            console.log(err);
+            GUI.notify("File type not supported!");
+            return;
+        }
+
+        DATA_MANAGER.currentFile = new File();
+
+        let objs = file;
+
+        for (var i = 0; i < objs.length; ++i) {
+            DATA_MANAGER.currentFile.currentObject = DATA_MANAGER.currentFile.addObject();
+
+            for (var j = 0; j < objs[i].lines.length; j++) {
+                DATA_MANAGER.currentFile.currentObject.addLine(
+                    new Line(
+                        objs[i].lines[j].start.x,
+                        objs[i].lines[j].start.y,
+                        objs[i].lines[j].end.x,
+                        objs[i].lines[j].end.y
+                    )
+                );
+            }
+        }
+
+        DRAW_MANAGER.redraw();
+        return;
     }
 }

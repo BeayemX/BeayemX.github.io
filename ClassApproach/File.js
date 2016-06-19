@@ -3,7 +3,7 @@ class File {
     constructor() {
         this.lineObjects = [];
         this.deletedLinesCounter = 0;
-        this.currentObject = this.addObject();
+        this.currentObject = null;
     }
     addObject() {
         let obj = new LineObject();

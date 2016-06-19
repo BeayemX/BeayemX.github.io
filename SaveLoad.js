@@ -35,14 +35,14 @@ function Save(ask) // local storage
 	UpdateDropdown(logoName);
 	Notify("File saved!");
 }//*/
-
+/*
 function Open(logoName) // local storage
 {
 	var logo = localStorage.getItem(logoName);
 
 	if (!logo)
 	{
-		notify("Logo '" + logoName + "' doesn't exist!");
+		GUI.notify("Logo '" + logoName + "' doesn't exist!");
 		return false;
 	}
 
@@ -182,28 +182,30 @@ function TakeScreenshot() // img
 	// also save blueprint
 	//w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
 
-	setState(StateEnum.RENDERPREVIEW);
+	LOGIC.setState(StateEnum.RENDERPREVIEW);
 	DRAW_MANAGER.redraw();
 	w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
 
-	setState(StateEnum.IDLE);
+	LOGIC.setState(StateEnum.IDLE);
 	DRAW_MANAGER.redraw();
-	notify("Picture saved!");
+	GUI.notify("Picture saved!");
 }
 
 function AutoSave() // session storage
 {
-    sessionStorage.setItem(autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile.lineObjects));
+    localStorage.setItem(autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile));
+    console.log("Saved.")
 }
 
 function LoadAutoSave() // session storage
 {
-	var logo = sessionStorage.getItem(autosaveFileName);
-	if (!logo)
-		return false;
+	let autoSaveFile = localStorage.getItem(autosaveFileName);
+	if (!autoSaveFile)
+		return;
 
 	DATA_MANAGER.currentFile.lineObjects = [];
-    let objs = JSON.parse(logo);
+	let file = JSON.parse(autoSaveFile);
+	let objs = file.lineObjects;
 
 	for (var i = 0; i < objs.length; ++i)
 	{
@@ -223,7 +225,6 @@ function LoadAutoSave() // session storage
 
     // SetCurrentFile(null);
 	DRAW_MANAGER.redraw();
-	return true;
 }
 
 /*function UpdateDropdown(lastAddedLogoName) // local storage
@@ -275,12 +276,8 @@ function NewFile() // TOOD USE ME
 {
 	//if (confirm("Do you want to discard your LogoDesign and start from scratch?"))
     {
-        // TODO use next line?? but then not sure if autosave
-        // DATA_MANAGER.AddFile(new File());
-        DATA_MANAGER.currentFile.lines = [];
-        window.location = window.location.pathname;
-		AutoSave();
-		//SetCurrentFile(null);
+        DATA_MANAGER.currentFile = new File();
+        DATA_MANAGER.currentFile.currentObject = DATA_MANAGER.currentFile.addObject();
 		DRAW_MANAGER.redraw();
 	}
 }
@@ -350,33 +347,6 @@ function LoadFromDisk()
         GenerateLinesFromJSONString(logo);
     }
 }
-function GenerateLinesFromJSONString(jsonString)
-{
-    let linesArray = [];
-    try {
-        linesArray = JSON.parse(jsonString);
-    }
-    catch (err) {
-        console.log(err);
-        notify("File type not supported!");
-        return;
-    }
-
-    DATA_MANAGER.currentFile.lines = [];
-    for (var i = 0; i < linesArray.length; ++i) {
-        DATA_MANAGER.currentFile.addLine(
-            new Line(
-                linesArray[i].start.x,
-                linesArray[i].start.y,
-                linesArray[i].end.x,
-                linesArray[i].end.y
-            )
-        );
-    }
-
-    //SetCurrentFile(null);
-    DRAW_MANAGER.redraw();
-}
 
 /*
 var urlParameters = [];
@@ -410,7 +380,8 @@ function handleFileSelect(evt) {
 function dndloaded(evt)
 {
     var jsonString = evt.target.result;
-    GenerateLinesFromJSONString(jsonString);
+    console.log(jsonString);
+    saver.loadJSONFile(jsonString);
 }
 
 function handleDragOver(evt) {

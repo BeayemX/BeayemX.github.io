@@ -25,7 +25,7 @@ class KeyboardHandler
 
              case 83: // S
                  if (e.ctrlKey)
-                     Save();
+                     AutoSave();
                  else
                      Mirror();
                  break;
