@@ -22,6 +22,7 @@ let UTILITIES;
 let EXPORTER;
 let ACTION_HISTORY;
 let LINE_MANIPULATOR;
+let SETTINGS;
 
 function onLoad()
 {
@@ -36,6 +37,8 @@ function onLoad()
     EXPORTER = new Exporter();
     ACTION_HISTORY = new ActionHistory();
     LINE_MANIPULATOR = new LineManipulator();
+    SETTINGS = new Settings();
+
     LOGIC.start();
 }
 
@@ -72,7 +75,7 @@ class Logic {
         dropZone.addEventListener('dragover', SAVER.handleDragOver, false);
         dropZone.addEventListener('drop', SAVER.handleFileSelect, false);
 
-        canvas.style.background = canvasColor;
+        canvas.style.background = SETTINGS.canvasColor;
         this.layoutGUI();
 
         canvasOffset.x = canvas.width * 0.5;

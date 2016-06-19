@@ -237,7 +237,7 @@ class MouseHandler
 
     Zoom(delta)
     {
-	    gridSize *= delta;
+        SETTINGS.gridSize *= delta;
     }
 
     CancelLinePreview()

@@ -79,7 +79,7 @@ class KeyboardHandler {
                 //if (currentState == StateEnum.IDLE)
                 {
                     LOGIC.setState(StateEnum.RENDERPREVIEW);
-                    canvas.style.background = 'white';
+                    canvas.style.background = 'white'; // TODO settings?
                     DRAW_MANAGER.redraw();
                 }
                 break;
@@ -158,7 +158,7 @@ class KeyboardHandler {
         switch (e.keyCode) {
             case 9: // TAB
                 LOGIC.setState(LOGIC.previousState);
-                canvas.style.background = canvasColor;
+                canvas.style.background = SETTINGS.canvasColor;
                 DRAW_MANAGER.redraw();
                 break;
 

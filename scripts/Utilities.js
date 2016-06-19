@@ -26,8 +26,8 @@ class Utilities {
 
     gridpointToScreenpoint(gridpoint) {
         return new Vector2(
-		    gridpoint.x * gridSize + canvasOffset.x,
-		    gridpoint.y * gridSize + canvasOffset.y
+		    gridpoint.x * SETTINGS.gridSize + canvasOffset.x,
+		    gridpoint.y * SETTINGS.gridSize + canvasOffset.y
 	    );
     }
 
@@ -35,8 +35,8 @@ class Utilities {
     getGridPos(screenPos) // TODO rename to ScreenpointToGridpoint
     {
         var x = new GridPoint(
-		    Math.round((screenPos.x - canvasOffset.x) / gridSize),
-		    Math.round((screenPos.y - canvasOffset.y) / gridSize)
+		    Math.round((screenPos.x - canvasOffset.x) / SETTINGS.gridSize),
+		    Math.round((screenPos.y - canvasOffset.y) / SETTINGS.gridSize)
 	    );
         return x;
 

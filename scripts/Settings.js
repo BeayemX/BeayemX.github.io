@@ -1,39 +1,43 @@
-var canvasColor = "#666";
+class Settings {
+    constructor() {
+        this.canvasColor = "#666";
 
-var lineWidth = 3;
-var lineColor = "#000";
-var lineColorFill = 'rgba(0, 0, 0, 1)';
-var lineEndingRadius = 4;
+        this.lineWidth = 3;
+        this.lineColor = "#000";
+        this.lineColorFill = 'rgba(0, 0, 0, 1)';
+        this.lineEndingRadius = 4;
 
-var gridCellNumber = 32;
-var gridSize = 55;
-var gridPointSize = 6;
-var gridPointLineWidth = 2;
-var gridPointLineColor = "#000";
-var gridPointFillColor = "#999";
+        this.gridCellNumber = 32;
+        this.gridSize = 55;
+        this.gridPointSize = 6;
+        this.gridPointLineWidth = 2;
+        this.gridPointLineColor = "#000";
+        this.gridPointFillColor = "#999";
 
-var gridLineColor = '#444';
-var gridBigLineColor = '#333';
+        this.gridLineColor = '#444';
+        this.gridBigLineColor = '#333';
 
-var bigGridSize = 8;
-var bigGridPointSize = 6;
-var bigGridPointLineWidth = 14;
-var bigGridPointLineColor = "#000";
-var bigGridPointFillColor = "#777";
+        this.bigGridSize = 8;
+        this.bigGridPointSize = 6;
+        this.bigGridPointLineWidth = 14;
+        this.bigGridPointLineColor = "#000";
+        this.bigGridPointFillColor = "#777";
 
-var helperColor = "#5bb";
-var helperColor2 = "#090";
-var helperLineWidth = 2;
+        this.helperColor = "#5bb";
+        this.helperColor2 = "#090";
+        this.helperLineWidth = 2;
 
-var previewLineColor = "#090";
-var selectionColor = "#f90";
-var selectionColorFill = 'rgba(255, 127, 0, 1)';
-var borderSelectionColor = 'rgba(255, 127, 0, 0.5)';
+        this.previewLineColor = "#090";
+        this.selectionColor = "#f90";
+        this.selectionColorFill = 'rgba(255, 127, 0, 1)';
+        this.borderSelectionColor = 'rgba(255, 127, 0, 0.5)';
 
-var notificationDuration = 2000;
-var notificationColorHalf = 'rgba(255, 127, 0, 0.75)';
-var notificationColorFull = 'rgba(255, 127, 0, 1)';
+        this.notificationDuration = 2000;
+        this.notificationColorHalf = 'rgba(255, 127, 0, 0.75)';
+        this.notificationColorFull = 'rgba(255, 127, 0, 1)';
 
-var preciseSelectionLineWidth = 2;
-var preciseSelectionSelectionColor = 'rgba(255, 127, 0, 0)';
-var preciseSelectionNoSelectionColor = 'rgba(0, 0, 0, 0)';
+        this.preciseSelectionLineWidth = 2;
+        this.preciseSelectionSelectionColor = 'rgba(255, 127, 0, 0)';
+        this.preciseSelectionNoSelectionColor = 'rgba(0, 0, 0, 0)';
+    }
+}
