@@ -123,7 +123,7 @@
 
             direction.Normalize();
 
-            var preciseRadius = gridSize * 0.5 - gridPointSize * 2;
+            var preciseRadius = SETTINGS.gridSize * 0.5 - SETTINGS.gridPointSize * 2;
             var precisePoint = new PrecisePoint(
                 screenPos.x + direction.x * preciseRadius,
                 screenPos.y + direction.y * preciseRadius,
