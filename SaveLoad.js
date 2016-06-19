@@ -1,9 +1,11 @@
-var startupFileName = "StartUp";
+"use strict";
+
 var autosaveFileName = "AutoSave";
 var clipboardFileName = "Clipboard";
 var currentlyOpenedFile = null;
 
-function Save(ask)
+/*
+function Save(ask) // local storage
 {
     var logoName;
     if (ask || !currentlyOpenedFile)
@@ -29,27 +31,27 @@ function Save(ask)
     else
         logoName = currentlyOpenedFile;
     
-	localStorage.setItem(logoName, JSON.stringify(currentProject.currentFile.lines));
+	localStorage.setItem(logoName, JSON.stringify(DATA_MANAGER.currentFile.lines));
 	UpdateDropdown(logoName);
 	Notify("File saved!");
-}
+}//*/
 
-function Open(logoName)
+function Open(logoName) // local storage
 {
 	var logo = localStorage.getItem(logoName);
 
 	if (!logo)
 	{
-		Notify("Logo '" + logoName + "' doesn't exist!");
+		notify("Logo '" + logoName + "' doesn't exist!");
 		return false;
 	}
 
 	var linesArray = JSON.parse(logo);
 
-	currentProject.currentFile.lines = [];
+	DATA_MANAGER.currentFile.lines = [];
 	for (var i=0; i<linesArray.length; ++i)
 	{
-	    currentProject.currentFile.AddLine(
+	    DATA_MANAGER.currentFile.addLine(
 			new Line(
 				linesArray[i].start.x,
 				linesArray[i].start.y,
@@ -62,11 +64,11 @@ function Open(logoName)
 	savedfilesdropdown.selectedIndex = 0;
 	savedfilesdropdown.blur();
     SetCurrentFile(logoName);
-    Redraw();
+    DRAW_MANAGER.redraw();
     return true;
 }
 
-function Open36EncodedString(string36)
+function Open36EncodedString(string36) // url
 {
     if (!string36)
     {
@@ -81,12 +83,12 @@ function Open36EncodedString(string36)
         numbers.push(parseInt(currNumAsString, 36));
     }
 
-    currentProject.currentFile.lines = [];
+    DATA_MANAGER.currentFile.lines = [];
 
     let shift = Math.round(parseInt("zz", 36) / 2);
 
     for (var i = 0; i < numbers.length; ) {
-        currentProject.currentFile.AddLine(
+        DATA_MANAGER.currentFile.addLine(
 			new Line(
 				numbers[i++] - shift,
 				numbers[i++] - shift,
@@ -95,12 +97,13 @@ function Open36EncodedString(string36)
 			)
 		);
     }
-    Redraw();
+    DRAW_MANAGER.redraw();
 }
 
-function SaveAs36EncodedString()
+/*
+function SaveAs36EncodedString() // url
 {
-    let lines = currentProject.currentFile.lines;
+    let lines = DATA_MANAGER.currentFile.lines;
     let encodedString = "";
 
     let shift = Math.round(parseInt("zz", 36) / 2);
@@ -115,7 +118,7 @@ function SaveAs36EncodedString()
     window.location.search = "file=" + encodedString;
 }
 
-function GetLeadingZeroEncodedString(value)
+function GetLeadingZeroEncodedString(value)  // url
 {
     let returnString = value.toString(36);
 
@@ -124,8 +127,7 @@ function GetLeadingZeroEncodedString(value)
 
     return returnString;
 }
-
-function DeleteSavedLogo(logoName)
+function DeleteSavedLogo(logoName) // localstorage
 {
 	if (!logoName)
 		logoName = prompt("Which logo should be deleted?")
@@ -138,27 +140,28 @@ function DeleteSavedLogo(logoName)
 	}
 	UpdateDropdown();
 }
+*/
 
-function CopyLinesToClipboard()
+function CopyLinesToClipboard() // session storage
 {
-	var selectedLines = currentProject.currentFile.GetSelectedLines();
+	var selectedLines = DATA_MANAGER.currentFile.getSelectedLines();
 	sessionStorage.setItem(clipboardFileName, JSON.stringify(selectedLines));
-	Notify("Lines copied to clipboard!");
+	GUI.notify("Lines copied to clipboard!");
 }
 
-function PasteLines()
+function PasteLines() // session storage
 {
 	var logo = sessionStorage.getItem(clipboardFileName);
 	if (!logo)
 		return false;
 
-	currentProject.currentFile.ClearSelection();
+	DATA_MANAGER.currentFile.clearSelection();
 
 	var linesArray = JSON.parse(logo);
 
 	for (var i=0; i<linesArray.length; ++i)
 	{
-	    currentProject.currentFile.AddLine(
+	    DATA_MANAGER.currentFile.addLine(
 			new Line(
 				linesArray[i].start.x,
 				linesArray[i].start.y,
@@ -168,93 +171,62 @@ function PasteLines()
 			)
 		);
 	}
-	Notify("Lines pasted from clipboard!");
-	Redraw();
+	GUI.notify("Lines pasted from clipboard!");
+	DRAW_MANAGER.redraw();
 	return true;
 }
 
-function TakeScreenshot()
+function TakeScreenshot() // img
 {
 	var w=window.open('about:blank','image from canvas');
 	// also save blueprint
 	//w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
 
-	SetState(StateEnum.RENDERPREVIEW);
-	Redraw();
+	setState(StateEnum.RENDERPREVIEW);
+	DRAW_MANAGER.redraw();
 	w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
 
-	SetState(StateEnum.IDLE);
-	Redraw();
-	Notify("Picture saved!");
+	setState(StateEnum.IDLE);
+	DRAW_MANAGER.redraw();
+	notify("Picture saved!");
 }
 
-function SaveStartupFile()
+function AutoSave() // session storage
 {
-	Notify("Startup file saved!");
-	localStorage.setItem(startupFileName, JSON.stringify(lines));
+    sessionStorage.setItem(autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile.lineObjects));
 }
 
-// legacy not sure if needed
-// still using lines[] instead of currentProject.currentFile.lines
-/*
-function LoadStartupFile()
-{
-	var logo = localStorage.getItem(startupFileName);
-	if (!logo)
-		return false;
-
-	lines = [];
-	var linesArray = JSON.parse(logo);
-
-	for (var i=0; i<linesArray.length; ++i)
-	{
-		lines.push(
-			new Line(
-				linesArray[i].start.x,
-				linesArray[i].start.y,
-				linesArray[i].end.x,
-				linesArray[i].end.y
-			)
-		);
-	}
-	Notify("Startup file loaded!");
-    SetCurrentFile(null);
-	Redraw();
-	return true;	
-}
-//*/
-function AutoSave()
-{
-    sessionStorage.setItem(autosaveFileName, JSON.stringify(currentProject.currentFile.lines));
-}
-
-function LoadAutoSave()
+function LoadAutoSave() // session storage
 {
 	var logo = sessionStorage.getItem(autosaveFileName);
 	if (!logo)
 		return false;
 
-	currentProject.currentFile.lines = [];
-	var linesArray = JSON.parse(logo);
+	DATA_MANAGER.currentFile.lineObjects = [];
+    let objs = JSON.parse(logo);
 
-	for (var i=0; i<linesArray.length; ++i)
+	for (var i = 0; i < objs.length; ++i)
 	{
-	    currentProject.currentFile.AddLine(
-			new Line(
-				linesArray[i].start.x,
-				linesArray[i].start.y,
-				linesArray[i].end.x,
-				linesArray[i].end.y
-			)
-		);
+	    DATA_MANAGER.currentFile.currentObject = DATA_MANAGER.currentFile.addObject();
+
+	    for (var j = 0; j < objs[i].lines.length; j++) {
+	        DATA_MANAGER.currentFile.currentObject.addLine(
+                new Line(
+                    objs[i].lines[j].start.x,
+                    objs[i].lines[j].start.y,
+                    objs[i].lines[j].end.x,
+                    objs[i].lines[j].end.y
+                )
+            );
+	    }
 	}
 
-    SetCurrentFile(null);
-	Redraw();
+    // SetCurrentFile(null);
+	DRAW_MANAGER.redraw();
 	return true;
 }
 
-function UpdateDropdown(lastAddedLogoName)
+/*function UpdateDropdown(lastAddedLogoName) // local storage
 {
 	while (savedfilesdropdown.lastChild) 
  		savedfilesdropdown.removeChild(savedfilesdropdown.lastChild);
@@ -293,45 +265,28 @@ function UpdateDropdown(lastAddedLogoName)
     // savedfilesdropdown.setAttribute("size", keys.length);
 }
 
-function DropDownSelected()
+function DropDownSelected() // local storage
 {
 	Open(savedfilesdropdown.options[ savedfilesdropdown.selectedIndex ].value);
 }
+*/
 
-function NewFile()
+function NewFile() // TOOD USE ME
 {
 	//if (confirm("Do you want to discard your LogoDesign and start from scratch?"))
     {
         // TODO use next line?? but then not sure if autosave
-        // currentProject.AddFile(new File());
-        currentProject.currentFile.lines = [];
+        // DATA_MANAGER.AddFile(new File());
+        DATA_MANAGER.currentFile.lines = [];
         window.location = window.location.pathname;
 		AutoSave();
-		SetCurrentFile(null);
-		Redraw();
+		//SetCurrentFile(null);
+		DRAW_MANAGER.redraw();
 	}
 }
 
-function GenerateStartUpFile()
-{
-	Notify("Startup File Generated!");
-	var startuplines = 
-	[{"start":{"x":-8,"y":-3,"selected":false},"end":{"x":-8,"y":-1,"selected":false}},{"start":{"x":-8,"y":-1,"selected":false},"end":{"x":-7,"y":-1,"selected":false}},{"start":{"x":-6,"y":-2,"selected":false},"end":{"x":-6,"y":-1,"selected":false}},{"start":{"x":-6,"y":-1,"selected":false},"end":{"x":-5,"y":-1,"selected":false}},{"start":{"x":-5,"y":-1,"selected":false},"end":{"x":-5,"y":-2,"selected":false}},{"start":{"x":-5,"y":-2,"selected":false},"end":{"x":-6,"y":-2,"selected":false}},{"start":{"x":-4,"y":-2,"selected":false},"end":{"x":-4,"y":-1,"selected":false}},{"start":{"x":-4,"y":-1,"selected":false},"end":{"x":-3,"y":-1,"selected":false}},{"start":{"x":-3,"y":-1,"selected":false},"end":{"x":-3,"y":-2,"selected":false}},{"start":{"x":-3,"y":-2,"selected":false},"end":{"x":-4,"y":-2,"selected":false}},{"start":{"x":-3,"y":-1,"selected":false},"end":{"x":-3,"y":0,"selected":false}},{"start":{"x":-3,"y":0,"selected":false},"end":{"x":-4,"y":0,"selected":false}},{"start":{"x":-2,"y":-2,"selected":true},"end":{"x":-2,"y":-1,"selected":true}},{"start":{"x":-2,"y":-1,"selected":true},"end":{"x":-1,"y":-1,"selected":true}},{"start":{"x":-1,"y":-1,"selected":true},"end":{"x":-1,"y":-2,"selected":true}},{"start":{"x":-1,"y":-2,"selected":true},"end":{"x":-2,"y":-2,"selected":true}},{"start":{"x":-6,"y":0,"selected":false},"end":{"x":-6,"y":2,"selected":false}},{"start":{"x":-6,"y":2,"selected":false},"end":{"x":-5,"y":1,"selected":false}},{"start":{"x":-5,"y":1,"selected":false},"end":{"x":-6,"y":0,"selected":false}},{"start":{"x":5,"y":1,"selected":false},"end":{"x":5,"y":2,"selected":false}},{"start":{"x":5,"y":1,"selected":false},"end":{"x":6,"y":1,"selected":false}},{"start":{"x":5,"y":2,"selected":false},"end":{"x":6,"y":1,"selected":false}},{"start":{"x":5,"y":2,"selected":false},"end":{"x":6,"y":2,"selected":false}},{"start":{"x":-1,"y":1,"selected":false},"end":{"x":-2,"y":1,"selected":false}},{"start":{"x":-2,"y":1,"selected":false},"end":{"x":-1,"y":2,"selected":false}},{"start":{"x":-1,"y":2,"selected":false},"end":{"x":-2,"y":2,"selected":false}},{"start":{"x":0,"y":1,"selected":false},"end":{"x":0,"y":2,"selected":false}},{"start":{"x":1,"y":1,"selected":false},"end":{"x":1,"y":2,"selected":false}},{"start":{"x":1,"y":2,"selected":false},"end":{"x":2,"y":2,"selected":false}},{"start":{"x":2,"y":2,"selected":false},"end":{"x":2,"y":1,"selected":false}},{"start":{"x":2,"y":1,"selected":false},"end":{"x":1,"y":1,"selected":false}},{"start":{"x":2,"y":2,"selected":false},"end":{"x":2,"y":3,"selected":false}},{"start":{"x":2,"y":3,"selected":false},"end":{"x":1,"y":3,"selected":false}},{"start":{"x":3,"y":1,"selected":false},"end":{"x":3,"y":2,"selected":false}},{"start":{"x":3,"y":1,"selected":false},"end":{"x":4,"y":1,"selected":false}},{"start":{"x":4,"y":1,"selected":false},"end":{"x":4,"y":2,"selected":false}},{"start":{"x":-4,"y":1,"selected":false},"end":{"x":-4,"y":2,"selected":false}},{"start":{"x":-4,"y":1,"selected":false},"end":{"x":-3,"y":1,"selected":false}},{"start":{"x":-4,"y":2,"selected":false},"end":{"x":-3,"y":1,"selected":false}},{"start":{"x":-4,"y":2,"selected":false},"end":{"x":-3,"y":2,"selected":false}},{"start":{"x":7,"y":2,"selected":false},"end":{"x":7,"y":1,"selected":false}},{"start":{"x":7,"y":1,"selected":false},"end":{"x":8,"y":1,"selected":false}}]
-	
-	for (var i=0; i<startuplines.length; ++i)
-	{
-		lines.push(
-			new Line(
-				startuplines[i].start.x,
-				startuplines[i].start.y,
-				startuplines[i].end.x,
-				startuplines[i].end.y
-			)
-		);
-	}
-}
-
-function SetCurrentFile(fileName)
+/*
+function SetCurrentFile(fileName) // TAB NAME
 {
     currentlyOpenedFile = fileName;
     var text = "LogoDesigner";
@@ -341,31 +296,17 @@ function SetCurrentFile(fileName)
         
     document.title = text;
 }
+*/
 
-function SaveToDisk()
-{
-    var name = prompt("Save as: ");
 
-    if (name) {
-        SaveAsJSON(name);
-    }
-}
-
-function SaveAsJSON(name)
-{
-    let data = JSON.stringify(currentProject.currentFile.lines);
-    let blob = new Blob([data], { type: "text/plain;charset=utf-8" });
-    saveAs(blob, name + ".json");
-}
-
-function ExportAsSVG()
+function ExportAsSVG() // SVG
 {
     var name = prompt("Save as: ");
 
     if (name) {
         let svgData = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n';
         let factor = 10; // TODO maybe prompt for scale factor? or create own export-dialog-prompt-window?
-        let linesArray = currentProject.currentFile.lines;
+        let linesArray = DATA_MANAGER.currentFile.lines;
 
         let shiftX = 0;
         let shiftY = 0;
@@ -417,13 +358,13 @@ function GenerateLinesFromJSONString(jsonString)
     }
     catch (err) {
         console.log(err);
-        Notify("File type not supported!");
+        notify("File type not supported!");
         return;
     }
 
-    currentProject.currentFile.lines = [];
+    DATA_MANAGER.currentFile.lines = [];
     for (var i = 0; i < linesArray.length; ++i) {
-        currentProject.currentFile.AddLine(
+        DATA_MANAGER.currentFile.addLine(
             new Line(
                 linesArray[i].start.x,
                 linesArray[i].start.y,
@@ -433,10 +374,11 @@ function GenerateLinesFromJSONString(jsonString)
         );
     }
 
-    SetCurrentFile(null);
-    Redraw();
+    //SetCurrentFile(null);
+    DRAW_MANAGER.redraw();
 }
 
+/*
 var urlParameters = [];
 function LoadURLParameters()
 {
@@ -449,7 +391,7 @@ function LoadURLParameters()
         urlParameters[keyValuePair[0]] = keyValuePair[1];
     }
 }
-
+*/
 function handleFileSelect(evt) {
     evt.stopPropagation();
     evt.preventDefault();

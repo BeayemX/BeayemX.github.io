@@ -1,7 +1,7 @@
 "use strict"
 
 
-// TODO FIXME super ugly. if i call these methods directly 'this' refers to the caller and not to the class any more...
+// SIFU TODO FIXME super ugly. if i call these methods directly 'this' refers to the caller and not to the class any more...
 function MouseMove(e) {
     mouseHandler.MouseMove(e);
 }
@@ -27,19 +27,19 @@ class MouseHandler
 
     MouseMove(e)
     {
-        var newPos = GetMousePos(e);
+        var newPos = UTILITIES.getMousePos(e);
 
 	    if (!isPanning)
 	    {
-	        var oldGridPoint = GetGridPos(this.oldPos);
-	        currentGridPosition = GetGridPos(newPos);
+	        var oldGridPoint = UTILITIES.getGridPos(this.oldPos);
+	        currentGridPosition = UTILITIES.getGridPos(newPos);
 	        var gridPosDelta = new Vector2(
 			    currentGridPosition.x - oldGridPoint.x,
 			    currentGridPosition.y - oldGridPoint.y
 		    );
 		    if (gridPosDelta.x != 0 || gridPosDelta.y != 0) {
 		        this.GridPositionChanged(e, gridPosDelta);
-		        WriteToStatusbarLeft("x: " + currentGridPosition.x + " | " + "y: " + currentGridPosition.y);
+		        GUI.writeToStatusbarLeft("x: " + currentGridPosition.x + " | " + "y: " + currentGridPosition.y);
             }
 	    }
 	    else // while panning
@@ -51,7 +51,7 @@ class MouseHandler
 
 		    canvasOffset.x += screenPosDelta.x;
 		    canvasOffset.y += screenPosDelta.y;
-		    Redraw();
+		    DRAW_MANAGER.redraw();
 	    }
 
 	    this.oldPos = newPos;
@@ -59,35 +59,35 @@ class MouseHandler
 
     GridPositionChanged(e, delta)
     {
-	    if (currentState == StateEnum.GRABBING)
+        if (LOGIC.currentState == StateEnum.GRABBING)
 	    {
-	        var points = currentProject.currentFile.GetAllSelectedPoints();
-	        MovePointsBy(points, delta);
+	        var points = DATA_MANAGER.currentFile.getAllSelectedPoints();
+	        UTILITIES.movePointsBy(points, delta);
         }
-	    else if (currentState == StateEnum.BORDERSELECTION)
+        else if (LOGIC.currentState == StateEnum.BORDERSELECTION)
 	    {
-		    if (borderSelectionStart)
+		    if (UTILITIES.borderSelectionStart)
 		    {
-			    borderSelectionEnd = {x: currentGridPosition.x, y: currentGridPosition.y};
+		        UTILITIES.borderSelectionEnd = { x: currentGridPosition.x, y: currentGridPosition.y };
 		    }
 	    }
 
-	    Redraw();
+	    DRAW_MANAGER.redraw();
     }
 
     MouseDown(e)
     {
-	    var point = GetMousePos(e);
+        var point = UTILITIES.getMousePos(e);
 
 	    if (e.button == 0) // LMB
 	    {
-		    if (currentState == StateEnum.IDLE)
+	        if (LOGIC.currentState == StateEnum.IDLE)
 		    {
-			    SetState(StateEnum.DRAWING);
+			    LOGIC.setState(StateEnum.DRAWING);
 			    this.downPoint = new Vector2(point.x, point.y);
 			    this.GridPositionChanged();
 		    }
-		    else if (currentState == StateEnum.GRABBING)
+	        else if (LOGIC.currentState == StateEnum.GRABBING)
 		    {
 		        // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
                 // added to history it will call Do()...
@@ -95,25 +95,25 @@ class MouseHandler
 		            x: keyboardHandler.grabStartPosition.x - currentGridPosition.x,
 		            y: keyboardHandler.grabStartPosition.y - currentGridPosition.y
 		        };
-		        MovePointsBy(currentProject.currentFile.GetAllSelectedPoints(), resetDelta, true);
-		        currentProject.currentFile.CleanUpFile();
+		        UTILITIES.movePointsBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), resetDelta, true);
+		        DATA_MANAGER.currentFile.cleanUpFile();
 		        grabInitializedWithKeyboard = false;
-			    SetState(StateEnum.IDLE);
-			    Redraw();
+			    LOGIC.setState(StateEnum.IDLE);
+			    DRAW_MANAGER.redraw();
 		    }
-		    else if (currentState == StateEnum.BORDERSELECTION)
+	        else if (LOGIC.currentState == StateEnum.BORDERSELECTION)
 		    {
-			    StartBorderSelection(true);
+	            UTILITIES.startAreaSelection(true);
 		    }
 	    }
 	    else if (e.button == 2) // RMB
 	    {
-		    if (currentState == StateEnum.IDLE)
+	        if (LOGIC.currentState == StateEnum.IDLE)
 		    {
 			    if (!e.shiftKey)
-				    currentProject.currentFile.ClearSelection();
-			    let points = GetNearestSelection(point);
-			    ChangeSelectionForPoints(points);
+				    DATA_MANAGER.currentFile.clearSelection();
+			    let points = UTILITIES.getNearestSelection(point);
+			    UTILITIES.changeSelectionForPoints(points);
 
 			    if (points != null)
 			    {
@@ -122,30 +122,30 @@ class MouseHandler
 			            y: currentGridPosition.y
 			        };
 
-			        currentState = StateEnum.GRABBING;
+			        LOGIC.currentState = StateEnum.GRABBING;
 			        this.grabInitializedWithRMBDown = true;
 			    }
 		    }		  
-		    else if (currentState == StateEnum.BORDERSELECTION)
+	        else if (LOGIC.currentState == StateEnum.BORDERSELECTION)
 		    {
-			    EndBorderSelection();
+			    UTILITIES.endAreaSelection();
 		    }
-		    else if (currentState == StateEnum.DRAWING)
+	        else if (LOGIC.currentState == StateEnum.DRAWING)
 		    {
 		        this.CancelLinePreview();
 		    }
 
-		    Redraw();
+		    DRAW_MANAGER.redraw();
 	    }
 	    else if (e.button == 1) // MMB
 	    {
-		    if (currentState == StateEnum.BORDERSELECTION)
+	        if (LOGIC.currentState == StateEnum.BORDERSELECTION)
 		    {
-			    StartBorderSelection(false);
+	            UTILITIES.startAreaSelection(false);
 		    }
 		    else
 		    {
-			    var screenPos = GetMousePos(e);
+			    var screenPos = UTILITIES.getMousePos(e);
 			    isPanning = true;
 		    }
 	    }
@@ -165,14 +165,14 @@ class MouseHandler
     {
 	    if (e.button == 0) // LMB
 	    {
-		    if (currentState == StateEnum.DRAWING)
+	        if (LOGIC.currentState == StateEnum.DRAWING)
 		    {
-		        var point = GetMousePos(e);
-			    this.gridLineStart = GetGridPos(this.downPoint);
-			    this.gridLineEnd = GetGridPos(point);
+		        var point = UTILITIES.getMousePos(e);
+		        this.gridLineStart = UTILITIES.getGridPos(this.downPoint);
+		        this.gridLineEnd = UTILITIES.getGridPos(point);
 
 			    if (this.gridLineStart.x != this.gridLineEnd.x || this.gridLineStart.y != this.gridLineEnd.y)
-                    currentProject.currentFile.AddLine(
+                    DATA_MANAGER.currentFile.addLine(
 					    new Line(
 						    this.gridLineStart.x,
 						    this.gridLineStart.y,
@@ -187,17 +187,17 @@ class MouseHandler
 
 			    this.GridPositionChanged();
 		    }
-		    else if (currentState == StateEnum.BORDERSELECTION)
+	        else if (LOGIC.currentState == StateEnum.BORDERSELECTION)
 		    {
-			    EndBorderSelection(true);
+	            UTILITIES.endAreaSelection(true);
 		    }
 	    }
 
 	    else if (e.button == 1) // MMB
 	    {
 
-	        if (currentState == StateEnum.BORDERSELECTION) {
-	            EndBorderSelection(true);
+	        if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
+	            UTILITIES.endAreaSelection(true);
 	        }
 	        else {
 	            isPanning = false;
@@ -205,27 +205,27 @@ class MouseHandler
 	    }
 	    else if (e.button == 2) // RMB
 	    {
-	        if (currentState == StateEnum.GRABBING) // cancel grab
+	        if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
 	        {
-	            var resetDelta = {
+	            let resetDelta = {
 	                x: keyboardHandler.grabStartPosition.x - currentGridPosition.x,
 	                y: keyboardHandler.grabStartPosition.y - currentGridPosition.y
 	            };
 
 	            if (this.grabInitializedWithRMBDown == false)
 	            {
-	                var points = currentProject.currentFile.GetAllSelectedPoints();
-	                MovePointsBy(points, resetDelta);
+	                let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
+	                UTILITIES.movePointsBy(points, resetDelta);
 	            }
 	            else
 	            {
-	                MovePointsBy(currentProject.currentFile.GetAllSelectedPoints(), resetDelta, true);
-	                currentProject.currentFile.CleanUpFile();
+	                UTILITIES.movePointsBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), resetDelta, true);
+	                DATA_MANAGER.currentFile.cleanUpFile();
 	            }
 	            this.grabInitializedWithRMBDown = false;
 	            grabInitializedWithKeyboard = false;
-	            SetState(StateEnum.IDLE);
-	            Redraw();
+	            LOGIC.setState(StateEnum.IDLE);
+	            DRAW_MANAGER.redraw();
 	        }
 	    }
     }
@@ -238,7 +238,14 @@ class MouseHandler
 		    this.Zoom(0.9);
 
 	    this.MouseMove(e);
-	    Redraw();
+	    DRAW_MANAGER.redraw();
+    }
+
+    MouseLeave() {
+        if (LOGIC.currentState == StateEnum.GRABBING) {
+            // TODO should place cursor on other side of the canvas... 
+            // but doesn't work due to security reasons...
+        }
     }
 
     Zoom(delta)
@@ -249,6 +256,6 @@ class MouseHandler
     CancelLinePreview()
     {
         this.downPoint = undefined;
-        SetState(StateEnum.IDLE);
+        LOGIC.setState(StateEnum.IDLE);
     }
 }

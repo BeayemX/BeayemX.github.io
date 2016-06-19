@@ -1,15 +1,11 @@
 var showHandles = true;
 var showAdvancedHandles = false;
 
-
-function Button1()
-{
-	console.log("button pressed");
-}
+// SIFU TODO class
 
 function Subdivide()
 {
-	var selectedLines = currentProject.currentFile.GetSelectedLines();
+	var selectedLines = DATA_MANAGER.currentFile.getSelectedLines();
 	for (var i=0; i<selectedLines.length; ++i)
 	{
 		var midPoint = 
@@ -17,18 +13,18 @@ function Subdivide()
 			x: Math.round((selectedLines[i].end.x + selectedLines[i].start.x) / 2),
 			y: Math.round((selectedLines[i].end.y + selectedLines[i].start.y) / 2)
 		}
-	    currentProject.currentFile.AddLine(new Line(selectedLines[i].start.x, selectedLines[i].start.y, midPoint.x, midPoint.y, true));
-	    currentProject.currentFile.AddLine(new Line(midPoint.x, midPoint.y, selectedLines[i].end.x, selectedLines[i].end.y, true));
-	    currentProject.currentFile.RemoveLine(selectedLines[i]);
+	    DATA_MANAGER.currentFile.addLine(new Line(selectedLines[i].start.x, selectedLines[i].start.y, midPoint.x, midPoint.y, true));
+	    DATA_MANAGER.currentFile.addLine(new Line(midPoint.x, midPoint.y, selectedLines[i].end.x, selectedLines[i].end.y, true));
+	    DATA_MANAGER.currentFile.removeLine(selectedLines[i]);
 	}
-	Redraw();
+	DRAW_MANAGER.redraw();
 }
 
 function Mirror()
 {
     var minX = Infinity;
     var maxX = -Infinity;
-    var selLines = currentProject.currentFile.GetSelectedLines();
+    var selLines = DATA_MANAGER.currentFile.getSelectedLines();
 
 	for (var i=0; i<selLines.length; ++i)
 	{
@@ -44,14 +40,14 @@ function Mirror()
 		selLines[i].start.x -= (selLines[i].start.x - minX) * 2 - (maxX-minX);
 		selLines[i].end.x -= (selLines[i].end.x - minX) * 2 - (maxX-minX);
 	}
-	Redraw();
+	DRAW_MANAGER.redraw();
 }
 
 function Rotate(clockwise)
 {
 	var minX = Infinity;
 	var minY = Infinity;
-	var selLines = currentProject.currentFile.GetSelectedLines();
+	var selLines = DATA_MANAGER.currentFile.getSelectedLines();
 
 	for (var i=0; i<selLines.length; ++i)
 	{
@@ -102,12 +98,12 @@ function Rotate(clockwise)
 		selLines[i].end.x += minX - newMinX;
 		selLines[i].end.y += minY - newMinY;
 	}
-	Redraw();
+	DRAW_MANAGER.redraw();
 }
 function ToggleGridType()
 {
 	showGrid = !showGrid;
-	Redraw();
+	DRAW_MANAGER.redraw();
 }
 
 function ToggleHandles(button)
@@ -119,7 +115,7 @@ function ToggleHandles(button)
     else
         button.innerHTML = "Show line handles";
 
-    Redraw();
+    DRAW_MANAGER.redraw();
 }
 
 var advancedHandlesState = false;
@@ -131,7 +127,7 @@ function ToggleAdvancedHandles()
 
     UpdateAdvancedHandlesButton();
 
-    Redraw();
+    DRAW_MANAGER.redraw();
 }
 
 function UpdateAdvancedHandlesButton()
@@ -144,8 +140,8 @@ function UpdateAdvancedHandlesButton()
 
 function IncreaseSize(factor)
 {
-    var selLines = currentProject.currentFile.GetSelectedLines();
-    var center = CalculateCenter(selLines);
+    var selLines = DATA_MANAGER.currentFile.getSelectedLines();
+    var center = UTILITIES.calculateCenter(selLines);
 
     var correctlyScalable = true;
 
@@ -171,22 +167,20 @@ function IncreaseSize(factor)
             line.end.y = Math.round(line.end.y * factor);
         }
 
-        var newCenter = CalculateCenter(selLines);
+        var newCenter = UTILITIES.calculateCenter(selLines);
         var delta = new Vector2(center.x - newCenter.x,
             center.y - newCenter.y);
 
-        var points = currentProject.currentFile.GetAllSelectedPoints();
-        MovePointsBy(points, delta)
-        currentProject.currentFile.CleanUpFile();
-        Redraw();
+        var points = DATA_MANAGER.currentFile.getAllSelectedPoints();
+        UTILITIES.movePointsBy(points, delta)
+        DATA_MANAGER.currentFile.cleanUpFile();
+        DRAW_MANAGER.redraw();
     }
 }
 
 function GrowSelection() {
-    currentProject.currentFile.GrowSelection(true);
+    DATA_MANAGER.currentFile.growSelection(true);
 }
 function SelectLinked() {
-    currentProject.currentFile.SelectLinked();
+    DATA_MANAGER.currentFile.selectLinked();
 }
-
-SelectLinked

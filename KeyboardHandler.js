@@ -12,7 +12,7 @@ class KeyboardHandler
          {
              case 82: // R
                  if (e.ctrlKey)
-                     ReloadPage(true);
+                     UTILITIES.reloadPage(true);
                  else if (e.shiftKey)
                      Rotate(false);
                  else 
@@ -20,7 +20,7 @@ class KeyboardHandler
                  break;
              case 116: // F5
                  AutoSave();
-                 ReloadPage(false);
+                 UTILITIES.reloadPage(false);
                  break;
 
              case 83: // S
@@ -36,51 +36,51 @@ class KeyboardHandler
                  DeleteSavedLogo();
                  break;
              case 71: // G
-                 if (currentState == StateEnum.IDLE)
+                 if (LOGIC.isState(StateEnum.IDLE))
                  {
-                     if (currentProject.currentFile.IsSomethingSelected()) 
+                     if (DATA_MANAGER.currentFile.isSomethingSelected()) 
                      {
-                         SetState(StateEnum.GRABBING);
+                         LOGIC.setState(StateEnum.GRABBING);
                          grabInitializedWithKeyboard = true;
                          // DON'T CALL WITH this.grabStartPosition because 'this' refers to caller, not THIS class!!!!
                          keyboardHandler.grabStartPosition = currentGridPosition.Copy();
-                         Redraw();
+                         DRAW_MANAGER.redraw();
                      }
                  }
                  break;
 
              case 65: // A
-                 if (currentState == StateEnum.IDLE)
+                 if (LOGIC.currentState == StateEnum.IDLE)
                  {
-                     currentProject.currentFile.SelectAllToggle();
-                     Redraw();
+                     DATA_MANAGER.currentFile.selectAllToggle();
+                     DRAW_MANAGER.redraw();
                  }
 
 			    break;
 
 		    case 88: // X
-		        if (currentState == StateEnum.IDLE)
+		        if (LOGIC.currentState == StateEnum.IDLE)
                 {
-		            currentProject.currentFile.DeleteSelectedLines();
-			        Redraw();
+		            DATA_MANAGER.currentFile.deleteSelectedLines();
+			        DRAW_MANAGER.redraw();
 		        }
 
 			    break;
 		    case 73: // I
-		        if (currentState == StateEnum.IDLE)
+		        if (LOGIC.currentState == StateEnum.IDLE)
 		        {
-			        currentProject.currentFile.InvertSelection();
-			        Redraw();
+			        DATA_MANAGER.currentFile.invertSelection();
+			        DRAW_MANAGER.redraw();
 		        }
 			    break;
 		    case 68: // D
-			    if (currentState == StateEnum.IDLE || currentState == StateEnum.GRABBING)
+		        if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING)
 			    {
-			        if (currentProject.currentFile.IsSomethingSelected())
+			        if (DATA_MANAGER.currentFile.isSomethingSelected())
                     {
-			            currentProject.currentFile.DuplicateLines();
+			            DATA_MANAGER.currentFile.duplicateLines();
 			            keyboardHandler.grabStartPosition = currentGridPosition.Copy();
-				        SetState(StateEnum.GRABBING);
+			            LOGIC.setState(StateEnum.GRABBING);
 			        }
 			    }	
 			    break;
@@ -88,39 +88,39 @@ class KeyboardHandler
 		    case 9: // TAB
 			    //if (currentState == StateEnum.IDLE)
 			    {
-				    SetState(StateEnum.RENDERPREVIEW);
+			        LOGIC.setState(StateEnum.RENDERPREVIEW);
 	  			    canvas.style.background = 'white';
-				    Redraw();
+				    DRAW_MANAGER.redraw();
 			    }
 			    break;
 
 		    case 67: // C
-			    if (currentState == StateEnum.IDLE)
+			    if (LOGIC.isState(StateEnum.IDLE))
 				    CopyLinesToClipboard();
 			    break;
 
 		    case 86: // V
-			    if (currentState == StateEnum.IDLE)
+		        if (LOGIC.isState(StateEnum.IDLE))
 			    {	
 			        if (PasteLines())
 			        {
 			            keyboardHandler.grabStartPosition = currentGridPosition.Copy();
-			            SetState(StateEnum.GRABBING);
+			            LOGIC.setState(StateEnum.GRABBING);
                     }
 			    }
 			    break;
 
 		    case 13: // Enter
-			    if (currentState == StateEnum.IDLE)
+			    if (LOGIC.isState(StateEnum.IDLE))
 				    TakeScreenshot();
 			    break;
 		    case 70: // F // TODO improve. zoom to selection / zoom fit / etc ... 
 			    canvasOffset = {x: canvas.width * 0.5, y: canvas.height * 0.5 };
-			    Redraw();
+			    DRAW_MANAGER.redraw();
 			    break;
 		    case 66: // B
-			    SetState(StateEnum.BORDERSELECTION);
-			    Redraw();
+		        LOGIC.setState(StateEnum.BORDERSELECTION);
+			    DRAW_MANAGER.redraw();
 		    break;
 		    case 27:
 			    ToggleDevArea();
@@ -135,9 +135,9 @@ class KeyboardHandler
              case 17: // Ctrl
                  ctrlDown = true;
 	            showAdvancedHandles = !advancedHandlesState;
-	            GetNearestSelection(GridpointToScreenpoint(currentGridPosition));
+	            UTILITIES.getNearestSelection(UTILITIES.gridpointToScreenpoint(currentGridPosition));
 	            UpdateAdvancedHandlesButton();
-	            Redraw();
+	            DRAW_MANAGER.redraw();
 	            break;
 
 	        case 90: // Z
@@ -148,7 +148,7 @@ class KeyboardHandler
                 actionhistory.Redo();
                 break;
              case 76: // L
-                 currentProject.currentFile.SelectLinked();
+                 DATA_MANAGER.currentFile.selectLinked();
                 break;
 
 		    default:
@@ -171,9 +171,9 @@ class KeyboardHandler
 	    switch(e.keyCode)
 	    {
 		    case 9: // TAB
-			    SetState(previousState);
+		        LOGIC.setState(LOGIC.previousState);
   			    canvas.style.background = canvasColor;
-			    Redraw();
+			    DRAW_MANAGER.redraw();
 			    break;
 
 	        case 17: // Ctrl
@@ -184,7 +184,7 @@ class KeyboardHandler
 	            }
 	            showAdvancedHandles = advancedHandlesState;
 	            UpdateAdvancedHandlesButton();
-	            Redraw();
+	            DRAW_MANAGER.redraw();
 	            break;
 	    }
     }

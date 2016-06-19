@@ -40,7 +40,7 @@ class ActionHistory
     Undo()
     {
         this.PopAction();
-        Redraw();
+        DRAW_MANAGER.redraw();
     }
     Redo()
     {
@@ -48,7 +48,7 @@ class ActionHistory
 
         if (action)
             this.PushAction(action, true);
-        Redraw();
+        DRAW_MANAGER.redraw();
     }
 }
 
@@ -76,11 +76,11 @@ class MoveAction {
     }
 
     Do() {
-        var delta = {
+        let delta = {
             x: this.current.x - this.start.x,
             y: this.current.y - this.start.y
         };
-        MovePointsBy(this.points, delta);
+        UTILITIES.movePointsBy(this.points, delta);
     }
 
     Undo() {
@@ -88,7 +88,7 @@ class MoveAction {
             x: this.start.x - this.current.x,
             y: this.start.y - this.current.y
         };
-        MovePointsBy(this.points, delta);
+        UTILITIES.movePointsBy(this.points, delta);
     }
 }
 class CreateLineAction {

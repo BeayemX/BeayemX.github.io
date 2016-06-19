@@ -7,21 +7,31 @@
 		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 
+
+        <script src="ClassApproach/Line.js"></script>
+        <script src="ClassApproach/Vector2.js"></script>
         <script src="ClassDefinitions.js"></script>
 		<script src="MouseHandler.js"></script>
 		<script src="KeyboardHandler.js"></script>
-		<script src="Drawing.js"></script>
 		<script src="Utilities.js"></script>
         <script src="Actions.js"></script>
-        <script src="Files.js"></script>
-        <script src="FileSaver.js"></script>
+
+        <script src="ClassApproach/File.js"></script>
+        <script src="ClassApproach/LineObject.js"></script>
+        <script src="ClassApproach/Saver.js"></script>
+        <script src="ClassApproach/FileSaver.js"></script>
+        <script src="ClassApproach/DrawManager.js"></script>
+        <script src="ClassApproach/GUI.js"></script>
+        <script src="ClassApproach/DataManager.js"></script>
+
+        <script src="Drawing.js"></script>
 		<script src="SaveLoad.js"></script>
 		<script src="Settings.js"></script>
 		<script src="ButtonActions.js"></script>
-		<script src="Notifications.js"></script>
         <script src="Logic.js"></script>
+
 	</head>
-	<body onload="OnLoad()">
+	<body onload="onLoad()">
 		<div id="notificationarea"></div>
         <div id="menubar">
             <div class="menuentry">File</div>
@@ -32,14 +42,16 @@
 			<div class="toolcategory">
 				<p>File</p>
 				<button type="button" onclick="NewFile()">New file</button>
-				<button type="button" onclick="Save(false)">Save</button>
+				<!--        
+                <button type="button" onclick="Save(false)">Save</button>
                 <button type="button" onclick="Save(true)">Save as</button>
                 <button type="button" onclick="ExportAsSVG()">Export as SVG</button>
-                <button type="button" onclick="SaveToDisk()">Save to disk</button>
-                <button type="button" onclick="LoadFromDisk()">Load from disk</button>
                 <button type="button" onclick="SaveAs36EncodedString()">Save to URL</button>
-                
+                <button type="button" onclick="LoadFromDisk()">Load from disk</button>
 				<select id="savedfilesdropdown" style='height: 100%; display:block;'></select>
+                -->
+                <button type="button" onclick="saver.saveToDisk()">Save to disk</button>
+                
 			</div>
 
 			<div class="toolcategory">
@@ -60,14 +72,12 @@
 		<div id="rightarea" class="toolarea" width="150">
 			<div class="toolcategory">
 				<p>Dev Stuff</p>
-				<button type="button" onclick="SaveStartupFile()">Set as startup file</button>
-				<button type="button" onclick="LoadStartupFile()">Load startup file</button>
 				<button type="button" onclick="LoadAutoSave()">Load AutoSave File</button>
 			</div>
 
             <div class="toolcategory">
                 <p>Help</p>
-                <button type="button" onclick="ReshowLastNotification()">Re-Show last notification</button>
+                <!--<button type="button" onclick="reshowLastNotification()">Re-Show last notification</button>-->
                 <!-- TODO remove me and everything related <button type="button" onclick="ToggleGridType()">Toggle grid type</button>-->
                 <button type="button" onclick="ToggleHandles(this)">Hide line handles</button>
                 <button type="button" onclick="ToggleAdvancedHandles()" id="advancedHandlesButton"></button>

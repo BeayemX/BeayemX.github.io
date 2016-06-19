@@ -2,17 +2,6 @@
 
 var canvas;
 var context;
-var notificationarea;
-var savedfilesdropdown;
-var menubar;
-var statusbar;
-var statusbarentryleft;
-var statusbarentryright;
-var leftarea;
-var rightarea;
-
-var currentState = StateEnum.IDLE;
-var previousState = StateEnum.IDLE;
 
 var currentGridPosition = new GridPoint();
 var canvasOffset = { x: 0, y: 0 };
@@ -23,149 +12,119 @@ var advancedHandlesButton;
 var ctrlDown;
 var grabInitializedWithKeyboard = false;
 
-var keyboardHandler;
-var mouseHandler;
 
-var currentProject;
+// SIFU TODO write in all caps... not posssible for gui..
+let saver;
+let DATA_MANAGER;
+let DRAW_MANAGER;
+let keyboardHandler;
+let mouseHandler;
+let LOGIC;
+let GUI;
+let UTILITIES;
 
-function OnLoad() {
-    console.log("Github pages.");
-    currentProject = new Project();
-
+function onLoad()
+{
     keyboardHandler = new KeyboardHandler();
     mouseHandler = new MouseHandler();
+    LOGIC = new Logic();
+    saver = new Saver();
+    DATA_MANAGER = new DataManager();
+    DRAW_MANAGER = new DrawManager();
+    GUI = new Gui();
+    UTILITIES = new Utilities();
 
-    window.addEventListener("keydown", keyboardHandler.KeyDown, false)
-    window.addEventListener("keyup", keyboardHandler.KeyUp, false)
-    window.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
-    window.addEventListener('resize', ResizeCanvas, false);
+    LOGIC.start();
+}
 
-    canvas = document.getElementById('canvas');
-    context = canvas.getContext('2d');
-    menubar = document.getElementById("menubar");
-    statusbar = document.getElementById("statusbar");
-    statusbarentryleft = document.getElementById("statusbarentryleft");
-    statusbarentryright = document.getElementById("statusbarentryright");
-    leftarea = document.getElementById('leftarea');
-    rightarea = document.getElementById('rightarea');
-    rightarea.style.visibility = "visible";
-
-    notificationarea = document.getElementById('notificationarea');
-    savedfilesdropdown = document.getElementById('savedfilesdropdown');
-
-    advancedHandlesButton = document.getElementById('advancedHandlesButton');
-    UpdateAdvancedHandlesButton();
-
-    canvas.addEventListener("mousemove", MouseMove);
-    canvas.addEventListener("mouseup", MouseUp);
-    canvas.addEventListener("mousedown", MouseDown);
-    canvas.addEventListener("mousewheel", MouseScroll);
-    canvas.addEventListener("mouseleave", MouseLeave);
-
-    notificationarea.addEventListener("mouseenter", NotificationEnter);
-    notificationarea.addEventListener("mouseout", NotificationExit);
-
-    savedfilesdropdown.addEventListener("change", DropDownSelected)
-
-    // Setup the dnd listeners.
-    let dropZone = document.body;
-    dropZone.addEventListener('dragover', handleDragOver, false);
-    dropZone.addEventListener('drop', handleFileSelect, false);
-
-    canvas.style.background = canvasColor;
-    ResizeCanvas();
-
-    canvasOffset.x = canvas.width * 0.5;
-    canvasOffset.y = canvas.height * 0.5;
-
-    LoadURLParameters();
-    
-    if (urlParameters)
+class Logic {
+    constructor()
     {
-        if (urlParameters["file"])
-        {
-            Open36EncodedString(urlParameters["file"])
+        console.log("Logic created.");
+
+        this.currentState = StateEnum.IDLE;
+        this.previousState = StateEnum.IDLE;
+    }
+    
+    start()
+    {
+        window.addEventListener("keydown", keyboardHandler.KeyDown, false)
+        window.addEventListener("keyup", keyboardHandler.KeyUp, false)
+        window.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
+        window.addEventListener('resize', this.layoutGUI, false);
+
+        canvas = document.getElementById('canvas');
+        context = canvas.getContext('2d');
+        
+
+
+        advancedHandlesButton = document.getElementById('advancedHandlesButton');
+        UpdateAdvancedHandlesButton();
+
+        canvas.addEventListener("mousemove", MouseMove);
+        canvas.addEventListener("mouseup", MouseUp);
+        canvas.addEventListener("mousedown", MouseDown);
+        canvas.addEventListener("mousewheel", MouseScroll);
+        canvas.addEventListener("mouseleave", MouseHandler.MouseLeave);
+
+        notificationarea.addEventListener("mouseenter", GUI.notificationEnter);
+        notificationarea.addEventListener("mouseout", GUI.notificationExit);
+
+        // savedfilesdropdown.addEventListener("change", DropDownSelected)
+
+        // Setup the dnd listeners.
+        let dropZone = document.body;
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
+
+        canvas.style.background = canvasColor;
+        this.layoutGUI();
+
+        canvasOffset.x = canvas.width * 0.5;
+        canvasOffset.y = canvas.height * 0.5;
+
+    
+        LoadAutoSave();
+
+        DATA_MANAGER.currentFile.updateStats();
+        DRAW_MANAGER.redraw();
+        TestActionHistory(); // SIFU remove
+    }
+
+    layoutGUI()
+    {
+        GUI.notificationarea.style.top = 0;
+        canvas.width = window.innerWidth - leftarea.offsetWidth;
+
+        if (rightarea.style.visibility == "visible")
+            canvas.width -= rightarea.offsetWidth;
+
+        canvas.height = window.innerHeight - GUI.menubar.offsetHeight - GUI.statusbar.offsetHeight;
+        canvas.style.left = leftarea.offsetWidth;
+        canvas.style.top = menubar.offsetHeight;
+
+        DRAW_MANAGER.redraw();
+    }
+
+    setState(state) {
+        if (this.currentState == state)
+            return;
+
+        this.previousState = this.currentState;
+        this.currentState = state;
+        // console.log(this.previousState  + " --> " + this.currentState);
+    }
+
+    isPreviewing() {
+        return this.currentState == StateEnum.RENDERPREVIEW; // ||
+        //(currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
+    }
+
+    isState(states) {
+        for (var i = 0; i < arguments.length; i++) {
+            if (this.currentState == arguments[i])
+                return true;
         }
-        else {
-            LoadAutoSave();
-        }
+        return false;
     }
-
-    /*
-    if (!LoadAutoSave())
-        if (!LoadStartupFile())
-            GenerateStartUpFile();
-    //*/
-    UpdateDropdown();
-    currentProject.currentFile.UpdateStats();
-    Redraw();
-    // ForTestingPurposeOnly();
-    TestActionHistory();
-}
-
-function ForTestingPurposeOnly() {
-    Notify("Test Function called!");
-}
-
-function ForTestingPurposeOnly2() {
-    Notify("Test Function 2 called!");
-}
-
-function ResizeCanvas() // TODO rename to LayoutGUI
-{
-    // leftarea.style.top = window.innerHeight * 0.5 - leftarea.offsetHeight * 0.5;
-    // rightarea.style.top = window.innerHeight * 0.5 - rightarea.offsetHeight * 0.5;
-    notificationarea.style.top = 0;
-
-    canvas.width = window.innerWidth - leftarea.offsetWidth;
-    if (rightarea.style.visibility == "visible")
-        canvas.width -= rightarea.offsetWidth;
-
-    canvas.height = window.innerHeight - menubar.offsetHeight - statusbar.offsetHeight;
-    canvas.style.left = leftarea.offsetWidth;
-    canvas.style.top = menubar.offsetHeight;
-    Redraw();
-}
-
-function Redraw() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    if (!IsRendering()) {
-        DrawGrid();
-        if (currentState == StateEnum.BORDERSELECTION)
-            DrawHelpers();
-        else if (grabInitializedWithKeyboard)
-            DrawHelpers2();
-        DrawBorderSelection();
-    }
-
-    DrawStoredLines();
-
-    if (!IsRendering())
-        DrawPreciseSelection();
-
-    if (currentState == StateEnum.IDLE || currentState == StateEnum.DRAWING) {
-        DrawPreview();
-    }
-}
-
-function SetState(state) {
-    if (currentState == state)
-        return;
-
-    previousState = currentState;
-    currentState = state;
-    // console.log(previousState  + " --> " + currentState);
-}
-
-function IsRendering() {
-    return currentState == StateEnum.RENDERPREVIEW; // ||
-    //(currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
-}
-
-function WriteToStatusbarLeft(text) {
-    statusbarentryleft.innerHTML = text;
-}
-function WriteToStatusbarRight(text) {
-    statusbarentryright.innerHTML = text;
 }
