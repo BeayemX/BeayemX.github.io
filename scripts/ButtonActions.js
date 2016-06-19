@@ -1,4 +1,4 @@
-// TODO merge with Utilities?
+// SIFU TODO merge with Utilities?
 // TODO if not other file name
 class LineManipulator {
 

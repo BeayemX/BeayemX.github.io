@@ -63,7 +63,7 @@ class Saver {
         console.log("Saved.")
     }
 
-    loadAutoSave() // TODO combine with loading from file
+    loadAutoSave() // SIFU TODO combine with loading from file
     {
         let autoSaveFile = localStorage.getItem(this.autosaveFileName);
         if (!autoSaveFile) {

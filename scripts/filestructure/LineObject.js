@@ -13,7 +13,7 @@
         this.cleanUpFile();
     }
 
-    removeLine(line) { // TODO difference to deleteSelectedLine? just the parameter? could get selected and pass as parameter?
+    removeLine(line) { // SIFU TODO difference to deleteSelectedLine? just the parameter? could get selected and pass as parameter?
         for (var i = 0; i < this.lines.length; ++i) {
             if (this.lines[i] == line) {
                 this.lines.splice(i, 1);
@@ -208,7 +208,7 @@
         return points;
     }
 
-    linesOverlapping(line1, line2) { // TODO move to utilities?
+    linesOverlapping(line1, line2) { // SIFU TODO move to utilities? generll entweder in utilities oder ins line object aber nicht so halbherzig aufteilen
         return (line1.start.x == line2.start.x
         && line1.start.y == line2.start.y
         && line1.end.x == line2.end.x
