@@ -80,7 +80,7 @@ class Utilities {
             if (delta.x != 0 || delta.y != 0) {
                 var curr = { x: currentGridPosition.x, y: currentGridPosition.y };
                 var start = { x: KEYBOARD_HANDLER.grabStartPosition.x, y: KEYBOARD_HANDLER.grabStartPosition.y };
-                actionhistory.PushAction(new MoveAction(points, curr, start));
+                ACTION_HISTORY.PushAction(new MoveAction(points, curr, start));
             }
         }
     }

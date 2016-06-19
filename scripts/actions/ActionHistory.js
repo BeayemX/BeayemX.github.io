@@ -1,16 +1,10 @@
 ﻿"use strict"
-var actionhistory;
-
-// TODO remove me HACK XXX 
-function TestActionHistory()
-{
-    actionhistory = new ActionHistory();
-}
-
 class ActionHistory
 {
     constructor()
     {
+        console.log("ActionHistory created.");
+
         this.actions = [];
         this.undoneActions = [];
     }

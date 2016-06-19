@@ -20,6 +20,7 @@ let LOGIC;
 let GUI;
 let UTILITIES;
 let EXPORTER;
+let ACTION_HISTORY;
 
 function onLoad()
 {
@@ -32,6 +33,7 @@ function onLoad()
     GUI = new Gui();
     UTILITIES = new Utilities();
     EXPORTER = new Exporter();
+    ACTION_HISTORY = new ActionHistory();
 
     LOGIC.start();
 }
@@ -78,7 +80,6 @@ class Logic {
         SAVER.loadAutoSave();
         DATA_MANAGER.currentFile.updateStats();
         DRAW_MANAGER.redraw();
-        TestActionHistory(); // SIFU remove
     }
 
     layoutGUI()

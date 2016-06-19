@@ -129,11 +129,11 @@ class KeyboardHandler {
                 break;
 
             case 90: // Z
-                actionhistory.Undo();
+                ACTION_HISTORY.Undo();
                 break;
 
             case 89: // Y
-                actionhistory.Redo();
+                ACTION_HISTORY.Redo();
                 break;
             case 76: // L
                 DATA_MANAGER.currentFile.selectLinked();
