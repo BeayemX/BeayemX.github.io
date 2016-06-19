@@ -7,8 +7,7 @@ class Saver {
         this.clipboardFileName = "Clipboard";
     }
 
-    saveToDisk()
-    {
+    saveToDisk() {
         var name = prompt("Save as: ");
 
         if (name) {
@@ -17,16 +16,14 @@ class Saver {
     }
 
     // TODO create method in file-class which creates object where only the important information is saved and save that as json
-    saveAsJSON(name)
-    {
+    saveAsJSON(name) {
         let data = JSON.stringify(DATA_MANAGER.currentFile.lineObjects, null, '\t');
 
         let blob = new Blob([data], { type: "text/plain;charset=utf-8" });
         saveAs(blob, name + ".json");
     }
-    
-    loadJSONFile(jsonString)
-    {
+
+    loadJSONFile(jsonString) {
         let file;
         try {
             file = JSON.parse(jsonString);
@@ -60,9 +57,8 @@ class Saver {
         return;
     }
 
-    
-    autoSave()
-    {
+
+    autoSave() {
         localStorage.setItem(this.autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile));
         console.log("Saved.")
     }
@@ -70,8 +66,10 @@ class Saver {
     loadAutoSave() // TODO combine with loading from file
     {
         let autoSaveFile = localStorage.getItem(this.autosaveFileName);
-        if (!autoSaveFile)
+        if (!autoSaveFile) {
+            SAVER.newFile();
             return;
+        }
 
         DATA_MANAGER.currentFile.lineObjects = [];
         let file = JSON.parse(autoSaveFile);
@@ -134,7 +132,7 @@ class Saver {
         DRAW_MANAGER.redraw();
         return true;
     }
-    
+
     handleDragOver(evt) {
         evt.stopPropagation();
         evt.preventDefault();
