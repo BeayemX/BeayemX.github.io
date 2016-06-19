@@ -3,16 +3,16 @@
 
 // SIFU TODO FIXME super ugly. if i call these methods directly 'this' refers to the caller and not to the class any more...
 function MouseMove(e) {
-    mouseHandler.MouseMove(e);
+    MOUSE_HANDLER.MouseMove(e);
 }
 function MouseUp(e) {
-    mouseHandler.MouseUp(e);
+    MOUSE_HANDLER.MouseUp(e);
 }
 function MouseDown(e) {
-    mouseHandler.MouseDown(e);
+    MOUSE_HANDLER.MouseDown(e);
 }
 function MouseScroll(e) {
-    mouseHandler.MouseScroll(e);
+    MOUSE_HANDLER.MouseScroll(e);
 }
 class MouseHandler
 {
@@ -94,8 +94,8 @@ class MouseHandler
 		        // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
                 // added to history it will call Do()...
 		        var resetDelta = {
-		            x: keyboardHandler.grabStartPosition.x - currentGridPosition.x,
-		            y: keyboardHandler.grabStartPosition.y - currentGridPosition.y
+		            x: KEYBOARD_HANDLER.grabStartPosition.x - currentGridPosition.x,
+		            y: KEYBOARD_HANDLER.grabStartPosition.y - currentGridPosition.y
 		        };
 		        UTILITIES.movePointsBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), resetDelta, true);
 		        DATA_MANAGER.currentFile.cleanUpFile();
@@ -119,7 +119,7 @@ class MouseHandler
 
 			    if (points != null)
 			    {
-			        keyboardHandler.grabStartPosition = {
+			        KEYBOARD_HANDLER.grabStartPosition = {
 			            x: currentGridPosition.x,
 			            y: currentGridPosition.y
 			        };
@@ -210,8 +210,8 @@ class MouseHandler
 	        if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
 	        {
 	            let resetDelta = {
-	                x: keyboardHandler.grabStartPosition.x - currentGridPosition.x,
-	                y: keyboardHandler.grabStartPosition.y - currentGridPosition.y
+	                x: KEYBOARD_HANDLER.grabStartPosition.x - currentGridPosition.x,
+	                y: KEYBOARD_HANDLER.grabStartPosition.y - currentGridPosition.y
 	            };
 
 	            if (this.grabInitializedWithRMBDown == false)

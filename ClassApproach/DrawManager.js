@@ -264,7 +264,7 @@
         context.fillStyle = previewLineColor;
         if (LOGIC.currentState == StateEnum.DRAWING)
         {
-            var start = UTILITIES.getGridPos(mouseHandler.downPoint);
+            var start = UTILITIES.getGridPos(MOUSE_HANDLER.downPoint);
             var end = currentGridPosition;//GetGridPos(vec2);
             context.lineWidth = lineWidth;
 
@@ -289,7 +289,7 @@
 
         let screenpos = UTILITIES.gridpointToScreenpoint(currentGridPosition);
 
-        let start = UTILITIES.gridpointToScreenpoint(keyboardHandler.grabStartPosition);
+        let start = UTILITIES.gridpointToScreenpoint(KEYBOARD_HANDLER.grabStartPosition);
         this.drawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
         this.drawLineFromTo(screenpos.x, 0, screenpos.x, canvas.height);
         this.drawLineFromTo(start.x, start.y, screenpos.x, screenpos.y);

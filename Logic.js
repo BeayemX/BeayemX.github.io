@@ -17,8 +17,8 @@ var grabInitializedWithKeyboard = false;
 let SAVER;
 let DATA_MANAGER;
 let DRAW_MANAGER;
-let keyboardHandler;
-let mouseHandler;
+let KEYBOARD_HANDLER;
+let MOUSE_HANDLER;
 let LOGIC;
 let GUI;
 let UTILITIES;
@@ -26,8 +26,8 @@ let EXPORTER;
 
 function onLoad()
 {
-    keyboardHandler = new KeyboardHandler();
-    mouseHandler = new MouseHandler();
+    KEYBOARD_HANDLER = new KeyboardHandler();
+    MOUSE_HANDLER = new MouseHandler();
     LOGIC = new Logic();
     SAVER = new Saver();
     DATA_MANAGER = new DataManager();
@@ -50,8 +50,8 @@ class Logic {
     
     start()
     {
-        window.addEventListener("keydown", keyboardHandler.KeyDown, false)
-        window.addEventListener("keyup", keyboardHandler.KeyUp, false)
+        window.addEventListener("keydown", KEYBOARD_HANDLER.KeyDown, false)
+        window.addEventListener("keyup", KEYBOARD_HANDLER.KeyUp, false)
         window.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
         window.addEventListener('resize', this.layoutGUI, false);
 
