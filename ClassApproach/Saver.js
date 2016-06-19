@@ -2,6 +2,9 @@
 class Saver {
     constructor() {
         console.log("Saver created. ");
+
+        this.autosaveFileName = "AutoSave";
+        this.clipboardFileName = "Clipboard";
     }
 
     saveToDisk()
@@ -60,13 +63,13 @@ class Saver {
     
     autoSave()
     {
-        localStorage.setItem(autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile));
+        localStorage.setItem(this.autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile));
         console.log("Saved.")
     }
 
     loadAutoSave() // TODO combine with loading from file
     {
-        let autoSaveFile = localStorage.getItem(autosaveFileName);
+        let autoSaveFile = localStorage.getItem(this.autosaveFileName);
         if (!autoSaveFile)
             return;
 
@@ -97,5 +100,38 @@ class Saver {
         DATA_MANAGER.currentFile = new File();
         DATA_MANAGER.currentFile.currentObject = DATA_MANAGER.currentFile.addObject();
         DRAW_MANAGER.redraw();
+    }
+
+    copyLinesToClipboard() // session storage
+    {
+        let selectedLines = DATA_MANAGER.currentFile.getSelectedLines();
+        sessionStorage.setItem(this.clipboardFileName, JSON.stringify(selectedLines));
+        GUI.notify("Lines copied to clipboard!");
+    }
+
+    pasteLines() // session storage
+    {
+        let logo = sessionStorage.getItem(this.clipboardFileName);
+        if (!logo)
+            return false;
+
+        DATA_MANAGER.currentFile.clearSelection();
+
+        let linesArray = JSON.parse(logo);
+
+        for (var i = 0; i < linesArray.length; ++i) {
+            DATA_MANAGER.currentFile.addLine(
+                new Line(
+                    linesArray[i].start.x,
+                    linesArray[i].start.y,
+                    linesArray[i].end.x,
+                    linesArray[i].end.y,
+                    true
+                )
+            );
+        }
+        GUI.notify("Lines pasted from clipboard!");
+        DRAW_MANAGER.redraw();
+        return true;
     }
 }

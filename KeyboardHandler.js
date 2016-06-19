@@ -84,12 +84,12 @@ class KeyboardHandler {
 
             case 67: // C
                 if (LOGIC.isState(StateEnum.IDLE))
-                    CopyLinesToClipboard();
+                    saver.copyLinesToClipboard();
                 break;
 
             case 86: // V
                 if (LOGIC.isState(StateEnum.IDLE)) {
-                    if (PasteLines()) {
+                    if (saver.pasteLines()) {
                         keyboardHandler.grabStartPosition = currentGridPosition.Copy();
                         LOGIC.setState(StateEnum.GRABBING);
                     }

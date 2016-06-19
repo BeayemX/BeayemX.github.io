@@ -1,39 +1,3 @@
-var autosaveFileName = "AutoSave";
-var clipboardFileName = "Clipboard";
-
-function CopyLinesToClipboard() // session storage
-{
-    var selectedLines = DATA_MANAGER.currentFile.getSelectedLines();
-    sessionStorage.setItem(clipboardFileName, JSON.stringify(selectedLines));
-    GUI.notify("Lines copied to clipboard!");
-}
-
-function PasteLines() // session storage
-{
-    var logo = sessionStorage.getItem(clipboardFileName);
-    if (!logo)
-        return false;
-
-    DATA_MANAGER.currentFile.clearSelection();
-
-    var linesArray = JSON.parse(logo);
-
-    for (var i = 0; i < linesArray.length; ++i) {
-        DATA_MANAGER.currentFile.addLine(
-			new Line(
-				linesArray[i].start.x,
-				linesArray[i].start.y,
-				linesArray[i].end.x,
-				linesArray[i].end.y,
-				true
-			)
-		);
-    }
-    GUI.notify("Lines pasted from clipboard!");
-    DRAW_MANAGER.redraw();
-    return true;
-}
-
 function TakeScreenshot() // img
 {
     let w = window.open('about:blank', 'image from canvas');
