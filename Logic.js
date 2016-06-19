@@ -6,8 +6,6 @@ var context;
 var currentGridPosition = new GridPoint();
 var canvasOffset = { x: 0, y: 0 };
 
-var showGrid = true; // TODO RENAME
-
 var advancedHandlesButton;
 var ctrlDown;
 var grabInitializedWithKeyboard = false;
@@ -56,8 +54,6 @@ class Logic {
 
         canvas = document.getElementById('canvas');
         context = canvas.getContext('2d');
-        
-
 
         advancedHandlesButton = document.getElementById('advancedHandlesButton');
         UpdateAdvancedHandlesButton();
@@ -70,8 +66,6 @@ class Logic {
 
         notificationarea.addEventListener("mouseenter", GUI.notificationEnter);
         notificationarea.addEventListener("mouseout", GUI.notificationExit);
-
-        // savedfilesdropdown.addEventListener("change", DropDownSelected)
 
         // Setup the dnd listeners.
         let dropZone = document.body;

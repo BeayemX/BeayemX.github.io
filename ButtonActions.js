@@ -100,11 +100,6 @@ function Rotate(clockwise)
 	}
 	DRAW_MANAGER.redraw();
 }
-function ToggleGridType()
-{
-	showGrid = !showGrid;
-	DRAW_MANAGER.redraw();
-}
 
 function ToggleHandles(button)
 {
