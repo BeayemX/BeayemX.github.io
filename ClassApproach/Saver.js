@@ -147,4 +147,18 @@ class Saver {
         console.log("loaded: \n" + jsonString);
         saver.loadJSONFile(jsonString); // TODO gay because of js-this-crap. have to call "this" with 'saver'
     }
+
+    handleFileSelect(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        var files = evt.dataTransfer.files; // FileList object.
+
+        for (var i = 0, f; f = files[i]; i++) {
+
+            let reader = new FileReader();
+            let jsonString = reader.readAsText(files[i]);
+            reader.onload = saver.dndloaded;
+        }
+    }
 }

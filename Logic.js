@@ -75,7 +75,7 @@ class Logic {
         // Setup the dnd listeners.
         let dropZone = document.body;
         dropZone.addEventListener('dragover', saver.handleDragOver, false);
-        dropZone.addEventListener('drop', handleFileSelect, false);
+        dropZone.addEventListener('drop', saver.handleFileSelect, false);
 
         canvas.style.background = canvasColor;
         this.layoutGUI();

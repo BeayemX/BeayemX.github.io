@@ -54,18 +54,3 @@ function ExportAsSVG() // SVG
         saveAs(blob, name + ".svg");
     }
 }
-
-function handleFileSelect(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-
-    var files = evt.dataTransfer.files; // FileList object.
-
-    for (var i = 0, f; f = files[i]; i++) {
-
-        let reader = new FileReader();
-        let jsonString = reader.readAsText(files[i]);
-        reader.onload = saver.dndloaded;
-
-    }
-}
