@@ -13,7 +13,6 @@ var ctrlDown;
 var grabInitializedWithKeyboard = false;
 
 
-// SIFU TODO write in all caps... not posssible for gui..
 let SAVER;
 let DATA_MANAGER;
 let DRAW_MANAGER;
