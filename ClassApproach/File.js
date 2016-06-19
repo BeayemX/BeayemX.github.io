@@ -68,12 +68,15 @@ class File {
         return this.currentObject.getAllPoints();
     }
     growSelection(redraw) {
-        this.currentObject.growSelection(redraw)
+        this.currentObject.growSelection(redraw);
     }
     selectLinked() {
-        this.currentObject.selectLinked()
+        this.currentObject.selectLinked();
     }
     removeLine(line) {
-        this.currentObject.removeLine(line)
+        this.currentObject.removeLine(line);
+    }
+    invertSelection() {
+        this.currentObject.invertSelection();
     }
 }
