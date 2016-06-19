@@ -1,34 +1,40 @@
 <html>
 	<head>
 		<title>LogoDesigner</title>
-		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="shortcut icon" href="images/favicon.ico">
 
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 
 
-        <script src="ClassApproach/Line.js"></script>
-        <script src="ClassApproach/Vector2.js"></script>
-        <script src="ClassDefinitions.js"></script>
-		<script src="MouseHandler.js"></script>
-		<script src="KeyboardHandler.js"></script>
-		<script src="Utilities.js"></script>
-        <script src="Actions.js"></script>
+        <script src="scripts/filestructure/Line.js"></script>
+        <script src="scripts/filestructure/Vector2.js"></script>
+        <script src="scripts/filestructure/GridPoint.js"></script>
+        <script src="scripts/filestructure/PrecisePoint.js"></script>
+        <script src="scripts/enums/StateEnum.js"></script>
+        <script src="scripts/managers/MouseHandler.js"></script>
+		<script src="scripts/managers/KeyboardHandler.js"></script>
+		<script src="scripts/Utilities.js"></script>
 
-        <script src="ClassApproach/File.js"></script>
-        <script src="ClassApproach/LineObject.js"></script>
-        <script src="ClassApproach/Saver.js"></script>
-        <script src="ClassApproach/FileSaver.js"></script>
-        <script src="ClassApproach/DrawManager.js"></script>
-        <script src="ClassApproach/GUI.js"></script>
-        <script src="ClassApproach/DataManager.js"></script>
+        <script src="scripts/actions/ActionHistory.js"></script>
+        <script src="scripts/actions/CreateLineAction.js"></script>
+        <script src="scripts/actions/DuplicateLinesAction.js"></script>
+        <script src="scripts/actions/MoveAction.js"></script>
+        <script src="scripts/actions/SelectLinesAction.js"></script>
 
-        <script src="Drawing.js"></script>
-		<script src="Exporter.js"></script>
-		<script src="Settings.js"></script>
-		<script src="ButtonActions.js"></script>
-        <script src="Logic.js"></script>
+        <script src="scripts/filestructure/File.js"></script>
+        <script src="scripts/filestructure/LineObject.js"></script>
+        <script src="scripts/saving/Saver.js"></script>
+        <script src="scripts/saving/FileSaver.js"></script>
+        <script src="scripts/managers/DrawManager.js"></script>
+        <script src="scripts/managers/GUI.js"></script>
+        <script src="scripts/managers/DataManager.js"></script>
+
+		<script src="scripts/saving/Exporter.js"></script>
+		<script src="scripts/Settings.js"></script>
+		<script src="scripts/ButtonActions.js"></script>
+        <script src="scripts/managers/Logic.js"></script>
 
 	</head>
 	<body onload="onLoad()">
