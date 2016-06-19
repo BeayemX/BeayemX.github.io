@@ -1,19 +1,4 @@
 "use strict"
-
-
-// SIFU TODO FIXME super ugly. if i call these methods directly 'this' refers to the caller and not to the class any more...
-function MouseMove(e) {
-    MOUSE_HANDLER.MouseMove(e);
-}
-function MouseUp(e) {
-    MOUSE_HANDLER.MouseUp(e);
-}
-function MouseDown(e) {
-    MOUSE_HANDLER.MouseDown(e);
-}
-function MouseScroll(e) {
-    MOUSE_HANDLER.MouseScroll(e);
-}
 class MouseHandler
 {
     constructor()

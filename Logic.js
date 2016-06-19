@@ -62,11 +62,11 @@ class Logic {
         advancedHandlesButton = document.getElementById('advancedHandlesButton');
         UpdateAdvancedHandlesButton();
 
-        canvas.addEventListener("mousemove", MouseMove);
-        canvas.addEventListener("mouseup", MouseUp);
-        canvas.addEventListener("mousedown", MouseDown);
-        canvas.addEventListener("mousewheel", MouseScroll);
-        canvas.addEventListener("mouseleave", MouseHandler.MouseLeave);
+        canvas.addEventListener("mousemove", evt => MOUSE_HANDLER.MouseMove(evt));
+        canvas.addEventListener("mouseup", evt => MOUSE_HANDLER.MouseUp(evt));
+        canvas.addEventListener("mousedown", evt => MOUSE_HANDLER.MouseDown(evt));
+        canvas.addEventListener("mousewheel", evt => MOUSE_HANDLER.MouseScroll(evt));
+        canvas.addEventListener("mouseleave", evt => MOUSE_HANDLER.MouseLeave(evt));
 
         notificationarea.addEventListener("mouseenter", GUI.notificationEnter);
         notificationarea.addEventListener("mouseout", GUI.notificationExit);
