@@ -7,6 +7,3 @@ var StateEnum = {
 	RENDERPREVIEW: "renderpreview",
 	BORDERSELECTION: "borderselection"
 }
-
-// SIFU put inside class which makes sense
-var isPanning = false;

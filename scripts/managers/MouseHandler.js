@@ -10,13 +10,14 @@ class MouseHandler
         this.gridLineEnd;
         this.oldPos = new Vector2(-1, -1);
         this.grabInitializedWithRMBDown = false;
+        this.isPanning = false;
     }
 
     MouseMove(e)
     {
         var newPos = UTILITIES.getMousePos(e);
 
-	    if (!isPanning)
+	    if (!this.isPanning)
 	    {
 	        var oldGridPoint = UTILITIES.getGridPos(this.oldPos);
 	        currentGridPosition = UTILITIES.getGridPos(newPos);
@@ -133,7 +134,7 @@ class MouseHandler
 		    else
 		    {
 			    var screenPos = UTILITIES.getMousePos(e);
-			    isPanning = true;
+			    this.isPanning = true;
 		    }
 	    }
 	    else
@@ -187,7 +188,7 @@ class MouseHandler
 	            UTILITIES.endAreaSelection(true);
 	        }
 	        else {
-	            isPanning = false;
+	            this.isPanning = false;
 	        }
 	    }
 	    else if (e.button == 2) // RMB

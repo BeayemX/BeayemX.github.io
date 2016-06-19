@@ -1,3 +1,4 @@
+// TODO check which variables are not used and remove them
 class Settings {
     constructor() {
         this.canvasColor = "#666";
