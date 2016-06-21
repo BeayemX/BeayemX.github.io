@@ -160,11 +160,15 @@
     }
 
     drawObjects() {
-        let objects = DATA_MANAGER.currentFile.objects;
+        let objects = DATA_MANAGER.currentFile.lineObjects;
 
         context.lineWidth = SETTINGS.lineWidth;
 
         for (var i = 0; i < objects.length; i++) {
+            if (objects[i] != DATA_MANAGER.currentFile.currentObject)
+                // use transparent color;
+                continue;
+
             let unselLines = objects[i].getUnselectedLines();
             let selLines = objects[i].getSelectedLines();
 
@@ -232,7 +236,7 @@
 
     drawPreciseSelection() {
 
-        let objects = DATA_MANAGER.currentFile.objects;
+        let objects = DATA_MANAGER.currentFile.lineObjects;
         for (var i = 0; i < objects.length; i++) {
             let points = objects[i].getPreciseSelectionEntries();
 

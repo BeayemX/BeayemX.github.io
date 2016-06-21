@@ -39,7 +39,7 @@ class Saver {
         let objs = file;
 
         for (var i = 0; i < objs.length; ++i) {
-            DATA_MANAGER.currentFile.currentObject = DATA_MANAGER.currentFile.addObject();
+            DATA_MANAGER.currentFile.createNewObject(true);
 
             for (var j = 0; j < objs[i].lines.length; j++) {
                 DATA_MANAGER.currentFile.currentObject.addLine(
@@ -76,7 +76,7 @@ class Saver {
         let objs = file.lineObjects;
 
         for (var i = 0; i < objs.length; ++i) {
-            DATA_MANAGER.currentFile.currentObject = DATA_MANAGER.currentFile.addObject();
+            DATA_MANAGER.currentFile.createNewObject(true);
 
             for (var j = 0; j < objs[i].lines.length; j++) {
                 DATA_MANAGER.currentFile.currentObject.addLine(
@@ -96,7 +96,7 @@ class Saver {
 
     newFile() {
         DATA_MANAGER.currentFile = new File();
-        DATA_MANAGER.currentFile.currentObject = DATA_MANAGER.currentFile.addObject();
+        DATA_MANAGER.currentFile.createNewObject(true);
         DRAW_MANAGER.redraw();
     }
 

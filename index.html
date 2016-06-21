@@ -1,88 +1,92 @@
 <html>
-	<head>
-		<title>LogoDesigner</title>
-		<link rel="shortcut icon" href="images/favicon.ico">
+<head>
+    <title>LogoDesigner</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
 
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 
 
-        <script src="scripts/filestructure/Line.js"></script>
-        <script src="scripts/filestructure/Vector2.js"></script>
-        <script src="scripts/filestructure/GridPoint.js"></script>
-        <script src="scripts/filestructure/PrecisePoint.js"></script>
-        <script src="scripts/enums/StateEnum.js"></script>
-        <script src="scripts/managers/MouseHandler.js"></script>
-		<script src="scripts/managers/KeyboardHandler.js"></script>
-		<script src="scripts/Utilities.js"></script>
+    <script src="scripts/filestructure/Line.js"></script>
+    <script src="scripts/filestructure/Vector2.js"></script>
+    <script src="scripts/filestructure/GridPoint.js"></script>
+    <script src="scripts/filestructure/PrecisePoint.js"></script>
+    <script src="scripts/enums/StateEnum.js"></script>
+    <script src="scripts/managers/MouseHandler.js"></script>
+    <script src="scripts/managers/KeyboardHandler.js"></script>
+    <script src="scripts/Utilities.js"></script>
 
-        <script src="scripts/actions/ActionHistory.js"></script>
-        <script src="scripts/actions/CreateLineAction.js"></script>
-        <script src="scripts/actions/DuplicateLinesAction.js"></script>
-        <script src="scripts/actions/MoveAction.js"></script>
-        <script src="scripts/actions/SelectLinesAction.js"></script>
+    <script src="scripts/actions/ActionHistory.js"></script>
+    <script src="scripts/actions/CreateLineAction.js"></script>
+    <script src="scripts/actions/DuplicateLinesAction.js"></script>
+    <script src="scripts/actions/MoveAction.js"></script>
+    <script src="scripts/actions/SelectLinesAction.js"></script>
 
-        <script src="scripts/filestructure/File.js"></script>
-        <script src="scripts/filestructure/LineObject.js"></script>
-        <script src="scripts/saving/Saver.js"></script>
-        <script src="scripts/saving/FileSaver.js"></script>
-        <script src="scripts/managers/DrawManager.js"></script>
-        <script src="scripts/managers/GUI.js"></script>
-        <script src="scripts/managers/DataManager.js"></script>
+    <script src="scripts/filestructure/File.js"></script>
+    <script src="scripts/filestructure/LineObject.js"></script>
+    <script src="scripts/saving/Saver.js"></script>
+    <script src="scripts/saving/FileSaver.js"></script>
 
-		<script src="scripts/saving/Exporter.js"></script>
-		<script src="scripts/Settings.js"></script>
-		<script src="scripts/ButtonActions.js"></script>
-        <script src="scripts/managers/Logic.js"></script>
+    <script src="scripts/managers/DrawManager.js"></script>
+    <script src="scripts/managers/GUI.js"></script>
+    <script src="scripts/managers/DataManager.js"></script>
 
-	</head>
-	<body onload="onLoad()">
-		<div id="notificationarea"></div>
-        <div id="menubar">
-            <div class="menuentry">File</div>
-            <div class="menuentry">Help</div>
+    <script src="scripts/saving/Exporter.js"></script>
+    <script src="scripts/Settings.js"></script>
+    <script src="scripts/ButtonActions.js"></script>
+    <script src="scripts/managers/Logic.js"></script>
+
+</head>
+<body onload="onLoad()">
+    <div id="notificationarea"></div>
+    <div id="menubar">
+        <div class="menuentry">File</div>
+        <div class="menuentry">Help</div>
+    </div>
+    <div id="leftarea" class="toolarea" width="150">
+
+        <div class="toolcategory">
+            <p>File</p>
+            <button type="button" onclick="SAVER.newFile()">New file</button>
+            <button type="button" onclick="SAVER.loadAutoSave()">Restore last session</button>
+            <button type="button" onclick="SAVER.saveToDisk()">Save to disk</button>
+            <button type="button" onclick="EXPORTER.ExportAsSVG()">Export as SVG(not working)</button>
         </div>
-		<div id="leftarea" class="toolarea" width="150">
-			
-			<div class="toolcategory">
-				<p>File</p>
-				<button type="button" onclick="SAVER.newFile()">New file</button>
-                <button type="button" onclick="SAVER.loadAutoSave()">Restore last session</button>
-                <button type="button" onclick="SAVER.saveToDisk()">Save to disk</button>
-                <button type="button" onclick="EXPORTER.ExportAsSVG()">Export as SVG(not working)</button>
-			</div>
 
-			<div class="toolcategory">
-				<p>Tools</p>
-				<button type="button" onclick="LINE_MANIPULATOR.subdivide()">Subdivide</button>
-				<button type="button" onclick="LINE_MANIPULATOR.mirror()">Mirror [s]</button>
-				<button type="button" onclick="LINE_MANIPULATOR.rotate(true)">Rotate Clockwise [r]</button>
-                <button type="button" onclick="LINE_MANIPULATOR.rotate(false)">Rotate Counter-Clockwise [R]</button>
-                <button type="button" onclick="LINE_MANIPULATOR.increaseSize(2)">Double Size [+]</button>
-                <button type="button" onclick="LINE_MANIPULATOR.increaseSize(0.5)">Half Size [-]</button>
-                <button type="button" onclick="LINE_MANIPULATOR.growSelection()">Grow Selection</button>
-				<button type="button" onclick="LINE_MANIPULATOR.selectLinked()">Select Linked [L]</button>
-			</div>	
-			
-			
-		</div>
-		<canvas id="canvas"></canvas>
-		<div id="rightarea" class="toolarea" width="150">
-			<div class="toolcategory">
-				<p>Dev Stuff</p>
-				<button type="button" onclick="SAVER.loadAutoSave()">Load AutoSave File</button>
-			</div>
-
-            <div class="toolcategory">
-                <p>Help</p>
-                <button type="button" onclick="LINE_MANIPULATOR.toggleHandles(this)">Hide line handles</button>
-                <button type="button" onclick="LINE_MANIPULATOR.toggleAdvancedHandles()" id="advancedHandlesButton"></button>
-            </div>
-		</div>
-        <div id="statusbar">
-            <div id="statusbarentryleft" class="statusbarentry"></div>
-            <div id="statusbarentryright" class="statusbarentry"></div>
+        <div class="toolcategory">
+            <p>Tools</p>
+            <button type="button" onclick="LINE_MANIPULATOR.subdivide()">Subdivide</button>
+            <button type="button" onclick="LINE_MANIPULATOR.mirror()">Mirror [s]</button>
+            <button type="button" onclick="LINE_MANIPULATOR.rotate(true)">Rotate Clockwise [r]</button>
+            <button type="button" onclick="LINE_MANIPULATOR.rotate(false)">Rotate Counter-Clockwise [R]</button>
+            <button type="button" onclick="LINE_MANIPULATOR.increaseSize(2)">Double Size [+]</button>
+            <button type="button" onclick="LINE_MANIPULATOR.increaseSize(0.5)">Half Size [-]</button>
+            <button type="button" onclick="LINE_MANIPULATOR.growSelection()">Grow Selection</button>
+            <button type="button" onclick="LINE_MANIPULATOR.selectLinked()">Select Linked [L]</button>
         </div>
-	</body>
+
+
+        <div class="toolcategory">
+            <p>Help</p>
+            <button type="button" onclick="LINE_MANIPULATOR.toggleHandles(this)">Hide line handles</button>
+            <button type="button" onclick="LINE_MANIPULATOR.toggleAdvancedHandles()" id="advancedHandlesButton"></button>
+        </div>
+
+    </div>
+    <canvas id="canvas"></canvas>
+    <div id="rightarea" class="toolarea" width="150">
+        <div class="toolcategory">
+            <p>Layers</p>
+            <button type="button" onclick="DATA_MANAGER.currentFile.createNewObject(true)">Create new Layer</button>
+        </div>
+        <div class="toolcategory" id="layers">
+        </div>
+
+    </div>
+    <div id="statusbar">
+        <div id="statusbarentryleft" class="statusbarentry"></div>
+        <div id="statusbarentryright" class="statusbarentry"></div>
+    </div>
+</body>
 </html>

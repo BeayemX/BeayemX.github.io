@@ -5,15 +5,28 @@ class File {
         this.deletedLinesCounter = 0;
         this.currentObject = null;
     }
-    addObject() {
+
+    createNewObject(selectNewObject) {
         let obj = new LineObject();
         this.lineObjects.push(obj);
+
+        if (selectNewObject)
+            this.selectObjectWithID(this.lineObjects.length-1);
+
+        GUI.objectHierarchyChanged();
 
         return obj;
     }
 
-    get objects() {
-        return this.lineObjects;
+    selectObjectWithID(id) {
+        if (id < 0 || id >= this.lineObjects.length)
+            return;
+
+        if (this.currentObject)
+            this.currentObject.clearSelection();
+
+        this.currentObject = this.lineObjects[id];
+        DRAW_MANAGER.redraw();
     }
 
     updateStats() // TODO use this?
@@ -21,8 +34,7 @@ class File {
 
     }
 
-    addLine(line)
-    {
+    addLine(line) {
         this.currentObject.addLine(line);
     }
 
