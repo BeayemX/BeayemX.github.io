@@ -36,7 +36,7 @@ class KeyboardHandler {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
                         // DON'T CALL WITH this.grabStartPosition because 'this' refers to caller, not THIS class!!!!
-                        KEYBOARD_HANDLER.grabStartPosition = currentGridPosition.Copy();
+                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.Copy();
                         DRAW_MANAGER.redraw();
                     }
                 }
@@ -69,7 +69,7 @@ class KeyboardHandler {
                 if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
                     if (DATA_MANAGER.currentFile.isSomethingSelected()) {
                         DATA_MANAGER.currentFile.duplicateLines();
-                        KEYBOARD_HANDLER.grabStartPosition = currentGridPosition.Copy();
+                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.Copy();
                         LOGIC.setState(StateEnum.GRABBING);
                     }
                 }
@@ -92,7 +92,7 @@ class KeyboardHandler {
             case 86: // V
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     if (SAVER.pasteLines()) {
-                        KEYBOARD_HANDLER.grabStartPosition = currentGridPosition.Copy();
+                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.Copy();
                         LOGIC.setState(StateEnum.GRABBING);
                     }
                 }
@@ -103,7 +103,8 @@ class KeyboardHandler {
                     EXPORTER.TakeScreenshot();
                 break;
             case 70: // F // TODO improve. zoom to selection / zoom fit / etc ... 
-                canvasOffset = { x: canvas.width * 0.5, y: canvas.height * 0.5 };
+                canvasOffset = new Vector2(canvas.width * 0.5, canvas.height * 0.5);
+                canvasOffset = (new Vector2(canvas.width * 0.5, canvas.height * 0.5)).Divide(zoom);
                 DRAW_MANAGER.redraw();
                 break;
             case 66: // B
@@ -123,7 +124,7 @@ class KeyboardHandler {
             case 17: // Ctrl
                 ctrlDown = true;
                 LINE_MANIPULATOR.showAdvancedHandles = !LINE_MANIPULATOR.advancedHandlesState;
-                UTILITIES.getNearestSelection(UTILITIES.gridpointToScreenpoint(currentGridPosition));
+                UTILITIES.getNearestSelection(UTILITIES.gridpointToScreenpoint(currentPosition));
                 LINE_MANIPULATOR.updateAdvancedHandlesButton();
                 DRAW_MANAGER.redraw();
                 break;

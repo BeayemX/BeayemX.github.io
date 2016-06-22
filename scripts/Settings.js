@@ -8,8 +8,6 @@ class Settings {
         this.lineColorFill = 'rgba(0, 0, 0, 1)';
         this.lineEndingRadius = 4;
 
-        this.gridCellNumber = 32;
-        this.gridSize = 55;
         this.gridPointSize = 6;
         this.gridPointLineWidth = 2;
         this.gridPointLineColor = "#000";
@@ -26,7 +24,7 @@ class Settings {
 
         this.helperColor = "#5bb";
         this.helperColor2 = "#090";
-        this.helperLineWidth = 2;
+        this.helperLineWidth = 1;
 
         this.previewLineColor = "#090";
         this.selectionColor = "#f90";

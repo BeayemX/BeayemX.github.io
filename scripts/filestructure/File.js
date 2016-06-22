@@ -35,6 +35,11 @@ class File {
     }
 
     addLine(line) {
+        if (!this.currentObject) {
+            alert("File.js - Line 39");
+            console.log("There was no layer, so there has been created one.");
+            this.createNewObject(true);
+        }
         this.currentObject.addLine(line);
     }
 

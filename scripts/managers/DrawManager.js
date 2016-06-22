@@ -3,24 +3,53 @@
         console.log("DrawManager created.");
     }
 
-    drawLineFromTo(x1, y1, x2, y2) {
+    drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
+        p1 = p1.copy();
+        p2 = p2.copy();
+
+        if (!screenSpace) {
+            p1.x += canvasOffset.x;
+            p1.y += canvasOffset.y;
+            p2.x += canvasOffset.x;
+            p2.y += canvasOffset.y;
+
+            p1.x *= zoom;
+            p1.y *= zoom;
+            p2.x *= zoom;
+            p2.y *= zoom;
+
+        }
+
+        if (!screenSpaceThickness)
+            thickness *= zoom;
+
         context.beginPath();
-        if (arguments.length == 2) {
-            context.moveTo(x1.x, x1.y);
-            context.lineTo(y1.x, y1.y);
-        }
-        else if (arguments.length == 4) {
-            context.moveTo(x1, y1);
-            context.lineTo(x2, y2);
-        }
+        context.lineWidth = thickness;
+        context.strokeStyle = color;
+        context.moveTo(p1.x, p1.y);
+        context.lineTo(p2.x, p2.y);
+
         context.stroke();
     }
 
-    drawCircle(centerX, centerY, radius) {
+    drawCircle(centerX, centerY, radius, thickness, color ,screenSpace) {
+        if (!screenSpace) {
+            centerX += canvasOffset.x;
+            centerY += canvasOffset.y;
+
+            centerX *= zoom;
+            centerY *= zoom;
+
+            radius *= zoom;
+
+            thickness *= zoom;
+        }
+
         context.beginPath();
+        context.lineWidth = thickness;
         context.rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
         context.stroke();
-        context.fill();
+        context.fill(); // TODO do i have to fill circles?
     }
 
     redraw() {
@@ -40,12 +69,18 @@
         if (!LOGIC.isPreviewing())
             this.drawPreciseSelection();
 
+
         if (LOGIC.currentState == StateEnum.IDLE, StateEnum.DRAWING) {
-            this.drawPreview();
+            this.drawPreviewLine();
         }
+
+        this.drawHelpers();
+        // console.log("redraw.");
     }
 
-    drawGridLine(line, endpoint) {
+    // DONT DELETE. USE GRADIENT!!!
+
+    /*drawGridLine(line, endpoint) {
         var startX;
         var startY;
         var endX;
@@ -111,104 +146,122 @@
             this.drawCircle(endX, endY, SETTINGS.lineEndingRadius);
         }
     }
-
+    /*
     drawGridPoint(screenpos) {
         var gridPoint = UTILITIES.getGridPos(screenpos);
         this.drawCircle(gridPoint.x * SETTINGS.gridSize + canvasOffset.x, gridPoint.y * SETTINGS.gridSize + canvasOffset.y, SETTINGS.gridPointSize);
-    }
+    }//*/
 
 
+    // TODO settings in SETTINGS und GRID verteilt...
     drawGrid() // TODO grid class?
     {
-        var size = SETTINGS.gridCellNumber * 0.5;
+        
+        let GRID = new Grid(); // SIFU FIXME TODO save grid elsewhere
+        let size = GRID.gridCellNumber * 0.5;
 
-        for (var i = -size; i <= size; ++i) {
+        let color;
+        let thickness;
+
+        for (let i = -size; i <= size; ++i) {
             if (i % SETTINGS.bigGridSize == 0) {
-                context.lineWidth = 2;
-                context.strokeStyle = SETTINGS.gridBigLineColor;
+                thickness = 2;
+                color = SETTINGS.gridBigLineColor;
 
             }
             else if (Math.round(i % (SETTINGS.bigGridSize * 0.5) == 0)) {
-                context.lineWidth = 2;
-                context.strokeStyle = SETTINGS.gridLineColor;
+                thickness = 2;
+                color = SETTINGS.gridLineColor;
             }
             else {
-                context.lineWidth = 1;
-                context.strokeStyle = SETTINGS.gridLineColor;
-
+                thickness = 1;
+                color = SETTINGS.gridLineColor;
             }
 
             this.drawLineFromTo(
-                -size * SETTINGS.gridSize + canvasOffset.x,
-                i * SETTINGS.gridSize + canvasOffset.y,
-                size * SETTINGS.gridSize + canvasOffset.x,
-                i * SETTINGS.gridSize + canvasOffset.y
+                new Point(
+                    -size * GRID.gridSize,
+                    i * GRID.gridSize
+                ),
+                new Point(
+                    size * GRID.gridSize,
+                    i * GRID.gridSize
+                ),
+                thickness,
+                color,
+                false, 
+                true
             );
             this.drawLineFromTo(
-                i * SETTINGS.gridSize + canvasOffset.x,
-                -size * SETTINGS.gridSize + canvasOffset.y,
-                i * SETTINGS.gridSize + canvasOffset.x,
-                size * SETTINGS.gridSize + canvasOffset.y
+                new Point(
+                    i * GRID.gridSize,
+                    -size * GRID.gridSize
+                ),
+                new Point(
+                    i * GRID.gridSize,
+                    size * GRID.gridSize
+                ),
+                thickness,
+                color,
+                false,
+                true
             );
         }
 
-        context.lineWidth = 2;
-        context.strokeStyle = 'darkred'; // TODO settings?
 
-        this.drawLineFromTo(0, canvasOffset.y, canvas.width, canvasOffset.y);
-        this.drawLineFromTo(canvasOffset.x, 0, canvasOffset.x, canvas.height);
+        //this.drawLineFromTo(new Vector2(0, canvasOffset.y), new Vector2(canvas.width, canvasOffset.y), 11, 'darkred', false);
+        //this.drawLineFromTo(new Vector2(canvasOffset.x, 0), new Vector2(canvasOffset.x, canvas.height), 11, 'darkred', false);
+        let axisSize = 500;
+        this.drawLineFromTo(new Vector2(-axisSize, 0), new Vector2(axisSize, 0), 2, 'darkred', false, true);
+        this.drawLineFromTo(new Vector2(0, -axisSize), new Vector2(0, axisSize), 2, 'darkred', false, true);
     }
 
     drawObjects() {
         let objects = DATA_MANAGER.currentFile.lineObjects;
 
-        context.lineWidth = SETTINGS.lineWidth;
-
         for (var i = 0; i < objects.length; i++) {
-            if (objects[i] != DATA_MANAGER.currentFile.currentObject)
-                // use transparent color;
-                continue;
+            let color = objects[i].color.copy();
+            let thickness = objects[i].thickness;
+
+            if (objects[i] != DATA_MANAGER.currentFile.currentObject) {
+                color.a = 0.3;
+                thickness *= 0.5;
+            }
 
             let unselLines = objects[i].getUnselectedLines();
             let selLines = objects[i].getSelectedLines();
 
             for (let line of unselLines)
-                this.drawGridLine(line);
+                this.drawLineFromTo(line.start, line.end, thickness, color.toString(), false);
             for (let line of selLines)
-                this.drawGridLine(line);
+                this.drawLineFromTo(line.start, line.end, thickness, SETTINGS.selectionColor, false);
         }
     }
 
-    drawPreview() {
+    drawPreviewLine() {
         //DrawHelpers();
 
-        context.strokeStyle = SETTINGS.previewLineColor;
-        context.fillStyle = SETTINGS.previewLineColor;
         if (LOGIC.currentState == StateEnum.DRAWING) {
-            var start = UTILITIES.getGridPos(MOUSE_HANDLER.downPoint);
-            var end = currentGridPosition;//GetGridPos(vec2);
-            context.lineWidth = SETTINGS.lineWidth;
-
-            this.drawGridLine(start, end);
+            let start = MOUSE_HANDLER.downPoint;
+            let end = currentPosition;
+            this.drawLineFromTo(start, end, SETTINGS.lineWidth, SETTINGS.previewLineColor, false);
         }
-
-        this.drawGridPoint(UTILITIES.gridpointToScreenpoint(currentGridPosition));
+        let p = currentPosition.copy();
+        this.drawCircle(p.x, p.y, 5, SETTINGS.previewLineColor, false); // SIFU grid stuff TODO magic number
     }
 
     drawHelpers() {
-        context.lineWidth = SETTINGS.helperLineWidth;
-        context.strokeStyle = SETTINGS.helperColor;
-
-        var screenpos = UTILITIES.gridpointToScreenpoint(currentGridPosition);
-        this.drawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
-        this.drawLineFromTo(screenpos.x, 0, screenpos.x, canvas.height);
+        let screenpos = this.canvasSpaceToScreenSpace(currentPosition.copy());
+        this.drawLineFromTo(new Vector2(0, screenpos.y), new Vector2(canvas.width, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.helperColor, true, true);
+        this.drawLineFromTo(new Vector2(screenpos.x, 0), new Vector2(screenpos.x, canvas.height), SETTINGS.helperLineWidth, SETTINGS.helperColor, true, true);
     }
 
-    drawHelpers2() {
+    drawHelpers2() { // for grabbing??
+        return;
         context.lineWidth = SETTINGS.helperLineWidth;
         context.strokeStyle = SETTINGS.helperColor2;
 
-        let screenpos = UTILITIES.gridpointToScreenpoint(currentGridPosition);
+        let screenpos = UTILITIES.gridpointToScreenpoint(currentPosition);
 
         let start = UTILITIES.gridpointToScreenpoint(KEYBOARD_HANDLER.grabStartPosition);
         this.drawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
@@ -245,8 +298,20 @@
                 context.fillStyle = (points[j].selected) ? SETTINGS.preciseSelectionSelectionColor : SETTINGS.preciseSelectionNoSelectionColor;
                 context.strokeStyle = (points[j].selected) ? SETTINGS.selectionColor : SETTINGS.lineColor;
 
-                this.drawCircle(points[j].x, points[j].y, SETTINGS.gridPointSize);
+                this.drawCircle(points[j].x, points[j].y, SETTINGS.gridPointSize, 2); // TODO color missing
             }
         }
+    }
+
+    screenSpaceToCanvasSpace(vec2) {
+        return vec2
+            .Divide(zoom)
+            .SubtractVector(canvasOffset);
+    }
+    canvasSpaceToScreenSpace(vec2) {
+        return vec2
+            .AddVector(canvasOffset)
+            .Multiply(zoom)
+        ;
     }
 }

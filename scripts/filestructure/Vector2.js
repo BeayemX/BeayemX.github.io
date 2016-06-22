@@ -4,36 +4,33 @@
         this.y = y;
     }
 
-    Copy() {
+    copy() {
         return new Vector2(this.x, this.y);
     }
 
     Add(value) {
-        this.x += value;
-        this.y += value;
+        return new Vector2(this.x + value, this.y + value);
     }
 
     Subtract(value) {
         this.Add(-value);
+        return this;
     }
 
     Multiply(value) {
-        this.x *= value;
-        this.y *= value;
+        return new Vector2(this.x * value, this.y * value);
     }
 
     Divide(value) {
-        this.Multiply(1 / value);
+        return this.Multiply(1.0 / value);
     }
 
     AddVector(other) {
-        this.x += other.x;
-        this.y += other.y;
+        return new Vector2(this.x + other.x, this.y + other.y);
     }
 
     SubtractVector(other) {
-        this.x -= other.x;
-        this.y -= other.y;
+        return new Vector2(this.x - other.x, this.y - other.y);
     }
 
     Distance(other) {
@@ -49,5 +46,9 @@
 
         this.x /= magnitude;
         this.y /= magnitude;
+    }
+
+    toString() {
+        return "(" + this.x + "|" + this.y + ")";
     }
 }

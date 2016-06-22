@@ -32,6 +32,7 @@ class Utilities {
     }
 
 
+    /*
     getGridPos(screenPos) // TODO rename to ScreenpointToGridpoint
     {
         var x = new GridPoint(
@@ -39,8 +40,8 @@ class Utilities {
 		    Math.round((screenPos.y - canvasOffset.y) / SETTINGS.gridSize)
 	    );
         return x;
-
     }
+    //*/
 
     reloadPage(ask) {
         if (ask && confirm("Do you want to discard your LogoDesign?")
@@ -78,7 +79,7 @@ class Utilities {
 
         if (arguments.length == 3) {
             if (delta.x != 0 || delta.y != 0) {
-                var curr = { x: currentGridPosition.x, y: currentGridPosition.y };
+                var curr = { x: currentPosition.x, y: currentPosition.y };
                 var start = { x: KEYBOARD_HANDLER.grabStartPosition.x, y: KEYBOARD_HANDLER.grabStartPosition.y };
                 ACTION_HISTORY.PushAction(new MoveAction(points, curr, start));
             }
@@ -87,8 +88,8 @@ class Utilities {
 
     startAreaSelection(selectType) {
         this.borderSelectType = selectType
-        this.borderSelectionStart = { x: currentGridPosition.x, y: currentGridPosition.y };
-        this.borderSelectionEnd = { x: currentGridPosition.x, y: currentGridPosition.y };
+        this.borderSelectionStart = { x: currentPosition.x, y: currentPosition.y };
+        this.borderSelectionEnd = { x: currentPosition.x, y: currentPosition.y };
     }
 
     endAreaSelection(performSelection) {
@@ -147,7 +148,7 @@ class Utilities {
             return [precisePoints[minDistance.index].point];
         }
 
-        return DATA_MANAGER.currentFile.getAllPointsAt(this.getGridPos(mousePos));
+        return DATA_MANAGER.currentFile.getAllPointsAt(mousePos);
     }
 
     toggleDevArea() {

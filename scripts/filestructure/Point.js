@@ -1,6 +1,6 @@
-﻿class GridPoint extends Vector2 {
+﻿class Point extends Vector2 {
     constructor (x, y, selected) { // TODO use default parameter
-        super(x, y);
+        super(Math.round(x), Math.round(y));
         if (arguments.length == 3)
             this.selected = selected;
         else
@@ -8,6 +8,6 @@
     }
     Copy()
     {
-        return new GridPoint(this.x, this.y, this.selected);
+        return new Point(this.x, this.y, this.selected);
     }
 }

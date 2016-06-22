@@ -3,8 +3,9 @@
 var canvas;
 var context;
 
-var currentGridPosition = new GridPoint();
-var canvasOffset = { x: 0, y: 0 };
+var currentPosition = new Vector2(0, 0);
+var canvasOffset = new Vector2(0, 0);
+var zoom = 1;
 
 var advancedHandlesButton;
 var ctrlDown;

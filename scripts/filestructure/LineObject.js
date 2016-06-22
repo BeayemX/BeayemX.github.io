@@ -1,10 +1,13 @@
 ﻿class LineObject {
     constructor() {
         this.lines = [];
+        this.color = new Color(0, 0, 0, 1);
+        this.thickness = 2;
     }
 
     addLine(line) {
         this.lines.push(line);
+        GUI.writeToStatusbarRight("line added: " + line.toString());
         this.cleanUpFile();
     }
 
@@ -56,7 +59,7 @@
             text += " (" + this.deletedLinesCounter + " cleaned up)";
         }
 
-        GUI.writeToStatusbarRight(text);
+        //GUI.writeToStatusbarRight(text); // SIFU TODO FOR FINAL BUILD COMMENT ME IN!!!
     }
 
     getAllSelectedPoints() {
@@ -108,8 +111,8 @@
     }
 
     getPreciseSelectionEntries() {
-        var points = this.getAllPointsAt(currentGridPosition);
-        var screenPos = UTILITIES.gridpointToScreenpoint(currentGridPosition);
+        var points = this.getAllPointsAt(currentPosition);
+        var screenPos = UTILITIES.gridpointToScreenpoint(currentPosition);
         var precisePoints = [screenPos];
 
         if (points.length <= 1 || !LINE_MANIPULATOR.showAdvancedHandles)
@@ -246,7 +249,7 @@
             DRAW_MANAGER.redraw();
     }
 
-   selectLinked() {
+    selectLinked() {
         let selPointsNumOld = 0;
         let maxIterations = 30;
 

@@ -1,7 +1,7 @@
 ﻿class Line {
     constructor(x1, y1, x2, y2, selected) {
-        this.start = new GridPoint(x1, y1);
-        this.end = new GridPoint(x2, y2);
+        this.start = new Point(x1, y1);
+        this.end = new Point(x2, y2);
 
         if (arguments.length == 5) {
             this.start.selected = selected;
@@ -13,5 +13,10 @@
         if (this.start.selected && this.end.selected) return 2;
         else if (this.start.selected || this.end.selected) return 1;
         else return 0;
+    }
+
+    toString()
+    {
+        return "Line from " + this.start + " to " + this.end + ".";
     }
 }
