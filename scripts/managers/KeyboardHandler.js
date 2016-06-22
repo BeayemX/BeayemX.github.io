@@ -140,13 +140,13 @@ class KeyboardHandler {
                 DATA_MANAGER.currentFile.selectLinked();
                 break;
 
-            default:
-                console.log("KeyDown(): \n"
-				    + "keyCode: " + e.keyCode + "\n"
-				    + "ctrlKey: " + e.ctrlKey + "\n"
-				    + "altKey: " + e.altKey + "\n"
-				    + "shiftKey: " + e.shiftKey + "\n"
-				    );
+                //default:
+                //    console.log("KeyDown(): \n"
+                //	    + "keyCode: " + e.keyCode + "\n"
+                //	    + "ctrlKey: " + e.ctrlKey + "\n"
+                //	    + "altKey: " + e.altKey + "\n"
+                //	    + "shiftKey: " + e.shiftKey + "\n"
+                //	    );
         }
 
         if (e.keyCode != 123 // F12

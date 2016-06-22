@@ -86,7 +86,6 @@ class MouseHandler {
                 if (!e.shiftKey)
                     DATA_MANAGER.currentFile.clearSelection();
                 let points = UTILITIES.getNearestSelection(canvasSpacePoint);
-                console.log(canvasSpacePoint);
                 UTILITIES.changeSelectionForPoints(points);
 
                 if (points != null) {
