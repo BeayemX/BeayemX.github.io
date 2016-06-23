@@ -167,7 +167,6 @@ class MouseHandler {
                 let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().SubtractVector(currentPosition);
                 let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
 
-                console.log(resetDelta);
                 UTILITIES.movePointsBy(points, resetDelta, this.grabInitializedWithRMBDown);
 
                 DATA_MANAGER.currentFile.cleanUpFile();
