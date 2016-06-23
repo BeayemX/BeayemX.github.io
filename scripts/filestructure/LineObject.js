@@ -157,7 +157,7 @@
     }
 
     getOtherPointBelongingToLine(point) {
-        for (var i = 0; i < this.lines.length; ++i) {
+        for (let i = 0; i < this.lines.length; ++i) {
             if (this.lines[i].start === point)
                 return this.lines[i].end;
 
@@ -242,7 +242,7 @@
         let allSelectedPoints = [];
 
         for (let i = 0; i < selectedPoints.length; ++i)
-            allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i]), 0);
+            allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i], 0));
 
         for (let i = 0; i < allSelectedPoints.length; ++i) {
             let p = this.getOtherPointBelongingToLine(allSelectedPoints[i]);
