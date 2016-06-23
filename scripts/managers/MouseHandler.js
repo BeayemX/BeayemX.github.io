@@ -13,33 +13,30 @@ class MouseHandler {
 
     MouseMove(e) {
         let newPos = UTILITIES.getMousePos(e);
+        let screenPosDelta = newPos.SubtractVector(this.oldPos);
+        let canvasSpacePosDelta = screenPosDelta.copy().Divide(zoom);
 
         if (!this.isPanning) {
             let p = DRAW_MANAGER.screenSpaceToCanvasSpace(newPos.copy());
             currentPosition = new Point(p.x, p.y);
-                
+            
+            this.cursorPositionChanged(e, canvasSpacePosDelta);
+
             let text = "curPos: " + currentPosition.toString();
             text += "\tcanvasOffset: " + canvasOffset.toString();
             GUI.writeToStatusbarLeft(text);;
         }
         else // while panning
         {
-            var screenPosDelta = {
-                x: newPos.x - this.oldPos.x,
-                y: newPos.y - this.oldPos.y
-            }
-
-            canvasOffset.x += screenPosDelta.x / zoom;
-            canvasOffset.y += screenPosDelta.y / zoom;
+            canvasOffset = canvasOffset.AddVector(screenPosDelta.Divide(zoom));
         }
-
         DRAW_MANAGER.redraw(); // TODO with grid stuff, redraw just happened if currentGridPoint changed...
         this.oldPos = newPos;
     }
 
-    GridPositionChanged(e, delta) {
+    cursorPositionChanged(e, delta) {
         if (LOGIC.currentState == StateEnum.GRABBING) {
-            var points = DATA_MANAGER.currentFile.getAllSelectedPoints();
+            let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
             UTILITIES.movePointsBy(points, delta);
         }
         else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
@@ -61,7 +58,7 @@ class MouseHandler {
             if (LOGIC.currentState == StateEnum.IDLE) {
                 LOGIC.setState(StateEnum.DRAWING);
                 this.downPoint = canvasSpacePoint.copy();
-                this.GridPositionChanged();
+                this.cursorPositionChanged();
             }
             else if (LOGIC.currentState == StateEnum.GRABBING) {
                 // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
@@ -151,7 +148,7 @@ class MouseHandler {
                 else
                     this.CancelLinePreview();
 
-                this.GridPositionChanged();
+                this.cursorPositionChanged();
             }
             else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
                 UTILITIES.endAreaSelection(true);

@@ -65,7 +65,7 @@
     getAllSelectedPoints() {
         let points = [];
 
-        for (var i = 0; i < this.lines.length; ++i) {
+        for (let i = 0; i < this.lines.length; ++i) {
             if (this.lines[i].start.selected)
                 points.push(this.lines[i].start);
             if (this.lines[i].end.selected)

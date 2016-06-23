@@ -72,7 +72,7 @@ class Utilities {
     }
 
     movePointsBy(points, delta, createHistory) {
-        for (var i = 0; i < points.length; ++i) {
+        for (let i = 0; i < points.length; ++i) {
             points[i].x += delta.x;
             points[i].y += delta.y;
         }
