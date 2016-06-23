@@ -23,10 +23,6 @@ class MouseHandler {
 
 
             if (!currentPosition.equals(this.oldPos)) {
-
-                console.log("currentPosition: " + currentPosition.toString());
-                console.log("oldPos: " + this.oldPos.toString());
-
                 let delta = currentPosition.copy().SubtractVector(this.oldPos)
                 this.cursorPositionChanged(e, delta);
 
