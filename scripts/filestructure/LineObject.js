@@ -99,37 +99,44 @@
     }
 
 
-    getAllPointsAt(gridpoint) {
-        var points = [];
+    getAllPointsAt(clickPoint, withinRadius) {
+        let points = [];
         for (var i = 0; i < this.lines.length; ++i) {
-            if (this.lines[i].start.x == gridpoint.x && this.lines[i].start.y == gridpoint.y)
+            //console.log(this.pointWithinCircle(this.lines[i].start, clickPoint, withinRadius));
+            if (this.pointWithinCircle(this.lines[i].start, clickPoint, withinRadius))
                 points.push(this.lines[i].start);
-            else if (this.lines[i].end.x == gridpoint.x && this.lines[i].end.y == gridpoint.y)
+            if (this.pointWithinCircle(this.lines[i].end, clickPoint, withinRadius))
                 points.push(this.lines[i].end);
         }
         return points;
     }
 
+    pointWithinCircle(p, center, radius) {
+        return p.Distance(center) <= radius;
+    }
+
     getPreciseSelectionEntries() {
-        var points = this.getAllPointsAt(currentPosition);
-        var screenPos = UTILITIES.gridpointToScreenpoint(currentPosition);
-        var precisePoints = [screenPos];
+        let points = this.getAllPointsAt(currentPosition, cursorRange);
+        let screenPos = currentPosition.copy();
+        // let precisePoints = [screenPos]; // TODO why was this as init-array?
+        let precisePoints = [];
 
-        if (points.length <= 1 || !LINE_MANIPULATOR.showAdvancedHandles)
-            return precisePoints
+        //if (points.length <= 1 || !LINE_MANIPULATOR.showAdvancedHandles)
+          //  return precisePoints;
 
-        for (var i = 0; i < points.length; ++i) {
-            var otherPoint = this.getOtherPointBelongingToLine(points[i]);
-            var direction = new Vector2(
+        for (let i = 0; i < points.length; ++i) {
+            let otherPoint = this.getOtherPointBelongingToLine(points[i]);
+            let direction = new Vector2(
                 otherPoint.x - points[i].x,
                 otherPoint.y - points[i].y);
 
             direction.Normalize();
 
-            var preciseRadius = SETTINGS.gridSize * 0.5 - SETTINGS.gridPointSize * 2;
-            var precisePoint = new PrecisePoint(
-                screenPos.x + direction.x * preciseRadius,
-                screenPos.y + direction.y * preciseRadius,
+            let preciseRadius = GRID.gridSize * 0.5 - SETTINGS.gridPointSize * 2;
+            preciseRadius = 30; // TODO MAGIC NUMBER
+            let precisePoint = new PrecisePoint(
+                DRAW_MANAGER.canvasSpaceToScreenSpace(points[i]).x + direction.x * preciseRadius,
+                DRAW_MANAGER.canvasSpaceToScreenSpace(points[i]).y + direction.y * preciseRadius,
                 points[i].selected,
                 points[i]
             );
@@ -235,7 +242,7 @@
         let allSelectedPoints = [];
 
         for (let i = 0; i < selectedPoints.length; ++i)
-            allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i]));
+            allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i]), 0);
 
         for (let i = 0; i < allSelectedPoints.length; ++i) {
             let p = this.getOtherPointBelongingToLine(allSelectedPoints[i]);

@@ -11,6 +11,8 @@ var advancedHandlesButton;
 var ctrlDown;
 var grabInitializedWithKeyboard = false;
 
+let cursorRange = 10;
+
 
 let SAVER;
 let DATA_MANAGER;
@@ -24,6 +26,8 @@ let EXPORTER;
 let ACTION_HISTORY;
 let LINE_MANIPULATOR;
 let SETTINGS;
+
+let GRID;
 
 function onLoad()
 {
@@ -39,6 +43,8 @@ function onLoad()
     ACTION_HISTORY = new ActionHistory();
     LINE_MANIPULATOR = new LineManipulator();
     SETTINGS = new Settings();
+    GRID = new Grid(); // SIFU FIXME TODO save grid elsewhere
+
 
     LOGIC.start();
 }

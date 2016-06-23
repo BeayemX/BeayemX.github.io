@@ -35,6 +35,7 @@ class Settings {
         this.notificationColorHalf = 'rgba(255, 127, 0, 0.75)';
         this.notificationColorFull = 'rgba(255, 127, 0, 1)';
 
+        this.preciseSelectionHandleSize = 5;
         this.preciseSelectionLineWidth = 2;
         this.preciseSelectionSelectionColor = 'rgba(255, 127, 0, 0)';
         this.preciseSelectionNoSelectionColor = 'rgba(0, 0, 0, 0)';

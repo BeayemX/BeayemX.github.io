@@ -15,6 +15,7 @@ class Utilities {
 		    e.clientY - rect.top
 	    );
     }
+    /*
 
     getMousePosConsideringOffset(e) {
         var rect = canvas.getBoundingClientRect();
@@ -24,15 +25,6 @@ class Utilities {
 	    );
     }
 
-    gridpointToScreenpoint(gridpoint) {
-        return new Vector2(
-		    gridpoint.x * SETTINGS.gridSize + canvasOffset.x,
-		    gridpoint.y * SETTINGS.gridSize + canvasOffset.y
-	    );
-    }
-
-
-    /*
     getGridPos(screenPos) // TODO rename to ScreenpointToGridpoint
     {
         var x = new GridPoint(
@@ -127,16 +119,18 @@ class Utilities {
         }
     }
 
-    getNearestSelection(mousePos) {
-        var precisePoints = DATA_MANAGER.currentFile.getPreciseSelectionEntries();
+    getNearestSelection(canvasSpacePos) {
+        let precisePoints = DATA_MANAGER.currentFile.getPreciseSelectionEntries();
+        let screenSpacePos = DRAW_MANAGER.canvasSpaceToScreenSpace(canvasSpacePos);
+        screenSpacePos.round();
 
-        var minDistance = {
-            index: 0,
+        let minDistance = {
+            index: -1,
             distance: Infinity
         };
 
-        for (var i = 0; i < precisePoints.length; ++i) {
-            var dist = precisePoints[i].Distance(mousePos);
+        for (let i = 0; i < precisePoints.length; ++i) {
+            let dist = precisePoints[i].Distance(screenSpacePos);
 
             if (dist < minDistance.distance) {
                 minDistance.index = i;
@@ -144,11 +138,12 @@ class Utilities {
             }
         }
 
-        if (minDistance.index != 0) {
+        if (minDistance.index != -1) {
             return [precisePoints[minDistance.index].point];
         }
 
-        return DATA_MANAGER.currentFile.getAllPointsAt(mousePos);
+        console.log("when should this happen?, maybe old version where screenpoint was inside of the init-array?");
+        return DATA_MANAGER.currentFile.getAllPointsAt(canvasSpacePos, 50);
     }
 
     toggleDevArea() {

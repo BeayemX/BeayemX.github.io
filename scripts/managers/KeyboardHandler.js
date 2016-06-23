@@ -124,7 +124,7 @@ class KeyboardHandler {
             case 17: // Ctrl
                 ctrlDown = true;
                 LINE_MANIPULATOR.showAdvancedHandles = !LINE_MANIPULATOR.advancedHandlesState;
-                UTILITIES.getNearestSelection(UTILITIES.gridpointToScreenpoint(currentPosition));
+                UTILITIES.getNearestSelection(DRAW_MANAGER.canvasSpaceToScreenSpace(currentPosition));
                 LINE_MANIPULATOR.updateAdvancedHandlesButton();
                 DRAW_MANAGER.redraw();
                 break;

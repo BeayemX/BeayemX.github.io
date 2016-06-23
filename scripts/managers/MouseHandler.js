@@ -19,7 +19,7 @@ class MouseHandler {
         if (!this.isPanning) {
             let p = DRAW_MANAGER.screenSpaceToCanvasSpace(newPos.copy());
             currentPosition = new Point(p.x, p.y);
-            
+
             this.cursorPositionChanged(e, canvasSpacePosDelta);
 
             let text = "curPos: " + currentPosition.toString();
@@ -157,12 +157,12 @@ class MouseHandler {
 
         else if (e.button == 1) // MMB
         {
-
             if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
                 UTILITIES.endAreaSelection(true);
             }
             else {
                 this.isPanning = false;
+                canvasOffset.round(); // TODO set methode die dann gleich rundet? oder einen intvector?
             }
         }
         else if (e.button == 2) // RMB
@@ -198,6 +198,8 @@ class MouseHandler {
 
         this.MouseMove(e);
         DRAW_MANAGER.redraw();
+
+        e.preventDefault();
     }
 
     MouseLeave() {
@@ -217,7 +219,7 @@ class MouseHandler {
         let newWorldCenter = DRAW_MANAGER.screenSpaceToCanvasSpace(center);
         let diff = newWorldCenter.SubtractVector(worldCenter);
         canvasOffset = canvasOffset.AddVector(diff);
-
+        canvasOffset.round();
     }
 
     CancelLinePreview() {

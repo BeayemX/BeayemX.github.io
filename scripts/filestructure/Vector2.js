@@ -48,6 +48,11 @@
         this.y /= magnitude;
     }
 
+    round() {
+        this.x = Math.round(this.x);
+        this.y = Math.round(this.y);
+    }
+
     toString() {
         return "(" + this.x + "|" + this.y + ")";
     }

@@ -7,7 +7,7 @@ class LineManipulator {
 
         this.advancedHandlesState = false;
         this.showHandles = true;
-        this.showAdvancedHandles = false;
+        this.showAdvancedHandles = true;
     }
 
     subdivide()

@@ -32,7 +32,7 @@
         context.stroke();
     }
 
-    drawCircle(centerX, centerY, radius, thickness, color ,screenSpace) {
+    drawCircle(centerX, centerY, radius, thickness, color, screenSpace, screenSpaceSize) {
         if (!screenSpace) {
             centerX += canvasOffset.x;
             centerY += canvasOffset.y;
@@ -40,16 +40,39 @@
             centerX *= zoom;
             centerY *= zoom;
 
+        }
+        if (!screenSpaceSize) {
             radius *= zoom;
-
             thickness *= zoom;
         }
 
         context.beginPath();
         context.lineWidth = thickness;
+        context.strokeStyle = color;
         context.rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
         context.stroke();
         context.fill(); // TODO do i have to fill circles?
+    }
+
+    drawRealCircle(center, radius, thickness, screenSpace, screenSpaceThickness) {
+        center = center.copy();
+        if (!screenSpace) {
+            center.x += canvasOffset.x;
+            center.y += canvasOffset.y;
+
+            center.x *= zoom;
+            center.y *= zoom;
+
+            radius *= zoom;
+        }
+        if (!screenSpaceThickness) {
+            thickness *= zoom;
+        }
+
+        context.beginPath();
+        context.lineWidth = thickness;
+        context.arc(center.x, center.y, radius, 0, 2 * Math.PI);
+        context.stroke();
     }
 
     redraw() {
@@ -152,12 +175,36 @@
         this.drawCircle(gridPoint.x * SETTINGS.gridSize + canvasOffset.x, gridPoint.y * SETTINGS.gridSize + canvasOffset.y, SETTINGS.gridPointSize);
     }//*/
 
+    generateGradient(line) {
+        let gradientStart;
+        let gradientEnd;
+
+        if (line.start.selected) {
+            gradientStart = line.start;
+            gradientEnd = line.end;
+        }
+        else {
+            gradientStart = line.end;
+            gradientEnd = line.start;
+        }
+        let gradient = context.createLinearGradient(
+            DRAW_MANAGER.canvasSpaceToScreenSpace(gradientStart).x,
+            DRAW_MANAGER.canvasSpaceToScreenSpace(gradientStart).y,
+            DRAW_MANAGER.canvasSpaceToScreenSpace(gradientEnd).x,
+            DRAW_MANAGER.canvasSpaceToScreenSpace(gradientEnd).y);
+
+        gradient.addColorStop(0, SETTINGS.selectionColorFill);
+        gradient.addColorStop(1, SETTINGS.lineColorFill);
+
+        //context.strokeStyle = gradient;
+        //context.fillStyle = gradient;
+
+        return gradient;
+    }
 
     // TODO settings in SETTINGS und GRID verteilt...
     drawGrid() // TODO grid class?
     {
-        
-        let GRID = new Grid(); // SIFU FIXME TODO save grid elsewhere
         let size = GRID.gridCellNumber * 0.5;
 
         let color;
@@ -189,7 +236,7 @@
                 ),
                 thickness,
                 color,
-                false, 
+                false,
                 true
             );
             this.drawLineFromTo(
@@ -234,7 +281,14 @@
             for (let line of unselLines)
                 this.drawLineFromTo(line.start, line.end, thickness, color.toString(), false);
             for (let line of selLines)
-                this.drawLineFromTo(line.start, line.end, thickness, SETTINGS.selectionColor, false);
+            {
+                let color = SETTINGS.selectionColor;
+                if (line.start.selected != line.end.selected)
+                    color = this.generateGradient(line);
+
+                this.drawLineFromTo(line.start, line.end, thickness, color, false);
+                
+            }
         }
     }
 
@@ -247,7 +301,8 @@
             this.drawLineFromTo(start, end, SETTINGS.lineWidth, SETTINGS.previewLineColor, false);
         }
         let p = currentPosition.copy();
-        this.drawCircle(p.x, p.y, 5, SETTINGS.previewLineColor, false); // SIFU grid stuff TODO magic number
+        this.drawCircle(p.x, p.y, 5, 3, SETTINGS.previewLineColor, false, true); // SIFU grid stuff TODO magic number
+        this.drawRealCircle(p, cursorRange, 2, false, true);
     }
 
     drawHelpers() {
@@ -288,17 +343,19 @@
     }
 
     drawPreciseSelection() {
-
         let objects = DATA_MANAGER.currentFile.lineObjects;
         for (var i = 0; i < objects.length; i++) {
             let points = objects[i].getPreciseSelectionEntries();
 
             context.lineWidth = SETTINGS.preciseSelectionLineWidth;
             for (let j = 0; j < points.length; ++j) {
-                context.fillStyle = (points[j].selected) ? SETTINGS.preciseSelectionSelectionColor : SETTINGS.preciseSelectionNoSelectionColor;
-                context.strokeStyle = (points[j].selected) ? SETTINGS.selectionColor : SETTINGS.lineColor;
+                let color = (points[j].selected) ? SETTINGS.preciseSelectionSelectionColor : SETTINGS.preciseSelectionNoSelectionColor;
+                // context.strokeStyle = (points[j].selected) ? SETTINGS.selectionColor : SETTINGS.lineColor; // TODO needed?
+                context.fillStyle = 'rgba(255, 255, 255, 0.5)';
 
-                this.drawCircle(points[j].x, points[j].y, SETTINGS.gridPointSize, 2); // TODO color missing
+                let p = points[j].copy();
+                p = DRAW_MANAGER.screenSpaceToCanvasSpace(p);
+                this.drawCircle(p.x, p.y, SETTINGS.preciseSelectionHandleSize, SETTINGS.preciseSelectionLineWidth, color, false, true);
             }
         }
     }
