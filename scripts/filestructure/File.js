@@ -53,8 +53,8 @@ class File {
         return this.currentObject.getPreciseSelectionEntries();
     }
 
-    getAllPointsAt(point) {
-        return this.currentObject.getAllPointsAt(point);
+    getAllPointsAt(point, cursorRange) {
+        return this.currentObject.getAllPointsAt(point, cursorRange);
     }
 
     getAllSelectedPoints() {

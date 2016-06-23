@@ -34,11 +34,12 @@
     }
 
     Distance(other) {
-        var vec2 = {
-            x: other.x - this.x,
-            y: other.y - this.y
-        }
-        return Math.sqrt(vec2.x * vec2.x + vec2.y * vec2.y);
+        return (other.SubtractVector(this)).length();
+    }
+
+    length()
+    {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
     Normalize() {

@@ -121,8 +121,8 @@
         // let precisePoints = [screenPos]; // TODO why was this as init-array?
         let precisePoints = [];
 
-        //if (points.length <= 1 || !LINE_MANIPULATOR.showAdvancedHandles)
-          //  return precisePoints;
+        if (points.length <= 1 || !LINE_MANIPULATOR.showAdvancedHandles)
+            return precisePoints;
 
         for (let i = 0; i < points.length; ++i) {
             let otherPoint = this.getOtherPointBelongingToLine(points[i]);
@@ -246,7 +246,7 @@
 
         for (let i = 0; i < allSelectedPoints.length; ++i) {
             let p = this.getOtherPointBelongingToLine(allSelectedPoints[i]);
-            let pArray = this.getAllPointsAt(p);
+            let pArray = this.getAllPointsAt(p, 0);
 
             for (let j = 0; j < pArray.length; ++j)
                 pArray[j].selected = true;
