@@ -332,7 +332,8 @@
         context.fillStyle = SETTINGS.borderSelectionColor;
 
         let leftTop = DRAW_MANAGER.canvasSpaceToScreenSpace(UTILITIES.borderSelectionStart);
-        let size = UTILITIES.borderSelectionEnd.SubtractVector(UTILITIES.borderSelectionStart);
+        let sizeCanvasSpace = UTILITIES.borderSelectionEnd.SubtractVector(UTILITIES.borderSelectionStart);
+        let size = sizeCanvasSpace.Multiply(zoom);
 
         context.rect(leftTop.x, leftTop.y, size.x, size.y);
         context.fillRect(leftTop.x, leftTop.y, size.x, size.y);
