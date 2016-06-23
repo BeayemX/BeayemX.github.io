@@ -79,8 +79,8 @@ class Utilities {
 
         if (arguments.length == 3) {
             if (delta.x != 0 || delta.y != 0) {
-                var curr = { x: currentPosition.x, y: currentPosition.y };
-                var start = { x: KEYBOARD_HANDLER.grabStartPosition.x, y: KEYBOARD_HANDLER.grabStartPosition.y };
+                let curr = { x: currentPosition.x, y: currentPosition.y };
+                let start = { x: KEYBOARD_HANDLER.grabStartPosition.x, y: KEYBOARD_HANDLER.grabStartPosition.y };
                 ACTION_HISTORY.PushAction(new MoveAction(points, curr, start));
             }
         }
