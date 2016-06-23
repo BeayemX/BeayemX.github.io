@@ -80,8 +80,8 @@ class Utilities {
 
     startAreaSelection(selectType) {
         this.borderSelectType = selectType
-        this.borderSelectionStart = { x: currentPosition.x, y: currentPosition.y };
-        this.borderSelectionEnd = { x: currentPosition.x, y: currentPosition.y };
+        this.borderSelectionStart = currentPosition.copy();
+        this.borderSelectionEnd = currentPosition.copy();
     }
 
     endAreaSelection(performSelection) {

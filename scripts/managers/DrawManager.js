@@ -331,11 +331,8 @@
         context.strokeStyle = SETTINGS.selectionColor;
         context.fillStyle = SETTINGS.borderSelectionColor;
 
-        var leftTop = UTILITIES.gridpointToScreenpoint(UTILITIES.borderSelectionStart);
-        var size = {
-            x: (UTILITIES.borderSelectionEnd.x - UTILITIES.borderSelectionStart.x) * SETTINGS.gridSize,
-            y: (UTILITIES.borderSelectionEnd.y - UTILITIES.borderSelectionStart.y) * SETTINGS.gridSize
-        };
+        let leftTop = DRAW_MANAGER.canvasSpaceToScreenSpace(UTILITIES.borderSelectionStart);
+        let size = UTILITIES.borderSelectionEnd.SubtractVector(UTILITIES.borderSelectionStart);
 
         context.rect(leftTop.x, leftTop.y, size.x, size.y);
         context.fillRect(leftTop.x, leftTop.y, size.x, size.y);

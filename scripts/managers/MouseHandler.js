@@ -41,7 +41,7 @@ class MouseHandler {
         }
         else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
             if (UTILITIES.borderSelectionStart) {
-                UTILITIES.borderSelectionEnd = { x: currentPosition.x, y: currentPosition.y };
+                UTILITIES.borderSelectionEnd = currentPosition.copy();
             }
         }
 
