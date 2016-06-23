@@ -143,7 +143,7 @@ class Utilities {
         }
 
         console.log("when should this happen?, maybe old version where screenpoint was inside of the init-array?");
-        return DATA_MANAGER.currentFile.getAllPointsAt(canvasSpacePos, 50);
+        return DATA_MANAGER.currentFile.getAllPointsAt(canvasSpacePos, cursorRange);
     }
 
     toggleDevArea() {
