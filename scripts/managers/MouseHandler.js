@@ -7,20 +7,31 @@ class MouseHandler {
         this.gridLineStart;
         this.gridLineEnd;
         this.oldPos = new Vector2(-1, -1);
+        this.oldPosScreenSpace = new Vector2(0, 0);
         this.grabInitializedWithRMBDown = false;
         this.isPanning = false;
     }
 
     MouseMove(e) {
-        let newPos = UTILITIES.getMousePos(e);
-        let screenPosDelta = newPos.SubtractVector(this.oldPos);
-        let canvasSpacePosDelta = screenPosDelta.copy().Divide(zoom);
+        let newPosScreenSpace = UTILITIES.getMousePos(e);
+
+        let screenPosDelta = newPosScreenSpace.copy().SubtractVector(this.oldPosScreenSpace);
 
         if (!this.isPanning) {
-            let p = DRAW_MANAGER.screenSpaceToCanvasSpace(newPos.copy());
+            let p = DRAW_MANAGER.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
             currentPosition = new Point(p.x, p.y);
 
-            this.cursorPositionChanged(e, canvasSpacePosDelta);
+
+            if (!currentPosition.equals(this.oldPos)) {
+
+                console.log("currentPosition: " + currentPosition.toString());
+                console.log("oldPos: " + this.oldPos.toString());
+
+                let delta = currentPosition.copy().SubtractVector(this.oldPos)
+                this.cursorPositionChanged(e, delta);
+
+                this.oldPos = currentPosition;
+            }
 
             let text = "curPos: " + currentPosition.toString();
             text += "\tcanvasOffset: " + canvasOffset.toString();
@@ -30,8 +41,9 @@ class MouseHandler {
         {
             canvasOffset = canvasOffset.AddVector(screenPosDelta.Divide(zoom));
         }
+
+        this.oldPosScreenSpace = newPosScreenSpace;
         DRAW_MANAGER.redraw(); // TODO with grid stuff, redraw just happened if currentGridPoint changed...
-        this.oldPos = newPos;
     }
 
     cursorPositionChanged(e, delta) {
