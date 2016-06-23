@@ -173,3 +173,9 @@ class Utilities {
         return center;
     }
 }
+
+// TODO remove me?
+function log(text)
+{
+    console.log(text);
+}

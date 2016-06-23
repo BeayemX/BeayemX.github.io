@@ -72,7 +72,6 @@ class MouseHandler {
                 // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
                 // added to history it will call Do()...
                 let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().SubtractVector(currentPosition);
-
                 UTILITIES.movePointsBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), resetDelta, true);
                 DATA_MANAGER.currentFile.cleanUpFile();
                 grabInitializedWithKeyboard = false;
@@ -175,7 +174,10 @@ class MouseHandler {
                 let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().SubtractVector(currentPosition);
                 let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
 
-                UTILITIES.movePointsBy(points, resetDelta, this.grabInitializedWithRMBDown);
+                if (this.grabInitializedWithRMBDown)
+                    UTILITIES.movePointsBy(points, resetDelta, this.grabInitializedWithRMBDown);
+                else 
+                    UTILITIES.movePointsBy(points, resetDelta);
 
                 DATA_MANAGER.currentFile.cleanUpFile();
 
