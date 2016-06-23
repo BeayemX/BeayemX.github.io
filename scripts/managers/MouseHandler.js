@@ -63,10 +63,8 @@ class MouseHandler {
             else if (LOGIC.currentState == StateEnum.GRABBING) {
                 // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
                 // added to history it will call Do()...
-                var resetDelta = {
-                    x: KEYBOARD_HANDLER.grabStartPosition.x - currentPosition.x,
-                    y: KEYBOARD_HANDLER.grabStartPosition.y - currentPosition.y
-                };
+                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().SubtractVector(currentPosition);
+
                 UTILITIES.movePointsBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), resetDelta, true);
                 DATA_MANAGER.currentFile.cleanUpFile();
                 grabInitializedWithKeyboard = false;
@@ -86,10 +84,7 @@ class MouseHandler {
                 UTILITIES.changeSelectionForPoints(points);
 
                 if (points != null) {
-                    KEYBOARD_HANDLER.grabStartPosition = {
-                        x: currentPosition.x,
-                        y: currentPosition.y
-                    };
+                    KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
 
                     LOGIC.currentState = StateEnum.GRABBING;
                     this.grabInitializedWithRMBDown = true;
@@ -169,19 +164,14 @@ class MouseHandler {
         {
             if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
             {
-                let resetDelta = {
-                    x: KEYBOARD_HANDLER.grabStartPosition.x - currentPosition.x,
-                    y: KEYBOARD_HANDLER.grabStartPosition.y - currentPosition.y
-                };
+                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().SubtractVector(currentPosition);
+                let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
 
-                if (this.grabInitializedWithRMBDown == false) {
-                    let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
-                    UTILITIES.movePointsBy(points, resetDelta);
-                }
-                else {
-                    UTILITIES.movePointsBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), resetDelta, true);
-                    DATA_MANAGER.currentFile.cleanUpFile();
-                }
+                console.log(resetDelta);
+                UTILITIES.movePointsBy(points, resetDelta, this.grabInitializedWithRMBDown);
+
+                DATA_MANAGER.currentFile.cleanUpFile();
+
                 this.grabInitializedWithRMBDown = false;
                 grabInitializedWithKeyboard = false;
                 LOGIC.setState(StateEnum.IDLE);
