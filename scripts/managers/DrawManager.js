@@ -32,7 +32,7 @@
         context.stroke();
     }
 
-    drawCircle(centerX, centerY, radius, thickness, color, screenSpace, screenSpaceSize) {
+    drawCircle(centerX, centerY, radius, thickness, color, screenSpace, screenSpaceSize, filled) {
         if (!screenSpace) {
             centerX += canvasOffset.x;
             centerY += canvasOffset.y;
@@ -49,9 +49,14 @@
         context.beginPath();
         context.lineWidth = thickness;
         context.strokeStyle = color;
-        context.rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
+        // performance "circles"
+        //context.rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
+        context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         context.stroke();
-        context.fill(); // TODO do i have to fill circles?
+        if (filled) {
+            context.strokeStyle = color;
+            context.fill();
+        }
     }
 
     drawRealCircle(center, radius, thickness, screenSpace, screenSpaceThickness) {
@@ -276,7 +281,7 @@
     drawObjects() {
         let objects = DATA_MANAGER.currentFile.lineObjects;
 
-        for (var i = 0; i < objects.length; i++) {
+        for (let i = 0; i < objects.length; i++) {
             let color = objects[i].color.copy();
             let thickness = objects[i].thickness;
 
@@ -288,8 +293,18 @@
             let unselLines = objects[i].getUnselectedLines();
             let selLines = objects[i].getSelectedLines();
 
+            let selPoints = objects[i].getAllPointsWithSelection(true);
+            let unselPoints = objects[i].getAllPointsWithSelection(false);
+
+            let radius = objects[i] == DATA_MANAGER.currentFile.currentObject ? thickness * 2 : thickness * 0.5;
+
+            for (let p of unselPoints) // TODO PERFORMANCE if multiple lines share point, point gets drawn multiple times...
+                this.drawCircle(p.x, p.y, radius, 0, color, false, false, true);
             for (let line of unselLines)
                 this.drawLineFromTo(line.start, line.end, thickness, color.toString(), false);
+
+            for (let p of selPoints)
+                this.drawCircle(p.x, p.y, radius, 0, SETTINGS.selectionColor, false, false, true);
             for (let line of selLines)
             {
                 let color = SETTINGS.selectionColor;
@@ -297,7 +312,6 @@
                     color = this.generateGradient(line);
 
                 this.drawLineFromTo(line.start, line.end, thickness, color, false);
-
             }
         }
     }

@@ -209,9 +209,20 @@
             this.clearSelection();
     }
 
+    getAllPointsWithSelection(selection) {
+        let points = [];
+        for (let i = 0; i < this.lines.length; ++i) {
+            if (this.lines[i].start.selected == selection)
+                points.push(this.lines[i].start);
+            if (this.lines[i].end.selected == selection)
+                points.push(this.lines[i].end);
+        }
+        return points;
+    }
+
     getAllPoints() {
-        var points = [];
-        for (var i = 0; i < this.lines.length; ++i) {
+        let points = [];
+        for (let i = 0; i < this.lines.length; ++i) {
             points.push(this.lines[i].start);
             points.push(this.lines[i].end);
         }

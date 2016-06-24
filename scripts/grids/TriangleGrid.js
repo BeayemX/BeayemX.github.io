@@ -1,8 +1,8 @@
 ﻿class TriangleGrid {
     constructor() {
         this.cells = 20;
-        this.width = 50;
-        this.height = 50;
+        this.width = 25;
+        this.height = 25;
         this.uniform = true;
         this.swapXAndYForTriangles = false;
         this.gridThickness = 1;
