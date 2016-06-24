@@ -6,7 +6,7 @@
         this.uniform = true;
         this.swapXAndYForTriangles = false;
         this.gridThickness = 1;
-        this.gridColor = new Color(0, 0, 0, 1);
+        this.gridColor = '#444';
 
         if (this.uniformHeight)
             this.uniformHeight();
