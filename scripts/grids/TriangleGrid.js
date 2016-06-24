@@ -1,12 +1,19 @@
 ﻿class TriangleGrid {
     constructor() {
-        this.cells = 10;
-        this.width = 50;
-        this.height = 50;
+        this.cells = 100;
+        this.width = 10;
+        this.height = 10;
         this.uniform = true;
         this.swapXAndYForTriangles = false;
         this.gridThickness = 1;
-        this.gridColor = new Color(0, 0, 0, 1); 
+        this.gridColor = new Color(0, 0, 0, 1);
+
+        if (this.uniformHeight)
+            this.uniformHeight();
+    }
+
+    uniformHeight() {
+        this.height = this.width / Math.cos(30 * (Math.PI / 180));
     }
 
     drawGrid()
@@ -47,12 +54,11 @@
         else
             snapY = (Math.round(position.y / this.height + 0.5) - 0.5) * this.height;
 
-        //*
         let firstCandidate = new Vector2(snapX, snapY);
         let secondCandidate = new Vector2(snapX + this.width * (snapX < position.x ? 1 : -1), snapY + this.height * (snapY < position.y ? 0.5 : -0.5));
-        let firstDistance = (firstCandidate.SubtractVector(position)).sqrMagnitude;
-        let secondDistance = (secondCandidate.SubtractVector(position)).sqrMagnitude;
-        
+        let firstDistance = (firstCandidate.SubtractVector(position)).sqrMagnitude();
+        let secondDistance = (secondCandidate.SubtractVector(position)).sqrMagnitude();
+
         if (this.swapXAndYForTriangles)
             if (firstDistance < secondDistance)
                 return new Vector2(firstCandidate.y, firstCandidate.x);
@@ -60,12 +66,6 @@
                 return new Vector2(secondCandidate.y, secondCandidate.x);
         else
             return firstDistance < secondDistance ? firstCandidate : secondCandidate;
-        // */
-
-        //let firstCandidate = new Vector2(snapX, snapY);
-        //let secondCandidate = new Vector2(snapX + this.width * (snapX < position.x ? 1 : -1), snapY + this.height * (snapY < position.y ? 0.5 : -0.5));
-        //let firstDistance = (firstCandidate - position).sqrMagnitude;
-        //let secondDistance = (secondCandidate - position).sqrMagnitude;
 
         return new Vector2(snapX, snapY);
     }
