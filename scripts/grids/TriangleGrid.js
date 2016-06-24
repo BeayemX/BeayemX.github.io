@@ -1,6 +1,6 @@
 ﻿class TriangleGrid {
     constructor() {
-        this.cells = 100;
+        this.cells = 20;
         this.width = 10;
         this.height = 10;
         this.uniform = true;
@@ -8,7 +8,7 @@
         this.gridThickness = 1;
         this.gridColor = '#444';
 
-        if (this.uniformHeight)
+        if (this.uniform)
             this.uniformHeight();
     }
 
