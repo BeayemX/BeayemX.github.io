@@ -2,7 +2,7 @@
     constructor() {
         this.lines = [];
         this.color = new Color(0, 0, 0, 1);
-        this.thickness = 2;
+        this.thickness = 1;
     }
 
     addLine(line) {

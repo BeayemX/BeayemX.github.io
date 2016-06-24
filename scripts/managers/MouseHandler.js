@@ -20,6 +20,7 @@ class MouseHandler {
         if (!this.isPanning) {
             let p = DRAW_MANAGER.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
             currentPosition = new Point(p.x, p.y);
+            currentPosition = GRID.getNearestPointFor(currentPosition);
 
 
             if (!currentPosition.equals(this.oldPos)) {
@@ -57,15 +58,11 @@ class MouseHandler {
     }
 
     MouseDown(e) {
-        let point = UTILITIES.getMousePos(e);
-        let canvasSpacePoint = DRAW_MANAGER.screenSpaceToCanvasSpace(point.copy());
-        canvasSpacePoint = new Point(canvasSpacePoint.x, canvasSpacePoint.y); // TODO ugly workaround
-
         if (e.button == 0) // LMB
         {
             if (LOGIC.currentState == StateEnum.IDLE) {
                 LOGIC.setState(StateEnum.DRAWING);
-                this.downPoint = canvasSpacePoint.copy();
+                this.downPoint = currentPosition.copy();
                 this.cursorPositionChanged();
             }
             else if (LOGIC.currentState == StateEnum.GRABBING) {
@@ -87,7 +84,7 @@ class MouseHandler {
             if (LOGIC.currentState == StateEnum.IDLE) {
                 if (!e.shiftKey)
                     DATA_MANAGER.currentFile.clearSelection();
-                let points = UTILITIES.getNearestSelection(canvasSpacePoint);
+                let points = UTILITIES.getNearestSelection(currentPosition.copy());
                 UTILITIES.changeSelectionForPoints(points);
 
                 if (points != null) {
@@ -131,10 +128,8 @@ class MouseHandler {
         if (e.button == 0) // LMB
         {
             if (LOGIC.currentState == StateEnum.DRAWING) {
-                let point = UTILITIES.getMousePos(e);
-                let canvasSpacePoint = DRAW_MANAGER.screenSpaceToCanvasSpace(point.copy());
                 this.gridLineStart = this.downPoint;
-                this.gridLineEnd = canvasSpacePoint;
+                this.gridLineEnd = currentPosition.copy();
 
                 if (this.gridLineStart.x != this.gridLineEnd.x || this.gridLineStart.y != this.gridLineEnd.y)
                     DATA_MANAGER.currentFile.addLine(
@@ -146,7 +141,7 @@ class MouseHandler {
 						    ));
 
                 if (ctrlDown)
-                    this.downPoint = canvasSpacePoint;
+                    this.downPoint = currentPosition.copy();
                 else
                     this.CancelLinePreview();
 

@@ -6,7 +6,7 @@
         else
             this.selected = false;
     }
-    Copy()
+    copy()
     {
         return new Point(this.x, this.y, this.selected);
     }

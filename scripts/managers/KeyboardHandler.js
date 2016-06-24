@@ -36,7 +36,7 @@ class KeyboardHandler {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
                         // DON'T CALL WITH this.grabStartPosition because 'this' refers to caller, not THIS class!!!!
-                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.Copy();
+                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
                         DRAW_MANAGER.redraw();
                     }
                 }
@@ -69,7 +69,7 @@ class KeyboardHandler {
                 if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
                     if (DATA_MANAGER.currentFile.isSomethingSelected()) {
                         DATA_MANAGER.currentFile.duplicateLines();
-                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.Copy();
+                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
                         LOGIC.setState(StateEnum.GRABBING);
                     }
                 }
@@ -92,7 +92,7 @@ class KeyboardHandler {
             case 86: // V
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     if (SAVER.pasteLines()) {
-                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.Copy();
+                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
                         LOGIC.setState(StateEnum.GRABBING);
                     }
                 }

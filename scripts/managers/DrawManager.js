@@ -301,7 +301,7 @@
             this.drawLineFromTo(start, end, SETTINGS.lineWidth, SETTINGS.previewLineColor, false);
         }
         let p = currentPosition.copy();
-        this.drawCircle(p.x, p.y, 5, 3, SETTINGS.previewLineColor, false, true); // SIFU grid stuff TODO magic number
+        this.drawCircle(p.x, p.y, 5, 1, SETTINGS.previewLineColor, false, true); // SIFU grid stuff TODO magic number
         this.drawRealCircle(p, cursorRange, 2, false, true);
     }
 

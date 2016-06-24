@@ -3,7 +3,7 @@ class Settings {
     constructor() {
         this.canvasColor = "#666";
 
-        this.lineWidth = 3;
+        this.lineWidth = 1;
         this.lineColor = "#000";
         this.lineColorFill = 'rgba(0, 0, 0, 1)';
         this.lineEndingRadius = 4;
