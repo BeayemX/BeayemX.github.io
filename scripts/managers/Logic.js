@@ -28,6 +28,7 @@ let LINE_MANIPULATOR;
 let SETTINGS;
 
 let GRID;
+let useGrid = false;
 
 function onLoad()
 {
@@ -120,5 +121,11 @@ class Logic {
     isPreviewing() {
         return this.currentState == StateEnum.RENDERPREVIEW; // ||
         //(currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
+    }
+
+    toggleGrid()
+    {
+        useGrid = !useGrid;
+        DRAW_MANAGER.redraw();
     }
 }

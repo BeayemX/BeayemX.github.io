@@ -16,6 +16,10 @@
         val = val / this.gridSize;
         val = Math.round(val);
         val *= this.gridSize;
+
+        let limit = this.gridCellNumber * this.gridSize * 0.5;
+        val = Math.min(Math.max(val, -limit), limit);
+
         return val;
     }
 }

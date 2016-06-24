@@ -80,6 +80,7 @@
 
         if (!LOGIC.isPreviewing()) {
             this.drawGrid();
+            this.drawAxis();
             if (LOGIC.currentState == StateEnum.BORDERSELECTION)
                 this.drawHelpers();
             else if (grabInitializedWithKeyboard)
@@ -205,6 +206,9 @@
     // TODO settings in SETTINGS und GRID verteilt...
     drawGrid() // TODO grid class?
     {
+        if (!useGrid) // SIFU TODO put into grid class
+            return;
+
         let size = GRID.gridCellNumber * 0.5;
 
         let color;
@@ -258,9 +262,12 @@
 
         //this.drawLineFromTo(new Vector2(0, canvasOffset.y), new Vector2(canvas.width, canvasOffset.y), 11, 'darkred', false);
         //this.drawLineFromTo(new Vector2(canvasOffset.x, 0), new Vector2(canvasOffset.x, canvas.height), 11, 'darkred', false);
+    }
+    drawAxis()
+    {
         let axisSize = 500;
-        this.drawLineFromTo(new Vector2(-axisSize, 0), new Vector2(axisSize, 0), 2, 'darkred', false, true);
-        this.drawLineFromTo(new Vector2(0, -axisSize), new Vector2(0, axisSize), 2, 'darkred', false, true);
+        this.drawLineFromTo(new Vector2(-axisSize, 0), new Vector2(axisSize, 0), 1, 'darkred', false, true);
+        this.drawLineFromTo(new Vector2(0, -axisSize), new Vector2(0, axisSize), 1, 'darkred', false, true);
     }
 
     drawObjects() {
@@ -272,7 +279,7 @@
 
             if (objects[i] != DATA_MANAGER.currentFile.currentObject) {
                 color.a = 0.3;
-                thickness *= 0.5;
+                //thickness *= 0.5;
             }
 
             let unselLines = objects[i].getUnselectedLines();

@@ -20,7 +20,8 @@ class MouseHandler {
         if (!this.isPanning) {
             let p = DRAW_MANAGER.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
             currentPosition = new Point(p.x, p.y);
-            currentPosition = GRID.getNearestPointFor(currentPosition);
+            if (useGrid)
+                currentPosition = GRID.getNearestPointFor(currentPosition);
 
 
             if (!currentPosition.equals(this.oldPos)) {
