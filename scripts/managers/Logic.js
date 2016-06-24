@@ -117,7 +117,7 @@ class Logic {
 
         this.previousState = this.currentState;
         this.currentState = state;
-        // console.log(this.previousState  + " --> " + this.currentState);
+        console.log(this.previousState  + " --> " + this.currentState);
     }
 
     isPreviewing() {

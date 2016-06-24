@@ -52,11 +52,13 @@
         // performance "circles"
         //context.rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
         context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        context.stroke();
         if (filled) {
-            context.strokeStyle = color;
+            context.fillStyle = color;
             context.fill();
         }
+        else
+            context.stroke();
+
     }
 
     drawRealCircle(center, radius, thickness, screenSpace, screenSpaceThickness) {
@@ -99,11 +101,11 @@
             this.drawPreciseSelection();
 
 
-        if (LOGIC.currentState == StateEnum.IDLE, StateEnum.DRAWING) {
+        if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.DRAWING)
             this.drawPreviewLine();
-        }
 
-        this.drawHelpers();
+        if (!LOGIC.isPreviewing())
+            this.drawHelpers();
         // console.log("redraw.");
     }
 
@@ -297,19 +299,25 @@
             let unselPoints = objects[i].getAllPointsWithSelection(false);
 
             let radius = objects[i] == DATA_MANAGER.currentFile.currentObject ? thickness * 2 : thickness * 0.5;
+            if (LOGIC.isPreviewing())
+                radius = thickness * 0.5;
 
             for (let p of unselPoints) // TODO PERFORMANCE if multiple lines share point, point gets drawn multiple times...
                 this.drawCircle(p.x, p.y, radius, 0, color, false, false, true);
             for (let line of unselLines)
                 this.drawLineFromTo(line.start, line.end, thickness, color.toString(), false);
 
+            color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
+
             for (let p of selPoints)
-                this.drawCircle(p.x, p.y, radius, 0, SETTINGS.selectionColor, false, false, true);
+                this.drawCircle(p.x, p.y, radius, 0, color, false, false, true);
             for (let line of selLines)
             {
-                let color = SETTINGS.selectionColor;
-                if (line.start.selected != line.end.selected)
-                    color = this.generateGradient(line);
+                if (!LOGIC.isPreviewing()) {
+                    color = SETTINGS.selectionColor;
+                    if (line.start.selected != line.end.selected)
+                        color = this.generateGradient(line);
+                }
 
                 this.drawLineFromTo(line.start, line.end, thickness, color, false);
             }
