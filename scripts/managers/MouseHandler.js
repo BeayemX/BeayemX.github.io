@@ -90,7 +90,7 @@ class MouseHandler {
                 if (points != null) {
                     KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
 
-                    LOGIC.currentState = StateEnum.GRABBING;
+                    LOGIC.setState(StateEnum.GRABBING);
                     this.grabInitializedWithRMBDown = true;
                 }
             }

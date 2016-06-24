@@ -158,9 +158,11 @@ class KeyboardHandler {
     KeyUp(e) {
         switch (e.keyCode) {
             case 9: // TAB
-                LOGIC.setState(LOGIC.previousState);
-                canvas.style.background = SETTINGS.canvasColor;
-                DRAW_MANAGER.redraw();
+                if (LOGIC.currentState == StateEnum.RENDERPREVIEW) {
+                    LOGIC.setState(LOGIC.previousState);
+                    canvas.style.background = SETTINGS.canvasColor;
+                    DRAW_MANAGER.redraw();
+                }
                 break;
 
             case 17: // Ctrl
