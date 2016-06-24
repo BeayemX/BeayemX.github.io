@@ -28,7 +28,7 @@ let LINE_MANIPULATOR;
 let SETTINGS;
 
 let GRID;
-let useGrid = false;
+let useGrid = true;
 
 function onLoad()
 {
@@ -44,7 +44,9 @@ function onLoad()
     ACTION_HISTORY = new ActionHistory();
     LINE_MANIPULATOR = new LineManipulator();
     SETTINGS = new Settings();
-    GRID = new Grid(); // SIFU FIXME TODO save grid elsewhere
+    // SIFU FIXME TODO save grid elsewhere
+    //GRID = new Grid(); 
+    GRID = new TriangleGrid(); 
 
 
     LOGIC.start();

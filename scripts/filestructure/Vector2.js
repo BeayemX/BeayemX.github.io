@@ -42,6 +42,11 @@
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
+    sqrMagnitude()
+    {
+        return this.x * this.x + this.y * this.y;
+    }
+
     Normalize() {
         var magnitude = Math.sqrt(this.x * this.x + this.y * this.y);
 

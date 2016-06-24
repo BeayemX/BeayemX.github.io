@@ -209,6 +209,9 @@
         if (!useGrid) // SIFU TODO put into grid class
             return;
 
+        GRID.drawGrid();
+        return;
+
         let size = GRID.gridCellNumber * 0.5;
 
         let color;
@@ -263,8 +266,8 @@
         //this.drawLineFromTo(new Vector2(0, canvasOffset.y), new Vector2(canvas.width, canvasOffset.y), 11, 'darkred', false);
         //this.drawLineFromTo(new Vector2(canvasOffset.x, 0), new Vector2(canvasOffset.x, canvas.height), 11, 'darkred', false);
     }
-    drawAxis()
-    {
+
+    drawAxis() {
         let axisSize = 500;
         this.drawLineFromTo(new Vector2(-axisSize, 0), new Vector2(axisSize, 0), 1, 'darkred', false, true);
         this.drawLineFromTo(new Vector2(0, -axisSize), new Vector2(0, axisSize), 1, 'darkred', false, true);
@@ -294,7 +297,7 @@
                     color = this.generateGradient(line);
 
                 this.drawLineFromTo(line.start, line.end, thickness, color, false);
-                
+
             }
         }
     }
