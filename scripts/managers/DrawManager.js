@@ -95,6 +95,9 @@
             this.drawBorderSelection();
         }
 
+        if (!LOGIC.isPreviewing())
+            this.drawHelpers();
+
         this.drawObjects();
 
         if (!LOGIC.isPreviewing())
@@ -104,8 +107,6 @@
         if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.DRAWING)
             this.drawPreviewLine();
 
-        if (!LOGIC.isPreviewing())
-            this.drawHelpers();
         // console.log("redraw.");
     }
 

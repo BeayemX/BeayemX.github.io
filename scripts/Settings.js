@@ -24,7 +24,7 @@ class Settings {
 
         this.helperColor = "#5bb";
         this.helperColor2 = "#090";
-        this.helperLineWidth = 1;
+        this.helperLineWidth = 1.5;
 
         this.previewLineColor = "#090";
         this.selectionColor = "#f90";
