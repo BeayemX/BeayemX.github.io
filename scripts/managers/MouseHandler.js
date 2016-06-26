@@ -191,7 +191,7 @@ class MouseHandler {
             if (e.deltaX < 0)
                 cursorRange += step;
             else if (e.deltaX > 0)
-                cursorRange -= step;
+                cursorRange = Math.max(cursorRange-step, 1);
 
         } else {
             if (e.deltaY < 0) // upscroll
