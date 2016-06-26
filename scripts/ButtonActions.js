@@ -10,12 +10,10 @@ class LineManipulator {
         this.showAdvancedHandles = false;
     }
 
-    subdivide()
-    {
+    subdivide() {
         var selectedLines = DATA_MANAGER.currentFile.getSelectedLines();
-        for (var i=0; i<selectedLines.length; ++i)
-        {
-            var midPoint = 
+        for (var i = 0; i < selectedLines.length; ++i) {
+            var midPoint =
             {
                 x: Math.round((selectedLines[i].end.x + selectedLines[i].start.x) / 2),
                 y: Math.round((selectedLines[i].end.y + selectedLines[i].start.y) / 2)
@@ -27,47 +25,41 @@ class LineManipulator {
         DRAW_MANAGER.redraw();
     }
 
-    mirror()
-    {
+    mirror() {
         var minX = Infinity;
         var maxX = -Infinity;
         var selLines = DATA_MANAGER.currentFile.getSelectedLines();
 
-        for (var i=0; i<selLines.length; ++i)
-        {
+        for (var i = 0; i < selLines.length; ++i) {
             minX = Math.min(minX, selLines[i].start.x);
             maxX = Math.max(maxX, selLines[i].start.x);
 
             minX = Math.min(minX, selLines[i].end.x);
             maxX = Math.max(maxX, selLines[i].end.x);
         }
-	
-        for (var i=0; i<selLines.length; ++i)
-        {
-            selLines[i].start.x -= (selLines[i].start.x - minX) * 2 - (maxX-minX);
-            selLines[i].end.x -= (selLines[i].end.x - minX) * 2 - (maxX-minX);
+
+        for (var i = 0; i < selLines.length; ++i) {
+            selLines[i].start.x -= (selLines[i].start.x - minX) * 2 - (maxX - minX);
+            selLines[i].end.x -= (selLines[i].end.x - minX) * 2 - (maxX - minX);
         }
         DRAW_MANAGER.redraw();
     }
 
-    rotate(clockwise)
-    {
-        var minX = Infinity;
-        var minY = Infinity;
-        var selLines = DATA_MANAGER.currentFile.getSelectedLines();
+    rotate(clockwise) {
+        let minX = Infinity;
+        let minY = Infinity;
+        let selLines = DATA_MANAGER.currentFile.getSelectedLines();
 
-        for (var i=0; i<selLines.length; ++i)
-        {
+        for (let i = 0; i < selLines.length; ++i) {
             minX = Math.min(minX, selLines[i].start.x);
             minY = Math.min(minY, selLines[i].start.y);
 
             minX = Math.min(minX, selLines[i].end.x);
             minY = Math.min(minY, selLines[i].end.y);
         }
-	
-        for (var i=0; i<selLines.length; ++i)
-        {
-            var tmp = selLines[i].start.x;
+
+        for (let i = 0; i < selLines.length; ++i) {
+            let tmp = selLines[i].start.x;
             selLines[i].start.x = selLines[i].start.y;
             selLines[i].start.y = tmp;
 
@@ -86,20 +78,18 @@ class LineManipulator {
                 selLines[i].end.y = -selLines[i].end.y
         }
 
-        var newMinX = Infinity;
-        var newMinY = Infinity;
+        let newMinX = Infinity;
+        let newMinY = Infinity;
 
-        for (var i=0; i<selLines.length; ++i)
-        {
+        for (let i = 0; i < selLines.length; ++i) {
             newMinX = Math.min(newMinX, selLines[i].start.x);
             newMinY = Math.min(newMinY, selLines[i].start.y);
 
             newMinX = Math.min(newMinX, selLines[i].end.x);
             newMinY = Math.min(newMinY, selLines[i].end.y);
         }
-	
-        for (var i=0; i<selLines.length; ++i)
-        {
+
+        for (let i = 0; i < selLines.length; ++i) {
             selLines[i].start.x += minX - newMinX;
             selLines[i].start.y += minY - newMinY;
             selLines[i].end.x += minX - newMinX;
@@ -108,9 +98,8 @@ class LineManipulator {
         DRAW_MANAGER.redraw();
     }
 
-    toggleHandles(button)
-    {
-        this.showHandles = !this.showHandles;   
+    toggleHandles(button) {
+        this.showHandles = !this.showHandles;
 
         if (this.showHandles)
             button.innerHTML = "Hide line handles";
@@ -120,8 +109,7 @@ class LineManipulator {
         DRAW_MANAGER.redraw();
     }
 
-    toggleAdvancedHandles()
-    {
+    toggleAdvancedHandles() {
         this.advancedHandlesState = !this.advancedHandlesState;
         this.showAdvancedHandles = this.advancedHandlesState;
 
@@ -130,16 +118,14 @@ class LineManipulator {
         DRAW_MANAGER.redraw();
     }
 
-    updateAdvancedHandlesButton()
-    {
+    updateAdvancedHandlesButton() {
         if (this.showAdvancedHandles)
             advancedHandlesButton.innerHTML = "Advanced handles: ON";
         else
             advancedHandlesButton.innerHTML = "Advanced handles: OFF";
     }
 
-    increaseSize(factor)
-    {
+    increaseSize(factor) {
         var selLines = DATA_MANAGER.currentFile.getSelectedLines();
         var center = UTILITIES.calculateCenter(selLines);
 
@@ -151,8 +137,7 @@ class LineManipulator {
                 line.start.x * factor % 1 != 0 ||
                 line.start.y * factor % 1 != 0 ||
                 line.end.x * factor % 1 != 0 ||
-                line.end.y * factor % 1 != 0)
-            {
+                line.end.y * factor % 1 != 0) {
                 correctlyScalable = false;
                 break;
             }

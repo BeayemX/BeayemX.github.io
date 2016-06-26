@@ -45,8 +45,8 @@ function onLoad()
     LINE_MANIPULATOR = new LineManipulator();
     SETTINGS = new Settings();
     // SIFU FIXME TODO save grid elsewhere
-    //GRID = new Grid(); 
-    GRID = new TriangleGrid(); 
+    GRID = new Grid(); 
+    //GRID = new TriangleGrid(); 
 
 
     LOGIC.start();

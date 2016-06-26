@@ -73,6 +73,14 @@ class Vector2 {
         return retVec();
     }
 
+    setValues(x, y) {
+        if (arguments.length == 1) {
+            y = x.y;
+            x = x.x;
+        }
+        this.x = x;
+        this.y = y;
+    }
 
     equals(other) {
         let epsilon = 0.01; // TODO STATIC??

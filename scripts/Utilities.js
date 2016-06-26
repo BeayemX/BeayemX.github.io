@@ -31,8 +31,7 @@ class Utilities {
         }
     }
 
-    setSelectStateForPoints(points, value)
-    {
+    setSelectStateForPoints(points, value) {
         for (var i = 0; i < points.length; ++i) {
             points[i].selected = value;
         }
@@ -44,10 +43,13 @@ class Utilities {
         }
     }
 
+    // SIFU FIXME TODO undo also snapps to grid which shouldn't happen if originally were subpixel values
     movePointsBy(points, delta, createHistory) {
         for (let i = 0; i < points.length; ++i) {
-            points[i].x += delta.x;
-            points[i].y += delta.y;
+            points[i].setValues(points[i].addVector(delta));
+
+            if (useGrid)
+                points[i].setValues(GRID.getNearestPointFor(points[i]));
         }
 
         if (arguments.length == 3) {
@@ -80,18 +82,18 @@ class Utilities {
     }
 
     selectWithinBorderSelection() {
-        var points = DATA_MANAGER.currentFile.getAllPoints();
+        let points = DATA_MANAGER.currentFile.getAllPoints();
 
-        var min = {
+        let min = {
             x: Math.min(this.borderSelectionStart.x, this.borderSelectionEnd.x),
             y: Math.min(this.borderSelectionStart.y, this.borderSelectionEnd.y)
         };
-        var max = {
+        let max = {
             x: Math.max(this.borderSelectionStart.x, this.borderSelectionEnd.x),
             y: Math.max(this.borderSelectionStart.y, this.borderSelectionEnd.y)
         };
 
-        for (var i = 0; i < points.length; ++i) {
+        for (let i = 0; i < points.length; ++i) {
             if (
                 points[i].x >= min.x && points[i].x <= max.x
                 &&
@@ -127,21 +129,33 @@ class Utilities {
     }
 
     calculateCenter(lines) {
-        var min = new Vector2(Infinity, Infinity);
-        var max = new Vector2(-Infinity, -Infinity);
+        let min = new Vector2(Infinity, Infinity);
+        let max = new Vector2(-Infinity, -Infinity);
 
-        for (var line of lines) {
+        for (let line of lines) {
             min.x = Math.min(min.x, line.start.x);
             min.y = Math.min(min.y, line.start.y);
             max.x = Math.max(max.x, line.end.x);
             max.y = Math.max(max.y, line.end.y);
         }
 
-        var center = new Vector2(
+        let center = new Vector2(
             Math.round((max.x + min.x) * 0.5),
             Math.round((max.y + min.y) * 0.5)
             );
 
         return center;
+    }
+
+    snapSelectedPointsToGrid() {
+        if (!useGrid)
+            return;
+
+        let selPoints = DATA_MANAGER.currentFile.getAllSelectedPoints();
+
+        for (let i = 0; i < selPoints.length; ++i)
+            selPoints[i].setValues(GRID.getNearestPointFor(selPoints[i]));
+
+        DRAW_MANAGER.redraw();
     }
 }
