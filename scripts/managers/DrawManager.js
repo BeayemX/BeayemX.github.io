@@ -249,15 +249,14 @@
             if (LOGIC.isPreviewing())
                 radius = thickness * 0.5;
 
-            for (let p of unselPoints) // TODO PERFORMANCE if multiple lines share point, point gets drawn multiple times...
-                this.drawCircle(p.x, p.y, radius, 0, color, false, false, true);
             for (let line of unselLines)
                 this.drawLineFromTo(line.start, line.end, thickness, color.toString(), false);
 
+            for (let p of unselPoints) // TODO PERFORMANCE if multiple lines share point, point gets drawn multiple times...
+                this.drawCircle(p.x, p.y, radius, 0, color, false, false, true);
+
             color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
 
-            for (let p of selPoints)
-                this.drawCircle(p.x, p.y, radius, 0, color, false, false, true);
             for (let line of selLines)
             {
                 if (!LOGIC.isPreviewing()) {
@@ -268,6 +267,9 @@
 
                 this.drawLineFromTo(line.start, line.end, thickness, color, false);
             }
+
+            for (let p of selPoints)
+                this.drawCircle(p.x, p.y, radius, 0, color, false, false, true);
         }
     }
 
