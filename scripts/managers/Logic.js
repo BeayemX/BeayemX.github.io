@@ -11,7 +11,7 @@ var advancedHandlesButton;
 var ctrlDown;
 var grabInitializedWithKeyboard = false;
 
-let cursorRange = 10;
+let cursorRange = 9;
 
 
 let SAVER;
