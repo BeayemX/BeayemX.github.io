@@ -1,4 +1,5 @@
-﻿class Vector2 {
+﻿// TODO use static methods for addVector and so on?
+class Vector2 {
     constructor(x, y) {
         this.x = x;
         this.y = y;
