@@ -161,7 +161,6 @@ class MouseHandler {
             }
             else {
                 this.isPanning = false;
-                canvasOffset.round(); // TODO set methode die dann gleich rundet? oder einen intvector?
             }
         }
         else if (e.button == 2) // RMB
@@ -215,7 +214,6 @@ class MouseHandler {
         let newWorldCenter = DRAW_MANAGER.screenSpaceToCanvasSpace(center);
         let diff = newWorldCenter.SubtractVector(worldCenter);
         canvasOffset = canvasOffset.AddVector(diff);
-        canvasOffset.round();
     }
 
     CancelLinePreview() {

@@ -9,7 +9,7 @@ class Utilities {
     }
 
     getMousePos(e) {
-        var rect = canvas.getBoundingClientRect();
+        let rect = canvas.getBoundingClientRect();
         return new Vector2(
 		    e.clientX - rect.left,
 		    e.clientY - rect.top
