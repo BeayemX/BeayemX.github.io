@@ -15,25 +15,6 @@ class Utilities {
 		    e.clientY - rect.top
 	    );
     }
-    /*
-
-    getMousePosConsideringOffset(e) {
-        var rect = canvas.getBoundingClientRect();
-        return new Vector2(
-		    e.clientX - rect.left - canvasOffset.x,
-		    e.clientY - rect.top - canvasOffset.y
-	    );
-    }
-
-    getGridPos(screenPos) // TODO rename to ScreenpointToGridpoint
-    {
-        var x = new GridPoint(
-		    Math.round((screenPos.x - canvasOffset.x) / SETTINGS.gridSize),
-		    Math.round((screenPos.y - canvasOffset.y) / SETTINGS.gridSize)
-	    );
-        return x;
-    }
-    //*/
 
     reloadPage(ask) {
         if (ask && confirm("Do you want to discard your LogoDesign?")
@@ -146,14 +127,6 @@ class Utilities {
         return DATA_MANAGER.currentFile.getAllPointsAt(canvasSpacePos, cursorRange);
     }
 
-    toggleDevArea() {
-        if (rightarea.style.visibility == "hidden")
-            rightarea.style.visibility = "visible";
-        else
-            rightarea.style.visibility = "hidden";
-        ResizeCanvas();
-    }
-
     calculateCenter(lines) {
         var min = new Vector2(Infinity, Infinity);
         var max = new Vector2(-Infinity, -Infinity);
@@ -172,10 +145,4 @@ class Utilities {
 
         return center;
     }
-}
-
-// TODO remove me?
-function log(text)
-{
-    console.log(text);
 }

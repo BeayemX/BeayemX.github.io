@@ -125,9 +125,25 @@ class Logic {
         //(currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
     }
 
-    toggleGrid()
+    toggleGridVisiblity(senderButton)
     {
         useGrid = !useGrid;
+        this.adjustToggleGridButton(senderButton);
+        DRAW_MANAGER.redraw();
+    }
+
+    adjustToggleGridButton(senderButton)
+    {
+        senderButton.innerHTML = useGrid ? "Hide grid" : "Show grid";
+    }
+
+    toggleGrid()
+    {
+        if (GRID instanceof Grid)
+            GRID = new TriangleGrid();
+        else
+            GRID = new Grid();
+
         DRAW_MANAGER.redraw();
     }
 }

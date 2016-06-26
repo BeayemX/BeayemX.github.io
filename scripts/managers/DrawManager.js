@@ -218,60 +218,6 @@
 
         GRID.drawGrid();
         return;
-
-        let size = GRID.gridCellNumber * 0.5;
-
-        let color;
-        let thickness;
-
-        for (let i = -size; i <= size; ++i) {
-            if (i % SETTINGS.bigGridSize == 0) {
-                thickness = 2;
-                color = SETTINGS.gridBigLineColor;
-
-            }
-            else if (Math.round(i % (SETTINGS.bigGridSize * 0.5) == 0)) {
-                thickness = 2;
-                color = SETTINGS.gridLineColor;
-            }
-            else {
-                thickness = 1;
-                color = SETTINGS.gridLineColor;
-            }
-
-            this.drawLineFromTo(
-                new Point(
-                    -size * GRID.gridSize,
-                    i * GRID.gridSize
-                ),
-                new Point(
-                    size * GRID.gridSize,
-                    i * GRID.gridSize
-                ),
-                thickness,
-                color,
-                false,
-                true
-            );
-            this.drawLineFromTo(
-                new Point(
-                    i * GRID.gridSize,
-                    -size * GRID.gridSize
-                ),
-                new Point(
-                    i * GRID.gridSize,
-                    size * GRID.gridSize
-                ),
-                thickness,
-                color,
-                false,
-                true
-            );
-        }
-
-
-        //this.drawLineFromTo(new Vector2(0, canvasOffset.y), new Vector2(canvas.width, canvasOffset.y), 11, 'darkred', false);
-        //this.drawLineFromTo(new Vector2(canvasOffset.x, 0), new Vector2(canvasOffset.x, canvas.height), 11, 'darkred', false);
     }
 
     drawAxis() {

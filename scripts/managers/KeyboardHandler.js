@@ -111,9 +111,6 @@ class KeyboardHandler {
                 LOGIC.setState(StateEnum.BORDERSELECTION);
                 DRAW_MANAGER.redraw();
                 break;
-            case 27:
-                ToggleDevArea();
-                break;
             case 187: // +
                 LINE_MANIPULATOR.increaseSize(2);
                 break;
