@@ -59,7 +59,7 @@
             text += " (" + this.deletedLinesCounter + " cleaned up)";
         }
 
-        //GUI.writeToStatusbarRight(text); // SIFU TODO FOR FINAL BUILD COMMENT ME IN!!!
+        GUI.writeToStatusbarRight(text); // SIFU TODO FOR FINAL BUILD COMMENT ME IN!!!
     }
 
     getAllSelectedPoints() {
