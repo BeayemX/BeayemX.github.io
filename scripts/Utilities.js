@@ -112,7 +112,7 @@ class Utilities {
         };
 
         for (let i = 0; i < precisePoints.length; ++i) {
-            let dist = precisePoints[i].Distance(screenSpacePos);
+            let dist = Vector2.distance(precisePoints[i], screenSpacePos);
 
             if (dist < minDistance.distance) {
                 minDistance.index = i;

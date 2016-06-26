@@ -33,17 +33,18 @@
         return new Vector2(this.x - other.x, this.y - other.y);
     }
 
-    Distance(other) {
-        return (other.SubtractVector(this)).length();
+    static distance(v1, v2) {
+        return (v2.SubtractVector(v1)).length();
+    }
+    static sqrDistance(v1, v2) {
+        return (v2.SubtractVector(v1)).sqrMagnitude();
     }
 
-    length()
-    {
+    length() { // TODO name magnitude
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
-    sqrMagnitude()
-    {
+    sqrMagnitude() {
         return this.x * this.x + this.y * this.y;
     }
 
@@ -60,9 +61,9 @@
         return this;
     }
 
-    equals(other)
-    {
-        return this.x == other.x && this.y == other.y;
+    equals(other) {
+        let epsilon = 0.01; // TODO STATIC??
+        return Vector2.sqrDistance(this, other) <= (epsilon * epsilon);
     }
 
     toString() {

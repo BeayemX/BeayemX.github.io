@@ -101,7 +101,7 @@
 
     getAllPointsAt(clickPoint, withinRadius) {
         let points = [];
-        for (var i = 0; i < this.lines.length; ++i) {
+        for (let i = 0; i < this.lines.length; ++i) {
             //console.log(this.pointWithinCircle(this.lines[i].start, clickPoint, withinRadius));
             if (this.pointWithinCircle(this.lines[i].start, clickPoint, withinRadius))
                 points.push(this.lines[i].start);
@@ -112,7 +112,7 @@
     }
 
     pointWithinCircle(p, center, radius) {
-        return p.Distance(center) <= radius;
+        return Vector2.distance(p, center) <= radius;
     }
 
     getPreciseSelectionEntries() {
@@ -253,7 +253,7 @@
         let allSelectedPoints = [];
 
         for (let i = 0; i < selectedPoints.length; ++i)
-            allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i], 0));
+            allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i], 0.1)); // TODO magic number, should use Vector2.Equals-epsilon?
 
         for (let i = 0; i < allSelectedPoints.length; ++i) {
             let p = this.getOtherPointBelongingToLine(allSelectedPoints[i]);
