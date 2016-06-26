@@ -29,7 +29,9 @@ let LINE_MANIPULATOR;
 let SETTINGS;
 
 let GRID;
-let useGrid = true;
+let snapToGrid = true;
+let showGrid = true;
+
 
 function onLoad()
 {
@@ -128,14 +130,21 @@ class Logic {
 
     toggleGridVisiblity(senderButton)
     {
-        useGrid = !useGrid;
-        this.adjustToggleGridButton(senderButton);
+        showGrid = !showGrid;
+        senderButton.innerHTML = showGrid ? "Hide grid" : "Show grid";
         DRAW_MANAGER.redraw();
     }
-
-    adjustToggleGridButton(senderButton)
+    
+    toggleGridSnapping(senderButton)
     {
-        senderButton.innerHTML = useGrid ? "Hide grid" : "Show grid";
+        snapToGrid = !snapToGrid;
+        this.adjustToggleSnapToGridButton(senderButton);
+    }
+
+    adjustToggleSnapToGridButton(senderButton)
+    {
+    // TODO adjust on application startup
+        senderButton.innerHTML = snapToGrid ? "Deactivate snapping" : "Activate snapping";
     }
 
     toggleGrid()

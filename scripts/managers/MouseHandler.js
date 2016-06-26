@@ -21,7 +21,7 @@ class MouseHandler {
             selectionCursor = DRAW_MANAGER.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
             currentPosition = selectionCursor.copy();
 
-            if (useGrid)
+            if (snapToGrid)
                 currentPosition = GRID.getNearestPointFor(currentPosition);
 
 

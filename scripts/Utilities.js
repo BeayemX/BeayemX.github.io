@@ -48,7 +48,7 @@ class Utilities {
         for (let i = 0; i < points.length; ++i) {
             points[i].setValues(points[i].addVector(delta));
 
-            if (useGrid)
+            if (snapToGrid)
                 points[i].setValues(GRID.getNearestPointFor(points[i]));
         }
 
@@ -148,7 +148,7 @@ class Utilities {
     }
 
     snapSelectedPointsToGrid() {
-        if (!useGrid)
+        if (!snapToGrid)
             return;
 
         let selPoints = DATA_MANAGER.currentFile.getAllSelectedPoints();

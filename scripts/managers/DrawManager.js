@@ -214,7 +214,7 @@
     // TODO settings in SETTINGS und GRID verteilt...
     drawGrid() // TODO grid class?
     {
-        if (!useGrid) // SIFU TODO put into grid class
+        if (!showGrid) // SIFU TODO put into grid class
             return;
 
         GRID.drawGrid();
