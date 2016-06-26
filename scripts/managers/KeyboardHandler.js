@@ -1,5 +1,3 @@
-"use strict"
-
 class KeyboardHandler {
     constructor() {
         console.log("KeyboardHandler created.");

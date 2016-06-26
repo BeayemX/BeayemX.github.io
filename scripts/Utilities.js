@@ -1,5 +1,3 @@
-"use strict"
-
 // TODO rename border select to area select
 class Utilities {
     constructor() {

@@ -1,5 +1,4 @@
-﻿"use strict"
-class File {
+﻿class File {
     constructor() {
         this.lineObjects = [];
         this.deletedLinesCounter = 0;

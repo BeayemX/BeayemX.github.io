@@ -1,5 +1,4 @@
-﻿"use strict"
-class Gui {
+﻿class Gui {
     constructor() {
         console.log("GUI created.");
 

@@ -1,5 +1,3 @@
-"use strict";
-
 var canvas;
 var context;
 
@@ -13,7 +11,6 @@ var ctrlDown;
 var grabInitializedWithKeyboard = false;
 
 let cursorRange = 9;
-
 
 let SAVER;
 let DATA_MANAGER;
@@ -47,10 +44,8 @@ function onLoad()
     ACTION_HISTORY = new ActionHistory();
     LINE_MANIPULATOR = new LineManipulator();
     SETTINGS = new Settings();
-    // SIFU FIXME TODO save grid elsewhere
     GRID = new Grid(); 
     //GRID = new TriangleGrid(); 
-
 
     LOGIC.start();
 }

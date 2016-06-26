@@ -1,5 +1,3 @@
-"use strict";
-
 var StateEnum = {
 	IDLE: "idle",
 	DRAWING: "drawing", 

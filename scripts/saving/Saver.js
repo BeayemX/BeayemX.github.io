@@ -1,5 +1,4 @@
-﻿"use strict"
-class Saver {
+﻿class Saver {
     constructor() {
         console.log("Saver created. ");
 

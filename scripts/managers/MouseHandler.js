@@ -1,4 +1,3 @@
-"use strict"
 class MouseHandler {
     constructor() {
         console.log("MouseHandler created.");
