@@ -220,17 +220,14 @@
         this.drawLineFromTo(new Vector2(screenpos.x, 0), new Vector2(screenpos.x, canvas.height), SETTINGS.helperLineWidth, SETTINGS.helperColor, true, true);
     }
 
-    drawHelpers2() { // for grabbing??
-        return;
+    drawHelpers2() { // for grabbing
         context.lineWidth = SETTINGS.helperLineWidth;
         context.strokeStyle = SETTINGS.helperColor2;
 
-        let screenpos = UTILITIES.gridpointToScreenpoint(currentPosition);
+        let screenpos = this.canvasSpaceToScreenSpace(currentPosition);
+        let start = this.canvasSpaceToScreenSpace(KEYBOARD_HANDLER.grabStartPosition);
 
-        let start = UTILITIES.gridpointToScreenpoint(KEYBOARD_HANDLER.grabStartPosition);
-        this.drawLineFromTo(0, screenpos.y, canvas.width, screenpos.y);
-        this.drawLineFromTo(screenpos.x, 0, screenpos.x, canvas.height);
-        this.drawLineFromTo(start.x, start.y, screenpos.x, screenpos.y);
+        this.drawLineFromTo(new Vector2(start.x, start.y), new Vector2(screenpos.x, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.helperColor2, true, true);
     }
 
     drawBorderSelection() {

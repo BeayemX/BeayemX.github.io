@@ -4,9 +4,10 @@ class Settings {
         this.canvasColor = "#666";
 
         this.previewLineWidth = 1;
-        this.lineColor = "#000";
+        this.previewLineColor = "#090";
+
+        this.lineColor = "#000"; // object color?
         this.lineColorFill = 'rgba(0, 0, 0, 1)';
-        this.lineEndingRadius = 4;
 
         this.gridPointSize = 6; // only for precise selection...
 
@@ -14,7 +15,6 @@ class Settings {
         this.helperColor2 = "#090";
         this.helperLineWidth = 1.5;
 
-        this.previewLineColor = "#090";
         this.selectionColor = "#f90";
         this.selectionColorFill = 'rgba(255, 127, 0, 1)';
         this.borderSelectionColor = 'rgba(255, 127, 0, 0.5)';
