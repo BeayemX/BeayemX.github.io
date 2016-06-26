@@ -104,7 +104,6 @@ class Utilities {
     getNearestSelection(canvasSpacePos) {
         let precisePoints = DATA_MANAGER.currentFile.getPreciseSelectionEntries();
         let screenSpacePos = DRAW_MANAGER.canvasSpaceToScreenSpace(canvasSpacePos);
-        screenSpacePos.round();
 
         let minDistance = {
             index: -1,

@@ -35,11 +35,12 @@
     static distance(v1, v2) {
         return (v2.subtractVector(v1)).magnitude();
     }
+
     static sqrDistance(v1, v2) {
         return (v2.subtractVector(v1)).sqrMagnitude();
     }
 
-    magnitude() { // TODO name magnitude
+    magnitude() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
@@ -54,11 +55,23 @@
         this.y /= magnitude;
     }
 
+    normalized() {
+        let retVec = this.copy();
+        retVec.normalize();
+        return retVec;
+    }
+
     round() {
         this.x = Math.round(this.x);
         this.y = Math.round(this.y);
-        return this;
     }
+
+    rounded() {
+        let retVec = this.copy();
+        retVec.round();
+        return retVec();
+    }
+
 
     equals(other) {
         let epsilon = 0.01; // TODO STATIC??
