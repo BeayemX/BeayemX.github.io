@@ -11,9 +11,6 @@ class Gui {
         this.rightarea = document.getElementById('rightarea');
         this.rightarea.style.visibility = "visible";
 
-        this.notificationarea = document.getElementById('notificationarea');
-        this.notificationTimeout;
-
         this.layersDiv = document.getElementById('layers')
     }
 
@@ -45,15 +42,5 @@ class Gui {
     // TODO rework notifications. put somewhere in statusbar
     notify(text) {
         console.log(text);
-        /*
-        notificationarea.style.visibility = 'visible';
-        notificationarea.innerHTML = text;
-        notificationarea.style.left = window.innerWidth * 0.5 - notificationarea.offsetWidth * 0.5;
-        notificationarea.style.backgroundColor = notificationColorHalf;
-
-        clearTimeout(this.notificationTimeout);
-
-        this.notificationTimeout = setTimeout(this.clearNotification, notificationDuration);
-        */
     }
 }

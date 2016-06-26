@@ -7,7 +7,7 @@ class Settings {
         this.previewLineColor = "#090";
 
         this.lineColor = "#000"; // object color?
-        this.lineColorFill = 'rgba(0, 0, 0, 1)';
+        this.lineColorFill = 'rgba(0, 0, 0, 1)'; // gradient
 
         this.gridPointSize = 6; // only for precise selection...
 
@@ -15,13 +15,9 @@ class Settings {
         this.helperColor2 = "#090";
         this.helperLineWidth = 1.5;
 
-        this.selectionColor = "#f90";
-        this.selectionColorFill = 'rgba(255, 127, 0, 1)';
+        this.selectionColor = "#f90"; 
+        this.selectionColorFill = 'rgba(255, 127, 0, 1)'; // gradient
         this.borderSelectionColor = 'rgba(255, 127, 0, 0.5)';
-
-        this.notificationDuration = 2000;
-        this.notificationColorHalf = 'rgba(255, 127, 0, 0.75)';
-        this.notificationColorFull = 'rgba(255, 127, 0, 1)';
 
         this.preciseSelectionHandleSize = 5;
         this.preciseSelectionLineWidth = 2;

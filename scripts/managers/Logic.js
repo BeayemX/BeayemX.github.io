@@ -101,7 +101,6 @@ class Logic {
 
     layoutGUI()
     {
-        GUI.notificationarea.style.top = 0;
         canvas.width = window.innerWidth - leftarea.offsetWidth;
 
         if (rightarea.style.visibility == "visible")

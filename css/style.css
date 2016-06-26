@@ -67,24 +67,6 @@ div
 	width: 200;
 }
 
-#notificationarea
-{
-	position: absolute;
-	top: 0;
-
-	text-align: center;
-
-	font-family: 'Oswald', sans-serif;
-	font-size: 16pt;
-
-	margin-top: 15;
-	padding: 15 40 15 40;
-
-	border-radius: 15px;
-
-	z-index: 1;
-    visibility: hidden;
-}
 .toolcategory
 {
 	margin-top: 25px;
