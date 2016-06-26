@@ -7,12 +7,12 @@
     }
 
     Do() {
-        let delta = this.current.copy().SubtractVector(this.start);
+        let delta = this.current.subtractVector(this.start);
         UTILITIES.movePointsBy(this.points, delta);
     }
 
     Undo() {
-        let delta = this.start.copy().SubtractVector(this.current);
+        let delta = this.start.subtractVector(this.current);
         UTILITIES.movePointsBy(this.points, delta);
     }
 }

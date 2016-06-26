@@ -130,7 +130,7 @@
                 otherPoint.x - points[i].x,
                 otherPoint.y - points[i].y);
 
-            direction.Normalize();
+            direction.normalize();
 
             let preciseRadius = GRID.gridSize * 0.5 - SETTINGS.gridPointSize * 2;
             preciseRadius = 30; // TODO MAGIC NUMBER

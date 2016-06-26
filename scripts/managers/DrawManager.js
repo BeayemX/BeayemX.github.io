@@ -310,8 +310,8 @@
         context.fillStyle = SETTINGS.borderSelectionColor;
 
         let leftTop = DRAW_MANAGER.canvasSpaceToScreenSpace(UTILITIES.borderSelectionStart);
-        let sizeCanvasSpace = UTILITIES.borderSelectionEnd.SubtractVector(UTILITIES.borderSelectionStart);
-        let size = sizeCanvasSpace.Multiply(zoom);
+        let sizeCanvasSpace = UTILITIES.borderSelectionEnd.subtractVector(UTILITIES.borderSelectionStart);
+        let size = sizeCanvasSpace.multiply(zoom);
 
         context.rect(leftTop.x, leftTop.y, size.x, size.y);
         context.fillRect(leftTop.x, leftTop.y, size.x, size.y);
@@ -338,13 +338,13 @@
 
     screenSpaceToCanvasSpace(vec2) {
         return vec2
-            .Divide(zoom)
-            .SubtractVector(canvasOffset);
+            .divide(zoom)
+            .subtractVector(canvasOffset);
     }
     canvasSpaceToScreenSpace(vec2) {
         return vec2
-            .AddVector(canvasOffset)
-            .Multiply(zoom)
+            .addVector(canvasOffset)
+            .multiply(zoom)
         ;
     }
 }

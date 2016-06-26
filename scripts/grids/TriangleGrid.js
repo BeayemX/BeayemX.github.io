@@ -56,8 +56,8 @@
 
         let firstCandidate = new Vector2(snapX, snapY);
         let secondCandidate = new Vector2(snapX + this.width * (snapX < position.x ? 1 : -1), snapY + this.height * (snapY < position.y ? 0.5 : -0.5));
-        let firstDistance = (firstCandidate.SubtractVector(position)).sqrMagnitude();
-        let secondDistance = (secondCandidate.SubtractVector(position)).sqrMagnitude();
+        let firstDistance = (firstCandidate.subtractVector(position)).sqrMagnitude();
+        let secondDistance = (secondCandidate.subtractVector(position)).sqrMagnitude();
 
         if (this.swapXAndYForTriangles)
             if (firstDistance < secondDistance)

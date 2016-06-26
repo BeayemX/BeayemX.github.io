@@ -15,7 +15,7 @@ class MouseHandler {
     MouseMove(e) {
         let newPosScreenSpace = UTILITIES.getMousePos(e);
 
-        let screenPosDelta = newPosScreenSpace.copy().SubtractVector(this.oldPosScreenSpace);
+        let screenPosDelta = newPosScreenSpace.copy().subtractVector(this.oldPosScreenSpace);
 
         if (!this.isPanning) {
             let p = DRAW_MANAGER.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
@@ -26,7 +26,7 @@ class MouseHandler {
 
 
             if (!currentPosition.equals(this.oldPos)) {
-                let delta = currentPosition.copy().SubtractVector(this.oldPos)
+                let delta = currentPosition.copy().subtractVector(this.oldPos)
                 this.cursorPositionChanged(e, delta);
 
                 this.oldPos = currentPosition;
@@ -38,7 +38,7 @@ class MouseHandler {
         }
         else // while panning
         {
-            canvasOffset = canvasOffset.AddVector(screenPosDelta.Divide(zoom));
+            canvasOffset = canvasOffset.addVector(screenPosDelta.divide(zoom));
         }
 
         this.oldPosScreenSpace = newPosScreenSpace;
@@ -70,7 +70,7 @@ class MouseHandler {
             else if (LOGIC.currentState == StateEnum.GRABBING) {
                 // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
                 // added to history it will call Do()...
-                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().SubtractVector(currentPosition);
+                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().subtractVector(currentPosition);
                 UTILITIES.movePointsBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), resetDelta, true);
                 DATA_MANAGER.currentFile.cleanUpFile();
                 grabInitializedWithKeyboard = false;
@@ -167,7 +167,7 @@ class MouseHandler {
         {
             if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
             {
-                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().SubtractVector(currentPosition);
+                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().subtractVector(currentPosition);
                 let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
 
                 if (this.grabInitializedWithRMBDown)
@@ -212,8 +212,8 @@ class MouseHandler {
         zoom *= delta;
 
         let newWorldCenter = DRAW_MANAGER.screenSpaceToCanvasSpace(center);
-        let diff = newWorldCenter.SubtractVector(worldCenter);
-        canvasOffset = canvasOffset.AddVector(diff);
+        let diff = newWorldCenter.subtractVector(worldCenter);
+        canvasOffset = canvasOffset.addVector(diff);
     }
 
     CancelLinePreview() {

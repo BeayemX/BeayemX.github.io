@@ -8,39 +8,38 @@
         return new Vector2(this.x, this.y);
     }
 
-    Add(value) {
+    add(value) {
         return new Vector2(this.x + value, this.y + value);
     }
 
-    Subtract(value) {
-        this.Add(-value);
-        return this;
+    subtract(value) {
+        return this.add(-value);
     }
 
-    Multiply(value) {
+    multiply(value) {
         return new Vector2(this.x * value, this.y * value);
     }
 
-    Divide(value) {
-        return this.Multiply(1.0 / value);
+    divide(value) {
+        return this.multiply(1.0 / value);
     }
 
-    AddVector(other) {
+    addVector(other) {
         return new Vector2(this.x + other.x, this.y + other.y);
     }
 
-    SubtractVector(other) {
+    subtractVector(other) {
         return new Vector2(this.x - other.x, this.y - other.y);
     }
 
     static distance(v1, v2) {
-        return (v2.SubtractVector(v1)).length();
+        return (v2.subtractVector(v1)).magnitude();
     }
     static sqrDistance(v1, v2) {
-        return (v2.SubtractVector(v1)).sqrMagnitude();
+        return (v2.subtractVector(v1)).sqrMagnitude();
     }
 
-    length() { // TODO name magnitude
+    magnitude() { // TODO name magnitude
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
@@ -48,8 +47,8 @@
         return this.x * this.x + this.y * this.y;
     }
 
-    Normalize() {
-        var magnitude = Math.sqrt(this.x * this.x + this.y * this.y);
+    normalize() {
+        let magnitude = Math.sqrt(this.x * this.x + this.y * this.y);
 
         this.x /= magnitude;
         this.y /= magnitude;
