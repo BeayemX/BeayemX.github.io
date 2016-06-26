@@ -148,7 +148,7 @@ class Utilities {
     }
 
     snapSelectedPointsToGrid() {
-        if (!snapToGrid)
+        if (!showGrid)
             return;
 
         let selPoints = DATA_MANAGER.currentFile.getAllSelectedPoints();
