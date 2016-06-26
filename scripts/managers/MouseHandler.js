@@ -15,7 +15,7 @@ class MouseHandler {
     MouseMove(e) {
         let newPosScreenSpace = UTILITIES.getMousePos(e);
 
-        let screenPosDelta = newPosScreenSpace.copy().subtractVector(this.oldPosScreenSpace);
+        let screenPosDelta = newPosScreenSpace.subtractVector(this.oldPosScreenSpace);
 
         if (!this.isPanning) {
             let p = DRAW_MANAGER.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
@@ -26,7 +26,7 @@ class MouseHandler {
 
 
             if (!currentPosition.equals(this.oldPos)) {
-                let delta = currentPosition.copy().subtractVector(this.oldPos)
+                let delta = currentPosition.subtractVector(this.oldPos)
                 this.cursorPositionChanged(e, delta);
 
                 this.oldPos = currentPosition;
@@ -70,7 +70,7 @@ class MouseHandler {
             else if (LOGIC.currentState == StateEnum.GRABBING) {
                 // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
                 // added to history it will call Do()...
-                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().subtractVector(currentPosition);
+                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.subtractVector(currentPosition);
                 UTILITIES.movePointsBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), resetDelta, true);
                 DATA_MANAGER.currentFile.cleanUpFile();
                 grabInitializedWithKeyboard = false;
@@ -167,7 +167,7 @@ class MouseHandler {
         {
             if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
             {
-                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.copy().subtractVector(currentPosition);
+                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.subtractVector(currentPosition);
                 let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
 
                 if (this.grabInitializedWithRMBDown)
