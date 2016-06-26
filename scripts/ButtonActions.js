@@ -126,41 +126,25 @@ class LineManipulator {
     }
 
     increaseSize(factor) {
-        var selLines = DATA_MANAGER.currentFile.getSelectedLines();
-        var center = UTILITIES.calculateCenter(selLines);
+        let selLines = DATA_MANAGER.currentFile.getSelectedLines();
+        let center = UTILITIES.calculateCenter(selLines);
 
-        var correctlyScalable = true;
-
-        for (var line of selLines)
+        for (let line of selLines)
         {
-            if (
-                line.start.x * factor % 1 != 0 ||
-                line.start.y * factor % 1 != 0 ||
-                line.end.x * factor % 1 != 0 ||
-                line.end.y * factor % 1 != 0) {
-                correctlyScalable = false;
-                break;
-            }
+            line.start.x = Math.round(line.start.x * factor);
+            line.start.y = Math.round(line.start.y * factor);
+            line.end.x = Math.round(line.end.x * factor);
+            line.end.y = Math.round(line.end.y * factor);
         }
 
-        if (correctlyScalable || confirm("Cant scale correctly. Do you really want to proceed?")) {
-            for (var line of selLines)
-            {
-                line.start.x = Math.round(line.start.x * factor);
-                line.start.y = Math.round(line.start.y * factor);
-                line.end.x = Math.round(line.end.x * factor);
-                line.end.y = Math.round(line.end.y * factor);
-            }
+        let newCenter = UTILITIES.calculateCenter(selLines);
+        let delta = new Vector2(center.x - newCenter.x,
+            center.y - newCenter.y);
 
-            var newCenter = UTILITIES.calculateCenter(selLines);
-            var delta = new Vector2(center.x - newCenter.x,
-                center.y - newCenter.y);
-
-            var points = DATA_MANAGER.currentFile.getAllSelectedPoints();
-            UTILITIES.movePointsBy(points, delta)
-            DATA_MANAGER.currentFile.cleanUpFile();
-            DRAW_MANAGER.redraw();
-        }
+        let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
+        UTILITIES.movePointsBy(points, delta)
+        DATA_MANAGER.currentFile.cleanUpFile();
+        DRAW_MANAGER.redraw();
     }
 
     growSelection() {
