@@ -110,80 +110,6 @@
         // console.log("redraw.");
     }
 
-    // DONT DELETE. USE GRADIENT!!!
-
-    /*drawGridLine(line, endpoint) {
-        var startX;
-        var startY;
-        var endX;
-        var endY;
-
-        if (arguments.length == 1) {
-            startX = line.start.x * SETTINGS.gridSize;
-            startY = line.start.y * SETTINGS.gridSize;
-            endX = line.end.x * SETTINGS.gridSize;
-            endY = line.end.y * SETTINGS.gridSize;
-        }
-        else if (arguments.length == 2) {
-            startX = line.x * SETTINGS.gridSize;
-            startY = line.y * SETTINGS.gridSize;
-            endX = endpoint.x * SETTINGS.gridSize;
-            endY = endpoint.y * SETTINGS.gridSize;
-        }
-
-        startX += canvasOffset.x;
-        startY += canvasOffset.y;
-        endX += canvasOffset.x;
-        endY += canvasOffset.y;
-
-        if (arguments.length == 1) {
-            var selectedPoints = line.SelectedPoints;
-            if (selectedPoints == 0 || LOGIC.isPreviewing()) {
-                context.strokeStyle = SETTINGS.lineColor;
-                context.fillStyle = SETTINGS.lineColorFill;
-            }
-            else if (selectedPoints == 2) {
-                context.strokeStyle = SETTINGS.selectionColor;
-                context.fillStyle = SETTINGS.selectionColorFill;
-            }
-            else {
-                let gradientStart;
-                let gradientEnd;
-                if (line.start.selected) {
-                    gradientStart = line.start;
-                    gradientEnd = line.end;
-                }
-                else {
-                    gradientStart = line.end;
-                    gradientEnd = line.start;
-                }
-                var gradient = context.createLinearGradient(
-                    UTILITIES.gridpointToScreenpoint(gradientStart).x,
-                    UTILITIES.gridpointToScreenpoint(gradientStart).y,
-                    UTILITIES.gridpointToScreenpoint(gradientEnd).x,
-                    UTILITIES.gridpointToScreenpoint(gradientEnd).y);
-
-                gradient.addColorStop(0, SETTINGS.selectionColorFill);
-                gradient.addColorStop(1, SETTINGS.lineColorFill);
-
-                context.strokeStyle = gradient;
-                context.fillStyle = gradient;
-            }
-        }
-
-        this.drawLineFromTo(startX, startY, endX, endY);
-
-        if (!LOGIC.isPreviewing() && LINE_MANIPULATOR.showHandles) {
-            this.drawCircle(startX, startY, SETTINGS.lineEndingRadius);
-            this.drawCircle(endX, endY, SETTINGS.lineEndingRadius);
-        }
-    }
-    /*
-    drawGridPoint(screenpos) {
-        var gridPoint = UTILITIES.getGridPos(screenpos);
-        this.drawCircle(gridPoint.x * SETTINGS.gridSize + canvasOffset.x, gridPoint.y * SETTINGS.gridSize + canvasOffset.y, SETTINGS.gridPointSize);
-    }//*/
-
     generateGradient(line) {
         let gradientStart;
         let gradientEnd;
@@ -212,9 +138,9 @@
     }
 
     // TODO settings in SETTINGS und GRID verteilt...
-    drawGrid() // TODO grid class?
+    drawGrid()
     {
-        if (!showGrid) // SIFU TODO put into grid class
+        if (!showGrid)
             return;
 
         GRID.drawGrid();
@@ -281,7 +207,7 @@
         if (LOGIC.currentState == StateEnum.DRAWING) {
             let start = MOUSE_HANDLER.downPoint;
             let end = currentPosition;
-            this.drawLineFromTo(start, end, SETTINGS.lineWidth, SETTINGS.previewLineColor, false);
+            this.drawLineFromTo(start, end, SETTINGS.previewLineWidth, SETTINGS.previewLineColor, false);
         }
         let p = currentPosition.copy();
         this.drawCircle(p.x, p.y, 5, 1, SETTINGS.previewLineColor, false, true); // SIFU grid stuff TODO magic number

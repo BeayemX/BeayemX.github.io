@@ -3,24 +3,12 @@ class Settings {
     constructor() {
         this.canvasColor = "#666";
 
-        this.lineWidth = 1;
+        this.previewLineWidth = 1;
         this.lineColor = "#000";
         this.lineColorFill = 'rgba(0, 0, 0, 1)';
         this.lineEndingRadius = 4;
 
-        this.gridPointSize = 6;
-        this.gridPointLineWidth = 2;
-        this.gridPointLineColor = "#000";
-        this.gridPointFillColor = "#999";
-
-        this.gridLineColor = '#444';
-        this.gridBigLineColor = '#333';
-
-        this.bigGridSize = 8;
-        this.bigGridPointSize = 6;
-        this.bigGridPointLineWidth = 14;
-        this.bigGridPointLineColor = "#000";
-        this.bigGridPointFillColor = "#777";
+        this.gridPointSize = 6; // only for precise selection...
 
         this.helperColor = "#5bb";
         this.helperColor2 = "#090";

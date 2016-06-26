@@ -4,6 +4,11 @@
     {
         this.gridSize = 10;
         this.gridCellNumber = 32;
+
+        this.gridLineColor = '#444';
+
+        this.bigGridSize = 8;
+        this.gridBigLineColor = '#333';
     }
 
     getNearestPointFor(p)
@@ -31,18 +36,18 @@
         let thickness;
 
         for (let i = -size; i <= size; ++i) {
-            if (i % SETTINGS.bigGridSize == 0) {
+            if (i % this.bigGridSize == 0) {
                 thickness = 2;
-                color = SETTINGS.gridBigLineColor;
+                color = this.gridBigLineColor;
 
             }
-            else if (Math.round(i % (SETTINGS.bigGridSize * 0.5) == 0)) {
+            else if (Math.round(i % (this.bigGridSize * 0.5) == 0)) {
                 thickness = 2;
-                color = SETTINGS.gridLineColor;
+                color = this.gridLineColor;
             }
             else {
                 thickness = 1;
-                color = SETTINGS.gridLineColor;
+                color = this.gridLineColor;
             }
 
             DRAW_MANAGER.drawLineFromTo(

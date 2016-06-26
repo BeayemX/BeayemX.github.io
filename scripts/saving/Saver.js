@@ -8,7 +8,7 @@ class Saver {
     }
 
     saveToDisk() {
-        var name = prompt("Save as: ");
+        let name = prompt("Save as: ");
 
         if (name) {
             this.saveAsJSON(name);
