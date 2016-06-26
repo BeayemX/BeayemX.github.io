@@ -246,14 +246,14 @@
             let unselPoints = objects[i].getAllPointsWithSelection(false);
 
             let radius = objects[i] == DATA_MANAGER.currentFile.currentObject ? thickness * 2 : thickness * 0.5;
-            if (LOGIC.isPreviewing())
+            if (LOGIC.isPreviewing() || !LINE_MANIPULATOR.showHandles)
                 radius = thickness * 0.5;
 
             let bgColor = color.copy();
 
             for (let line of unselLines)
                 this.drawLineFromTo(line.start, line.end, thickness, bgColor.toString(), false);
-            
+
             color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
 
             for (let line of selLines)
