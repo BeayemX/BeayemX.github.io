@@ -4,6 +4,7 @@ var canvas;
 var context;
 
 var currentPosition = new Vector2(0, 0);
+let selectionCursor = new Vector2(0, 0);
 var canvasOffset = new Vector2(0, 0);
 var zoom = 1;
 
