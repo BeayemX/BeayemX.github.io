@@ -7,6 +7,8 @@
         this.swapXAndYForTriangles = false;
         this.gridThickness = 1;
         this.gridColor = '#444';
+        this.bigGridColor = '#222';
+        this.bigGridSteps = 4;
 
         if (this.uniform)
             this.uniformHeight();
@@ -16,24 +18,23 @@
         this.height = this.width / Math.cos(30 * (Math.PI / 180));
     }
 
-    drawGrid()
-    {
-        for (let i = -this.cells; i <= this.cells; i++)
-        {
+    drawGrid() {
+        for (let i = -this.cells; i <= this.cells; i++) {
+
+            let color = i % this.bigGridSteps == 0 ? this.bigGridColor : this.gridColor;
             let hex = i * (i < 0 ? 0.5 : -0.5);
             let hexP = i * 0.5 + hex;
             let hexM = i * 0.5 - hex;
-            if (this.swapXAndYForTriangles)
-            {
-                this.drawLine(new Vector2((-this.cells - hex) * this.height, i * this.width), new Vector2((this.cells + hex) * this.height, i * this.width));
-                this.drawLine(new Vector2((-this.cells - hexP) * 0.5 * this.height + i * this.height, (-this.cells - hexP) * this.width), new Vector2((this.cells - hexM) * 0.5 * this.height + i * this.height, (this.cells - hexM) * this.width));
-                this.drawLine(new Vector2((this.cells - hexM) * 0.5 * this.height + i * this.height, (-this.cells + hexM) * this.width), new Vector2((-this.cells - hexP) * 0.5 * this.height + i * this.height, (this.cells + hexP) * this.width));
+
+            if (this.swapXAndYForTriangles) {
+                this.drawLine(new Vector2((-this.cells - hex) * this.height, i * this.width), new Vector2((this.cells + hex) * this.height, i * this.width), color);
+                this.drawLine(new Vector2((-this.cells - hexP) * 0.5 * this.height + i * this.height, (-this.cells - hexP) * this.width), new Vector2((this.cells - hexM) * 0.5 * this.height + i * this.height, (this.cells - hexM) * this.width), color);
+                this.drawLine(new Vector2((this.cells - hexM) * 0.5 * this.height + i * this.height, (-this.cells + hexM) * this.width), new Vector2((-this.cells - hexP) * 0.5 * this.height + i * this.height, (this.cells + hexP) * this.width), color);
             }
-            else
-            {
-                this.drawLine(new Vector2(i * this.width, (-this.cells - hex) * this.height), new Vector2(i * this.width, (this.cells + hex) * this.height));
-                this.drawLine(new Vector2((-this.cells - hexP) * this.width, (-this.cells - hexP) * 0.5 * this.height + i * this.height), new Vector2((this.cells - hexM) * this.width, (this.cells - hexM) * 0.5 * this.height + i * this.height));
-                this.drawLine(new Vector2((-this.cells + hexM) * this.width, (this.cells - hexM) * 0.5 * this.height + i * this.height), new Vector2((this.cells + hexP) * this.width, (-this.cells - hexP) * 0.5 * this.height + i * this.height));
+            else {
+                this.drawLine(new Vector2(i * this.width, (-this.cells - hex) * this.height), new Vector2(i * this.width, (this.cells + hex) * this.height), color);
+                this.drawLine(new Vector2((-this.cells - hexP) * this.width, (-this.cells - hexP) * 0.5 * this.height + i * this.height), new Vector2((this.cells - hexM) * this.width, (this.cells - hexM) * 0.5 * this.height + i * this.height), color);
+                this.drawLine(new Vector2((-this.cells + hexM) * this.width, (this.cells - hexM) * 0.5 * this.height + i * this.height), new Vector2((this.cells + hexP) * this.width, (-this.cells - hexP) * 0.5 * this.height + i * this.height), color);
             }
         }
     }
@@ -47,8 +48,8 @@
 
         let intX = Math.round(position.x / this.width);
         snapX = intX * this.width;
-                
-                
+
+
         if (intX % 2 == 0)
             snapY = Math.round(position.y / this.height) * this.height;
         else
@@ -69,9 +70,8 @@
 
         return new Vector2(snapX, snapY);
     }
-    
-    drawLine(p1, p2)
-    {
-        DRAW_MANAGER.drawLineFromTo(p1, p2, this.gridThickness, this.gridColor.toString(), false, true);
+
+    drawLine(p1, p2, color) {
+        DRAW_MANAGER.drawLineFromTo(p1, p2, this.gridThickness, color, false, true);
     }
 }
