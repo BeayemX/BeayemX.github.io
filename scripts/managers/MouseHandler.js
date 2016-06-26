@@ -172,7 +172,7 @@ class MouseHandler {
 
                 if (this.grabInitializedWithRMBDown)
                     UTILITIES.movePointsBy(points, resetDelta, this.grabInitializedWithRMBDown);
-                else 
+                else
                     UTILITIES.movePointsBy(points, resetDelta);
 
                 DATA_MANAGER.currentFile.cleanUpFile();
@@ -186,12 +186,22 @@ class MouseHandler {
     }
 
     MouseScroll(e) {
-        if (e.deltaY < 0) // upscroll
-            this.Zoom(1.1);
-        else
-            this.Zoom(0.9);
+        if (e.shiftKey) {
+            let step = 1;
+            if (e.deltaX < 0)
+                cursorRange += step;
+            else if (e.deltaX > 0)
+                cursorRange -= step;
 
-        this.MouseMove(e);
+        } else {
+            if (e.deltaY < 0) // upscroll
+                this.Zoom(1.1);
+            else if (e.deltaY > 0)
+                this.Zoom(0.9);
+
+            this.MouseMove(e);
+
+        }
         DRAW_MANAGER.redraw();
 
         e.preventDefault();
