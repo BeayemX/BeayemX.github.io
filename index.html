@@ -67,6 +67,7 @@
             <button type="button" onclick="LINE_MANIPULATOR.increaseSize(0.5)">Half Size [-]</button>
             <button type="button" onclick="LINE_MANIPULATOR.growSelection()">Grow Selection</button>
             <button type="button" onclick="LINE_MANIPULATOR.selectLinked()">Select Linked [L]</button>
+            <button type="button" onclick="UTILITIES.snapSelectedPointsToGrid()">Snap selction to grid</button>
         </div>
 
 
@@ -81,11 +82,9 @@
     <div id="rightarea" class="toolarea" width="150">
         <div class="toolcategory">
             <p>Grid</p>
+            <button type="button" onclick="LOGIC.toggleGrid()">Toggle Grid</button>
             <button type="button" onclick="LOGIC.toggleGridVisiblity(this)">Hide grid</button>
             <button type="button" onclick="LOGIC.toggleGridSnapping(this)">Deactivate snapping</button>
-            <button type="button" onclick="LOGIC.toggleGrid()">Toggle Grid</button>
-            <button type="button" onclick="UTILITIES.snapSelectedPointsToGrid()">Snap selction to grid</button>
-            
         </div>
 
         <div class="toolcategory">
