@@ -24,9 +24,10 @@ class MouseHandler {
                 currentPosition = GRID.getNearestPointFor(currentPosition);
 
 
-            if (!currentPosition.equals(this.oldPos)) {
-                let delta = currentPosition.subtractVector(this.oldPos)
-                this.cursorPositionChanged(e, delta);
+            //if (!currentPosition.equals(this.oldPos)) 
+            {
+                let gridDelta = currentPosition.subtractVector(this.oldPos) // TODO maybe not used anymore after grabbing reworked?
+                this.cursorPositionChanged(e, gridDelta, screenPosDelta);
 
                 this.oldPos = currentPosition;
             }
@@ -44,14 +45,14 @@ class MouseHandler {
         DRAW_MANAGER.redraw(); // TODO with grid stuff, redraw just happened if currentGridPoint changed...
     }
 
-    cursorPositionChanged(e, delta) {
+    cursorPositionChanged(e, delta, screenPosDelta) {
         if (LOGIC.currentState == StateEnum.GRABBING) {
             let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
             UTILITIES.movePointsBy(points, delta);
         }
         else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
             if (UTILITIES.borderSelectionStart) {
-                UTILITIES.borderSelectionEnd = currentPosition.copy();
+                UTILITIES.borderSelectionEnd = selectionCursor.copy();
             }
         }
 
