@@ -228,6 +228,9 @@
         for (let i = 0; i < selectedPoints.length; ++i)
             allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i], 0.1)); // TODO magic number, should use Vector2.Equals-epsilon?
 
+        for (let i = 0; i < allSelectedPoints.length; ++i) 
+            allSelectedPoints[i].selected = true;
+
         for (let i = 0; i < allSelectedPoints.length; ++i) {
             let p = this.getOtherPointBelongingToLine(allSelectedPoints[i]);
             let pArray = this.getAllPointsAt(p, 0);
