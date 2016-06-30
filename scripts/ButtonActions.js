@@ -4,10 +4,7 @@ class LineManipulator {
 
     constructor() {
         console.log("LineManipulator created.");
-
-        this.advancedHandlesState = false;
         this.showHandles = true;
-        this.showAdvancedHandles = false;
     }
 
     subdivide() {
@@ -107,22 +104,6 @@ class LineManipulator {
             button.innerHTML = "Show line handles";
 
         DRAW_MANAGER.redraw();
-    }
-
-    toggleAdvancedHandles() {
-        this.advancedHandlesState = !this.advancedHandlesState;
-        this.showAdvancedHandles = this.advancedHandlesState;
-
-        this.updateAdvancedHandlesButton();
-
-        DRAW_MANAGER.redraw();
-    }
-
-    updateAdvancedHandlesButton() {
-        if (this.showAdvancedHandles)
-            advancedHandlesButton.innerHTML = "Advanced handles: ON";
-        else
-            advancedHandlesButton.innerHTML = "Advanced handles: OFF";
     }
 
     increaseSize(factor) {

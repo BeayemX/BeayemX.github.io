@@ -115,37 +115,6 @@
         return Vector2.distance(p, center) <= radius;
     }
 
-    getPreciseSelectionEntries() {
-        let points = this.getAllPointsAt(currentPosition, cursorRange);
-        let screenPos = currentPosition.copy();
-        // let precisePoints = [screenPos]; // TODO why was this as init-array?
-        let precisePoints = [];
-
-        if (points.length <= 1 || !LINE_MANIPULATOR.showAdvancedHandles)
-            return precisePoints;
-
-        for (let i = 0; i < points.length; ++i) {
-            let otherPoint = this.getOtherPointBelongingToLine(points[i]);
-            let direction = new Vector2(
-                otherPoint.x - points[i].x,
-                otherPoint.y - points[i].y);
-
-            direction.normalize();
-
-            let preciseRadius = GRID.gridSize * 0.5 - SETTINGS.gridPointSize * 2;
-            preciseRadius = 30; // TODO MAGIC NUMBER
-            let precisePoint = new PrecisePoint(
-                DRAW_MANAGER.canvasSpaceToScreenSpace(points[i]).x + direction.x * preciseRadius,
-                DRAW_MANAGER.canvasSpaceToScreenSpace(points[i]).y + direction.y * preciseRadius,
-                points[i].selected,
-                points[i]
-            );
-
-            precisePoints.push(precisePoint);
-        }
-        return precisePoints;
-    }
-
     selectAllPoints() {
         var allPoints = this.getAllPoints();
         UTILITIES.setSelectStateForPoints(allPoints, true);

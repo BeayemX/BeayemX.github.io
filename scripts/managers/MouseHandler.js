@@ -110,9 +110,7 @@ class MouseHandler {
                     }
                 }
 
-                //let points = UTILITIES.getNearestSelection(currentPosition.copy());
                 UTILITIES.changeSelectionForPoints(pointsToChangeSelection);
-
 
                 if (pointsToChangeSelection != null) {
                     KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();

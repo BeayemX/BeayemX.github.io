@@ -6,7 +6,6 @@ let selectionCursor = new Vector2(0, 0);
 var canvasOffset = new Vector2(0, 0);
 var zoom = 1;
 
-var advancedHandlesButton;
 var ctrlDown;
 var grabInitializedWithKeyboard = false;
 
@@ -68,9 +67,6 @@ class Logic {
 
         canvas = document.getElementById('canvas');
         context = canvas.getContext('2d');
-
-        advancedHandlesButton = document.getElementById('advancedHandlesButton');
-        LINE_MANIPULATOR.updateAdvancedHandlesButton();
 
         canvas.addEventListener("mousemove", evt => MOUSE_HANDLER.MouseMove(evt));
         canvas.addEventListener("mouseup", evt => MOUSE_HANDLER.MouseUp(evt));

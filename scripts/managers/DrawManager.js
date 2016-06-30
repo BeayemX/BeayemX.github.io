@@ -100,10 +100,6 @@
 
         this.drawObjects();
 
-        if (!LOGIC.isPreviewing())
-            this.drawPreciseSelection();
-
-
         if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.DRAWING)
             this.drawPreviewLine();
 
@@ -244,24 +240,6 @@
         context.rect(leftTop.x, leftTop.y, size.x, size.y);
         context.fillRect(leftTop.x, leftTop.y, size.x, size.y);
         context.stroke();
-    }
-
-    drawPreciseSelection() {
-        let objects = DATA_MANAGER.currentFile.lineObjects;
-        for (var i = 0; i < objects.length; i++) {
-            let points = objects[i].getPreciseSelectionEntries();
-
-            context.lineWidth = SETTINGS.preciseSelectionLineWidth;
-            for (let j = 0; j < points.length; ++j) {
-                let color = (points[j].selected) ? SETTINGS.preciseSelectionSelectionColor : SETTINGS.preciseSelectionNoSelectionColor;
-                // context.strokeStyle = (points[j].selected) ? SETTINGS.selectionColor : SETTINGS.lineColor; // TODO needed?
-                context.fillStyle = 'rgba(255, 255, 255, 0.5)';
-
-                let p = points[j].copy();
-                p = DRAW_MANAGER.screenSpaceToCanvasSpace(p);
-                this.drawCircle(p.x, p.y, SETTINGS.preciseSelectionHandleSize, SETTINGS.preciseSelectionLineWidth, color, false, true);
-            }
-        }
     }
 
     screenSpaceToCanvasSpace(vec2) {

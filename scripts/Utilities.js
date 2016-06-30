@@ -101,31 +101,6 @@ class Utilities {
         }
     }
 
-    getNearestSelection(canvasSpacePos) {
-        let precisePoints = DATA_MANAGER.currentFile.getPreciseSelectionEntries();
-        let screenSpacePos = DRAW_MANAGER.canvasSpaceToScreenSpace(canvasSpacePos);
-
-        let minDistance = {
-            index: -1,
-            distance: Infinity
-        };
-
-        for (let i = 0; i < precisePoints.length; ++i) {
-            let dist = Vector2.distance(precisePoints[i], screenSpacePos);
-
-            if (dist < minDistance.distance) {
-                minDistance.index = i;
-                minDistance.distance = dist;
-            }
-        }
-
-        if (minDistance.index != -1) {
-            return [precisePoints[minDistance.index].point];
-        }
-
-        return DATA_MANAGER.currentFile.getAllPointsAt(canvasSpacePos, cursorRange);
-    }
-
     calculateCenter(lines) {
         let min = new Vector2(Infinity, Infinity);
         let max = new Vector2(-Infinity, -Infinity);

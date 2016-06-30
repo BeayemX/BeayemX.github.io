@@ -118,10 +118,6 @@ class KeyboardHandler {
 
             case 17: // Ctrl
                 ctrlDown = true;
-                LINE_MANIPULATOR.showAdvancedHandles = !LINE_MANIPULATOR.advancedHandlesState;
-                UTILITIES.getNearestSelection(DRAW_MANAGER.canvasSpaceToScreenSpace(currentPosition));
-                LINE_MANIPULATOR.updateAdvancedHandlesButton();
-                DRAW_MANAGER.redraw();
                 break;
 
             case 90: // Z
@@ -165,9 +161,6 @@ class KeyboardHandler {
                     ctrlDown = false;
                     MOUSE_HANDLER.CancelLinePreview();
                 }
-                LINE_MANIPULATOR.showAdvancedHandles = LINE_MANIPULATOR.advancedHandlesState;
-                LINE_MANIPULATOR.updateAdvancedHandlesButton();
-                DRAW_MANAGER.redraw();
                 break;
         }
     }

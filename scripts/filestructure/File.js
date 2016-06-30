@@ -48,10 +48,6 @@
         }
     }
     // SIFU FIXME all duplicates of current object. just poltergeisting...
-    getPreciseSelectionEntries() {
-        return this.currentObject.getPreciseSelectionEntries();
-    }
-
     getAllPointsAt(point, cursorRange) {
         return this.currentObject.getAllPointsAt(point, cursorRange);
     }
