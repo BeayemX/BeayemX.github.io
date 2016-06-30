@@ -117,7 +117,7 @@
         let linesArray = JSON.parse(logo);
 
         for (var i = 0; i < linesArray.length; ++i) {
-            DATA_MANAGER.currentFile.addLine(
+            DATA_MANAGER.currentFile.currentObject.lines.push(
                 new Line(
                     linesArray[i].start.x,
                     linesArray[i].start.y,
