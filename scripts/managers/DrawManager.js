@@ -156,7 +156,7 @@
             let color = objects[i].color.copy();
             let thickness = objects[i].thickness;
 
-            if (objects[i] != DATA_MANAGER.currentFile.currentObject) {
+            if (objects[i] != DATA_MANAGER.currentFile.currentObject && LOGIC.currentState != StateEnum.RENDERPREVIEW) {
                 color.a = 0.3;
                 //thickness *= 0.5;
             }
