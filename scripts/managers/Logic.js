@@ -26,6 +26,8 @@ let SETTINGS;
 
 let GRID;
 let snapToGrid = true;
+let tmpSwitchSnapToGrid = false;
+
 let showGrid = true;
 
 let cutLines = false;

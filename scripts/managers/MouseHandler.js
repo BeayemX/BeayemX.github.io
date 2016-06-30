@@ -20,7 +20,7 @@ class MouseHandler {
             selectionCursor = DRAW_MANAGER.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
             currentPosition = selectionCursor.copy();
 
-            if (snapToGrid)
+            if ((snapToGrid && !tmpSwitchSnapToGrid) || (!snapToGrid && tmpSwitchSnapToGrid)) // TODO should also change button text
                 currentPosition = GRID.getNearestPointFor(currentPosition);
 
 

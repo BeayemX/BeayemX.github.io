@@ -118,6 +118,7 @@ class KeyboardHandler {
 
             case 17: // Ctrl
                 ctrlDown = true;
+                tmpSwitchSnapToGrid = true;
                 break;
 
             case 90: // Z
@@ -161,6 +162,8 @@ class KeyboardHandler {
                     ctrlDown = false;
                     MOUSE_HANDLER.CancelLinePreview();
                 }
+
+                tmpSwitchSnapToGrid = false;
                 break;
         }
     }
