@@ -86,10 +86,37 @@ class MouseHandler {
             if (LOGIC.currentState == StateEnum.IDLE) {
                 if (!e.shiftKey)
                     DATA_MANAGER.currentFile.clearSelection();
-                let points = UTILITIES.getNearestSelection(currentPosition.copy());
-                UTILITIES.changeSelectionForPoints(points);
 
-                if (points != null) {
+                let lines = DATA_MANAGER.currentFile.currentObject.lines;
+                let pointsToChangeSelection = [];
+
+                // TODO weird number but should be a third?
+                let limit = 0.25;
+
+                for (let i = 0; i < lines.length; i++) {
+                    if (UTILITIES.distancePointToLine(selectionCursor, lines[i]) <= cursorRange) {
+                        console.log("select line");
+
+                        // TODO PERFORMANCE
+                        let startDist = lines[i].start.subtractVector(selectionCursor).sqrMagnitude();
+                        let endDist = lines[i].end.subtractVector(selectionCursor).sqrMagnitude();
+
+                        if (startDist < endDist * limit) 
+                            pointsToChangeSelection.push(lines[i].start);
+                        else if (endDist < startDist * limit)
+                            pointsToChangeSelection.push(lines[i].end);
+                        else {
+                            pointsToChangeSelection.push(lines[i].start);
+                            pointsToChangeSelection.push(lines[i].end);
+                        }
+                    }
+                }
+
+                //let points = UTILITIES.getNearestSelection(currentPosition.copy());
+                UTILITIES.changeSelectionForPoints(pointsToChangeSelection);
+
+
+                if (pointsToChangeSelection != null) {
                     KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
 
                     LOGIC.setState(StateEnum.GRABBING);

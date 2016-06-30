@@ -156,4 +156,17 @@ class Utilities {
 
         DRAW_MANAGER.redraw();
     }
+
+    distancePointToLine(point, line)
+    {
+        let se = line.end.subtractVector(line.start);
+        let sp = point.subtractVector(line.start);
+        let ep = point.subtractVector(line.end);
+
+        if (Vector2.dot(se, sp) <= 0)
+            return sp.magnitude();
+        if (Vector2.dot(se.multiply(-1), ep) <= 0)
+            return ep.magnitude();
+        return Math.abs((se.x * sp.y - se.y * sp.x) / se.magnitude());
+    }
 }

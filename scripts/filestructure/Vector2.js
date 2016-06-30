@@ -82,6 +82,13 @@ class Vector2 {
         this.y = y;
     }
 
+    static dot(v, u) {
+        let val =
+            u.x * v.x +
+            u.y * v.y;
+        return val;
+    }
+
     equals(other) {
         let epsilon = 0.01; // TODO STATIC??
         return Vector2.sqrDistance(this, other) <= (epsilon * epsilon);
