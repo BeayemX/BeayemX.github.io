@@ -186,7 +186,7 @@ class MouseHandler {
 						    this.gridLineEnd.y
 						    ));
 
-                if (ctrlDown)
+                if (drawPolyLine)
                     this.downPoint = currentPosition.copy();
                 else
                     this.CancelLinePreview();

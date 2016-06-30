@@ -116,8 +116,10 @@ class KeyboardHandler {
                 LINE_MANIPULATOR.increaseSize(0.5);
                 break;
 
+            case 16: // Shift
+                drawPolyLine = true;
+                break;
             case 17: // Ctrl
-                ctrlDown = true;
                 tmpSwitchSnapToGrid = true;
                 break;
 
@@ -132,13 +134,13 @@ class KeyboardHandler {
                 DATA_MANAGER.currentFile.selectLinked();
                 break;
 
-                //default:
-                //    console.log("KeyDown(): \n"
-                //	    + "keyCode: " + e.keyCode + "\n"
-                //	    + "ctrlKey: " + e.ctrlKey + "\n"
-                //	    + "altKey: " + e.altKey + "\n"
-                //	    + "shiftKey: " + e.shiftKey + "\n"
-                //	    );
+            default:
+                console.log("KeyDown(): \n"
+                    + "keyCode: " + e.keyCode + "\n"
+                    + "ctrlKey: " + e.ctrlKey + "\n"
+                    + "altKey: " + e.altKey + "\n"
+                    + "shiftKey: " + e.shiftKey + "\n"
+                    );
         }
 
         if (e.keyCode != 123 // F12
@@ -157,12 +159,13 @@ class KeyboardHandler {
                 }
                 break;
 
-            case 17: // Ctrl
-                if (ctrlDown) {
-                    ctrlDown = false;
+            case 16: // Shift
+                if (drawPolyLine) {
+                    drawPolyLine = false;
                     MOUSE_HANDLER.CancelLinePreview();
                 }
-
+                break;
+            case 17: // Ctrl
                 tmpSwitchSnapToGrid = false;
                 break;
         }
