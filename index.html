@@ -40,9 +40,11 @@
     <script src="scripts/Color.js"></script>
     <script src="scripts/grids/Grid.js"></script>
     <script src="scripts/grids/TriangleGrid.js"></script>
-
+    <script>
+        console.log("script area");
+    </script>
 </head>
-<body onload="onLoad()">
+<body onload="console.log('body'); onLoad();">
     <div id="menubar">
         <div class="menuentry">File</div>
         <div class="menuentry">Help</div>
@@ -72,8 +74,14 @@
 
 
         <div class="toolcategory">
-            <p>Help</p>
-            <button type="button" onclick="LINE_MANIPULATOR.toggleHandles(this)">Hide line handles</button>
+            <p>Toggles</p>
+            <button type="button" 
+                    onload="console.log('button'); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
+                    onclick=" LINE_MANIPULATOR.showHandles=!LINE_MANIPULATOR.showHandles; DRAW_MANAGER.redraw(); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
+                    enabledText="Hide line handles" 
+                    disabledText="Show line handles">Hide line handles</button>
+            <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, cutLines)" onclick="cutLines = !cutLines; LOGIC.adjustButtonText(this, cutLines)" enabledText="Deactivate line cutting" disabledText="Activate line cutting">Activate line cutting</button>
+            <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, snapToGrid)" onclick=" snapToGrid=!snapToGrid; LOGIC.adjustButtonText(this, snapToGrid)" enabledText="Deactivate snapping" disabledText="Activate snapping">Deactivate snapping</button>
         </div>
 
     </div>
@@ -83,7 +91,6 @@
             <p>Grid</p>
             <button type="button" onclick="LOGIC.toggleGrid()">Toggle Grid</button>
             <button type="button" onclick="LOGIC.toggleGridVisiblity(this)">Hide grid</button>
-            <button type="button" onclick="LOGIC.toggleGridSnapping(this)">Deactivate snapping</button>
         </div>
 
         <div class="toolcategory">

@@ -95,17 +95,6 @@ class LineManipulator {
         DRAW_MANAGER.redraw();
     }
 
-    toggleHandles(button) {
-        this.showHandles = !this.showHandles;
-
-        if (this.showHandles)
-            button.innerHTML = "Hide line handles";
-        else
-            button.innerHTML = "Show line handles";
-
-        DRAW_MANAGER.redraw();
-    }
-
     increaseSize(factor) {
         let selLines = DATA_MANAGER.currentFile.getSelectedLines();
         let center = UTILITIES.calculateCenter(selLines);

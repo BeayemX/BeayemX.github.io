@@ -28,6 +28,7 @@ let GRID;
 let snapToGrid = true;
 let showGrid = true;
 
+let cutLines = false;
 
 function onLoad()
 {
@@ -125,18 +126,6 @@ class Logic {
         DRAW_MANAGER.redraw();
     }
     
-    toggleGridSnapping(senderButton)
-    {
-        snapToGrid = !snapToGrid;
-        this.adjustToggleSnapToGridButton(senderButton);
-    }
-
-    adjustToggleSnapToGridButton(senderButton)
-    {
-    // TODO adjust on application startup
-        senderButton.innerHTML = snapToGrid ? "Deactivate snapping" : "Activate snapping";
-    }
-
     toggleGrid()
     {
         if (GRID instanceof Grid)
@@ -145,5 +134,10 @@ class Logic {
             GRID = new Grid();
 
         DRAW_MANAGER.redraw();
+    }
+
+    adjustButtonText(button, val)
+    {
+        button.innerHTML = val ? button.getAttribute("enabledText") : button.getAttribute("disabledText");
     }
 }

@@ -6,9 +6,11 @@
     }
 
     addLine(line) {
-        //if (cutLines) // SIFU TODO Implement me
-        //this.lines.push(line);
-        UTILITIES.cutLines(line, this.lines);
+        if (cutLines)
+            UTILITIES.cutLines(line, this.lines);
+        else
+            this.lines.push(line);
+
         GUI.writeToStatusbarRight("line added: " + line.toString());
         this.cleanUpFile();
     }
