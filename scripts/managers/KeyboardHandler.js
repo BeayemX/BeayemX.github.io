@@ -133,6 +133,10 @@ class KeyboardHandler {
             case 76: // L
                 DATA_MANAGER.currentFile.selectLinked();
                 break;
+            case 75: // K
+                // TODO doesn't change button text...
+                cutLines = !cutLines;
+                break;
 
             default:
                 console.log("KeyDown(): \n"
