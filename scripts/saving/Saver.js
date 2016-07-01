@@ -140,8 +140,7 @@
 
     dndloaded(evt) {
         var jsonString = evt.target.result;
-
-        console.log("loaded: \n" + jsonString);
+        console.log("File loaded.");
         this.loadJSONFile(jsonString);
     }
 
@@ -154,8 +153,43 @@
         for (var i = 0, f; f = files[i]; i++) {
 
             let reader = new FileReader();
-            let jsonString = reader.readAsText(files[i]);
-            reader.onload = (evt) => SAVER.dndloaded(evt);
+            reader.readAsText(files[i]);
+            //reader.onload = (evt) => SAVER.dndloaded(evt);
+            reader.onload = (evt) => SAVER.dndloadedSVG(evt);
+
+
         }
+    }
+    dndloadedSVG(evt) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(evt.target.result, "image/svg+xml");
+        let svg = doc.getElementsByTagName('svg')[0];
+
+        DATA_MANAGER.currentFile = new File();
+
+
+        for (let g of svg.childNodes) {
+            if (g.nodeType != 1)
+                continue;
+
+            let layer = DATA_MANAGER.currentFile.createNewObject(true);
+            layer.color = Color.rgbaToColor(g.getAttribute('stroke'));
+            layer.thickness = Number(g.getAttribute('stroke-width'));
+            let lines = [];
+            for (let line of g.childNodes) {
+                if (line.nodeType != 1)
+                    continue;
+
+                lines.push(new Line(
+                    Number(line.getAttribute("x1")),
+                    Number(line.getAttribute("y1")),
+                    Number(line.getAttribute("x2")),
+                    Number(line.getAttribute("y2"))));
+            }
+            // not using addline because due to 'cutLines' it could lead to unwanted results
+            layer.lines = lines;
+            console.log(layer);
+        }
+        DRAW_MANAGER.redraw();
     }
 }

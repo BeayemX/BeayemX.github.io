@@ -20,44 +20,34 @@ class Exporter {
 
     ExportAsSVG() // SVG // TOOD IMPLEMENT ME
     {
-        console.log("Sorry, not working... :'(")
-
-        return;
-        var name = prompt("Save as: ");
-
+        //var name = prompt("Save as: ");
+        var name = "svgTest";
         if (name) {
             let svgData = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n';
-            let factor = 10; // TODO maybe prompt for scale factor? or create own export-dialog-prompt-window?
-            let linesArray = DATA_MANAGER.currentFile.lines;
+            let layers = DATA_MANAGER.currentFile.lineObjects;
+            
+            for (let layer of layers)
+            {
+                svgData += '\t<g ';
+                svgData += 'stroke="' + layer.color.toString() + '" ';
+                svgData += 'stroke-width="' + layer.thickness + '" ';
+                svgData += '>\n';
+                for (let line of layer.lines) {
+                    svgData +=
+                        '\t\t<line ' +
+                        'x1="' + line.start.x + '" ' +
+                        'y1="' + line.start.y + '" ' +
+                        'x2="' + line.end.x + '" ' +
+                        'y2="' + line.end.y + '" ' +
+                        '/> \n'
+                }
+                svgData += '\t</g>\n';
 
-            let shiftX = 0;
-            let shiftY = 0;
-
-            for (let i = 0; i < linesArray.length; ++i) {
-                shiftX = Math.min(shiftX, linesArray[i].start.x, linesArray[i].end.x);
-                shiftY = Math.min(shiftY, linesArray[i].start.y, linesArray[i].end.y);
             }
-            shiftX = -shiftX;
-            shiftY = -shiftY;
 
-            svgData += '\t<factor value="' + factor + '"/>\n';
-            svgData += '\t<shift x="' + shiftX + '" y="' + shiftY + '"/>\n';
-
-            for (let i = 0; i < linesArray.length; ++i) {
-                svgData +=
-                    '\t<line ' +
-                    'x1="' + (shiftX + linesArray[i].start.x) * factor + '" ' +
-                    'y1="' + (shiftY + linesArray[i].start.y) * factor + '" ' +
-                    'x2="' + (shiftX + linesArray[i].end.x) * factor + '" ' +
-                    'y2="' + (shiftY + linesArray[i].end.y) * factor + '" ' +
-                    'stroke="black" ' +
-                    'stroke-width="1"' +
-                    '/> \n'
-            }
             svgData += '</svg>';
 
-            // var blob = new Blob([svgData], { type: "application/svg+xml" });
-            let blob = new Blob([svgData], { type: "text/plain;charset=utf-8" });
+            var blob = new Blob([svgData], { type: "application/svg+xml" });
             saveAs(blob, name + ".svg");
         }
     }
