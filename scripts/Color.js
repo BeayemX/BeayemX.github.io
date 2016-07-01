@@ -25,7 +25,6 @@
         c.g = Number(rgbaArray[1]);
         c.b = Number(rgbaArray[2]);
         c.a = Number(rgbaArray[3]);
-        console.log(c)
         return c;
     }
 }

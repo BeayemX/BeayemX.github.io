@@ -188,7 +188,6 @@
             }
             // not using addline because due to 'cutLines' it could lead to unwanted results
             layer.lines = lines;
-            console.log(layer);
         }
         DRAW_MANAGER.redraw();
     }
