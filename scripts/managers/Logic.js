@@ -1,5 +1,7 @@
 var canvas;
 var context;
+var offscreenCanvas;
+var offscreenContext;
 
 var currentPosition = new Vector2(0, 0);
 let selectionCursor = new Vector2(0, 0);
@@ -70,6 +72,8 @@ class Logic {
 
         canvas = document.getElementById('canvas');
         context = canvas.getContext('2d');
+        offscreenCanvas = document.getElementById('offscreenCanvas');
+        offscreenContext = offscreenCanvas.getContext('2d');
 
         canvas.addEventListener("mousemove", evt => MOUSE_HANDLER.MouseMove(evt));
         canvas.addEventListener("mouseup", evt => MOUSE_HANDLER.MouseUp(evt));
@@ -88,22 +92,24 @@ class Logic {
         canvasOffset.x = canvas.width * 0.5;
         canvasOffset.y = canvas.height * 0.5;
     
-        SAVER.loadAutoSave();
+        //SAVER.loadAutoSave(); // SIFU TODO use me 
         DATA_MANAGER.currentFile.updateStats();
         DRAW_MANAGER.redraw();
     }
 
     layoutGUI()
     {
-        canvas.width = window.innerWidth - leftarea.offsetWidth;
-
-        if (rightarea.style.visibility == "visible")
-            canvas.width -= rightarea.offsetWidth;
-
+        canvas.width = window.innerWidth - leftarea.offsetWidth - rightarea.offsetWidth;
         canvas.height = window.innerHeight - GUI.menubar.offsetHeight - GUI.statusbar.offsetHeight;
         canvas.style.left = leftarea.offsetWidth;
         canvas.style.top = menubar.offsetHeight;
 
+        /*
+        offscreenCanvas.width = canvas.width;
+        offscreenCanvas.height = canvas.height;
+        offscreenCanvas.style.left = canvas.width - 50;
+        offscreenCanvas.style.top= canvas.height - 50;
+        */
         DRAW_MANAGER.redraw();
     }
 

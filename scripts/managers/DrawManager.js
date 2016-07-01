@@ -1,6 +1,8 @@
 ﻿class DrawManager {
     constructor() {
         console.log("DrawManager created.");
+        this.batchedLines = [];
+        this.batchedCircles = [];
     }
 
     drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
@@ -32,6 +34,91 @@
         context.stroke();
     }
 
+    batchLine(line) {
+        this.batchedLines.push(line);
+    }
+
+    batchCircle(circle) {
+        this.batchedCircles.push(circle);
+    }
+
+    renderBatchedLines(thickness, color, screenSpace, screenSpaceThickness) {
+        context.beginPath();
+
+        if (!screenSpaceThickness)
+            thickness *= zoom;
+
+
+        context.lineWidth = thickness;
+        context.strokeStyle = color;
+
+        let p1;
+        let p2;
+
+        for (let line of this.batchedLines) {
+            p1 = line.start.copy();
+            p2 = line.end.copy();
+
+            if (!screenSpace) {
+                p1.x += canvasOffset.x;
+                p1.y += canvasOffset.y;
+                p2.x += canvasOffset.x;
+                p2.y += canvasOffset.y;
+
+                p1.x *= zoom;
+                p1.y *= zoom;
+                p2.x *= zoom;
+                p2.y *= zoom;
+            }
+
+            context.moveTo(p1.x, p1.y);
+            context.lineTo(p2.x, p2.y);
+        }
+
+        context.stroke();
+        this.batchedLines = [];
+    }
+    
+    renderBatchedCircles(radius, thickness, color, screenSpace, screenSpaceSize, filled) {
+        if (!screenSpaceSize) {
+            radius *= zoom;
+            thickness *= zoom;
+        }
+
+        let doubleRadius = radius * 2;
+        offscreenCanvas.width = doubleRadius;
+        offscreenCanvas.height = doubleRadius;
+        offscreenCanvas.style.left = -doubleRadius;
+        offscreenCanvas.style.top = -doubleRadius;
+
+        offscreenContext.beginPath();
+        offscreenContext.strokeStyle = color;
+        offscreenContext.fillStyle = color;
+        offscreenContext.lineWidth = thickness;
+        offscreenContext.arc(radius, radius, radius, 0, 2 * Math.PI);
+
+        if (filled) 
+            offscreenContext.fill();
+        else 
+            offscreenContext.stroke();
+
+        let center = new Vector2(0, 0);
+
+        for (let circle of this.batchedCircles) {
+            center.setValues(circle.x, circle.y);
+            if (!screenSpace) {
+                center.x += canvasOffset.x;
+                center.y += canvasOffset.y;
+
+                center.x *= zoom;
+                center.y *= zoom;
+            }
+            context.drawImage(offscreenCanvas, center.x - radius, center.y - radius);
+
+        }
+        this.batchedCircles = [];
+    }
+
     drawCircle(centerX, centerY, radius, thickness, color, screenSpace, screenSpaceSize, filled) {
         if (!screenSpace) {
             centerX += canvasOffset.x;
@@ -50,8 +137,11 @@
         context.lineWidth = thickness;
         context.strokeStyle = color;
         // performance "circles"
-        //context.rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
+        /*
+        context.rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
+        /*/
         context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        //*/
         if (filled) {
             context.fillStyle = color;
             context.fill();
@@ -151,9 +241,10 @@
 
     drawObjects() {
         let objects = DATA_MANAGER.currentFile.lineObjects;
+        let color = new Color(0, 0, 0, 0);
 
         for (let i = 0; i < objects.length; i++) {
-            let color = objects[i].color.copy();
+            color.copyValues(objects[i].color);
             let thickness = objects[i].thickness;
 
             if (objects[i] != DATA_MANAGER.currentFile.currentObject && LOGIC.currentState != StateEnum.RENDERPREVIEW) {
@@ -174,7 +265,9 @@
             let bgColor = color.copy();
 
             for (let line of unselLines)
-                this.drawLineFromTo(line.start, line.end, thickness, bgColor.toString(), false);
+                this.batchLine(line)
+            this.renderBatchedLines(thickness, bgColor.toString(), false);
+
 
             color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
 
@@ -190,7 +283,9 @@
             }
 
             for (let p of unselPoints) // TODO PERFORMANCE if multiple lines share point, point gets drawn multiple times...
-                this.drawCircle(p.x, p.y, radius, 0, bgColor.toString(), false, false, true);
+            //this.drawCircle(p.x, p.y, radius, 0, bgColor.toString(), false, false, true);
+                this.batchCircle(p);
+            this.renderBatchedCircles(radius, 0, bgColor.toString(), false, false, true);
 
             for (let p of selPoints)
                 this.drawCircle(p.x, p.y, radius, 0, color, false, false, true);

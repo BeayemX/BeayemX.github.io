@@ -10,8 +10,23 @@
         return new Color(this.r, this.g, this.b, this.a);
     }
 
+    copyValues(other) {
+        this.r = other.r;
+        this.g = other.g;
+        this.b = other.b;
+        this.a = other.a;
+    }
+
     toString() {
         return 'rgba(' + this.r + ", " + this.g + ", " + this.b + ", " + this.a + ")";
+    }
+
+    equals(other) {
+        return
+        this.r == other.r && 
+        this.g == other.g && 
+        this.b == other.b && 
+        this.a == other.a
     }
 
     toHexString()
