@@ -206,8 +206,8 @@ class Utilities {
             let minY = Math.min(line1.start.y, line1.end.y, line2.start.y, line2.end.y);
             let maxX = Math.max(line1.start.x, line1.end.x, line2.start.x, line2.end.x);
             let maxY = Math.max(line1.start.y, line1.end.y, line2.start.y, line2.end.y);
-            if (Math.abs(maxX - minX) < Math.abs(v1.x) + Math.abs(v2.x) &&
-                Math.abs(maxY - minY) < Math.abs(v1.y) + Math.abs(v2.y)) {
+            if (Math.abs(maxX - minX) <= Math.abs(v1.x) + Math.abs(v2.x) &&
+                Math.abs(maxY - minY) <= Math.abs(v1.y) + Math.abs(v2.y)) {
                 let bounds = [];
                 bounds.push(line1.start.copy());
                 this.addPointSorted(bounds, line1.end.copy());
@@ -227,7 +227,4 @@ class Utilities {
 
         return points;
     }
-
-
-
 }
