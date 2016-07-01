@@ -7,7 +7,7 @@ class Exporter {
     {
         let w = window.open('about:blank', 'image from canvas');
         // also save blueprint
-        w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='from canvas'/>");
+        w.document.write("<img src='" + canvas.toDataURL("image/png") + "' alt='from canvas'/>");
 
         LOGIC.setState(StateEnum.RENDERPREVIEW);
         DRAW_MANAGER.redraw();
@@ -18,20 +18,26 @@ class Exporter {
         GUI.notify("Picture saved!");
     }
 
-    ExportAsSVG() // SVG // TOOD IMPLEMENT ME
+    ExportAsSVG()
     {
-        //var name = prompt("Save as: ");
-        var name = "svgTest";
+        var name = prompt("Save as: ");
+
         if (name) {
             let svgData = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n';
             let layers = DATA_MANAGER.currentFile.lineObjects;
-            
+
             for (let layer of layers)
             {
-                svgData += '\t<g ';
-                svgData += 'stroke="' + layer.color.toString() + '" ';
-                svgData += 'stroke-width="' + layer.thickness + '" ';
-                svgData += '>\n';
+                svgData +=
+                    '\t<g ' +
+                    'id="' + layer.id + '" ' +
+                    'opacity="' + layer.color.a + '" ' +
+
+                    'stroke="' + layer.color.toHexString() + '" ' +
+                    'stroke-opacity="' + (layer.color.a) + '" ' +
+                    'stroke-width="' + layer.thickness + '" ' +
+
+                    '>\n';
                 for (let line of layer.lines) {
                     svgData +=
                         '\t\t<line ' +
@@ -39,6 +45,12 @@ class Exporter {
                         'y1="' + line.start.y + '" ' +
                         'x2="' + line.end.x + '" ' +
                         'y2="' + line.end.y + '" ' +
+
+                        'stroke="' + layer.color.toHexString() + '" ' +
+                        'stroke-opacity="' + (layer.color.a) + '" ' +
+                        'stroke-width="' + layer.thickness + '" ' +
+                        'stroke-linecap="round"' +
+
                         '/> \n'
                 }
                 svgData += '\t</g>\n';

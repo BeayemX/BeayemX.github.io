@@ -166,14 +166,14 @@
         let svg = doc.getElementsByTagName('svg')[0];
 
         DATA_MANAGER.currentFile = new File();
-
-
+        
         for (let g of svg.childNodes) {
+
             if (g.nodeType != 1)
                 continue;
 
             let layer = DATA_MANAGER.currentFile.createNewObject(true);
-            layer.color = Color.rgbaToColor(g.getAttribute('stroke'));
+            layer.color = Color.hexToColor(g.getAttribute('stroke'));
             layer.thickness = Number(g.getAttribute('stroke-width'));
             let lines = [];
             for (let line of g.childNodes) {
