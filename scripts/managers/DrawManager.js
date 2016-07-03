@@ -78,7 +78,7 @@
         context.stroke();
         this.batchedLines = [];
     }
-    
+
     renderBatchedCircles(radius, thickness, color, screenSpace, screenSpaceSize, filled) {
         if (!screenSpaceSize) {
             radius *= zoom;
@@ -97,9 +97,9 @@
         offscreenContext.lineWidth = thickness;
         offscreenContext.arc(radius, radius, radius, 0, 2 * Math.PI);
 
-        if (filled) 
+        if (filled)
             offscreenContext.fill();
-        else 
+        else
             offscreenContext.stroke();
 
         let center = new Vector2(0, 0);
@@ -224,8 +224,7 @@
     }
 
     // TODO settings in SETTINGS und GRID verteilt...
-    drawGrid()
-    {
+    drawGrid() {
         if (!showGrid)
             return;
 
@@ -241,11 +240,15 @@
 
     drawObjects() {
         let objects = DATA_MANAGER.currentFile.lineObjects;
+
+        // caching
         let color = new Color(0, 0, 0, 0);
+        let bgColor = new Color(0, 0, 0, 0);
+        let thickness;
 
         for (let i = 0; i < objects.length; i++) {
             color.copyValues(objects[i].color);
-            let thickness = objects[i].thickness;
+            thickness = objects[i].thickness;
 
             if (objects[i] != DATA_MANAGER.currentFile.currentObject && LOGIC.currentState != StateEnum.RENDERPREVIEW) {
                 color.a = 0.3;
@@ -262,14 +265,14 @@
             if (LOGIC.isPreviewing() || !LINE_MANIPULATOR.showHandles)
                 radius = thickness * 0.5;
 
-            let bgColor = color.copy();
+            bgColor.copyValues(color);
 
             for (let line of unselLines)
                 this.batchLine(line)
             this.renderBatchedLines(thickness, bgColor.toString(), false);
 
 
-            color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
+            color = LOGIC.isPreviewing() ? color : Color.hexToColor(SETTINGS.selectionColor);
 
             for (let line of selLines)
             {
