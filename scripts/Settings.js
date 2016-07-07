@@ -6,7 +6,6 @@ class Settings {
         this.previewLineWidth = 1;
         this.previewLineColor = "#090";
 
-        this.lineColor = "#000"; // object color?
         this.lineColorFill = 'rgba(0, 0, 0, 1)'; // gradient
 
         this.gridPointSize = 6; // only for precise selection...

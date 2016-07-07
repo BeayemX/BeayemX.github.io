@@ -242,11 +242,12 @@
         let objects = DATA_MANAGER.currentFile.lineObjects;
 
         // caching
-        let color = new Color(0, 0, 0, 0);
-        let bgColor = new Color(0, 0, 0, 0);
         let thickness;
+        let bgColor = new Color(0, 0, 0, 0);
 
         for (let i = 0; i < objects.length; i++) {
+            // create variables inside loop because gradient doesnt have copyValues();
+            let color = new Color(0, 0, 0, 0);
             color.copyValues(objects[i].color);
             thickness = objects[i].thickness;
 
