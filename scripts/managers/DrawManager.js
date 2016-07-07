@@ -292,7 +292,8 @@
             this.renderBatchedCircles(radius, 0, bgColor.toString(), false, false, true);
 
             for (let p of selPoints)
-                this.drawCircle(p.x, p.y, radius, 0, color, false, false, true);
+                this.batchCircle(p);
+            this.renderBatchedCircles(radius, 0, color, false, false, true);
         }
     }
 
