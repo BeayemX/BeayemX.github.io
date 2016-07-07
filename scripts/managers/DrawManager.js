@@ -4,7 +4,7 @@
         this.batchedLines = [];
         this.batchedCircles = [];
         this.screenBounds = null;
-        this.linesOutsideScreenBoundsCounter = 0;
+        this.culledLinesCounter = 0;
     }
 
     drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
@@ -40,7 +40,7 @@
         if (this.screenBounds.contains(line))
             this.batchedLines.push(line);
         else
-            ++this.linesOutsideScreenBoundsCounter;
+            ++this.culledLinesCounter;
 
     }
 
@@ -182,7 +182,7 @@
     redraw() {
         context.clearRect(0, 0, canvas.width, canvas.height);
         this.screenBounds = this.getVisibleBounds();
-        this.linesOutsideScreenBoundsCounter = 0;
+        this.culledLinesCounter = 0;
 
         if (!LOGIC.isPreviewing()) {
             this.drawGrid();
@@ -203,6 +203,7 @@
             this.drawPreviewLine();
 
         // console.log("redraw.");
+        GUI.writeToStatusbarRight("Culled lines", this.culledLinesCounter);
     }
 
     generateGradient(line) {

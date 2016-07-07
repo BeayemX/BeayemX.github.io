@@ -11,14 +11,44 @@
         this.rightarea.style.visibility = "visible";
 
         this.layersDiv = document.getElementById('layers')
+
+        this.leftDict = [];
+        this.rightDict = [];
     }
 
-    writeToStatusbarLeft(text) {
+    writeToStatusbarLeft(k, v) {
+        this.leftDict[k] = v;
+        let text = "";
+        for (let key in this.leftDict) {
+            if (this.leftDict.hasOwnProperty(key)) {
+                text += key + ": ";
+                text += this.leftDict[key] + ". "
+            }
+        }
         statusbarentryleft.innerHTML = text;
     }
 
-    writeToStatusbarRight(text) {
+    writeToStatusbarRight(k, v) {
+        
+        this.rightDict[k] = v;
+        let text = "";
+        for (let key in this.rightDict) {
+            if (this.rightDict.hasOwnProperty(key)) {
+                text += key + ": ";
+                text += this.rightDict[key] + ". "
+            }
+        }
         statusbarentryright.innerHTML = text;
+    }
+
+    removeEntryFromLeftStatusbar(k)
+    {
+        delete this.leftDict[k];
+    }
+
+    removeEntryFromRightStatusbar(k)
+    {
+        delete this.rightDict[k];
     }
 
     objectHierarchyChanged()

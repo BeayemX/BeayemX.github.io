@@ -94,7 +94,17 @@ class Vector2 {
         return Vector2.sqrDistance(this, other) <= (epsilon * epsilon);
     }
 
-    toString() {
-        return "(" + this.x + "|" + this.y + ")";
+    toString(decimals) {
+        if (decimals == undefined)
+            decimals = 2;
+
+        let factor = Math.pow(10, decimals);
+        let v = this.copy();
+
+        v = v.multiply(factor);
+        v.round();
+        v = v.divide(factor);
+
+        return "(" + v.x + "|" + v.y + ")";
     }
 }

@@ -12,7 +12,7 @@
         else
             this.lines.push(line);
 
-        GUI.writeToStatusbarRight("line added: " + line.toString());
+        GUI.writeToStatusbarRight("line added: ", line.toString());
         this.cleanUpFile();
     }
 
@@ -57,14 +57,12 @@
     }
 
     updateStats() {
-        var text = this.lines.length + " lines";
+        GUI.writeToStatusbarRight("Lines", this.lines.length);
 
-        if (this.deletedLinesCounter > 0) {
-            // DRAW_MANAGER.redraw(); // TODO not sure if needed
-            text += " (" + this.deletedLinesCounter + " cleaned up)";
-        }
-
-        GUI.writeToStatusbarRight(text); // SIFU TODO FOR FINAL BUILD COMMENT ME IN!!!
+        if (this.deletedLinesCounter > 0)
+            GUI.writeToStatusbarRight("Cleaned up", this.deletedLinesCounter);
+        else
+            GUI.removeEntryFromRightStatusbar("Cleaned up");
     }
 
     getAllSelectedPoints() {
@@ -229,7 +227,7 @@
         for (let i = 0; i < selectedPoints.length; ++i)
             allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i], 0.1)); // TODO magic number, should use Vector2.Equals-epsilon?
 
-        for (let i = 0; i < allSelectedPoints.length; ++i) 
+        for (let i = 0; i < allSelectedPoints.length; ++i)
             allSelectedPoints[i].selected = true;
 
         for (let i = 0; i < allSelectedPoints.length; ++i) {
