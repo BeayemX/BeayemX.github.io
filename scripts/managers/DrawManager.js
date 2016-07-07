@@ -279,12 +279,17 @@
             {
                 if (!LOGIC.isPreviewing()) {
                     color = SETTINGS.selectionColor;
-                    if (line.start.selected != line.end.selected)
+                    if (line.start.selected != line.end.selected) {
                         color = this.generateGradient(line);
+                        this.drawLineFromTo(line.start, line.end, thickness, color, false);
+                    }
+                    else {
+                        this.batchLine(line)
+                    }
                 }
-
-                this.drawLineFromTo(line.start, line.end, thickness, color, false);
             }
+            if (this.batchedLines.length > 0)
+                this.renderBatchedLines(thickness, color.toString(), false);
 
             for (let p of unselPoints) // TODO PERFORMANCE if multiple lines share point, point gets drawn multiple times...
             //this.drawCircle(p.x, p.y, radius, 0, bgColor.toString(), false, false, true);
