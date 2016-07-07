@@ -146,8 +146,8 @@ class Utilities {
         let changedLines = [];
         let intersections = [];
 
-        intersections.push(cutter.start);
-        this.addPointSorted(intersections, cutter.end);
+        intersections.push(cutter.start.copy());
+        this.addPointSorted(intersections, cutter.end.copy());
 
         let n = lines.length;
 
@@ -172,17 +172,17 @@ class Utilities {
 
         for (let i = lines.length - 1; i >= n; i--)
             for (let j of changedLines)
-                if ((lines[i].start == lines[j].start && lines[i].end == lines[j].end) ||
-                    (lines[i].start == lines[j].end && lines[i].end == lines[j].start))
+                if ((lines[i].start.equals(lines[j].start) && lines[i].end.equals(lines[j].end)) ||
+                    (lines[i].start.equals(lines[j].end) && lines[i].end.equals(lines[j].start)))
                 lines.splice(i + 1, 1);
     }
 
     addPointSorted(points, point) {
         for (let i = 0; i < points.length; i++) {
-            if (point.y == points[i].y && point.x == points[i].x)
+            if (eq(point.y, points[i].y) && eq(point.x, points[i].x))
                 return;
             if (point.x > points[i].x ||
-                (point.x == points[i].x && point.y > points[i].y)) {
+                (eq(point.x, points[i].x) && point.y > points[i].y)) {
                 points.splice(i, 0, point);
                 return;
             }
@@ -201,7 +201,7 @@ class Utilities {
         let s = ls / rs;
         let t = lt / rt;
 
-        if (ls == 0 && rs == 0 && lt == 0 && rt == 0) {
+        if (eq(ls, 0) && eq(rs, 0) && eq(lt, 0) && eq(rt, 0)) {
             let minX = Math.min(line1.start.x, line1.end.x, line2.start.x, line2.end.x);
             let minY = Math.min(line1.start.y, line1.end.y, line2.start.y, line2.end.y);
             let maxX = Math.max(line1.start.x, line1.end.x, line2.start.x, line2.end.x);
@@ -215,6 +215,7 @@ class Utilities {
                 this.addPointSorted(bounds, line2.end.copy());
                 points.push(bounds[1]);
                 points.push(bounds[2]);
+                console.log(bounds);
             }
 
             return points;
@@ -227,4 +228,11 @@ class Utilities {
 
         return points;
     }
+}
+
+function eq(a, b)
+{
+    let margin = 0.1;
+    let diff = Math.abs(a-b)
+    return diff < margin;
 }
