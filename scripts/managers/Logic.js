@@ -48,8 +48,8 @@ function onLoad()
     ACTION_HISTORY = new ActionHistory();
     LINE_MANIPULATOR = new LineManipulator();
     SETTINGS = new Settings();
-    GRID = new Grid(); 
-    //GRID = new TriangleGrid(); 
+    //GRID = new Grid(); 
+    GRID = new TriangleGrid(); 
 
     LOGIC.start();
 }
@@ -92,8 +92,11 @@ class Logic {
         canvasOffset.x = canvas.width * 0.5;
         canvasOffset.y = canvas.height * 0.5;
     
-        //SAVER.loadAutoSave(); // SIFU TODO use me 
+        //*
+        SAVER.loadAutoSave(); // SIFU TODO use me 
+        /*/
         DATA_MANAGER.currentFile.createNewObject(true);
+        // */
         DATA_MANAGER.currentFile.updateStats();
         DRAW_MANAGER.redraw();
     }
