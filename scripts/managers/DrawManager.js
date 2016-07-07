@@ -3,6 +3,8 @@
         console.log("DrawManager created.");
         this.batchedLines = [];
         this.batchedCircles = [];
+        this.screenBounds = null;
+        this.linesOutsideScreenBoundsCounter = 0;
     }
 
     drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
@@ -35,11 +37,16 @@
     }
 
     batchLine(line) {
-        this.batchedLines.push(line);
+        if (this.screenBounds.contains(line))
+            this.batchedLines.push(line);
+        else
+            ++this.linesOutsideScreenBoundsCounter;
+
     }
 
     batchCircle(circle) {
-        this.batchedCircles.push(circle);
+        if (this.screenBounds.contains(circle))
+            this.batchedCircles.push(circle);
     }
 
     renderBatchedLines(thickness, color, screenSpace, screenSpaceThickness) {
@@ -174,6 +181,8 @@
 
     redraw() {
         context.clearRect(0, 0, canvas.width, canvas.height);
+        this.screenBounds = this.getVisibleBounds();
+        this.linesOutsideScreenBoundsCounter = 0;
 
         if (!LOGIC.isPreviewing()) {
             this.drawGrid();
@@ -269,27 +278,25 @@
             bgColor.copyValues(color);
 
             for (let line of unselLines)
-                this.batchLine(line)
+                    this.batchLine(line);
+
             this.renderBatchedLines(thickness, bgColor.toString(), false);
-
-
-            color = LOGIC.isPreviewing() ? color : Color.hexToColor(SETTINGS.selectionColor);
 
             for (let line of selLines)
             {
-                if (!LOGIC.isPreviewing()) {
-                    color = SETTINGS.selectionColor;
-                    if (line.start.selected != line.end.selected) {
-                        color = this.generateGradient(line);
-                        this.drawLineFromTo(line.start, line.end, thickness, color, false);
-                    }
-                    else {
-                        this.batchLine(line)
-                    }
+                if (LOGIC.isPreviewing() || (line.start.selected == line.end.selected)) {
+                    this.batchLine(line);
+                }
+                else {
+                    color = this.generateGradient(line);
+                    this.drawLineFromTo(line.start, line.end, thickness, color, false);
                 }
             }
+
+            color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor; // FIXME why dont i use hexToColor???
+
             if (this.batchedLines.length > 0)
-                this.renderBatchedLines(thickness, color.toString(), false);
+                this.renderBatchedLines(thickness, color, false);
 
             for (let p of unselPoints) // TODO PERFORMANCE if multiple lines share point, point gets drawn multiple times...
             //this.drawCircle(p.x, p.y, radius, 0, bgColor.toString(), false, false, true);
@@ -357,5 +364,12 @@
             .addVector(canvasOffset)
             .multiply(zoom)
         ;
+    }
+
+    getVisibleBounds() {
+        return new Bounds(
+            this.screenSpaceToCanvasSpace(new Vector2(0, 0)),
+            this.screenSpaceToCanvasSpace(new Vector2(canvas.width, canvas.height))
+            );
     }
 }

@@ -32,8 +32,11 @@ class MouseHandler {
                 this.oldPos = currentPosition;
             }
 
-            let text = "curPos: " + currentPosition.toString();
-            text += "\tcanvasOffset: " + canvasOffset.toString();
+            let text = "";
+            //text += "curPos: " + currentPosition.toString();
+            //text += "\tcanvasOffset: " + canvasOffset.toString();
+            text += " Culled lines: " + DRAW_MANAGER.linesOutsideScreenBoundsCounter
+
             GUI.writeToStatusbarLeft(text);;
         }
         else // while panning
