@@ -9,11 +9,21 @@ class MouseHandler {
         this.oldPosScreenSpace = new Vector2(0, 0);
         this.grabInitializedWithRMBDown = false;
         this.isPanning = false;
+
+        waitingForStart.push(this);
+    }
+
+    start()
+    {
+        this.zoom(1);
+        this.mouseMoved(new Vector2(0, 0));
     }
 
     MouseMove(e) {
-        let newPosScreenSpace = UTILITIES.getMousePos(e);
+        this.mouseMoved(UTILITIES.getMousePos(e));
+    }
 
+    mouseMoved(newPosScreenSpace) {
         let screenPosDelta = newPosScreenSpace.subtractVector(this.oldPosScreenSpace);
 
         if (!this.isPanning) {
@@ -27,28 +37,28 @@ class MouseHandler {
             //if (!currentPosition.equals(this.oldPos)) 
             {
                 let gridDelta = currentPosition.subtractVector(this.oldPos) // TODO maybe not used anymore after grabbing reworked?
-                this.cursorPositionChanged(e, gridDelta, screenPosDelta);
+                this.cursorPositionChanged(gridDelta, screenPosDelta);
 
                 this.oldPos = currentPosition;
             }
 
             ;
-            GUI.writeToStatusbarLeft("curPos", currentPosition.toString());
-            GUI.writeToStatusbarLeft("canvasOffset", canvasOffset.toString());
+            GUI.writeToStatusbarLeft(currentPosition.toString());
         }
         else // while panning
         {
             canvasOffset = canvasOffset.addVector(screenPosDelta.divide(zoom));
         }
 
+        GUI.writeToStats("canvasOffset", canvasOffset.toString());
         this.oldPosScreenSpace = newPosScreenSpace;
         DRAW_MANAGER.redraw(); // TODO with grid stuff, redraw just happened if currentGridPoint changed...
     }
 
-    cursorPositionChanged(e, delta, screenPosDelta) {
+    cursorPositionChanged(gridDelta, screenPosDelta) {
         if (LOGIC.currentState == StateEnum.GRABBING) {
             let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
-            UTILITIES.movePointsBy(points, delta);
+            UTILITIES.movePointsBy(points, gridDelta);
         }
         else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
             if (UTILITIES.borderSelectionStart) {
@@ -239,12 +249,11 @@ class MouseHandler {
 
         } else {
             if (e.deltaY < 0) // upscroll
-                this.Zoom(1.1);
+                this.zoom(1.1);
             else if (e.deltaY > 0)
-                this.Zoom(0.9);
+                this.zoom(0.9);
 
             this.MouseMove(e);
-
         }
         DRAW_MANAGER.redraw();
 
@@ -258,7 +267,7 @@ class MouseHandler {
         }
     }
 
-    Zoom(delta) {
+    zoom(delta) {
         // TODO maybe there is a better option than saving center and comparing difference?
         let center = new Vector2(canvas.width * 0.5, canvas.height * 0.5);
         let worldCenter = DRAW_MANAGER.screenSpaceToCanvasSpace(center);
@@ -268,6 +277,9 @@ class MouseHandler {
         let newWorldCenter = DRAW_MANAGER.screenSpaceToCanvasSpace(center);
         let diff = newWorldCenter.subtractVector(worldCenter);
         canvasOffset = canvasOffset.addVector(diff);
+
+        console.log(zoom);
+        GUI.writeToStats("Zoom", +zoom.toFixed(2));
     }
 
     CancelLinePreview() {

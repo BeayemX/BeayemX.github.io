@@ -10,7 +10,7 @@
         this.lineObjects.push(obj);
 
         if (selectNewObject)
-            this.selectObjectWithID(this.lineObjects.length-1);
+            this.selectObjectWithID(this.lineObjects.length - 1);
 
         GUI.objectHierarchyChanged();
 
@@ -28,9 +28,8 @@
         DRAW_MANAGER.redraw();
     }
 
-    updateStats() // TODO use this?
-    {
-
+    updateStats() {
+        this.currentObject.updateStats();
     }
 
     addLine(line) {

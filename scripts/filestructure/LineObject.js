@@ -12,7 +12,7 @@
         else
             this.lines.push(line);
 
-        GUI.writeToStatusbarRight("line added", line.toString());
+        GUI.notify(line.toString() + " added.");
         this.cleanUpFile();
     }
 
@@ -60,9 +60,7 @@
         GUI.writeToStats("Lines", this.lines.length);
 
         if (this.deletedLinesCounter > 0)
-            GUI.writeToStatusbarRight("Cleaned up", this.deletedLinesCounter);
-        else
-            GUI.removeEntryFromRightStatusbar("Cleaned up");
+            GUI.notify("Cleaned up " + this.deletedLinesCounter + " lines.");
     }
 
     getAllSelectedPoints() {

@@ -33,6 +33,7 @@ let tmpSwitchSnapToGrid = false;
 let showGrid = true;
 
 let cutLines = false;
+let waitingForStart = [];
 
 function onLoad()
 {
@@ -92,13 +93,13 @@ class Logic {
         canvasOffset.x = canvas.width * 0.5;
         canvasOffset.y = canvas.height * 0.5;
     
-        //*
-        SAVER.loadAutoSave(); // SIFU TODO use me 
-        /*/
-        DATA_MANAGER.currentFile.createNewObject(true);
-        // */
+        SAVER.loadAutoSave();
         DATA_MANAGER.currentFile.updateStats();
         DRAW_MANAGER.redraw();
+
+        for (var i = 0; i < waitingForStart.length; i++) {
+            waitingForStart[i].start();
+        }
     }
 
     layoutGUI()

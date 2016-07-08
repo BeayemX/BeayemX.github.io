@@ -13,38 +13,18 @@
 
         this.layersDiv = document.getElementById('layers')
 
-        this.leftDict = [];
-        this.rightDict = [];
         this.statsDict = [];
     }
 
-    writeToStatusbarLeft(k, v) {
-        this.leftDict[k] = v;
-        let text = "";
-        for (let key in this.leftDict) {
-            if (this.leftDict.hasOwnProperty(key)) {
-                text += key + ": ";
-                text += this.leftDict[key] + ". "
-            }
-        }
+    writeToStatusbarLeft(text) {
         statusbarentryleft.innerHTML = text;
     }
 
-    writeToStatusbarRight(k, v) {
-
-        this.rightDict[k] = v;
-        let text = "";
-        for (let key in this.rightDict) {
-            if (this.rightDict.hasOwnProperty(key)) {
-                text += key + ": ";
-                text += this.rightDict[key] + ". "
-            }
-        }
+    writeToStatusbarRight(text) {
         statusbarentryright.innerHTML = text;
     }
 
     writeToStats(k, v) {
-
         this.statsDict[k] = v;
         let text = "<table>";
         for (let key in this.statsDict) {
@@ -52,6 +32,9 @@
                 text += "<tr>";
                 text += "<td>";
                 text += key;
+                text += "</td>";
+                text += "<td>";
+                text += "&nbsp;";
                 text += "</td>";
                 text += "<td align='right'>";
                 text += this.statsDict[key];
@@ -64,20 +47,11 @@
         stats.innerHTML = text;
     }
 
-    removeEntryFromLeftStatusbar(k)
-    {
-        delete this.leftDict[k];
-    }
-
-    removeEntryFromRightStatusbar(k) {
-        delete this.rightDict[k];
-    }
     removeEntryFromStats(k) {
         delete this.statstDict[k];
     }
 
-    objectHierarchyChanged()
-    {
+    objectHierarchyChanged() {
         while (this.layersDiv.firstChild) {
             this.layersDiv.removeChild(this.layersDiv.firstChild);
         }
@@ -95,6 +69,7 @@
 
     // TODO rework notifications. put somewhere in statusbar
     notify(text) {
-        console.log(text);
+        this.writeToStatusbarRight(text);
+        //console.log(text);
     }
 }
