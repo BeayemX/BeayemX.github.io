@@ -76,7 +76,6 @@ class MouseHandler {
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     LOGIC.setState(StateEnum.DRAWING);
                     this.downPoint = currentPosition.copy();
-                    this.cursorPositionChanged();
                 }
                 else if (LOGIC.currentState == StateEnum.GRABBING) {
                     // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
@@ -200,8 +199,6 @@ class MouseHandler {
                     this.downPoint = currentPosition.copy();
                 else
                     this.CancelLinePreview();
-
-                this.cursorPositionChanged();
             }
             else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
                 UTILITIES.endAreaSelection(true);
@@ -278,7 +275,6 @@ class MouseHandler {
         let diff = newWorldCenter.subtractVector(worldCenter);
         canvasOffset = canvasOffset.addVector(diff);
 
-        console.log(zoom);
         GUI.writeToStats("Zoom", +zoom.toFixed(2));
     }
 
