@@ -9,11 +9,13 @@
         this.leftarea = document.getElementById('leftarea');
         this.rightarea = document.getElementById('rightarea');
         this.rightarea.style.visibility = "visible";
+        this.stats = document.getElementById('stats');
 
         this.layersDiv = document.getElementById('layers')
 
         this.leftDict = [];
         this.rightDict = [];
+        this.statsDict = [];
     }
 
     writeToStatusbarLeft(k, v) {
@@ -29,7 +31,7 @@
     }
 
     writeToStatusbarRight(k, v) {
-        
+
         this.rightDict[k] = v;
         let text = "";
         for (let key in this.rightDict) {
@@ -41,14 +43,37 @@
         statusbarentryright.innerHTML = text;
     }
 
+    writeToStats(k, v) {
+
+        this.statsDict[k] = v;
+        let text = "<table>";
+        for (let key in this.statsDict) {
+            if (this.statsDict.hasOwnProperty(key)) {
+                text += "<tr>";
+                text += "<td>";
+                text += key;
+                text += "</td>";
+                text += "<td align='right'>";
+                text += this.statsDict[key];
+                text += "</td>";
+                text += "</tr>";
+            }
+        }
+        text += "</table>";
+
+        stats.innerHTML = text;
+    }
+
     removeEntryFromLeftStatusbar(k)
     {
         delete this.leftDict[k];
     }
 
-    removeEntryFromRightStatusbar(k)
-    {
+    removeEntryFromRightStatusbar(k) {
         delete this.rightDict[k];
+    }
+    removeEntryFromStats(k) {
+        delete this.statstDict[k];
     }
 
     objectHierarchyChanged()

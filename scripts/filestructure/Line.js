@@ -29,6 +29,6 @@
     }
 
     toString() {
-        return "Line from " + this.start + " to " + this.end + ".";
+        return "Line from " + this.start + " to " + this.end;
     }
 }

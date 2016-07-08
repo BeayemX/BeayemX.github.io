@@ -12,7 +12,7 @@
         else
             this.lines.push(line);
 
-        GUI.writeToStatusbarRight("line added: ", line.toString());
+        GUI.writeToStatusbarRight("line added", line.toString());
         this.cleanUpFile();
     }
 
@@ -57,7 +57,7 @@
     }
 
     updateStats() {
-        GUI.writeToStatusbarRight("Lines", this.lines.length);
+        GUI.writeToStats("Lines", this.lines.length);
 
         if (this.deletedLinesCounter > 0)
             GUI.writeToStatusbarRight("Cleaned up", this.deletedLinesCounter);

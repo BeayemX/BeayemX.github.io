@@ -203,7 +203,7 @@
             this.drawPreviewLine();
 
         // console.log("redraw.");
-        GUI.writeToStatusbarRight("Culled lines", this.culledLinesCounter);
+        GUI.writeToStats("Culled lines", this.culledLinesCounter);
     }
 
     generateGradient(line) {

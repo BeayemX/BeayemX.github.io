@@ -1,93 +1,93 @@
-*
-{
-	margin: 0;
-	padding: 0;
+* {
+    margin: 0;
+    padding: 0;
 }
 
 html {
-	width:100%; /* just to be sure these are full screen*/
-	height:100%; /* just to be sure these are full screen*/
-}	
+    width: 100%; /* just to be sure these are full screen*/
+    height: 100%; /* just to be sure these are full screen*/
+}
 
 body {
-	width:100%; /* just to be sure these are full screen*/
-	height:100%; /* just to be sure these are full screen*/
-	background-color: #252526;
+    width: 100%; /* just to be sure these are full screen*/
+    height: 100%; /* just to be sure these are full screen*/
+    background-color: #252526;
     color: #ccc;
-	overflow: hidden;
-} 
-
-canvas { 
-	display:block; /* To remove the scrollbars */
-	position: absolute;
-
-	margin:0;
-	padding:0;
-} 
-
-p{
-	font-size: 14pt;
-	font-family: 'Oswald', sans-serif;
-	text-align: center;
+    overflow: hidden;
 }
-button, select {
-	width: 80%;
-	margin-top: 10px;
-	margin-left: 10%;
-	margin-right: 10%;
-	padding: 5px;
 
-	font-family: 'Roboto', sans-serif;
-	font-size: 11pt;
+canvas {
+    display: block; /* To remove the scrollbars */
+    position: absolute;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    font-size: 14pt;
+    font-family: 'Oswald', sans-serif;
+    text-align: center;
+}
+
+button, select {
+    width: 80%;
+    margin-top: 10px;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11pt;
     background-color: #414141;
     color: #a4a4a4;
     border: 1px solid #393939;
 }
 
-div
-{
-	/*border: 1px black solid; /**/
-}
-.toolarea {
-	overflow: auto;
-	position: absolute;
-}
-#leftarea
-{
-	overflow: auto;
-	position: absolute;
-	left: 0;
-	width: 200;
-}
-#rightarea
-{
-	overflow: auto;
-	position: absolute;
-	right: 0;
-	width: 200;
+div {
+    /*border: 1px black solid; /**/
 }
 
-.toolcategory
-{
-	margin-top: 25px;
-	margin-bottom: 25px;
+.toolarea {
+    overflow: auto;
+    position: absolute;
 }
-#menubar{
+
+#leftarea {
+    overflow: auto;
+    position: absolute;
+    left: 0;
+    width: 200;
+}
+
+#rightarea {
+    overflow: auto;
+    position: absolute;
+    right: 0;
+    width: 200;
+}
+
+.toolcategory {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+#menubar {
     width: 100%;
     height: 36px;
     background-color: #292929;
 }
-.menuentry{
+
+.menuentry {
     width: 50px;
     float: left;
     text-align: center;
     padding: 8px;
-	font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: rgb(222, 222, 222);
 }
-.menuentry:hover {
-    background-color: rgb(120, 120, 120);
-}
+
+    .menuentry:hover {
+        background-color: rgb(120, 120, 120);
+    }
 
 #statusbar {
     position: absolute;
@@ -95,23 +95,42 @@ div
     background-color: #292929;
     width: 100%;
     bottom: 0px;
-	font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
     /*
     background-color: rgb(90, 90, 90);
     color: rgb(222, 222, 222);
     */
 }
+
 .statusbarentry {
     position: absolute;
     padding-top: 10px;
 }
-#statusbarentryleft{
+
+#statusbarentryleft {
     left: 0px;
     text-align: left;
     padding-left: 10px;
 }
-#statusbarentryright{
+
+#statusbarentryright {
     right: 0px;
     text-align: right;
     padding-right: 10px;
+}
+
+#stats {
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 200px;
+    height: auto;
+    top: 55px;
+    right: 225px;
+    border-radius: 10px;
+}
+
+#stats table {
+    width: 100%;
 }

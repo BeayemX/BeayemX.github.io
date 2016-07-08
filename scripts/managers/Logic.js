@@ -74,7 +74,7 @@ class Logic {
         context = canvas.getContext('2d');
         offscreenCanvas = document.getElementById('offscreenCanvas');
         offscreenContext = offscreenCanvas.getContext('2d');
-
+        
         canvas.addEventListener("mousemove", evt => MOUSE_HANDLER.MouseMove(evt));
         canvas.addEventListener("mouseup", evt => MOUSE_HANDLER.MouseUp(evt));
         canvas.addEventListener("mousedown", evt => MOUSE_HANDLER.MouseDown(evt));
@@ -107,6 +107,8 @@ class Logic {
         canvas.height = window.innerHeight - GUI.menubar.offsetHeight - GUI.statusbar.offsetHeight;
         canvas.style.left = leftarea.offsetWidth;
         canvas.style.top = menubar.offsetHeight;
+
+        GUI.stats.style.left = canvas.right - 50;
 
         /*
         offscreenCanvas.width = canvas.width;
