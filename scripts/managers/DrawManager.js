@@ -289,8 +289,13 @@
                     this.batchLine(line);
                 }
                 else {
-                    color = this.generateGradient(line);
-                    this.drawLineFromTo(line.start, line.end, thickness, color, false);
+                    if (this.screenBounds.contains(line)) {
+                        
+                        color = this.generateGradient(line);
+                        this.drawLineFromTo(line.start, line.end, thickness, color, false);
+                    }
+                    else
+                        ++this.culledLinesCounter;
                 }
             }
 
