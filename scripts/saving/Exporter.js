@@ -18,49 +18,54 @@ class Exporter {
         GUI.notify("Picture saved!");
     }
 
-    ExportAsSVG()
-    {
+    ExportAsSVG() {
         var name = prompt("Save as: ");
 
         if (name) {
-            let svgData = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n';
-            let layers = DATA_MANAGER.currentFile.lineObjects;
-
-            for (let layer of layers)
-            {
-                svgData +=
-                    '\t<g ' +
-                    'id="' + layer.id + '" ' +
-                    'opacity="' + layer.color.a + '" ' +
-
-                    'stroke="' + layer.color.toHexString() + '" ' +
-                    'stroke-opacity="' + (layer.color.a) + '" ' +
-                    'stroke-width="' + layer.thickness + '" ' +
-
-                    '>\n';
-                for (let line of layer.lines) {
-                    svgData +=
-                        '\t\t<line ' +
-                        'x1="' + line.start.x + '" ' +
-                        'y1="' + line.start.y + '" ' +
-                        'x2="' + line.end.x + '" ' +
-                        'y2="' + line.end.y + '" ' +
-
-                        'stroke="' + layer.color.toHexString() + '" ' +
-                        'stroke-opacity="' + (layer.color.a) + '" ' +
-                        'stroke-width="' + layer.thickness + '" ' +
-                        'stroke-linecap="round"' +
-
-                        '/> \n'
-                }
-                svgData += '\t</g>\n';
-
-            }
-
-            svgData += '</svg>';
+            let svgData = this.generateSVGString();
 
             var blob = new Blob([svgData], { type: "application/svg+xml" });
             saveAs(blob, name + ".svg");
         }
+    }
+
+    generateSVGString() {
+        let svgData = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n';
+        let layers = DATA_MANAGER.currentFile.lineObjects;
+
+        for (let layer of layers) {
+            svgData +=
+                '\t<g ' +
+                'id="' + layer.id + '" ' +
+                'opacity="' + layer.color.a + '" ' +
+
+                'stroke="' + layer.color.toHexString() + '" ' +
+                'stroke-opacity="' + (layer.color.a) + '" ' +
+                'stroke-width="' + layer.thickness + '" ' +
+
+                '>\n';
+
+            for (let line of layer.lines) {
+                svgData +=
+                    '\t\t<line ' +
+                    'x1="' + line.start.x + '" ' +
+                    'y1="' + line.start.y + '" ' +
+                    'x2="' + line.end.x + '" ' +
+                    'y2="' + line.end.y + '" ' +
+
+                    'stroke="' + layer.color.toHexString() + '" ' +
+                    'stroke-opacity="' + (layer.color.a) + '" ' +
+                    'stroke-width="' + layer.thickness + '" ' +
+                    'stroke-linecap="round"' +
+
+                    '/> \n'
+            }
+            svgData += '\t</g>\n';
+
+        }
+
+        svgData += '</svg>';
+
+        return svgData;
     }
 }

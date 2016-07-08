@@ -6,22 +6,6 @@
         this.clipboardFileName = "Clipboard";
     }
 
-    saveToDisk() {
-        let name = prompt("Save as: ");
-
-        if (name) {
-            this.saveAsJSON(name);
-        }
-    }
-
-    // TODO create method in file-class which creates object where only the important information is saved and save that as json
-    saveAsJSON(name) {
-        let data = JSON.stringify(DATA_MANAGER.currentFile.lineObjects, null, '\t');
-
-        let blob = new Blob([data], { type: "text/plain;charset=utf-8" });
-        saveAs(blob, name + ".json");
-    }
-
     loadJSONFile(jsonString) {
         let file;
         try {
@@ -58,7 +42,8 @@
 
 
     autoSave() {
-        localStorage.setItem(this.autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile));
+        //localStorage.setItem(this.autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile));
+        localStorage.setItem(this.autosaveFileName, EXPORTER.generateSVGString());
         console.log("Saved.")
     }
 
@@ -70,28 +55,9 @@
             return;
         }
 
-        DATA_MANAGER.currentFile.lineObjects = [];
-        let file = JSON.parse(autoSaveFile);
-        let objs = file.lineObjects;
-
-        for (var i = 0; i < objs.length; ++i) {
-            DATA_MANAGER.currentFile.createNewObject(true);
-
-            for (var j = 0; j < objs[i].lines.length; j++) {
-                DATA_MANAGER.currentFile.currentObject.addLine(
-                    new Line(
-                        objs[i].lines[j].start.x,
-                        objs[i].lines[j].start.y,
-                        objs[i].lines[j].end.x,
-                        objs[i].lines[j].end.y
-                    )
-                );
-            }
-        }
-
+        this.createFileFromSVGString(autoSaveFile);
         DRAW_MANAGER.redraw();
     }
-
 
     newFile() {
         DATA_MANAGER.currentFile = new File();
@@ -138,12 +104,6 @@
         evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
 
-    dndloaded(evt) {
-        var jsonString = evt.target.result;
-        console.log("File loaded.");
-        this.loadJSONFile(jsonString);
-    }
-
     handleFileSelect(evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -161,12 +121,16 @@
         }
     }
     dndloadedSVG(evt) {
+        this.createFileFromSVGString(evt.target.result);
+    }
+
+    createFileFromSVGString(svgString) {
         var parser = new DOMParser();
-        var doc = parser.parseFromString(evt.target.result, "image/svg+xml");
+        var doc = parser.parseFromString(svgString, "image/svg+xml");
         let svg = doc.getElementsByTagName('svg')[0];
 
         DATA_MANAGER.currentFile = new File();
-        
+
         for (let g of svg.childNodes) {
 
             if (g.nodeType != 1)
@@ -186,7 +150,7 @@
                     Number(line.getAttribute("x2")),
                     Number(line.getAttribute("y2"))));
             }
-            // not using addline because due to 'cutLines' it could lead to unwanted results
+            // not using addLine() because due to 'cutLines' it could lead to unwanted results
             layer.lines = lines;
         }
         DRAW_MANAGER.redraw();
