@@ -62,6 +62,7 @@
     newFile() {
         DATA_MANAGER.currentFile = new File();
         DATA_MANAGER.currentFile.createNewObject(true);
+        DATA_MANAGER.currentFile.updateStats();
         DRAW_MANAGER.redraw();
     }
 
