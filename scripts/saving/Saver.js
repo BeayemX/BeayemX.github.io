@@ -154,5 +154,6 @@
             layer.lines = lines;
         }
         DRAW_MANAGER.redraw();
+        DATA_MANAGER.currentFile.updateStats();
     }
 }
