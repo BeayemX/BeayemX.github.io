@@ -97,7 +97,7 @@ class KeyboardHandler {
                     EXPORTER.TakeScreenshot();
                 break;
             case 70: // F // TODO improve. zoom to selection / zoom fit / etc ... 
-                canvasOffset = new Vector2(canvas.width * 0.5, canvas.height * 0.5);
+                MOUSE_HANDLER.setZoom(1);
                 canvasOffset = (new Vector2(canvas.width * 0.5, canvas.height * 0.5)).divide(zoom);
                 DRAW_MANAGER.redraw();
                 break;

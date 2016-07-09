@@ -269,12 +269,14 @@ class MouseHandler {
         let center = new Vector2(canvas.width * 0.5, canvas.height * 0.5);
         let worldCenter = DRAW_MANAGER.screenSpaceToCanvasSpace(center);
 
-        zoom *= delta;
+        this.setZoom(zoom * delta);
 
         let newWorldCenter = DRAW_MANAGER.screenSpaceToCanvasSpace(center);
         let diff = newWorldCenter.subtractVector(worldCenter);
         canvasOffset = canvasOffset.addVector(diff);
-
+    }
+    setZoom(val) {
+        zoom = val;
         GUI.writeToStats("Zoom", (zoom * 100).toFixed(2) + " %");
     }
 
