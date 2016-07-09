@@ -6,43 +6,7 @@
         this.clipboardFileName = "Clipboard";
     }
 
-    loadJSONFile(jsonString) {
-        let file;
-        try {
-            file = JSON.parse(jsonString);
-        }
-        catch (err) {
-            console.log(err);
-            GUI.notify("File type not supported!");
-            return;
-        }
-
-        DATA_MANAGER.currentFile = new File();
-
-        let objs = file;
-
-        for (var i = 0; i < objs.length; ++i) {
-            DATA_MANAGER.currentFile.createNewObject(true);
-
-            for (var j = 0; j < objs[i].lines.length; j++) {
-                DATA_MANAGER.currentFile.currentObject.addLine(
-                    new Line(
-                        objs[i].lines[j].start.x,
-                        objs[i].lines[j].start.y,
-                        objs[i].lines[j].end.x,
-                        objs[i].lines[j].end.y
-                    )
-                );
-            }
-        }
-
-        DRAW_MANAGER.redraw();
-        return;
-    }
-
-
     autoSave() {
-        //localStorage.setItem(this.autosaveFileName, JSON.stringify(DATA_MANAGER.currentFile));
         localStorage.setItem(this.autosaveFileName, EXPORTER.generateSVGString());
         console.log("Saved.")
     }
@@ -69,7 +33,14 @@
     copyLinesToClipboard() // session storage
     {
         let selectedLines = DATA_MANAGER.currentFile.getSelectedLines();
-        sessionStorage.setItem(this.clipboardFileName, JSON.stringify(selectedLines));
+        let layer = DATA_MANAGER.currentFile.currentObject;
+        let svgData = "";
+        svgData += "<svg>\n";
+        svgData += EXPORTER.generateSVGStringForLines(selectedLines, layer, 0);
+        svgData += "</svg>";
+
+        sessionStorage.setItem(this.clipboardFileName, svgData);
+
         GUI.notify("Lines copied to clipboard!");
     }
 
@@ -79,23 +50,29 @@
         if (!logo)
             return false;
 
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(logo, "image/svg+xml");
+        let svg = doc.getElementsByTagName('svg')[0];
         DATA_MANAGER.currentFile.clearSelection();
 
-        let linesArray = JSON.parse(logo);
+        let lines = [];
+        for (let line of svg.childNodes) {
+            if (line.nodeType != 1)
+                continue;
 
-        for (var i = 0; i < linesArray.length; ++i) {
-            DATA_MANAGER.currentFile.currentObject.lines.push(
-                new Line(
-                    linesArray[i].start.x,
-                    linesArray[i].start.y,
-                    linesArray[i].end.x,
-                    linesArray[i].end.y,
-                    true
-                )
-            );
+            lines.push(new Line(
+                Number(line.getAttribute("x1")),
+                Number(line.getAttribute("y1")),
+                Number(line.getAttribute("x2")),
+                Number(line.getAttribute("y2")),
+                true)
+                );
         }
+        DATA_MANAGER.currentFile.currentObject.addLines(lines);
         GUI.notify("Lines pasted from clipboard!");
+
         DRAW_MANAGER.redraw();
+        DATA_MANAGER.currentFile.updateStats();
         return true;
     }
 
