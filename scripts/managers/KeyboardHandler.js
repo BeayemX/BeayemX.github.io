@@ -138,6 +138,20 @@ class KeyboardHandler {
                 cutLines = !cutLines;
                 break;
 
+            case 37: // ARROW LEFT
+                KEYBOARD_HANDLER.arrowMovement(-1, 0, e.shiftKey, e.ctrlKey);
+                break;
+            case 38: // ARROW UP
+                KEYBOARD_HANDLER.arrowMovement(0, -1, e.shiftKey, e.ctrlKey);
+                break;
+            case 39: // ARROW RIGHT
+                KEYBOARD_HANDLER.arrowMovement(1, 0, e.shiftKey, e.ctrlKey);
+                break;
+            case 40: // ARROW DOWN
+                KEYBOARD_HANDLER.arrowMovement(0, 1, e.shiftKey, e.ctrlKey);
+                break;
+
+
             default:
                 console.log("KeyDown(): \n"
                     + "keyCode: " + e.keyCode + "\n"
@@ -172,6 +186,22 @@ class KeyboardHandler {
             case 17: // Ctrl
                 tmpSwitchSnapToGrid = false;
                 break;
+        }
+    }
+
+    arrowMovement(x, y, shiftDown, ctrlDown) {
+        if (DATA_MANAGER.currentFile.isSomethingSelected()) {
+            let stepSize = 10;
+            if (shiftDown)
+                stepSize = 1;
+            if (ctrlDown)
+                stepSize = 100;
+
+            let delta = new Vector2(x * stepSize, y * stepSize);
+            KEYBOARD_HANDLER.grabStartPosition = currentPosition; // TODO undo doesnt work
+            let selPoints = DATA_MANAGER.currentFile.currentObject.getAllSelectedPoints();
+            UTILITIES.movePointsBy(selPoints, delta, true);
+            DRAW_MANAGER.redraw();
         }
     }
 }

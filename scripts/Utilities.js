@@ -41,7 +41,6 @@ class Utilities {
         }
     }
 
-    // SIFU FIXME TODO undo also snapps to grid which shouldn't happen if originally were subpixel values
     movePointsBy(points, delta, createHistory) {
         for (let i = 0; i < points.length; ++i) {
             points[i].setValues(points[i].addVector(delta));

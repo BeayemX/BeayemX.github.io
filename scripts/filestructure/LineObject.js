@@ -76,7 +76,6 @@
         return points;
     }
 
-
     getUnselectedLines() {
         let points = this.getAllSelectedPoints();
         let selectedLines = [];
