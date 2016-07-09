@@ -147,7 +147,9 @@ class KeyboardHandler {
             case 40: // ARROW DOWN
                 KEYBOARD_HANDLER.arrowMovement(0, 1, e.shiftKey, e.ctrlKey);
                 break;
-
+            case 18: // ALT
+                tmpCutLines = true;
+                break;
 
             default:
                 console.log("KeyDown(): \n"
@@ -184,6 +186,10 @@ class KeyboardHandler {
                 break;
             case 17: // Ctrl
                 tmpSwitchSnapToGrid = false;
+                break;
+
+            case 18: // ALT
+                tmpCutLines = false;
                 break;
         }
     }

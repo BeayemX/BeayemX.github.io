@@ -34,6 +34,7 @@ let tmpSwitchSnapToGrid = false;
 let showGrid = true;
 
 let cutLines = false;
+let tmpCutLines = false;
 let waitingForStart = [];
 
 function onLoad()
