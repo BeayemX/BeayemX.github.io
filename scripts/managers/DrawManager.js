@@ -349,11 +349,33 @@
         this.drawRealCircle(selectionCursor, cursorRange, 2, false, true);
     }
 
+    // SIFU FIXME XXX TODO performance killer. for each selected point iterating ofer all other points + all other selected points...
     drawMoveLinesPreview() {
-        for (let point of MOUSE_HANDLER.previewLines)
-            this.batchCircle(point.addVector(currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition)));
+        let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
+        let other;
+        let a;
+        let b;
 
-        this.renderBatchedCircles(5, 0, 'green', false, false, true);
+        for (let point of MOUSE_HANDLER.previewLines)
+        {
+            other = DATA_MANAGER.currentFile.currentObject.getOtherPointBelongingToLine(point);
+            a = point.addVector(delta);
+            b = other;
+
+            for (var i = MOUSE_HANDLER.previewLines.length-1; i >= 0; --i) {
+                if (MOUSE_HANDLER.previewLines[i] === other) {
+
+                    break;
+                }
+                    
+            }
+            if (i != -1)
+                b = other.addVector(delta);
+
+            this.batchLine(new Line(a.x, a.y, b.x, b.y));
+        }
+
+        this.renderBatchedLines(1, 'yellow', false);
     }
 
     drawHelpers() {
