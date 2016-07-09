@@ -1,7 +1,6 @@
 ﻿class File {
     constructor() {
         this.lineObjects = [];
-        this.deletedLinesCounter = 0;
         this.currentObject = null;
     }
 
