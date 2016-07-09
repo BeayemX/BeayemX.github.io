@@ -349,7 +349,7 @@
         this.drawRealCircle(selectionCursor, cursorRange, 2, false, true);
     }
 
-    // SIFU FIXME XXX TODO performance killer. for each selected point iterating ofer all other points + all other selected points...
+    // SIFU FIXME XXX TODO performance killer. for each selected point iterating over all other points + all other selected points...
     drawMoveLinesPreview() {
         let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
         let other;
