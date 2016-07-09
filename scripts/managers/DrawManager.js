@@ -133,7 +133,7 @@
                 context.drawImage(offscreenCanvas, center.x - radius, center.y - radius);
             }
         }
-        
+
         this.drawnCirclesCounter += Object.keys(this.batchedCircles).length;
         this.batchedCircles = [];
     }
@@ -216,6 +216,9 @@
 
         if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.DRAWING)
             this.drawPreviewLine();
+
+        if (LOGIC.currentState == StateEnum.GRABBING)
+            this.drawMoveLinesPreview();
 
         // console.log("redraw.");
         GUI.writeToStats("Culled lines", this.culledLinesCounter);
@@ -346,6 +349,13 @@
         this.drawRealCircle(selectionCursor, cursorRange, 2, false, true);
     }
 
+    drawMoveLinesPreview() {
+        for (let point of MOUSE_HANDLER.previewLines)
+            this.batchCircle(point.addVector(currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition)));
+
+        this.renderBatchedCircles(5, 0, 'green', false, false, true);
+    }
+
     drawHelpers() {
         let screenpos = this.canvasSpaceToScreenSpace(currentPosition.copy());
         this.drawLineFromTo(new Vector2(0, screenpos.y), new Vector2(canvas.width, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.helperColor, true, true);
@@ -357,7 +367,7 @@
         context.strokeStyle = SETTINGS.helperColor2;
 
         let screenpos = this.canvasSpaceToScreenSpace(currentPosition);
-        let start = this.canvasSpaceToScreenSpace(KEYBOARD_HANDLER.grabStartPosition);
+        let start = this.canvasSpaceToScreenSpace(MOUSE_HANDLER.grabStartPosition);
 
         this.drawLineFromTo(new Vector2(start.x, start.y), new Vector2(screenpos.x, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.helperColor2, true, true);
     }

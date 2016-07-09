@@ -10,6 +10,9 @@ class MouseHandler {
         this.grabInitializedWithRMBDown = false;
         this.isPanning = false;
 
+        this.grabStartPosition;
+        this.previewLines = []; // SIFU TODO make addline preview also use this??
+
         waitingForStart.push(this);
     }
 
@@ -77,12 +80,7 @@ class MouseHandler {
                     this.downPoint = currentPosition.copy();
                 }
                 else if (LOGIC.currentState == StateEnum.GRABBING) {
-                    let delta = currentPosition.subtractVector(KEYBOARD_HANDLER.grabStartPosition);
-                    UTILITIES.moveSelectionBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), delta);
-                    DATA_MANAGER.currentFile.cleanUpFile();
-                    grabInitializedWithKeyboard = false;
-                    LOGIC.setState(StateEnum.IDLE);
-                    DRAW_MANAGER.redraw();
+                    this.endMoveLinesPreview();
                 }
                 else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
                     UTILITIES.startAreaSelection(true);
@@ -120,7 +118,7 @@ class MouseHandler {
                     UTILITIES.changeSelectionForPoints(pointsToChangeSelection);
 
                     if (pointsToChangeSelection != null) {
-                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
+                        MOUSE_HANDLER.startMoveLinesPreview();
 
                         LOGIC.setState(StateEnum.GRABBING);
                         this.grabInitializedWithRMBDown = true;
@@ -215,13 +213,13 @@ class MouseHandler {
         {
             if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
             {
-                let delta = currentPosition.subtractVector(KEYBOARD_HANDLER.grabStartPosition);
+                let delta = currentPosition.subtractVector(this.grabStartPosition);
                 let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
 
                 if (this.grabInitializedWithRMBDown)
                     UTILITIES.moveSelectionBy(points, delta);
                 else
-                    this.cancelMoveLinesPreview;
+                    this.cancelMoveLinesPreview();
 
                 DATA_MANAGER.currentFile.cleanUpFile();
 
@@ -283,14 +281,30 @@ class MouseHandler {
     }
 
     startMoveLinesPreview() {
-
+        this.grabStartPosition = currentPosition.copy();
+        let selection = DATA_MANAGER.currentFile.getAllSelectedPoints(); // TODO change to 'global selectedPoints'
+        this.previewLines = selection;
+        selection = [];
     }
 
     updateMoveLinesPreview() {
+        console.log("updateMoveLinesPreview");
+    }
 
+    endMoveLinesPreview() {
+        let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
+        UTILITIES.moveSelectionBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), delta);
+
+        DATA_MANAGER.currentFile.cleanUpFile();
+        grabInitializedWithKeyboard = false;
+        LOGIC.setState(StateEnum.IDLE);
+        DRAW_MANAGER.redraw();
+
+        this.previewLines = [];
     }
 
     cancelMoveLinesPreview() {
-
+        console.log("cancelMoveLinesPreview");
+        this.previewLines = [];
     }
 }

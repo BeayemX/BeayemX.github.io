@@ -1,8 +1,6 @@
 class KeyboardHandler {
     constructor() {
         console.log("KeyboardHandler created.");
-
-        this.grabStartPosition;
     }
     KeyDown(e) {
         switch (e.keyCode) {
@@ -29,8 +27,7 @@ class KeyboardHandler {
                     if (DATA_MANAGER.currentFile.isSomethingSelected()) {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
-                        // DON'T CALL WITH this.grabStartPosition because 'this' refers to caller, not THIS class!!!!
-                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
+                        MOUSE_HANDLER.startMoveLinesPreview();
                         DRAW_MANAGER.redraw();
                     }
                 }
@@ -62,8 +59,10 @@ class KeyboardHandler {
             case 68: // D
                 if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
                     if (DATA_MANAGER.currentFile.isSomethingSelected()) {
+                        if (LOGIC.currentState == StateEnum.GRABBING)
+                            MOUSE_HANDLER.endMoveLinesPreview();
                         DATA_MANAGER.currentFile.duplicateLines();
-                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
+                        MOUSE_HANDLER.startMoveLinesPreview();
                         LOGIC.setState(StateEnum.GRABBING);
                     }
                 }
@@ -86,7 +85,7 @@ class KeyboardHandler {
             case 86: // V
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     if (SAVER.pasteLines()) {
-                        KEYBOARD_HANDLER.grabStartPosition = currentPosition.copy();
+                        MOUSE_HANDLER.startMoveLinesPreview();
                         LOGIC.setState(StateEnum.GRABBING);
                     }
                 }
