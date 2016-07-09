@@ -67,7 +67,7 @@ class Utilities {
     }
 
     selectWithinBorderSelection() {
-        let points = DATA_MANAGER.currentFile.getAllPoints();
+        let points = FILE.getAllPoints();
 
         let min = {
             x: Math.min(this.borderSelectionStart.x, this.borderSelectionEnd.x),
@@ -111,7 +111,7 @@ class Utilities {
         if (!showGrid)
             return;
 
-        let selPoints = DATA_MANAGER.currentFile.getAllSelectedPoints();
+        let selPoints = FILE.getAllSelectedPoints();
 
         for (let i = 0; i < selPoints.length; ++i)
             selPoints[i].setValues(GRID.getNearestPointFor(selPoints[i]));

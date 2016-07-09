@@ -86,9 +86,9 @@ class MouseHandler {
             {
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     if (!e.shiftKey)
-                        DATA_MANAGER.currentFile.clearSelection();
+                        FILE.clearSelection();
 
-                    let lines = DATA_MANAGER.currentFile.currentObject.lines;
+                    let lines = FILE.currentObject.lines;
                     let pointsToChangeSelection = [];
 
                     // TODO weird number but should be a third?
@@ -178,7 +178,7 @@ class MouseHandler {
                 this.gridLineEnd = currentPosition.copy();
 
                 if (this.gridLineStart.x != this.gridLineEnd.x || this.gridLineStart.y != this.gridLineEnd.y)
-                    DATA_MANAGER.currentFile.addLine(
+                    FILE.addLine(
 					    new Line(
 						    this.gridLineStart.x,
 						    this.gridLineStart.y,
@@ -210,14 +210,14 @@ class MouseHandler {
             if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
             {
                 let delta = currentPosition.subtractVector(this.grabStartPosition);
-                let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
+                let points = FILE.getAllSelectedPoints();
 
                 if (this.grabInitializedWithRMBDown)
                     UTILITIES.moveSelectionBy(points, delta);
                 else
                     this.cancelMoveLinesPreview();
 
-                DATA_MANAGER.currentFile.cleanUpFile();
+                FILE.cleanUpFile();
 
                 this.grabInitializedWithRMBDown = false;
                 grabInitializedWithKeyboard = false;
@@ -278,16 +278,16 @@ class MouseHandler {
 
     startMoveLinesPreview() {
         this.grabStartPosition = currentPosition.copy();
-        let selection = DATA_MANAGER.currentFile.getAllSelectedPoints(); // TODO change to 'global selectedPoints'
+        let selection = FILE.getAllSelectedPoints(); // TODO change to 'global selectedPoints'
         this.previewLines = selection;
         selection = [];
     }
 
     endMoveLinesPreview() {
         let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
-        UTILITIES.moveSelectionBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), delta);
+        UTILITIES.moveSelectionBy(FILE.getAllSelectedPoints(), delta);
 
-        DATA_MANAGER.currentFile.cleanUpFile();
+        FILE.cleanUpFile();
         grabInitializedWithKeyboard = false;
         LOGIC.setState(StateEnum.IDLE);
         DRAW_MANAGER.redraw();

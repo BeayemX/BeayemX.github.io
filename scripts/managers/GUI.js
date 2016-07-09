@@ -56,12 +56,12 @@
             this.layersDiv.removeChild(this.layersDiv.firstChild);
         }
 
-        let objs = DATA_MANAGER.currentFile.lineObjects;
+        let objs = FILE.lineObjects;
 
         for (let i = 0; i < objs.length; i++) {
             let button = document.createElement("button");
             button.setAttribute("type", "button");
-            button.setAttribute("onclick", "DATA_MANAGER.currentFile.selectObjectWithID(" + i + ")");
+            button.setAttribute("onclick", "FILE.selectObjectWithID(" + i + ")");
             button.innerHTML = "Layer" + i;
             this.layersDiv.appendChild(button);
         }

@@ -24,16 +24,16 @@
     }
 
     newFile() {
-        DATA_MANAGER.currentFile = new File();
-        DATA_MANAGER.currentFile.createNewObject(true);
-        DATA_MANAGER.currentFile.updateStats();
+        FILE = new File();
+        FILE.createNewObject(true);
+        FILE.updateStats();
         DRAW_MANAGER.redraw();
     }
 
     copyLinesToClipboard() // session storage
     {
-        let selectedLines = DATA_MANAGER.currentFile.getSelectedLines();
-        let layer = DATA_MANAGER.currentFile.currentObject;
+        let selectedLines = FILE.getSelectedLines();
+        let layer = FILE.currentObject;
         let svgData = "";
         svgData += "<svg>\n";
         svgData += EXPORTER.generateSVGStringForLines(selectedLines, layer, 0);
@@ -53,7 +53,7 @@
         var parser = new DOMParser();
         var doc = parser.parseFromString(logo, "image/svg+xml");
         let svg = doc.getElementsByTagName('svg')[0];
-        DATA_MANAGER.currentFile.clearSelection();
+        FILE.clearSelection();
 
         let lines = [];
         for (let line of svg.childNodes) {
@@ -68,11 +68,11 @@
                 true)
                 );
         }
-        DATA_MANAGER.currentFile.currentObject.addLines(lines);
+        FILE.currentObject.addLines(lines);
         GUI.notify("Lines pasted from clipboard!");
 
         DRAW_MANAGER.redraw();
-        DATA_MANAGER.currentFile.updateStats();
+        FILE.updateStats();
         return true;
     }
 
@@ -107,14 +107,14 @@
         var doc = parser.parseFromString(svgString, "image/svg+xml");
         let svg = doc.getElementsByTagName('svg')[0];
 
-        DATA_MANAGER.currentFile = new File();
+        FILE = new File();
 
         for (let g of svg.childNodes) {
 
             if (g.nodeType != 1)
                 continue;
 
-            let layer = DATA_MANAGER.currentFile.createNewObject(true);
+            let layer = FILE.createNewObject(true);
             layer.color = Color.hexToColor(g.getAttribute('stroke'));
             layer.thickness = Number(g.getAttribute('stroke-width'));
             let lines = [];
@@ -132,6 +132,6 @@
             layer.lines = lines;
         }
         DRAW_MANAGER.redraw();
-        DATA_MANAGER.currentFile.updateStats();
+        FILE.updateStats();
     }
 }

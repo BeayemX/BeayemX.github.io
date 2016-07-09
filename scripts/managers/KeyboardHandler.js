@@ -24,7 +24,7 @@ class KeyboardHandler {
 
             case 71: // G
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    if (DATA_MANAGER.currentFile.isSomethingSelected()) {
+                    if (FILE.isSomethingSelected()) {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
                         MOUSE_HANDLER.startMoveLinesPreview();
@@ -35,7 +35,7 @@ class KeyboardHandler {
 
             case 65: // A
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    DATA_MANAGER.currentFile.selectAllToggle();
+                    FILE.selectAllToggle();
                     DRAW_MANAGER.redraw();
                 }
 
@@ -45,25 +45,25 @@ class KeyboardHandler {
             case 46: // DEL
             case 8: // BACKSPACE
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    DATA_MANAGER.currentFile.deleteSelectedLines();
+                    FILE.deleteSelectedLines();
                     DRAW_MANAGER.redraw();
                 }
 
                 break;
             case 73: // I
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    DATA_MANAGER.currentFile.invertSelection();
+                    FILE.invertSelection();
                     DRAW_MANAGER.redraw();
                 }
                 break;
             case 68: // D
                 if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
-                    if (DATA_MANAGER.currentFile.isSomethingSelected()) {
+                    if (FILE.isSomethingSelected()) {
 
                         if (LOGIC.currentState == StateEnum.GRABBING)
                             MOUSE_HANDLER.endMoveLinesPreview();
 
-                        DATA_MANAGER.currentFile.duplicateLines();
+                        FILE.duplicateLines();
                         MOUSE_HANDLER.startMoveLinesPreview();
                         LOGIC.setState(StateEnum.GRABBING);
                     }
@@ -128,7 +128,7 @@ class KeyboardHandler {
                 ACTION_HISTORY.Redo();
                 break;
             case 76: // L
-                DATA_MANAGER.currentFile.selectLinked();
+                FILE.selectLinked();
                 break;
             case 75: // K
                 // TODO doesn't change button text...
@@ -189,7 +189,7 @@ class KeyboardHandler {
     }
 
     arrowMovement(x, y, shiftDown, ctrlDown) {
-        if (DATA_MANAGER.currentFile.isSomethingSelected()) {
+        if (FILE.isSomethingSelected()) {
             let stepSize = 10;
             if (shiftDown)
                 stepSize = 1;
@@ -197,7 +197,7 @@ class KeyboardHandler {
                 stepSize = 100;
 
             let delta = new Vector2(x * stepSize, y * stepSize);
-            let selPoints = DATA_MANAGER.currentFile.currentObject.getAllSelectedPoints();
+            let selPoints = FILE.currentObject.getAllSelectedPoints();
             UTILITIES.moveSelectionBy(selPoints, delta);
             DRAW_MANAGER.redraw();
         }

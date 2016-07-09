@@ -42,7 +42,7 @@ function onLoad()
     MOUSE_HANDLER = new MouseHandler();
     LOGIC = new Logic();
     SAVER = new Saver();
-    DATA_MANAGER = new DataManager();
+    FILE = new File();
     DRAW_MANAGER = new DrawManager();
     GUI = new Gui();
     UTILITIES = new Utilities();
@@ -101,7 +101,7 @@ class Logic {
         canvasOffset.y = canvas.height * 0.5;
     
         SAVER.loadAutoSave();
-        DATA_MANAGER.currentFile.updateStats();
+        FILE.updateStats();
         DRAW_MANAGER.redraw();
 
         for (var i = 0; i < waitingForStart.length; i++) {

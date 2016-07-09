@@ -30,7 +30,7 @@
             }
         }
 
-        DATA_MANAGER.currentFile.updateStats();
+        FILE.updateStats();
     }
 
     cleanUpFile() {
@@ -55,7 +55,7 @@
             }
         }
 
-        DATA_MANAGER.currentFile.updateStats();
+        FILE.updateStats();
     }
 
     updateStats() {

@@ -1,5 +1,6 @@
 ﻿class File {
     constructor() {
+        console.log("File created.");
         this.lineObjects = [];
         this.currentObject = null;
     }

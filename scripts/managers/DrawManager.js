@@ -270,7 +270,7 @@
     }
 
     drawObjects() {
-        let objects = DATA_MANAGER.currentFile.lineObjects;
+        let objects = FILE.lineObjects;
 
         // caching
         let thickness;
@@ -282,7 +282,7 @@
             color.copyValues(objects[i].color);
             thickness = objects[i].thickness;
 
-            if (objects[i] != DATA_MANAGER.currentFile.currentObject && LOGIC.currentState != StateEnum.RENDERPREVIEW) {
+            if (objects[i] != FILE.currentObject && LOGIC.currentState != StateEnum.RENDERPREVIEW) {
                 color.a = 0.3;
                 //thickness *= 0.5;
             }
@@ -293,7 +293,7 @@
             let selPoints = objects[i].getAllPointsWithSelection(true);
             let unselPoints = objects[i].getAllPointsWithSelection(false);
 
-            let radius = objects[i] == DATA_MANAGER.currentFile.currentObject ? thickness * 2 : thickness * 0.5;
+            let radius = objects[i] == FILE.currentObject ? thickness * 2 : thickness * 0.5;
             if (LOGIC.isPreviewing() || !LINE_MANIPULATOR.showHandles)
                 radius = thickness * 0.5;
 
@@ -358,7 +358,7 @@
 
         for (let point of MOUSE_HANDLER.previewLines)
         {
-            other = DATA_MANAGER.currentFile.currentObject.getOtherPointBelongingToLine(point);
+            other = FILE.currentObject.getOtherPointBelongingToLine(point);
             a = point.addVector(delta);
             b = other;
 
