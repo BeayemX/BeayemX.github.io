@@ -24,6 +24,7 @@
     }
 
     newFile() {
+        ACTION_HISTORY = new ActionHistory();
         FILE = new File();
         FILE.createNewLayer(true);
         FILE.updateStats();
