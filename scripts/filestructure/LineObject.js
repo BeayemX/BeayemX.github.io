@@ -30,7 +30,7 @@
             }
         }
 
-        this.updateStats();
+        DATA_MANAGER.currentFile.updateStats();
     }
 
     cleanUpFile() {
@@ -54,12 +54,11 @@
                 }
             }
         }
-        this.updateStats();
+
+        DATA_MANAGER.currentFile.updateStats();
     }
 
     updateStats() {
-        GUI.writeToStats("Lines", this.lines.length);
-
         if (this.deletedLinesCounter > 0)
             GUI.notify("Cleaned up " + this.deletedLinesCounter + " lines.");
     }

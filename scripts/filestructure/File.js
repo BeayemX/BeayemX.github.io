@@ -29,6 +29,11 @@
 
     updateStats() {
         this.currentObject.updateStats();
+
+        let amountLines = 0;
+        for (var i = 0; i < this.lineObjects.length; i++)
+            amountLines += this.lineObjects[i].lines.length;
+        GUI.writeToStats("Lines", amountLines);
     }
 
     addLine(line) {
