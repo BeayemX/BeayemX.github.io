@@ -40,8 +40,8 @@
         context.stroke();
     }
 
-    batchLine(line) {
-        if (this.screenBounds.contains(line))
+    batchLine(line, ignoreCulling) { // TODO remove me if lines outside of screen rect get drawn
+        if (ignoreCulling || this.screenBounds.contains(line))
             this.batchedLines.push(line);
         else
             ++this.culledLinesCounter;

@@ -1,7 +1,5 @@
-﻿class Grid
-{
-    constructor()
-    {
+﻿class Grid {
+    constructor() {
         this.gridSize = 10;
         this.gridCellNumber = 32;
 
@@ -11,73 +9,42 @@
         this.gridBigLineColor = '#333';
     }
 
-    getNearestPointFor(p)
-    {
+    getNearestPointFor(p) {
         return new Vector2(this.adjustValue(p.x), this.adjustValue(p.y));
     }
 
-    adjustValue(val)
-    {
+    adjustValue(val) {
         val = val / this.gridSize;
         val = Math.round(val);
         val *= this.gridSize;
-
-        let limit = this.gridCellNumber * this.gridSize * 0.5;
-        val = Math.min(Math.max(val, -limit), limit);
-
         return val;
     }
 
-    drawGrid()
-    {
+    drawGrid() {
         let size = this.gridCellNumber * 0.5;
-
         let color;
         let thickness;
 
-        for (let i = -size; i <= size; ++i) {
-            if (i % this.bigGridSize == 0) {
-                thickness = 2;
-                color = this.gridBigLineColor;
-
-            }
-            else if (Math.round(i % (this.bigGridSize * 0.5) == 0)) {
-                thickness = 2;
-                color = this.gridLineColor;
-            }
-            else {
-                thickness = 1;
-                color = this.gridLineColor;
-            }
-
-            DRAW_MANAGER.drawLineFromTo(
-                new Point(
-                    -size * this.gridSize,
-                    i * this.gridSize
-                ),
-                new Point(
-                    size * this.gridSize,
-                    i * this.gridSize
-                ),
-                thickness,
-                color,
-                false,
-                true
-            );
-            DRAW_MANAGER.drawLineFromTo(
-                new Point(
-                    i * this.gridSize,
-                    -size * this.gridSize
-                ),
-                new Point(
-                    i * this.gridSize,
-                    size * this.gridSize
-                ),
-                thickness,
-                color,
-                false,
-                true
-            );
+        for (let i = -size; i <= size; i += this.bigGridSize) {
+            DRAW_MANAGER.batchLine(new Line(new Point(-size * this.gridSize, i * this.gridSize), new Point(size * this.gridSize, i * this.gridSize)), true);
+            DRAW_MANAGER.batchLine(new Line(new Point(i * this.gridSize, -size * this.gridSize), new Point(i * this.gridSize, size * this.gridSize)), true);
         }
+        DRAW_MANAGER.renderBatchedLines(2, this.gridBigLineColor, false, true);
+
+        for (let i = -size; i <= size; i += this.bigGridSize * 0.5) {
+            if (Math.round(i % (this.bigGridSize) == 0))
+                continue;
+            DRAW_MANAGER.batchLine(new Line(new Point(-size * this.gridSize, i * this.gridSize), new Point(size * this.gridSize, i * this.gridSize)), true);
+            DRAW_MANAGER.batchLine(new Line(new Point(i * this.gridSize, -size * this.gridSize), new Point(i * this.gridSize, size * this.gridSize)), true);
+        }
+        DRAW_MANAGER.renderBatchedLines(2, this.gridLineColor, false, true);
+
+        for (let i = -size; i <= size; ++i) {
+            if (Math.round(i % (this.bigGridSize * 0.5) == 0))
+                continue;
+            DRAW_MANAGER.batchLine(new Line(new Point(-size * this.gridSize, i * this.gridSize), new Point(size * this.gridSize, i * this.gridSize)), true);
+            DRAW_MANAGER.batchLine(new Line(new Point(i * this.gridSize, -size * this.gridSize), new Point(i * this.gridSize, size * this.gridSize)), true);
+        }
+        DRAW_MANAGER.renderBatchedLines(1, this.gridLineColor, false, true);
     }
 }
