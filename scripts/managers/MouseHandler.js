@@ -50,7 +50,7 @@ class MouseHandler {
             canvasOffset = canvasOffset.addVector(screenPosDelta.divide(zoom));
         }
 
-        GUI.writeToStats("canvasOffset", canvasOffset.toString());
+        //GUI.writeToStats("canvasOffset", canvasOffset.toString());
         this.oldPosScreenSpace = newPosScreenSpace;
         DRAW_MANAGER.redraw(); // TODO with grid stuff, redraw just happened if currentGridPoint changed...
     }
@@ -275,7 +275,7 @@ class MouseHandler {
         let diff = newWorldCenter.subtractVector(worldCenter);
         canvasOffset = canvasOffset.addVector(diff);
 
-        GUI.writeToStats("Zoom", +zoom.toFixed(2));
+        GUI.writeToStats("Zoom", (zoom * 100).toFixed(2) + " %");
     }
 
     CancelLinePreview() {
