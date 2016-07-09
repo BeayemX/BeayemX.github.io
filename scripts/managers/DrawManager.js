@@ -4,7 +4,11 @@
         this.batchedLines = [];
         this.batchedCircles = [];
         this.screenBounds = null;
+
         this.culledLinesCounter = 0;
+        this.culledCirclesCounter = 0;
+        this.batchedCirclesCounter = 0; // TODO could use lines.length * 2?
+        this.drawnCirclesCounter = 0;
     }
 
     drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
@@ -45,8 +49,12 @@
     }
 
     batchCircle(circle) {
-        if (this.screenBounds.contains(circle))
-            this.batchedCircles.push(circle);
+        if (this.screenBounds.contains(circle)) {
+            ++this.batchedCirclesCounter;
+            this.batchedCircles[circle.toString()] = circle;
+        }
+        else
+            ++this.culledCirclesCounter;
     }
 
     renderBatchedLines(thickness, color, screenSpace, screenSpaceThickness) {
@@ -110,19 +118,23 @@
             offscreenContext.stroke();
 
         let center = new Vector2(0, 0);
+        let circle = null;
+        for (let key in this.batchedCircles) {
+            if (this.batchedCircles.hasOwnProperty(key)) {
+                circle = this.batchedCircles[key];
+                center.setValues(circle.x, circle.y);
+                if (!screenSpace) {
+                    center.x += canvasOffset.x;
+                    center.y += canvasOffset.y;
 
-        for (let circle of this.batchedCircles) {
-            center.setValues(circle.x, circle.y);
-            if (!screenSpace) {
-                center.x += canvasOffset.x;
-                center.y += canvasOffset.y;
-
-                center.x *= zoom;
-                center.y *= zoom;
+                    center.x *= zoom;
+                    center.y *= zoom;
+                }
+                context.drawImage(offscreenCanvas, center.x - radius, center.y - radius);
             }
-            context.drawImage(offscreenCanvas, center.x - radius, center.y - radius);
-
         }
+        
+        this.drawnCirclesCounter += Object.keys(this.batchedCircles).length;
         this.batchedCircles = [];
     }
 
@@ -183,6 +195,9 @@
         context.clearRect(0, 0, canvas.width, canvas.height);
         this.screenBounds = this.getVisibleBounds();
         this.culledLinesCounter = 0;
+        this.culledCirclesCounter = 0;
+        this.batchedCirclesCounter = 0;
+        this.drawnCirclesCounter = 0;
 
         if (!LOGIC.isPreviewing()) {
             this.drawGrid();
@@ -204,6 +219,9 @@
 
         // console.log("redraw.");
         GUI.writeToStats("Culled lines", this.culledLinesCounter);
+        GUI.writeToStats("Culled circles", this.culledCirclesCounter);
+        GUI.writeToStats("Circles batched", (this.batchedCirclesCounter - this.drawnCirclesCounter));
+        GUI.writeToStats("Circles drawn", this.drawnCirclesCounter);
     }
 
     generateGradient(line) {
@@ -290,7 +308,7 @@
                 }
                 else {
                     if (this.screenBounds.contains(line)) {
-                        
+
                         color = this.generateGradient(line);
                         this.drawLineFromTo(line.start, line.end, thickness, color, false);
                     }
