@@ -128,7 +128,7 @@ class Utilities {
 
         if (Vector2.dot(se, sp) <= 0)
             return sp.magnitude();
-        if (Vector2.dot(se.multiply(-1), ep) <= 0)
+        if (Vector2.dot(se.flipped(), ep) <= 0)
             return ep.magnitude();
         return Math.abs((se.x * sp.y - se.y * sp.x) / se.magnitude());
     }

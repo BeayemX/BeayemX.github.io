@@ -73,6 +73,10 @@ class Vector2 {
         return retVec();
     }
 
+    flipped() {
+        return new Vector2(-this.x, -this.y);
+    }
+
     setValues(x, y) {
         if (arguments.length == 1) {
             y = x.y;
