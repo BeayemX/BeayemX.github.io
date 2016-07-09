@@ -77,7 +77,9 @@
                     enabledText="Hide line handles" 
                     disabledText="Show line handles">Hide line handles</button>
             <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, cutLines)" onclick="cutLines = !cutLines; LOGIC.adjustButtonText(this, cutLines)" enabledText="Deactivate line cutting" disabledText="Activate line cutting">Activate line cutting</button>
-            <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, snapToGrid)" onclick=" snapToGrid=!snapToGrid; LOGIC.adjustButtonText(this, snapToGrid)" enabledText="Deactivate snapping" disabledText="Activate snapping">Deactivate snapping</button>
+            <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, snapToGrid)" onclick="snapToGrid=!snapToGrid; LOGIC.adjustButtonText(this, snapToGrid)" enabledText="Deactivate snapping" disabledText="Activate snapping">Deactivate snapping</button>
+            <button type="button" onclick="GUI.toggleStatsVisibility(); LOGIC.adjustButtonText(this, GUI.stats.style.visibility == 'visible')" enabledText="Hide stats" disabledText="Show stats">Hide stats</button>
+            
         </div>
 
     </div>

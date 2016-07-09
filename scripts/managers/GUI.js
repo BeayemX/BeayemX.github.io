@@ -72,4 +72,12 @@
         this.writeToStatusbarRight(text);
         //console.log(text);
     }
+
+    toggleStatsVisibility() {
+        console.log(this.stats.style);
+        if (this.stats.style.visibility == "hidden")
+            this.stats.style.visibility = "visible"
+        else
+            this.stats.style.visibility = "hidden"
+    }
 }

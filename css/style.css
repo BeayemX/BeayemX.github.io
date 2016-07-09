@@ -129,6 +129,7 @@ div {
     top: 55px;
     right: 225px;
     border-radius: 10px;
+    visibility: visible;
 }
 
 #stats table {
