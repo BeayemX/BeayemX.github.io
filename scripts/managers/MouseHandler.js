@@ -58,11 +58,7 @@ class MouseHandler {
     }
 
     cursorPositionChanged(gridDelta, screenPosDelta) {
-        if (LOGIC.currentState == StateEnum.GRABBING) {
-            let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
-            this.updateMoveLinesPreview();
-        }
-        else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
+        if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
             if (UTILITIES.borderSelectionStart) {
                 UTILITIES.borderSelectionEnd = selectionCursor.copy();
             }
@@ -287,10 +283,6 @@ class MouseHandler {
         selection = [];
     }
 
-    updateMoveLinesPreview() {
-        console.log("updateMoveLinesPreview");
-    }
-
     endMoveLinesPreview() {
         let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
         UTILITIES.moveSelectionBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), delta);
@@ -304,7 +296,6 @@ class MouseHandler {
     }
 
     cancelMoveLinesPreview() {
-        console.log("cancelMoveLinesPreview");
         this.previewLines = [];
     }
 }

@@ -59,8 +59,10 @@ class KeyboardHandler {
             case 68: // D
                 if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
                     if (DATA_MANAGER.currentFile.isSomethingSelected()) {
+
                         if (LOGIC.currentState == StateEnum.GRABBING)
                             MOUSE_HANDLER.endMoveLinesPreview();
+
                         DATA_MANAGER.currentFile.duplicateLines();
                         MOUSE_HANDLER.startMoveLinesPreview();
                         LOGIC.setState(StateEnum.GRABBING);
