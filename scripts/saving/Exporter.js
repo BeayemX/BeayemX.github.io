@@ -34,7 +34,7 @@ class Exporter {
 
     generateSVGString() {
         let svgData = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n';
-        let layers = FILE.lineObjects;
+        let layers = FILE.layers;
 
         for (let layer of layers) {
             svgData +=

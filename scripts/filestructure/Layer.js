@@ -1,4 +1,4 @@
-﻿class LineObject {
+﻿class Layer {
     constructor() {
         this.lines = [];
         this.color = new Color(0, 0, 0, 1);

@@ -197,7 +197,7 @@ class KeyboardHandler {
                 stepSize = 100;
 
             let delta = new Vector2(x * stepSize, y * stepSize);
-            let selPoints = FILE.currentObject.getAllSelectedPoints();
+            let selPoints = FILE.currentLayer.getAllSelectedPoints();
             UTILITIES.moveSelectionBy(selPoints, delta);
             DRAW_MANAGER.redraw();
         }

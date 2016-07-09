@@ -25,7 +25,7 @@
 
     newFile() {
         FILE = new File();
-        FILE.createNewObject(true);
+        FILE.createNewLayer(true);
         FILE.updateStats();
         DRAW_MANAGER.redraw();
     }
@@ -33,7 +33,7 @@
     copyLinesToClipboard() // session storage
     {
         let selectedLines = FILE.getSelectedLines();
-        let layer = FILE.currentObject;
+        let layer = FILE.currentLayer;
         let svgData = "";
         svgData += "<svg>\n";
         svgData += EXPORTER.generateSVGStringForLines(selectedLines, layer, 0);
@@ -68,7 +68,7 @@
                 true)
                 );
         }
-        FILE.currentObject.addLines(lines);
+        FILE.currentLayer.addLines(lines);
         GUI.notify("Lines pasted from clipboard!");
 
         DRAW_MANAGER.redraw();
@@ -114,7 +114,7 @@
             if (g.nodeType != 1)
                 continue;
 
-            let layer = FILE.createNewObject(true);
+            let layer = FILE.createNewLayer(true);
             layer.color = Color.hexToColor(g.getAttribute('stroke'));
             layer.thickness = Number(g.getAttribute('stroke-width'));
             let lines = [];

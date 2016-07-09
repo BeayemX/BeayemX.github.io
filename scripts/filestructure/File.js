@@ -1,97 +1,97 @@
 ﻿class File {
     constructor() {
         console.log("File created.");
-        this.lineObjects = [];
-        this.currentObject = null;
+        this.layers = [];
+        this.currentLayer = null;
     }
 
-    createNewObject(selectNewObject) {
-        let obj = new LineObject();
-        this.lineObjects.push(obj);
+    createNewLayer(selectNewLayer) {
+        let layer = new Layer();
+        this.layers.push(layer);
 
-        if (selectNewObject)
-            this.selectObjectWithID(this.lineObjects.length - 1);
+        if (selectNewLayer)
+            this.selectLayerWithID(this.layers.length - 1);
 
         GUI.objectHierarchyChanged();
 
-        return obj;
+        return layer;
     }
 
-    selectObjectWithID(id) {
-        if (id < 0 || id >= this.lineObjects.length)
+    selectLayerWithID(id) {
+        if (id < 0 || id >= this.layers.length)
             return;
 
-        if (this.currentObject)
-            this.currentObject.clearSelection();
+        if (this.currentLayer)
+            this.currentLayer.clearSelection();
 
-        this.currentObject = this.lineObjects[id];
+        this.currentLayer = this.layers[id];
         DRAW_MANAGER.redraw();
     }
 
     updateStats() {
-        this.currentObject.updateStats();
+        this.currentLayer.updateStats();
 
         let amountLines = 0;
-        for (var i = 0; i < this.lineObjects.length; i++)
-            amountLines += this.lineObjects[i].lines.length;
+        for (var i = 0; i < this.layers.length; i++)
+            amountLines += this.layers[i].lines.length;
         GUI.writeToStats("Lines", amountLines);
     }
 
     addLine(line) {
-        if (!this.currentObject) {
+        if (!this.currentLayer) {
             console.log("There was no layer, so there has been created one.");
-            this.createNewObject(true);
+            this.createNewLayer(true);
         }
-        this.currentObject.addLine(line);
+        this.currentLayer.addLine(line);
     }
 
     clearSelection() {
-        for (var i = 0; i < this.lineObjects.length; i++) {
-            this.lineObjects[i].clearSelection();
+        for (var i = 0; i < this.layers.length; i++) {
+            this.layers[i].clearSelection();
         }
     }
     // SIFU FIXME all duplicates of current object. just poltergeisting...
     getAllPointsAt(point, cursorRange) {
-        return this.currentObject.getAllPointsAt(point, cursorRange);
+        return this.currentLayer.getAllPointsAt(point, cursorRange);
     }
 
     getAllSelectedPoints() {
-        return this.currentObject.getAllSelectedPoints();
+        return this.currentLayer.getAllSelectedPoints();
     }
 
     cleanUpFile() {
-        this.currentObject.cleanUpFile();
+        this.currentLayer.cleanUpFile();
     }
 
     isSomethingSelected() {
-        return this.currentObject.isSomethingSelected()
+        return this.currentLayer.isSomethingSelected()
     }
 
     selectAllToggle() {
-        this.currentObject.selectAllToggle();
+        this.currentLayer.selectAllToggle();
     }
     duplicateLines() {
-        this.currentObject.duplicateLines();
+        this.currentLayer.duplicateLines();
     }
     getSelectedLines() {
-        return this.currentObject.getSelectedLines();
+        return this.currentLayer.getSelectedLines();
     }
     deleteSelectedLines() {
-        this.currentObject.deleteSelectedLines();
+        this.currentLayer.deleteSelectedLines();
     }
     getAllPoints() {
-        return this.currentObject.getAllPoints();
+        return this.currentLayer.getAllPoints();
     }
     growSelection(redraw) {
-        this.currentObject.growSelection(redraw);
+        this.currentLayer.growSelection(redraw);
     }
     selectLinked() {
-        this.currentObject.selectLinked();
+        this.currentLayer.selectLinked();
     }
     removeLine(line) {
-        this.currentObject.removeLine(line);
+        this.currentLayer.removeLine(line);
     }
     invertSelection() {
-        this.currentObject.invertSelection();
+        this.currentLayer.invertSelection();
     }
 }

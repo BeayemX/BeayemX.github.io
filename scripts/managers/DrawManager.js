@@ -270,30 +270,30 @@
     }
 
     drawObjects() {
-        let objects = FILE.lineObjects;
+        let layers = FILE.layers;
 
         // caching
         let thickness;
         let bgColor = new Color(0, 0, 0, 0);
 
-        for (let i = 0; i < objects.length; i++) {
+        for (let i = 0; i < layers.length; i++) {
             // create variables inside loop because gradient doesnt have copyValues();
             let color = new Color(0, 0, 0, 0);
-            color.copyValues(objects[i].color);
-            thickness = objects[i].thickness;
+            color.copyValues(layers[i].color);
+            thickness = layers[i].thickness;
 
-            if (objects[i] != FILE.currentObject && LOGIC.currentState != StateEnum.RENDERPREVIEW) {
+            if (layers[i] != FILE.currentLayer && LOGIC.currentState != StateEnum.RENDERPREVIEW) {
                 color.a = 0.3;
                 //thickness *= 0.5;
             }
 
-            let unselLines = objects[i].getUnselectedLines();
-            let selLines = objects[i].getSelectedLines();
+            let unselLines = layers[i].getUnselectedLines();
+            let selLines = layers[i].getSelectedLines();
 
-            let selPoints = objects[i].getAllPointsWithSelection(true);
-            let unselPoints = objects[i].getAllPointsWithSelection(false);
+            let selPoints = layers[i].getAllPointsWithSelection(true);
+            let unselPoints = layers[i].getAllPointsWithSelection(false);
 
-            let radius = objects[i] == FILE.currentObject ? thickness * 2 : thickness * 0.5;
+            let radius = layers[i] == FILE.currentLayer ? thickness * 2 : thickness * 0.5;
             if (LOGIC.isPreviewing() || !LINE_MANIPULATOR.showHandles)
                 radius = thickness * 0.5;
 
@@ -358,7 +358,7 @@
 
         for (let point of MOUSE_HANDLER.previewLines)
         {
-            other = FILE.currentObject.getOtherPointBelongingToLine(point);
+            other = FILE.currentLayer.getOtherPointBelongingToLine(point);
             a = point.addVector(delta);
             b = other;
 

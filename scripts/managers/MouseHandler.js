@@ -88,7 +88,7 @@ class MouseHandler {
                     if (!e.shiftKey)
                         FILE.clearSelection();
 
-                    let lines = FILE.currentObject.lines;
+                    let lines = FILE.currentLayer.lines;
                     let pointsToChangeSelection = [];
 
                     // TODO weird number but should be a third?
