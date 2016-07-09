@@ -14,8 +14,10 @@ class KeyboardHandler {
                 break;
 
             case 83: // S
-                if (e.ctrlKey)
-                    SAVER.autoSave();
+                if (e.ctrlKey) {
+                    if (!EXPORTER.ExportAsSVG())
+                        SAVER.autoSave();
+                }
                 else
                     LINE_MANIPULATOR.mirror();
                 break;

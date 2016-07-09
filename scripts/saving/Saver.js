@@ -8,7 +8,7 @@
 
     autoSave() {
         localStorage.setItem(this.autosaveFileName, EXPORTER.generateSVGString());
-        console.log("Saved.")
+        console.log("Saved to local storage.")
     }
 
     loadAutoSave() // SIFU TODO combine with loading from file

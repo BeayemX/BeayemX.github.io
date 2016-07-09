@@ -26,7 +26,10 @@ class Exporter {
 
             var blob = new Blob([svgData], { type: "application/svg+xml" });
             saveAs(blob, name + ".svg");
+            return true;
         }
+
+        return false;
     }
 
     generateSVGString() {
