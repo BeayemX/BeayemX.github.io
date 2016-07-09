@@ -34,7 +34,7 @@
 
     cleanUpFile() {
         // lines with length 0
-        for (var i = 0; i < this.lines.length; ++i) {
+        for (var i = this.lines.length-1; i >= 0; --i) {
             if (this.lines[i].start.x == this.lines[i].end.x
                 && this.lines[i].start.y == this.lines[i].end.y)
                 this.removeLine(this.lines[i]);
