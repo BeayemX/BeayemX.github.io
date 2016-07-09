@@ -34,18 +34,16 @@ class Utilities {
         }
     }
 
-    movePointsBy(points, delta, createHistory) {
+    movePointsBy(points, delta) {
         for (let i = 0; i < points.length; ++i) {
             points[i].setValues(points[i].addVector(delta));
         }
+    }
 
-        if (arguments.length == 3) {
-            if (delta.x != 0 || delta.y != 0) {
-                let curr = currentPosition.copy();
-                let start = KEYBOARD_HANDLER.grabStartPosition.copy();
-
-                ACTION_HISTORY.PushAction(new MoveAction(points, curr, start));
-            }
+    moveSelectionBy(points, delta)
+    {
+        if (delta.x != 0 || delta.y != 0) {
+            ACTION_HISTORY.PushAction(new MoveAction(points, delta));
         }
     }
 
@@ -222,9 +220,8 @@ class Utilities {
     }
 }
 
-function eq(a, b)
-{
+function eq(a, b) {
     let margin = 0.1;
-    let diff = Math.abs(a-b)
+    let diff = Math.abs(a - b)
     return diff < margin;
 }

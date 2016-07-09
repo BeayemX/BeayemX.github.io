@@ -178,7 +178,7 @@ class KeyboardHandler {
             case 16: // Shift
                 if (drawPolyLine) {
                     drawPolyLine = false;
-                    MOUSE_HANDLER.CancelLinePreview();
+                    MOUSE_HANDLER.cancelLinePreview();
                 }
                 break;
             case 17: // Ctrl
@@ -196,9 +196,8 @@ class KeyboardHandler {
                 stepSize = 100;
 
             let delta = new Vector2(x * stepSize, y * stepSize);
-            KEYBOARD_HANDLER.grabStartPosition = currentPosition; // TODO undo doesnt work
             let selPoints = DATA_MANAGER.currentFile.currentObject.getAllSelectedPoints();
-            UTILITIES.movePointsBy(selPoints, delta, true);
+            UTILITIES.moveSelectionBy(selPoints, delta);
             DRAW_MANAGER.redraw();
         }
     }

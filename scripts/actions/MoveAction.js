@@ -1,18 +1,15 @@
 ﻿class MoveAction {
     // TODO shouldn't need to save points. if selection is also an action
-    constructor(points, current, start) {
+    constructor(points, delta) {
         this.points = points;
-        this.current = current;
-        this.start = start;
+        this.delta = delta
     }
 
     Do() {
-        let delta = this.current.subtractVector(this.start);
-        UTILITIES.movePointsBy(this.points, delta);
+        UTILITIES.movePointsBy(this.points, this.delta);
     }
 
     Undo() {
-        let delta = this.start.subtractVector(this.current);
-        UTILITIES.movePointsBy(this.points, delta);
+        UTILITIES.movePointsBy(this.points, this.delta.flipped());
     }
 }

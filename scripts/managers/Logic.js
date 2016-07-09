@@ -49,8 +49,11 @@ function onLoad()
     ACTION_HISTORY = new ActionHistory();
     LINE_MANIPULATOR = new LineManipulator();
     SETTINGS = new Settings();
-    //GRID = new Grid(); 
-    GRID = new TriangleGrid(); 
+    //*/
+    GRID = new Grid(); 
+    /*/
+    GRID = new TriangleGrid();
+    // */ 
 
     LOGIC.start();
 }

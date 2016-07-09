@@ -13,8 +13,7 @@ class MouseHandler {
         waitingForStart.push(this);
     }
 
-    start()
-    {
+    start() {
         this.zoom(1);
         this.mouseMoved(new Vector2(0, 0));
     }
@@ -58,7 +57,7 @@ class MouseHandler {
     cursorPositionChanged(gridDelta, screenPosDelta) {
         if (LOGIC.currentState == StateEnum.GRABBING) {
             let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
-            UTILITIES.movePointsBy(points, gridDelta);
+            this.updateMoveLinesPreview();
         }
         else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
             if (UTILITIES.borderSelectionStart) {
@@ -78,10 +77,8 @@ class MouseHandler {
                     this.downPoint = currentPosition.copy();
                 }
                 else if (LOGIC.currentState == StateEnum.GRABBING) {
-                    // TODO HACK FIXME simulate cancel grab to reset grabbed-delta, because when action is
-                    // added to history it will call Do()...
-                    let resetDelta = KEYBOARD_HANDLER.grabStartPosition.subtractVector(currentPosition);
-                    UTILITIES.movePointsBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), resetDelta, true);
+                    let delta = currentPosition.subtractVector(KEYBOARD_HANDLER.grabStartPosition);
+                    UTILITIES.moveSelectionBy(DATA_MANAGER.currentFile.getAllSelectedPoints(), delta);
                     DATA_MANAGER.currentFile.cleanUpFile();
                     grabInitializedWithKeyboard = false;
                     LOGIC.setState(StateEnum.IDLE);
@@ -133,7 +130,7 @@ class MouseHandler {
                     UTILITIES.endAreaSelection();
                 }
                 else if (LOGIC.currentState == StateEnum.DRAWING) {
-                    this.CancelLinePreview();
+                    this.cancelLinePreview();
                 }
 
                 DRAW_MANAGER.redraw();
@@ -198,7 +195,7 @@ class MouseHandler {
                 if (drawPolyLine)
                     this.downPoint = currentPosition.copy();
                 else
-                    this.CancelLinePreview();
+                    this.cancelLinePreview();
             }
             else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
                 UTILITIES.endAreaSelection(true);
@@ -218,13 +215,13 @@ class MouseHandler {
         {
             if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
             {
-                let resetDelta = KEYBOARD_HANDLER.grabStartPosition.subtractVector(currentPosition);
+                let delta = currentPosition.subtractVector(KEYBOARD_HANDLER.grabStartPosition);
                 let points = DATA_MANAGER.currentFile.getAllSelectedPoints();
 
                 if (this.grabInitializedWithRMBDown)
-                    UTILITIES.movePointsBy(points, resetDelta, this.grabInitializedWithRMBDown);
+                    UTILITIES.moveSelectionBy(points, delta);
                 else
-                    UTILITIES.movePointsBy(points, resetDelta);
+                    this.cancelMoveLinesPreview;
 
                 DATA_MANAGER.currentFile.cleanUpFile();
 
@@ -280,8 +277,20 @@ class MouseHandler {
         GUI.writeToStats("Zoom", (zoom * 100).toFixed(2) + " %");
     }
 
-    CancelLinePreview() {
+    cancelLinePreview() {
         this.downPoint = undefined;
         LOGIC.setState(StateEnum.IDLE);
+    }
+
+    startMoveLinesPreview() {
+
+    }
+
+    updateMoveLinesPreview() {
+
+    }
+
+    cancelMoveLinesPreview() {
+
     }
 }
