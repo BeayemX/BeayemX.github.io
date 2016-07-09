@@ -70,6 +70,9 @@ class Logic {
         window.addEventListener("keyup", KEYBOARD_HANDLER.KeyUp, false)
         window.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
         window.addEventListener('resize', this.layoutGUI, false);
+        window.onbeforeunload = function () {
+            SAVER.autoSave();
+        };
 
         canvas = document.getElementById('canvas');
         context = canvas.getContext('2d');

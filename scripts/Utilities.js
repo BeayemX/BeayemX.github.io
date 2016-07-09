@@ -14,13 +14,6 @@ class Utilities {
 	    );
     }
 
-    reloadPage(ask) {
-        if (ask && confirm("Do you want to discard your LogoDesign?")
-		    || !ask)
-            location.reload();
-
-    }
-
     deleteArrayEntry(array, entry) {
         for (var i = 0; i < array.length; ++i) {
             if (array[i] == entry) {

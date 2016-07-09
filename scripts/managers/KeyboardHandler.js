@@ -7,16 +7,10 @@ class KeyboardHandler {
     KeyDown(e) {
         switch (e.keyCode) {
             case 82: // R
-                if (e.ctrlKey)
-                    UTILITIES.reloadPage(true);
-                else if (e.shiftKey)
+                if (e.shiftKey)
                     LINE_MANIPULATOR.rotate(false);
                 else
                     LINE_MANIPULATOR.rotate(true);
-                break;
-            case 116: // F5
-                SAVER.autoSave();
-                UTILITIES.reloadPage(false);
                 break;
 
             case 83: // S
@@ -163,7 +157,9 @@ class KeyboardHandler {
 
         if (e.keyCode != 123 // F12
 	    && !(e.keyCode == 76 && e.ctrlKey) // ctrl+L, 
-	    && e.keyCode != 117) // F6
+	    && e.keyCode != 117 // F6
+        && e.keyCode != 116 // F5
+        )
             e.preventDefault();
     }
 
