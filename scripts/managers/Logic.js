@@ -169,19 +169,17 @@ class Selection {
     }
 
     addPoint(point) {
-        let other = FILE.currentLayer.getOtherPointBelongingToLine(point);
+        for (let p of this.selectedPoints) {
+            if (p === point)
+                return;
+        }
+        let other = point.opposite;
+        // check if other is also selected
         for (let p of this.selectedPoints) {
             if (p === other) {
-                let l = new Line(point, other);
-
-                for (var i = FILE.currentLayer.lines - 1; i >= 0; --i) {
-                    if (Line.overlapping(l, FILE.currentLayer.lines[i])) {
-                        UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, FILE.currentLayer.lines[i]);
-                        break;
-                    }
-                }
+                this.selectedLines.push(point.line);
+                UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, point.line)
                 UTILITIES.deleteArrayEntry(this.selectedPoints, other);
-                this.selectedLines.push(l);
                 return;
             }
         }
@@ -200,7 +198,7 @@ class Selection {
                 FILE.currentLayer.lines.push(this.selectedLines[i]);
                 UTILITIES.deleteArrayEntry(this.selectedLines, this.selectedLines[i]);
 
-                this.selectedPoints.push(FILE.currentLayer.getOtherPointBelongingToLine(point));
+                this.selectedPoints.push(point.opposite);
             }
         }
     }
@@ -234,7 +232,7 @@ class Selection {
         FILE.currentLayer.lines = tmp;
 
         for (var i = 0; i < this.selectedPoints.length; i++) {
-            this.selectedPoints[i] = FILE.currentLayer.getOtherPointBelongingToLine(this.selectedPoints[i]);
+            this.selectedPoints[i] = this.selectedPoints[i].opposite;
         }
     }
 
@@ -243,7 +241,7 @@ class Selection {
         let other;
 
         for (let point of this.selectedPoints) {
-            other = FILE.currentLayer.getOtherPointBelongingToLine(point);
+            other = point.opposite;
             let l = new Line(point, other);
 
             for (var i = FILE.currentLayer.lines - 1; i >= 0; --i) {

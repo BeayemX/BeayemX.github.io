@@ -17,7 +17,7 @@ class Utilities {
     deleteArrayEntry(array, entry) {
         for (var i = 0; i < array.length; ++i) {
             if (array[i] == entry) {
-                array.splice(i, 1);
+                return array.splice(i, 1)[0];
             }
         }
     }

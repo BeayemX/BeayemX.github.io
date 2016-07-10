@@ -359,7 +359,7 @@
             this.batchLine(new Line(line.start.addVector(delta), line.end.addVector(delta)));
         }
         for (let point of SELECTION.selectedPoints) {
-            other = FILE.currentLayer.getOtherPointBelongingToLine(point);
+            other = point.opposite;
             this.batchLine(new Line(point.addVector(delta), other));
         }
 

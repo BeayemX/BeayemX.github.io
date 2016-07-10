@@ -77,16 +77,6 @@
         return Vector2.distance(p, center) <= radius;
     }
 
-    getOtherPointBelongingToLine(point) {
-        for (let i = 0; i < this.lines.length; ++i) {
-            if (this.lines[i].start === point)
-                return this.lines[i].end;
-
-            else if (this.lines[i].end === point)
-                return this.lines[i].start;
-        }
-    }
-
     duplicateLines() {
         var selectedLines = SELECTION.selectedLines;
         var duplLines = [];
@@ -124,7 +114,7 @@
             SELECTION.addPoint(allSelectedPoints[i]);
 
         for (let i = 0; i < allSelectedPoints.length; ++i) {
-            let p = this.getOtherPointBelongingToLine(allSelectedPoints[i]);
+            let p = allSelectedPoints[i].opposite;
             let pArray = this.getAllPointsAt(p, 0);
 
             for (let j = 0; j < pArray.length; ++j)
