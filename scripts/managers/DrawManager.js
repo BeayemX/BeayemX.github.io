@@ -227,24 +227,11 @@
         GUI.writeToStats("Circles drawn", this.drawnCirclesCounter);
     }
 
-    generateGradient(line) {
-        let gradientStart;
-        let gradientEnd;
+    generateGradient(start, end) {
+        start = DRAW_MANAGER.canvasSpaceToScreenSpace(start);
+        end = DRAW_MANAGER.canvasSpaceToScreenSpace(end);
 
-        if (line.start.selected) {
-            gradientStart = line.start;
-            gradientEnd = line.end;
-        }
-        else {
-            gradientStart = line.end;
-            gradientEnd = line.start;
-        }
-        let gradient = context.createLinearGradient(
-            DRAW_MANAGER.canvasSpaceToScreenSpace(gradientStart).x,
-            DRAW_MANAGER.canvasSpaceToScreenSpace(gradientStart).y,
-            DRAW_MANAGER.canvasSpaceToScreenSpace(gradientEnd).x,
-            DRAW_MANAGER.canvasSpaceToScreenSpace(gradientEnd).y);
-
+        let gradient = context.createLinearGradient(start.x, start.y, end.x, end.y);
         gradient.addColorStop(0, SETTINGS.selectionColorFill);
         gradient.addColorStop(1, SETTINGS.lineColorFill);
 
@@ -270,70 +257,53 @@
     }
 
     drawObjects() {
-        let layers = FILE.layers;
-
         // caching
         let thickness;
         let bgColor = new Color(0, 0, 0, 0);
 
-        for (let i = 0; i < layers.length; i++) {
-            // create variables inside loop because gradient doesnt have copyValues();
+        for (let layer of FILE.layers)
+        {
+        // create variables inside loop because gradient doesnt have copyValues();
             let color = new Color(0, 0, 0, 0);
-            color.copyValues(layers[i].color);
-            thickness = layers[i].thickness;
+            color.copyValues(layer.color);
+            bgColor.copyValues(color);
 
-            if (layers[i] != FILE.currentLayer && LOGIC.currentState != StateEnum.RENDERPREVIEW) {
-                color.a = 0.3;
-                //thickness *= 0.5;
-            }
+            thickness = layer.thickness;
 
-            let unselLines = FILE.currentLayer.lines;
-            let selLines = SELECTION.selectedLines;
-
-            let unselPoints = UTILITIES.linesToPoints(unselLines);
-            let selPoints = UTILITIES.linesToPoints(selLines);
-
-            let radius = layers[i] == FILE.currentLayer ? thickness * 2 : thickness * 0.5;
+            let radius = layer == FILE.currentLayer ? thickness * 2 : thickness * 0.5;
             if (LOGIC.isPreviewing() || !LINE_MANIPULATOR.showHandles)
                 radius = thickness * 0.5;
 
-            bgColor.copyValues(color);
 
-            for (let line of unselLines)
-                    this.batchLine(line);
-
+        // not selected lines
+            for (let line of layer.lines)
+                this.batchLine(line);
             this.renderBatchedLines(thickness, bgColor.toString(), false);
 
-            for (let line of selLines)
-            {
-            // TODO GRADIENT NOT WORKING
-            //if (LOGIC.isPreviewing()) {
-                this.batchLine(line);
-            //}
-            //else {
-            //    if (this.screenBounds.contains(line)) {
-
-            //        color = this.generateGradient(line);
-            //        this.drawLineFromTo(line.start, line.end, thickness, color, false);
-            //    }
-            //    else
-            //        ++this.culledLinesCounter;
-            //}
+            // TODO no batching, stats correct?
+        // partially selected lines
+            for (let p of SELECTION.selectedPoints) {
+                color = this.generateGradient(p, p.opposite); 
+                this.drawLineFromTo(p, p.opposite, thickness, color, false);
             }
 
-            color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor; // FIXME why dont i use hexToColor???
+        // selected lines
+            for (let line of SELECTION.selectedLines)
+                this.batchLine(line);
 
-            if (this.batchedLines.length > 0)
-                this.renderBatchedLines(thickness, color, false);
+            color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
+            this.renderBatchedLines(thickness, color, false);
 
-            for (let p of unselPoints) // TODO PERFORMANCE if multiple lines share point, point gets drawn multiple times...
-            //this.drawCircle(p.x, p.y, radius, 0, bgColor.toString(), false, false, true);
+        // not selected points
+            for (let p of UTILITIES.linesToPoints(layer.lines))
                 this.batchCircle(p);
             this.renderBatchedCircles(radius, 0, bgColor.toString(), false, false, true);
 
-            for (let p of selPoints.concat(SELECTION.selectedPoints))
+        // selected points
+            for (let p of UTILITIES.linesToPoints(SELECTION.selectedLines).concat(SELECTION.selectedPoints))
                 this.batchCircle(p);
             this.renderBatchedCircles(radius, 0, color, false, false, true);
+
         }
     }
 

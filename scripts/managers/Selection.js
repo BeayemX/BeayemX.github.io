@@ -1,8 +1,8 @@
 ﻿class Selection {
     constructor() {
         console.log("Selection created");
-        this.selectedPoints = [];
-        this.selectedLines = [];
+        this.selectedPoints = []; // rename to points?
+        this.selectedLines = [];// rename to lines??
     }
 
     addPoint(point) {
@@ -11,6 +11,7 @@
                 return;
         }
         let other = point.opposite;
+
         // check if other is also selected
         for (let p of this.selectedPoints) {
             if (p === other) {
