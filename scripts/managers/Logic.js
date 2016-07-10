@@ -238,19 +238,11 @@ class Selection {
 
     deleteSelectedLines() {
         this.selectedLines = [];
-        let other;
 
-        for (let point of this.selectedPoints) {
-            other = point.opposite;
-            let l = new Line(point, other);
+        // TODO PERFORMANCE maybe use slice here, becaus 'deleteArrayEntry iterates over whole array for every delete...
+        for (let point of this.selectedPoints)
+            UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, point.line);
 
-            for (var i = FILE.currentLayer.lines - 1; i >= 0; --i) {
-                if (Line.overlapping(l, FILE.currentLayer.lines[i])) {
-                    UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, FILE.currentLayer.lines[i]);
-                    break;
-                }
-            }
-        }
         FILE.updateStats();
     }
 
