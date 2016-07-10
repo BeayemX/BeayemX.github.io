@@ -15,9 +15,9 @@ class LineManipulator {
                 x: Math.round((selectedLines[i].end.x + selectedLines[i].start.x) / 2),
                 y: Math.round((selectedLines[i].end.y + selectedLines[i].start.y) / 2)
             }
-            FILE.addLine(new Line(selectedLines[i].start.x, selectedLines[i].start.y, midPoint.x, midPoint.y, true));
-            FILE.addLine(new Line(midPoint.x, midPoint.y, selectedLines[i].end.x, selectedLines[i].end.y, true));
-            FILE.removeLine(selectedLines[i]);
+            SELECTION.addLine(new Line(selectedLines[i].start.x, selectedLines[i].start.y, midPoint.x, midPoint.y, true));
+            SELECTION.addLine(new Line(midPoint.x, midPoint.y, selectedLines[i].end.x, selectedLines[i].end.y, true));
+            SELECTION.removeLine(selectedLines[i]);
         }
         DRAW_MANAGER.redraw();
     }

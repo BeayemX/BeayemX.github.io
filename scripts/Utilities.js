@@ -20,6 +20,7 @@ class Utilities {
                 return array.splice(i, 1)[0];
             }
         }
+        return null;
     }
 
     movePointsBy(points, delta) {
@@ -54,7 +55,7 @@ class Utilities {
     }
 
     selectWithinBorderSelection() {
-        let points = FILE.currentLayer.getAllPoints();
+        let points = this.borderSelectType ? FILE.currentLayer.getAllPoints() : SELECTION.getAllSelectedPoints();
 
         let min = {
             x: Math.min(this.borderSelectionStart.x, this.borderSelectionEnd.x),

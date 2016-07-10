@@ -35,7 +35,7 @@
 
     cleanUpFile() {
         // lines with length 0
-        for (var i = this.lines.length - 1; i >= 0; --i) {
+        for (let i = this.lines.length - 1; i >= 0; --i) {
             if (this.lines[i].start.x == this.lines[i].end.x
                 && this.lines[i].start.y == this.lines[i].end.y)
                 this.removeLine(this.lines[i]);
@@ -43,7 +43,7 @@
 
         // overlapping lines
         this.deletedLinesCounter = 0;
-        for (var i = this.lines.length - 1; i >= 0; --i) {
+        for (let i = this.lines.length - 1; i >= 0; --i) {
             for (var j = this.lines.length - 1; j > i; --j) {
                 if (Line.overlapping(this.lines[i], this.lines[j])) {
                     this.removeLine(this.lines[j]);
