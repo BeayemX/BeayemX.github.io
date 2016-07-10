@@ -45,7 +45,7 @@ class KeyboardHandler {
             case 46: // DEL
             case 8: // BACKSPACE
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    SELECTION.deleteSelectedLines();
+                    SELECTION.deleteSelection();
                     DRAW_MANAGER.redraw();
                 }
 

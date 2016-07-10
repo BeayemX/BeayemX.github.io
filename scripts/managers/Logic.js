@@ -246,6 +246,7 @@ class Selection {
         for (let point of this.selectedPoints)
             UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, point.line);
 
+        this.selectedPoints = [];
         FILE.updateStats();
     }
 

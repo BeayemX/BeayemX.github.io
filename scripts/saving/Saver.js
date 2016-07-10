@@ -24,8 +24,9 @@
     }
 
     newFile() {
-        //ACTION_HISTORY = new ActionHistory();
+        ACTION_HISTORY = new ActionHistory();
         FILE = new File();
+        SELECTION = new Selection();
         FILE.createNewLayer(true);
         FILE.updateStats();
         DRAW_MANAGER.redraw();
