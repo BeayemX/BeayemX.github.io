@@ -203,7 +203,10 @@ class Selection {
         }
     }
 
+    // TODO should check if point is already selected 
+    //DONT USE
     addLine(line) {
+        console.log("Dangerous use!");
         this.selectedLines.push(line);
         UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, line);
         FILE.updateStats();
