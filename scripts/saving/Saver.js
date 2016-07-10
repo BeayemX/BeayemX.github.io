@@ -24,7 +24,7 @@
     }
 
     newFile() {
-        ACTION_HISTORY = new ActionHistory();
+        //ACTION_HISTORY = new ActionHistory();
         FILE = new File();
         FILE.createNewLayer(true);
         FILE.updateStats();
@@ -33,7 +33,7 @@
 
     copyLinesToClipboard() // session storage
     {
-        let selectedLines = FILE.getSelectedLines();
+        let selectedLines = SELECTION.selectedLines;
         let layer = FILE.currentLayer;
         let svgData = "";
         svgData += "<svg>\n";
@@ -54,7 +54,7 @@
         var parser = new DOMParser();
         var doc = parser.parseFromString(logo, "image/svg+xml");
         let svg = doc.getElementsByTagName('svg')[0];
-        FILE.clearSelection();
+        SELECTION.clearSelection();
 
         let lines = [];
         for (let line of svg.childNodes) {

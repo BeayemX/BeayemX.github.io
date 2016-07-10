@@ -24,7 +24,7 @@ class KeyboardHandler {
 
             case 71: // G
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    if (FILE.isSomethingSelected()) {
+                    if (!SELECTION.noSelection()) {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
                         MOUSE_HANDLER.startMoveLinesPreview();
@@ -45,20 +45,20 @@ class KeyboardHandler {
             case 46: // DEL
             case 8: // BACKSPACE
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    FILE.deleteSelectedLines();
+                    SELECTION.deleteSelectedLines();
                     DRAW_MANAGER.redraw();
                 }
 
                 break;
             case 73: // I
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    FILE.invertSelection();
+                    SELECTION.invertSelection();
                     DRAW_MANAGER.redraw();
                 }
                 break;
             case 68: // D
                 if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
-                    if (FILE.isSomethingSelected()) {
+                    if (!SELECTION.noSelection()) {
 
                         if (LOGIC.currentState == StateEnum.GRABBING)
                             MOUSE_HANDLER.endMoveLinesPreview();
@@ -195,7 +195,7 @@ class KeyboardHandler {
     }
 
     arrowMovement(x, y, shiftDown, ctrlDown) {
-        if (FILE.isSomethingSelected()) {
+        if (!SELECTION.noSelection()) {
             let stepSize = 10;
             if (shiftDown)
                 stepSize = 1;
@@ -203,7 +203,7 @@ class KeyboardHandler {
                 stepSize = 100;
 
             let delta = new Vector2(x * stepSize, y * stepSize);
-            let selPoints = FILE.currentLayer.getAllSelectedPoints();
+            let selPoints = SELECTION.getAllSelectedPoints();
             UTILITIES.moveSelectionBy(selPoints, delta);
             DRAW_MANAGER.redraw();
         }

@@ -287,11 +287,11 @@
                 //thickness *= 0.5;
             }
 
-            let unselLines = layers[i].getUnselectedLines();
-            let selLines = layers[i].getSelectedLines();
+            let unselLines = FILE.currentLayer.lines;
+            let selLines = SELECTION.selectedLines;
 
-            let selPoints = layers[i].getAllPointsWithSelection(true);
-            let unselPoints = layers[i].getAllPointsWithSelection(false);
+            let unselPoints = UTILITIES.linesToPoints(unselLines);
+            let selPoints = UTILITIES.linesToPoints(selLines);
 
             let radius = layers[i] == FILE.currentLayer ? thickness * 2 : thickness * 0.5;
             if (LOGIC.isPreviewing() || !LINE_MANIPULATOR.showHandles)
@@ -306,18 +306,19 @@
 
             for (let line of selLines)
             {
-                if (LOGIC.isPreviewing() || (line.start.selected == line.end.selected)) {
-                    this.batchLine(line);
-                }
-                else {
-                    if (this.screenBounds.contains(line)) {
+            // TODO GRADIENT NOT WORKING
+            //if (LOGIC.isPreviewing()) {
+                this.batchLine(line);
+            //}
+            //else {
+            //    if (this.screenBounds.contains(line)) {
 
-                        color = this.generateGradient(line);
-                        this.drawLineFromTo(line.start, line.end, thickness, color, false);
-                    }
-                    else
-                        ++this.culledLinesCounter;
-                }
+            //        color = this.generateGradient(line);
+            //        this.drawLineFromTo(line.start, line.end, thickness, color, false);
+            //    }
+            //    else
+            //        ++this.culledLinesCounter;
+            //}
             }
 
             color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor; // FIXME why dont i use hexToColor???
@@ -330,7 +331,7 @@
                 this.batchCircle(p);
             this.renderBatchedCircles(radius, 0, bgColor.toString(), false, false, true);
 
-            for (let p of selPoints)
+            for (let p of selPoints.concat(SELECTION.selectedPoints))
                 this.batchCircle(p);
             this.renderBatchedCircles(radius, 0, color, false, false, true);
         }
@@ -353,26 +354,13 @@
     drawMoveLinesPreview() {
         let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
         let other;
-        let a;
-        let b;
 
-        for (let point of MOUSE_HANDLER.previewLines)
-        {
+        for (let line of SELECTION.selectedLines) {
+            this.batchLine(new Line(line.start.addVector(delta), line.end.addVector(delta)));
+        }
+        for (let point of SELECTION.selectedPoints) {
             other = FILE.currentLayer.getOtherPointBelongingToLine(point);
-            a = point.addVector(delta);
-            b = other;
-
-            for (var i = MOUSE_HANDLER.previewLines.length-1; i >= 0; --i) {
-                if (MOUSE_HANDLER.previewLines[i] === other) {
-
-                    break;
-                }
-                    
-            }
-            if (i != -1)
-                b = other.addVector(delta);
-
-            this.batchLine(new Line(a.x, a.y, b.x, b.y));
+            this.batchLine(new Line(point.addVector(delta), other));
         }
 
         this.renderBatchedLines(1, 'yellow', false);

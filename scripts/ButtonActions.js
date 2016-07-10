@@ -8,7 +8,7 @@ class LineManipulator {
     }
 
     subdivide() {
-        var selectedLines = FILE.getSelectedLines();
+        var selectedLines = SELECTION.selectedLines;
         for (var i = 0; i < selectedLines.length; ++i) {
             var midPoint =
             {
@@ -25,7 +25,7 @@ class LineManipulator {
     mirror() {
         var minX = Infinity;
         var maxX = -Infinity;
-        var selLines = FILE.getSelectedLines();
+        var selLines = SELECTION.selectedLines;
 
         for (var i = 0; i < selLines.length; ++i) {
             minX = Math.min(minX, selLines[i].start.x);
@@ -45,7 +45,7 @@ class LineManipulator {
     rotate(clockwise) {
         let minX = Infinity;
         let minY = Infinity;
-        let selLines = FILE.getSelectedLines();
+        let selLines = SELECTION.selectedLines;
 
         for (let i = 0; i < selLines.length; ++i) {
             minX = Math.min(minX, selLines[i].start.x);
@@ -96,7 +96,7 @@ class LineManipulator {
     }
 
     increaseSize(factor) {
-        let selLines = FILE.getSelectedLines();
+        let selLines = SELECTION.selectedLines;
         let center = UTILITIES.calculateCenter(selLines);
 
         for (let line of selLines)
@@ -111,7 +111,7 @@ class LineManipulator {
         let delta = new Vector2(center.x - newCenter.x,
             center.y - newCenter.y);
 
-        let points = FILE.getAllSelectedPoints();
+        let points = SELECTION.getAllSelectedPoints();
         UTILITIES.movePointsBy(points, delta)
         FILE.cleanUpFile();
         DRAW_MANAGER.redraw();

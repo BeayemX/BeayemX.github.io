@@ -11,7 +11,6 @@ class MouseHandler {
         this.isPanning = false;
 
         this.grabStartPosition;
-        this.previewLines = []; // SIFU TODO make addline preview also use this??
 
         waitingForStart.push(this);
     }
@@ -86,7 +85,7 @@ class MouseHandler {
             {
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     if (!e.shiftKey)
-                        FILE.clearSelection();
+                        SELECTION.clearSelection();
 
                     let lines = FILE.currentLayer.lines;
                     let pointsToChangeSelection = [];
@@ -111,7 +110,7 @@ class MouseHandler {
                         }
                     }
 
-                    UTILITIES.changeSelectionForPoints(pointsToChangeSelection);
+                    SELECTION.changeSelectionForPoints(pointsToChangeSelection);
 
                     if (pointsToChangeSelection != null) {
                         MOUSE_HANDLER.startMoveLinesPreview();
@@ -210,7 +209,7 @@ class MouseHandler {
             if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
             {
                 let delta = currentPosition.subtractVector(this.grabStartPosition);
-                let points = FILE.getAllSelectedPoints();
+                let points = SELECTION.getAllSelectedPoints();
 
                 if (this.grabInitializedWithRMBDown)
                     UTILITIES.moveSelectionBy(points, delta);
@@ -278,24 +277,18 @@ class MouseHandler {
 
     startMoveLinesPreview() {
         this.grabStartPosition = currentPosition.copy();
-        let selection = FILE.getAllSelectedPoints(); // TODO change to 'global selectedPoints'
-        this.previewLines = selection;
-        selection = [];
     }
 
     endMoveLinesPreview() {
         let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
-        UTILITIES.moveSelectionBy(FILE.getAllSelectedPoints(), delta);
+        UTILITIES.moveSelectionBy(SELECTION.getAllSelectedPoints(), delta);
 
         FILE.cleanUpFile();
         grabInitializedWithKeyboard = false;
         LOGIC.setState(StateEnum.IDLE);
         DRAW_MANAGER.redraw();
-
-        this.previewLines = [];
     }
 
     cancelMoveLinesPreview() {
-        this.previewLines = [];
     }
 }

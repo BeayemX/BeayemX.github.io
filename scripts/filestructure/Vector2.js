@@ -93,6 +93,7 @@ class Vector2 {
         return val;
     }
 
+    // TODO static?
     equals(other) {
         let epsilon = 0.01; // TODO STATIC??
         return Vector2.sqrDistance(this, other) <= (epsilon * epsilon);

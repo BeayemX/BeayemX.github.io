@@ -22,7 +22,7 @@
             return;
 
         if (this.currentLayer)
-            this.currentLayer.clearSelection();
+            SELECTION.clearSelection();
 
         this.currentLayer = this.layers[id];
         DRAW_MANAGER.redraw();
@@ -37,50 +37,31 @@
         GUI.writeToStats("Lines", amountLines);
     }
 
-    addLine(line) {
+    addLine(line, select) {
         if (!this.currentLayer) {
             console.log("There was no layer, so there has been created one.");
             this.createNewLayer(true);
         }
-        this.currentLayer.addLine(line);
+        if (select)
+            SELECTION.addLine(line);
+        else
+            this.currentLayer.addLine(line);
     }
 
-    clearSelection() {
-        for (var i = 0; i < this.layers.length; i++) {
-            this.layers[i].clearSelection();
-        }
-    }
     // SIFU FIXME all duplicates of current object. just poltergeisting...
     getAllPointsAt(point, cursorRange) {
         return this.currentLayer.getAllPointsAt(point, cursorRange);
     }
 
-    getAllSelectedPoints() {
-        return this.currentLayer.getAllSelectedPoints();
-    }
-
     cleanUpFile() {
         this.currentLayer.cleanUpFile();
     }
-
-    isSomethingSelected() {
-        return this.currentLayer.isSomethingSelected()
-    }
-
+    
     selectAllToggle() {
         this.currentLayer.selectAllToggle();
     }
     duplicateLines() {
         this.currentLayer.duplicateLines();
-    }
-    getSelectedLines() {
-        return this.currentLayer.getSelectedLines();
-    }
-    deleteSelectedLines() {
-        this.currentLayer.deleteSelectedLines();
-    }
-    getAllPoints() {
-        return this.currentLayer.getAllPoints();
     }
     growSelection(redraw) {
         this.currentLayer.growSelection(redraw);
@@ -90,8 +71,5 @@
     }
     removeLine(line) {
         this.currentLayer.removeLine(line);
-    }
-    invertSelection() {
-        this.currentLayer.invertSelection();
     }
 }

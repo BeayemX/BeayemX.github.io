@@ -22,26 +22,13 @@ class Utilities {
         }
     }
 
-    setSelectStateForPoints(points, value) {
-        for (var i = 0; i < points.length; ++i) {
-            points[i].selected = value;
-        }
-    }
-
-    changeSelectionForPoints(points) {
-        for (var i = 0; i < points.length; ++i) {
-            points[i].selected = !points[i].selected;
-        }
-    }
-
     movePointsBy(points, delta) {
         for (let i = 0; i < points.length; ++i) {
             points[i].setValues(points[i].addVector(delta));
         }
     }
 
-    moveSelectionBy(points, delta)
-    {
+    moveSelectionBy(points, delta) {
         if (delta.x != 0 || delta.y != 0) {
             ACTION_HISTORY.PushAction(new MoveAction(points, delta));
         }
@@ -67,7 +54,7 @@ class Utilities {
     }
 
     selectWithinBorderSelection() {
-        let points = FILE.getAllPoints();
+        let points = FILE.currentLayer.getAllPoints();
 
         let min = {
             x: Math.min(this.borderSelectionStart.x, this.borderSelectionEnd.x),
@@ -83,8 +70,12 @@ class Utilities {
                 points[i].x >= min.x && points[i].x <= max.x
                 &&
                 points[i].y >= min.y && points[i].y <= max.y
-                )
-                points[i].selected = this.borderSelectType;
+                ) {
+                if (this.borderSelectType)
+                    SELECTION.addPoint(points[i]);
+                else
+                    SELECTION.removePoint(points[i]);
+            }
         }
     }
 
@@ -111,7 +102,7 @@ class Utilities {
         if (!showGrid)
             return;
 
-        let selPoints = FILE.getAllSelectedPoints();
+        let selPoints = SELECTION.getAllSelectedPoints();
 
         for (let i = 0; i < selPoints.length; ++i)
             selPoints[i].setValues(GRID.getNearestPointFor(selPoints[i]));
@@ -214,8 +205,17 @@ class Utilities {
         //float t = (v2.x * (line1.start.y - line2.start.y) - v2.y * (line1.start.x - line2.start.x)) / (-v2.x * v1.y + v1.x * v2.y);
         // console.log("s = " + s + ", t = " + t + ", ls = " + ls + ", rs = " + rs + ", lt = " + lt + ", rt = " + rt);
         if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
-            points.push(new Point(line1.start.x + (t * v1.x), line1.start.y + (t * v1.y)));
+            points.push(new Vector2(line1.start.x + (t * v1.x), line1.start.y + (t * v1.y)));
 
+        return points;
+    }
+
+    linesToPoints(lines) {
+        let points = [];
+        for (let line of lines) {
+            points.push(line.start);
+            points.push(line.end);
+        }
         return points;
     }
 }

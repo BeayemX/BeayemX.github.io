@@ -35,7 +35,7 @@
 
     cleanUpFile() {
         // lines with length 0
-        for (var i = this.lines.length-1; i >= 0; --i) {
+        for (var i = this.lines.length - 1; i >= 0; --i) {
             if (this.lines[i].start.x == this.lines[i].end.x
                 && this.lines[i].start.y == this.lines[i].end.y)
                 this.removeLine(this.lines[i]);
@@ -45,9 +45,7 @@
         this.deletedLinesCounter = 0;
         for (var i = this.lines.length - 1; i >= 0; --i) {
             for (var j = this.lines.length - 1; j > i; --j) {
-                if (this.lines[i].SelectedPoints == 0 &&
-                    this.lines[j].SelectedPoints == 0 &&
-                    this.linesOverlapping(this.lines[i], this.lines[j])) {
+                if (Line.overlapping(this.lines[i], this.lines[j])) {
                     this.removeLine(this.lines[j]);
                     ++this.deletedLinesCounter;
                     continue;
@@ -62,43 +60,7 @@
         if (this.deletedLinesCounter > 0)
             GUI.notify("Cleaned up " + this.deletedLinesCounter + " lines.");
     }
-
-    getAllSelectedPoints() {
-        let points = [];
-
-        for (let i = 0; i < this.lines.length; ++i) {
-            if (this.lines[i].start.selected)
-                points.push(this.lines[i].start);
-            if (this.lines[i].end.selected)
-                points.push(this.lines[i].end);
-        }
-
-        return points;
-    }
-
-    getUnselectedLines() {
-        let points = this.getAllSelectedPoints();
-        let selectedLines = [];
-
-        for (var i = 0; i < this.lines.length; ++i) {
-            if (this.lines[i].start.selected == false && this.lines[i].end.selected == false)
-                selectedLines.push(this.lines[i]);
-        }
-        return selectedLines;
-    }
-
-
-    getSelectedLines() {
-        let points = this.getAllSelectedPoints();
-        let selectedLines = [];
-        for (let i = 0; i < this.lines.length; ++i) {
-            if (this.lines[i].start.selected || this.lines[i].end.selected)
-                selectedLines.push(this.lines[i]);
-        }
-        return selectedLines;
-    }
-
-
+    
     getAllPointsAt(clickPoint, withinRadius) {
         let points = [];
         for (let i = 0; i < this.lines.length; ++i) {
@@ -115,16 +77,6 @@
         return Vector2.distance(p, center) <= radius;
     }
 
-    selectAllPoints() {
-        var allPoints = this.getAllPoints();
-        UTILITIES.setSelectStateForPoints(allPoints, true);
-    }
-
-    clearSelection() {
-        UTILITIES.setSelectStateForPoints(this.getAllSelectedPoints(), false);
-        this.cleanUpFile();
-    }
-
     getOtherPointBelongingToLine(point) {
         for (let i = 0; i < this.lines.length; ++i) {
             if (this.lines[i].start === point)
@@ -135,28 +87,8 @@
         }
     }
 
-    deleteSelectedLines() {
-        var points = this.getAllSelectedPoints();
-
-        for (var i = points.length - 1; i >= 0; --i) {
-            for (var j = this.lines.length - 1; j >= 0; --j) {
-                if (this.lines[j].start == points[i]
-                    || this.lines[j].end == points[i])
-                    this.removeLine(this.lines[j])
-            }
-        }
-    }
-
-    isSomethingSelected() {
-        for (var line of this.lines) {
-            if (line.start.selected || line.end.selected)
-                return true;
-        }
-        return false;
-    }
-
     duplicateLines() {
-        var selectedLines = this.getSelectedLines();
+        var selectedLines = SELECTION.selectedLines;
         var duplLines = [];
         for (var i = 0; i < selectedLines.length; ++i) {
             duplLines.push(new Line(
@@ -170,69 +102,33 @@
     }
 
     selectAllToggle() {
-        let points = this.getAllSelectedPoints();
-
-        if (points.length == 0)
-            this.selectAllPoints();
+        if (SELECTION.noSelection())
+            SELECTION.selectEverything();
         else
-            this.clearSelection();
+            SELECTION.clearSelection();
     }
 
-    getAllPointsWithSelection(selection) {
-        let points = [];
-        for (let i = 0; i < this.lines.length; ++i) {
-            if (this.lines[i].start.selected == selection)
-                points.push(this.lines[i].start);
-            if (this.lines[i].end.selected == selection)
-                points.push(this.lines[i].end);
-        }
-        return points;
-    }
-
+    // TODO replace me with method in return line
     getAllPoints() {
-        let points = [];
-        for (let i = 0; i < this.lines.length; ++i) {
-            points.push(this.lines[i].start);
-            points.push(this.lines[i].end);
-        }
-        return points;
-    }
-
-    linesOverlapping(line1, line2) { // SIFU TODO move to utilities? generll entweder in utilities oder ins line object aber nicht so halbherzig aufteilen
-        return (line1.start.x == line2.start.x
-        && line1.start.y == line2.start.y
-        && line1.end.x == line2.end.x
-        && line1.end.y == line2.end.y)
-        ||
-        (line1.start.x == line2.end.x
-        && line1.start.y == line2.end.y
-        && line1.end.x == line2.start.x
-        && line1.end.y == line2.start.y);
-    }
-
-    invertSelection() {
-        let points = this.getAllPoints();
-        for (let i = 0; i < points.length; ++i) {
-            points[i].selected = !points[i].selected;
-        }
+        return UTILITIES.linesToPoints(FILE.currentLayer.lines);
     }
 
     growSelection(redraw) {
-        let selectedPoints = this.getAllSelectedPoints();
+        let selectedPoints = SELECTION.getAllSelectedPoints();
         let allSelectedPoints = [];
 
         for (let i = 0; i < selectedPoints.length; ++i)
             allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i], 0.1)); // TODO magic number, should use Vector2.Equals-epsilon?
 
         for (let i = 0; i < allSelectedPoints.length; ++i)
-            allSelectedPoints[i].selected = true;
+            SELECTION.addPoint(allSelectedPoints[i]);
 
         for (let i = 0; i < allSelectedPoints.length; ++i) {
             let p = this.getOtherPointBelongingToLine(allSelectedPoints[i]);
             let pArray = this.getAllPointsAt(p, 0);
 
             for (let j = 0; j < pArray.length; ++j)
-                pArray[j].selected = true;
+                SELECTION.addPoint(pArray[j]);
         }
 
         if (redraw)
@@ -246,7 +142,7 @@
         for (var i = 0; i < maxIterations; i++) {
             this.growSelection(false);
 
-            let selPointsNum = this.getAllSelectedPoints().length;
+            let selPointsNum = SELECTION.getAllSelectedPoints().length;
 
             if (selPointsNumOld == selPointsNum)
                 break;
