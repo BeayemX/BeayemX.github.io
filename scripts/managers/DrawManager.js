@@ -280,30 +280,35 @@
                 this.batchLine(line);
             this.renderBatchedLines(thickness, bgColor.toString(), false);
 
-            // TODO no batching, stats correct?
+        // TODO no batching, stats correct?
         // partially selected lines
-            for (let p of SELECTION.selectedPoints) {
-                color = this.generateGradient(p, p.opposite); 
-                this.drawLineFromTo(p, p.opposite, thickness, color, false);
+            if (LOGIC.currentState != StateEnum.GRABBING) {
+                for (let p of SELECTION.selectedPoints) {
+                    color = this.generateGradient(p, p.opposite);
+                    this.drawLineFromTo(p, p.opposite, thickness, color, false);
+                }
             }
-
         // selected lines
-            for (let line of SELECTION.selectedLines)
-                this.batchLine(line);
+            if (LOGIC.currentState != StateEnum.GRABBING) {
+                for (let line of SELECTION.selectedLines)
+                    this.batchLine(line);
 
-            color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
-            this.renderBatchedLines(thickness, color, false);
+                // not sure if line below should be outside if...
+                color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
+                this.renderBatchedLines(thickness, color, false);
 
+            }
         // not selected points
             for (let p of UTILITIES.linesToPoints(layer.lines))
                 this.batchCircle(p);
             this.renderBatchedCircles(radius, 0, bgColor.toString(), false, false, true);
 
         // selected points
-            for (let p of UTILITIES.linesToPoints(SELECTION.selectedLines).concat(SELECTION.selectedPoints))
-                this.batchCircle(p);
-            this.renderBatchedCircles(radius, 0, color, false, false, true);
-
+            if (LOGIC.currentState != StateEnum.GRABBING) {
+                for (let p of UTILITIES.linesToPoints(SELECTION.selectedLines).concat(SELECTION.selectedPoints))
+                    this.batchCircle(p);
+                this.renderBatchedCircles(radius, 0, color, false, false, true);
+            }
         }
     }
 
