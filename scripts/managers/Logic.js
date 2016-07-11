@@ -77,6 +77,10 @@ class Logic {
             SAVER.autoSave();
         };
 
+        window.onerror = function () {
+            GUI.notify("<font color='red'>An error occured! Press F12 to see what went wrong.</font>");
+        };
+
         canvas = document.getElementById('canvas');
         context = canvas.getContext('2d');
         offscreenCanvas = document.getElementById('offscreenCanvas');
