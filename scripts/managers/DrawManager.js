@@ -276,8 +276,9 @@
 
     drawAxis() {
         let axisSize = 500;
-        this.drawLineFromTo(new Vector2(-axisSize, 0), new Vector2(axisSize, 0), 1, 'darkred', false, true);
-        this.drawLineFromTo(new Vector2(0, -axisSize), new Vector2(0, axisSize), 1, 'darkred', false, true);
+        this.batchLine(new Line(new Vector2(-axisSize, 0), new Vector2(axisSize, 0)), true);
+        this.batchLine(new Line(new Vector2(0, -axisSize), new Vector2(0, axisSize)), true);
+        this.renderBatchedLines(1, 'darkred', false, true);
     }
 
     drawObjects() {
