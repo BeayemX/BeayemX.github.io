@@ -110,7 +110,14 @@
         var doc = parser.parseFromString(svgString, "image/svg+xml");
         let svg = doc.getElementsByTagName('svg')[0];
 
+        // TODO just copied from SAVER.newFile(). should be unified
+        ACTION_HISTORY = new ActionHistory();
         FILE = new File();
+        SELECTION = new Selection();
+        FILE.createNewLayer(true);
+        FILE.updateStats();
+        DRAW_MANAGER.redraw();
+        // END copy paste
 
         for (let g of svg.childNodes) {
 
