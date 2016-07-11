@@ -34,7 +34,9 @@
         let amountLines = 0;
         for (var i = 0; i < this.layers.length; i++)
             amountLines += this.layers[i].lines.length;
-        GUI.writeToStats("Lines", amountLines);
+
+        amountLines += SELECTION.lines.length + SELECTION.partialLines.length;
+        GUI.writeToStats("Lines in File", amountLines);
     }
 
     addLine(line, select) {

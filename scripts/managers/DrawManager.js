@@ -5,6 +5,7 @@
         this.batchedCircles = [];
         this.screenBounds = null;
 
+        this.drawnLinesCounter = 0;
         this.culledLinesCounter = 0;
         this.culledCirclesCounter = 0;
         this.batchedCirclesCounter = 0; // TODO could use lines.length * 2?
@@ -38,6 +39,8 @@
         context.lineTo(p2.x, p2.y);
 
         context.stroke();
+
+        ++this.drawnLinesCounter;
     }
 
     batchLine(line, ignoreCulling) { // TODO remove me if lines outside of screen rect get drawn
@@ -89,6 +92,8 @@
             context.moveTo(p1.x, p1.y);
             context.lineTo(p2.x, p2.y);
         }
+
+        this.drawnLinesCounter += Object.keys(this.batchedLines).length;
 
         context.stroke();
         this.batchedLines = [];
@@ -194,6 +199,8 @@
     redraw() {
         context.clearRect(0, 0, canvas.width, canvas.height);
         this.screenBounds = this.getVisibleBounds();
+
+        this.drawnLinesCounter = 0;
         this.culledLinesCounter = 0;
         this.culledCirclesCounter = 0;
         this.batchedCirclesCounter = 0;
@@ -221,7 +228,9 @@
             this.drawMoveLinesPreview();
 
         // console.log("redraw.");
+        GUI.writeToStats("Lines drawn", this.drawnLinesCounter);
         GUI.writeToStats("Culled lines", this.culledLinesCounter);
+
         GUI.writeToStats("Culled circles", this.culledCirclesCounter);
         GUI.writeToStats("Circles batched", (this.batchedCirclesCounter - this.drawnCirclesCounter));
         GUI.writeToStats("Circles drawn", this.drawnCirclesCounter);
