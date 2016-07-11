@@ -73,6 +73,10 @@ class Logic {
         window.addEventListener("keyup", KEYBOARD_HANDLER.KeyUp, false)
         window.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
         window.addEventListener('resize', this.layoutGUI, false);
+        window.addEventListener('focus', function () {
+            console.log(tmpCutLines)
+            tmpCutLines = false;
+        }, false);
         window.onbeforeunload = function () {
             SAVER.autoSave();
         };
