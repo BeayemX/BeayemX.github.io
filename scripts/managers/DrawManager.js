@@ -267,8 +267,11 @@
             let color = new Color(0, 0, 0, 0);
             color.copyValues(layer.color);
             bgColor.copyValues(color);
-
             thickness = layer.thickness;
+
+            if (!LOGIC.isPreviewing() && layer != FILE.currentLayer) {
+                thickness *= 0.5;
+            }
 
             let radius = layer == FILE.currentLayer ? thickness * 2 : thickness * 0.5;
             if (LOGIC.isPreviewing() || !LINE_MANIPULATOR.showHandles)
