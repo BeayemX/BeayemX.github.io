@@ -20,7 +20,7 @@
         // opposite is included
             if (p === other) {
                 this.lines.push(point.line);
-                UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, point.line)
+                UTILITIES.deleteArrayEntry(this.partialLines, point.line)
                 UTILITIES.deleteArrayEntry(this.points, other);
                 return;
             }
@@ -126,5 +126,13 @@
             else
                 this.addPoint(p);
         }
+    }
+
+    getUnselectedPointsOfPartialLines() {
+        let points = [];
+        for (let p of this.points)
+            points.push(p.opposite);
+
+        return points;
     }
 }

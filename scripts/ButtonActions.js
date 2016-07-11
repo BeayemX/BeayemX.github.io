@@ -9,16 +9,18 @@ class LineManipulator {
 
     subdivide() {
         var selectedLines = SELECTION.lines;
+        var newLines = [];
         for (var i = 0; i < selectedLines.length; ++i) {
             var midPoint =
             {
-                x: Math.round((selectedLines[i].end.x + selectedLines[i].start.x) / 2),
-                y: Math.round((selectedLines[i].end.y + selectedLines[i].start.y) / 2)
+                x: (selectedLines[i].end.x + selectedLines[i].start.x) / 2,
+                y: (selectedLines[i].end.y + selectedLines[i].start.y) / 2
             }
-            SELECTION.addLine(new Line(selectedLines[i].start.x, selectedLines[i].start.y, midPoint.x, midPoint.y, true));
-            SELECTION.addLine(new Line(midPoint.x, midPoint.y, selectedLines[i].end.x, selectedLines[i].end.y, true));
-            SELECTION.removeLine(selectedLines[i]);
+            newLines.push(new Line(selectedLines[i].start.x, selectedLines[i].start.y, midPoint.x, midPoint.y));
+            newLines.push(new Line(midPoint.x, midPoint.y, selectedLines[i].end.x, selectedLines[i].end.y));
         }
+        SELECTION.lines = [];
+        SELECTION.lines = newLines;
         DRAW_MANAGER.redraw();
     }
 

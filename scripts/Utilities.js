@@ -58,7 +58,7 @@ class Utilities {
         let points =
             this.borderSelectType
             ?
-            FILE.currentLayer.getAllPoints().concat(UTILITIES.linesToPoints(SELECTION.partialLines))
+            FILE.currentLayer.getAllPoints().concat(SELECTION.getUnselectedPointsOfPartialLines())
             :
             SELECTION.getAllSelectedPoints();
 
@@ -71,6 +71,7 @@ class Utilities {
             y: Math.max(this.borderSelectionStart.y, this.borderSelectionEnd.y)
         };
 
+        // TODO USE RECT and within method
         for (let i = 0; i < points.length; ++i) {
             if (
                 points[i].x >= min.x && points[i].x <= max.x
