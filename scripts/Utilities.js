@@ -130,7 +130,7 @@ class Utilities {
     }
 
 
-    cutLines(cutter, lines) {
+    cutLines(cutter, lines, useDrawnLineAsRealLine) {
         let changedLines = [];
         let intersections = [];
 
@@ -155,8 +155,10 @@ class Utilities {
                 this.addPointSorted(intersections, point);
         }
 
-        for (let i = 0; i < intersections.length - 1; i++)
-            lines.push(new Line(intersections[i].copy(), intersections[i + 1].copy()));
+        if (useDrawnLineAsRealLine) {
+            for (let i = 0; i < intersections.length - 1; i++)
+                lines.push(new Line(intersections[i].copy(), intersections[i + 1].copy()));
+        }
 
         for (let i = lines.length - 1; i >= n; i--)
             for (let j of changedLines)

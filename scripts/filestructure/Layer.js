@@ -8,8 +8,10 @@
     }
 
     addLine(line) {
-        if ((cutLines && !tmpCutLines) || (!cutLines && tmpCutLines)) // TODO should also change button text
-            UTILITIES.cutLines(line, this.lines);
+        if (tmpCutLines)
+            UTILITIES.cutLines(line, this.lines, false);
+        else if (cutLines)
+            UTILITIES.cutLines(line, this.lines, true);
         else
             this.lines.push(line);
 
