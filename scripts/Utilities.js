@@ -86,15 +86,27 @@ class Utilities {
         }
     }
 
-    calculateCenter(lines) {
+    calculateCenter(lines, points) {
         let min = new Vector2(Infinity, Infinity);
         let max = new Vector2(-Infinity, -Infinity);
 
         for (let line of lines) {
             min.x = Math.min(min.x, line.start.x);
             min.y = Math.min(min.y, line.start.y);
+            max.x = Math.max(max.x, line.start.x);
+            max.y = Math.max(max.y, line.start.y);
+
+            min.x = Math.min(min.x, line.end.x);
+            min.y = Math.min(min.y, line.end.y);
             max.x = Math.max(max.x, line.end.x);
             max.y = Math.max(max.y, line.end.y);
+        }
+
+        for (let point of points) {
+            min.x = Math.min(min.x, point.x);
+            min.y = Math.min(min.y, point.y);
+            max.x = Math.max(max.x, point.x);
+            max.y = Math.max(max.y, point.y);
         }
 
         let center = new Vector2(

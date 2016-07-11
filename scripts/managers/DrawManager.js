@@ -285,7 +285,7 @@
 
         // TODO no batching, stats correct?
         // partially selected lines
-            if (!LOGIC.isPreviewing()){
+            if (!LOGIC.isPreviewing()) {
                 if (LOGIC.currentState != StateEnum.GRABBING) {
                     for (let p of SELECTION.points) {
                         color = this.generateGradient(p, p.opposite);
@@ -293,9 +293,8 @@
                     }
                 }
             }
-            else
-            {
-                for (let p of SELECTION.points) 
+            else {
+                for (let p of SELECTION.points)
                     this.batchLine(new Line(p, p.opposite));
                 this.renderBatchedLines(thickness, bgColor.toString(), false);
             }

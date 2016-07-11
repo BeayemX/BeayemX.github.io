@@ -99,17 +99,22 @@ class LineManipulator {
 
     increaseSize(factor) {
         let selLines = SELECTION.lines;
-        let center = UTILITIES.calculateCenter(selLines);
+        let selPoints= SELECTION.points;
+        let center = UTILITIES.calculateCenter(selLines, selPoints);
 
-        for (let line of selLines)
-        {
+        for (let line of selLines) {
             line.start.x = line.start.x * factor;
             line.start.y = line.start.y * factor;
             line.end.x = line.end.x * factor;
             line.end.y = line.end.y * factor;
         }
+        for (let point of selPoints) {
+            point.x = point.x * factor;
+            point.y = point.y * factor;
+        }
 
-        let newCenter = UTILITIES.calculateCenter(selLines);
+
+        let newCenter = UTILITIES.calculateCenter(selLines, selPoints);
         let delta = new Vector2(center.x - newCenter.x,
             center.y - newCenter.y);
 
