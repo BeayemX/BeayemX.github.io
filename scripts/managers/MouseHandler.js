@@ -87,7 +87,7 @@ class MouseHandler {
                     if (!e.shiftKey)
                         SELECTION.clearSelection();
 
-                    let lines = FILE.currentLayer.lines;
+                    let lines = FILE.currentLayer.lines.concat(SELECTION.lines).concat(SELECTION.partialLines);
                     let pointsToChangeSelection = [];
 
                     // TODO weird number but should be a third?
