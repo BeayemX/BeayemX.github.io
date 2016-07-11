@@ -8,10 +8,14 @@
     }
 
     addLine(line) {
-        if (tmpCutLines)
+        if (tmpCutLines) {
+            SELECTION.clearSelection();
             UTILITIES.cutLines(line, this.lines, false);
-        else if (cutLines)
+        }
+        else if (cutLines) {
+            SELECTION.clearSelection();
             UTILITIES.cutLines(line, this.lines, true);
+        }
         else
             this.lines.push(line);
 
@@ -62,7 +66,7 @@
         if (this.deletedLinesCounter > 0)
             GUI.notify("Cleaned up " + this.deletedLinesCounter + " lines.");
     }
-    
+
     getAllPointsAt(clickPoint, withinRadius) {
         let points = [];
         let lines = this.lines.concat(SELECTION.partialLines); // TODO maybe put function in other file? not sure if this should be in Layer...
