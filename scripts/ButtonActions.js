@@ -8,7 +8,7 @@ class LineManipulator {
     }
 
     subdivide() {
-        var selectedLines = SELECTION.selectedLines;
+        var selectedLines = SELECTION.lines;
         for (var i = 0; i < selectedLines.length; ++i) {
             var midPoint =
             {
@@ -25,7 +25,7 @@ class LineManipulator {
     mirror() {
         var minX = Infinity;
         var maxX = -Infinity;
-        var selLines = SELECTION.selectedLines;
+        var selLines = SELECTION.lines;
 
         for (var i = 0; i < selLines.length; ++i) {
             minX = Math.min(minX, selLines[i].start.x);
@@ -45,7 +45,7 @@ class LineManipulator {
     rotate(clockwise) {
         let minX = Infinity;
         let minY = Infinity;
-        let selLines = SELECTION.selectedLines;
+        let selLines = SELECTION.lines;
 
         for (let i = 0; i < selLines.length; ++i) {
             minX = Math.min(minX, selLines[i].start.x);
@@ -96,7 +96,7 @@ class LineManipulator {
     }
 
     increaseSize(factor) {
-        let selLines = SELECTION.selectedLines;
+        let selLines = SELECTION.lines;
         let center = UTILITIES.calculateCenter(selLines);
 
         for (let line of selLines)

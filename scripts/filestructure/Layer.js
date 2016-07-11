@@ -78,7 +78,7 @@
     }
 
     duplicateLines() {
-        var selectedLines = SELECTION.selectedLines;
+        var selectedLines = SELECTION.lines;
         var duplLines = [];
         for (var i = 0; i < selectedLines.length; ++i) {
             duplLines.push(new Line(

@@ -283,14 +283,14 @@
         // TODO no batching, stats correct?
         // partially selected lines
             if (LOGIC.currentState != StateEnum.GRABBING) {
-                for (let p of SELECTION.selectedPoints) {
+                for (let p of SELECTION.points) {
                     color = this.generateGradient(p, p.opposite);
                     this.drawLineFromTo(p, p.opposite, thickness, color, false);
                 }
             }
         // selected lines
             if (LOGIC.currentState != StateEnum.GRABBING) {
-                for (let line of SELECTION.selectedLines)
+                for (let line of SELECTION.lines)
                     this.batchLine(line);
 
                 // not sure if line below should be outside if...
@@ -303,9 +303,14 @@
                 this.batchCircle(p);
             this.renderBatchedCircles(radius, 0, bgColor.toString(), false, false, true);
 
+        // not selected points of partially selected line
+            for (let p of SELECTION.points)
+                this.batchCircle(p.opposite);
+            this.renderBatchedCircles(radius, 0, bgColor, false, false, true);
+
         // selected points
             if (LOGIC.currentState != StateEnum.GRABBING) {
-                for (let p of UTILITIES.linesToPoints(SELECTION.selectedLines).concat(SELECTION.selectedPoints))
+                for (let p of UTILITIES.linesToPoints(SELECTION.lines).concat(SELECTION.points))
                     this.batchCircle(p);
                 this.renderBatchedCircles(radius, 0, color, false, false, true);
             }
@@ -330,15 +335,22 @@
         let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
         let other;
 
-        for (let line of SELECTION.selectedLines) {
+        // selected lines
+        for (let line of SELECTION.lines)
             this.batchLine(new Line(line.start.addVector(delta), line.end.addVector(delta)));
-        }
-        for (let point of SELECTION.selectedPoints) {
-            other = point.opposite;
-            this.batchLine(new Line(point.addVector(delta), other));
+        this.renderBatchedLines(FILE.currentLayer.thickness, SETTINGS.selectionColor, false);
+
+        // partially selected lines
+        for (let point of SELECTION.points) {
+            let p = point.addVector(delta);
+            let color = this.generateGradient(p, point.opposite);
+            this.drawLineFromTo(p, point.opposite, FILE.currentLayer.thickness, color, false);
         }
 
-        this.renderBatchedLines(1, 'yellow', false);
+        // selected points
+        for (let p of UTILITIES.linesToPoints(SELECTION.lines).concat(SELECTION.points))
+            this.batchCircle(p.addVector(delta));
+        this.renderBatchedCircles(FILE.currentLayer.thickness * 2, 0, SETTINGS.selectionColor, false, false, true);
     }
 
     drawHelpers() {

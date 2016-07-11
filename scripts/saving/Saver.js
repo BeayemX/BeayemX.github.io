@@ -34,7 +34,7 @@
 
     copyLinesToClipboard() // session storage
     {
-        let selectedLines = SELECTION.selectedLines;
+        let selectedLines = SELECTION.lines;
         let layer = FILE.currentLayer;
         let svgData = "";
         svgData += "<svg>\n";
