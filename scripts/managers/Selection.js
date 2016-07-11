@@ -33,15 +33,24 @@
     }
 
     removePoint(point) {
-        let returnValue = UTILITIES.deleteArrayEntry(this.points, point)
+        // opposite not selected
+        for (let p of this.points) {
+            if (p === point) {
+                UTILITIES.deleteArrayEntry(this.points, point);
+                UTILITIES.deleteArrayEntry(this.partialLines, point.line);
+                FILE.currentLayer.lines.push(point.line);
+                return;
+            }
+        }
 
-        if (returnValue == null) { // opposite not selected
-            FILE.currentLayer.lines.push(point.line)
-            UTILITIES.deleteArrayEntry(this.partialLines, point.line);
-        } else { // opposite is selected
-            this.partialLines.push(point.line);
-            UTILITIES.deleteArrayEntry(this.lines, point.line);
-            this.points.push(point.opposite);
+        // opposite selected
+        for (let l of this.lines) {
+            if (l === point.line) {
+                UTILITIES.deleteArrayEntry(this.lines, point.line);
+                this.points.push(point.opposite);
+                this.partialLines.push(point.line);
+                return;
+            }
         }
     }
 
