@@ -145,7 +145,7 @@ class Utilities {
                 if (points[0] != lines[i].end && points[0] != lines[i].start) {
 
                     lines.push(new Line(points[0].copy(), lines[i].end.copy()));
-                    lines[i].end = points[0].copy();
+                    lines[i].setEnd(points[0]);
                 }
             }
             else if (points.length == 2)
