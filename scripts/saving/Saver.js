@@ -62,12 +62,13 @@
             if (line.nodeType != 1)
                 continue;
 
-            lines.push(new Line(
-                Number(line.getAttribute("x1")),
-                Number(line.getAttribute("y1")),
-                Number(line.getAttribute("x2")),
-                Number(line.getAttribute("y2")),
-                true)
+            FILE.addLine(new Line(
+                    Number(line.getAttribute("x1")),
+                    Number(line.getAttribute("y1")),
+                    Number(line.getAttribute("x2")),
+                    Number(line.getAttribute("y2"))
+                ),
+                true
                 );
         }
         FILE.currentLayer.addLines(lines);
@@ -130,7 +131,7 @@
                     Number(line.getAttribute("x2")),
                     Number(line.getAttribute("y2"))));
             }
-            // not using addLine() because due to 'cutLines' it could lead to unwanted results
+        // not using addLine() because due to 'cutLines' it could lead to unwanted results
             layer.lines = lines;
         }
         DRAW_MANAGER.redraw();
