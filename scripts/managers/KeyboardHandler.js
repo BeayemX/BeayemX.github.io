@@ -71,7 +71,7 @@ class KeyboardHandler {
                 break;
 
             case 9: // TAB
-                //if (currentState == StateEnum.IDLE)
+                if (!LOGIC.isPreviewing())
                 {
                     LOGIC.setState(StateEnum.RENDERPREVIEW);
                     canvas.style.background = 'white'; // TODO settings?

@@ -36,6 +36,7 @@ class MouseHandler {
 
 
             //if (!currentPosition.equals(this.oldPos)) 
+            if (!LOGIC.isPreviewing())
             {
                 let gridDelta = currentPosition.subtractVector(this.oldPos) // TODO maybe not used anymore after grabbing reworked?
                 this.cursorPositionChanged(gridDelta, screenPosDelta);
@@ -49,11 +50,11 @@ class MouseHandler {
         else // while panning
         {
             canvasOffset = canvasOffset.addVector(screenPosDelta.divide(zoom));
+            DRAW_MANAGER.redraw();
         }
 
         //GUI.writeToStats("canvasOffset", canvasOffset.toString());
         this.oldPosScreenSpace = newPosScreenSpace;
-        DRAW_MANAGER.redraw(); // TODO with grid stuff, redraw just happened if currentGridPoint changed...
     }
 
     cursorPositionChanged(gridDelta, screenPosDelta) {
@@ -283,7 +284,6 @@ class MouseHandler {
         let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
         UTILITIES.moveSelectionBy(SELECTION.getAllSelectedPoints(), delta);
 
-        //FILE.cleanUpFile();
         grabInitializedWithKeyboard = false;
         LOGIC.setState(StateEnum.IDLE);
         DRAW_MANAGER.redraw();
