@@ -63,12 +63,13 @@
     
     getAllPointsAt(clickPoint, withinRadius) {
         let points = [];
-        for (let i = 0; i < this.lines.length; ++i) {
+        let lines = this.lines.concat(SELECTION.partialLines); // TODO maybe put function in other file? not sure if this should be in Layer...
+        for (let i = 0; i < lines.length; ++i) {
             //console.log(this.pointWithinCircle(this.lines[i].start, clickPoint, withinRadius));
-            if (this.pointWithinCircle(this.lines[i].start, clickPoint, withinRadius))
-                points.push(this.lines[i].start);
-            if (this.pointWithinCircle(this.lines[i].end, clickPoint, withinRadius))
-                points.push(this.lines[i].end);
+            if (this.pointWithinCircle(lines[i].start, clickPoint, withinRadius))
+                points.push(lines[i].start);
+            if (this.pointWithinCircle(lines[i].end, clickPoint, withinRadius))
+                points.push(lines[i].end);
         }
         return points;
     }
