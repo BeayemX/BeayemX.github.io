@@ -62,6 +62,7 @@
 
         if (deletedLinesCounter > 0)
             GUI.notify("Cleaned up " + deletedLinesCounter + " lines.");
+        FILE.updateStats();
     }
 
     getAllPointsAt(clickPoint, withinRadius) {
