@@ -55,7 +55,12 @@ class Utilities {
     }
 
     selectWithinBorderSelection() {
-        let points = this.borderSelectType ? FILE.currentLayer.getAllPoints() : SELECTION.getAllSelectedPoints();
+        let points =
+            this.borderSelectType
+            ?
+            FILE.currentLayer.getAllPoints().concat(UTILITIES.linesToPoints(SELECTION.partialLines))
+            :
+            SELECTION.getAllSelectedPoints();
 
         let min = {
             x: Math.min(this.borderSelectionStart.x, this.borderSelectionEnd.x),
