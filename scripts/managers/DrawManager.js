@@ -8,7 +8,8 @@
         this.drawnLinesCounter = 0;
         this.culledLinesCounter = 0;
         this.culledCirclesCounter = 0;
-        this.batchedCirclesCounter = 0; // TODO could use lines.length * 2?
+        this.batchedCirclesCounter = 0;
+        this.copiedCirclesCounter = 0;
         this.drawnCirclesCounter = 0;
     }
 
@@ -53,7 +54,6 @@
 
     batchCircle(circle) {
         if (this.screenBounds.contains(circle)) {
-            ++this.batchedCirclesCounter;
             this.batchedCircles[circle.toString()] = circle;
         }
         else
@@ -61,6 +61,9 @@
     }
 
     renderBatchedLines(thickness, color, screenSpace, screenSpaceThickness) {
+        if (this.batchedLines.length == 0)
+            return;
+
         context.beginPath();
 
         if (!screenSpaceThickness)
@@ -100,6 +103,10 @@
     }
 
     renderBatchedCircles(radius, thickness, color, screenSpace, screenSpaceSize, filled) {
+
+        if (Object.keys(this.batchedCircles).length == 0)
+            return;
+
         if (!screenSpaceSize) {
             radius *= zoom;
             thickness *= zoom;
@@ -116,6 +123,8 @@
         offscreenContext.fillStyle = color;
         offscreenContext.lineWidth = thickness;
         offscreenContext.arc(radius, radius, radius, 0, 2 * Math.PI);
+
+        ++this.drawnCirclesCounter;
 
         if (filled)
             offscreenContext.fill();
@@ -136,10 +145,10 @@
                     center.y *= zoom;
                 }
                 context.drawImage(offscreenCanvas, center.x - radius, center.y - radius);
+                ++this.copiedCirclesCounter;
             }
         }
 
-        this.drawnCirclesCounter += Object.keys(this.batchedCircles).length;
         this.batchedCircles = [];
     }
 
@@ -173,6 +182,7 @@
         else
             context.stroke();
 
+        ++this.drawnCirclesCounter;
     }
 
     drawRealCircle(center, radius, thickness, screenSpace, screenSpaceThickness) {
@@ -194,6 +204,7 @@
         context.lineWidth = thickness;
         context.arc(center.x, center.y, radius, 0, 2 * Math.PI);
         context.stroke();
+        ++this.drawnCirclesCounter;
     }
 
     redraw() {
@@ -204,6 +215,7 @@
         this.culledLinesCounter = 0;
         this.culledCirclesCounter = 0;
         this.batchedCirclesCounter = 0;
+        this.copiedCirclesCounter = 0;
         this.drawnCirclesCounter = 0;
 
         if (!LOGIC.isPreviewing()) {
@@ -230,9 +242,9 @@
         // console.log("redraw.");
         GUI.writeToStats("Lines drawn", this.drawnLinesCounter);
         GUI.writeToStats("Culled lines", this.culledLinesCounter);
-
         GUI.writeToStats("Culled circles", this.culledCirclesCounter);
-        GUI.writeToStats("Circles batched", (this.batchedCirclesCounter - this.drawnCirclesCounter));
+        GUI.writeToStats("Circles batched", this.batchedCirclesCounter);
+        GUI.writeToStats("Circles copied", this.copiedCirclesCounter);        
         GUI.writeToStats("Circles drawn", this.drawnCirclesCounter);
     }
 

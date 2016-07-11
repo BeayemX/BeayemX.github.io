@@ -216,7 +216,7 @@ class MouseHandler {
                 else
                     this.cancelMoveLinesPreview();
 
-                FILE.cleanUpFile();
+                //FILE.cleanUpFile();
 
                 this.grabInitializedWithRMBDown = false;
                 grabInitializedWithKeyboard = false;
@@ -283,7 +283,7 @@ class MouseHandler {
         let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
         UTILITIES.moveSelectionBy(SELECTION.getAllSelectedPoints(), delta);
 
-        FILE.cleanUpFile();
+        //FILE.cleanUpFile();
         grabInitializedWithKeyboard = false;
         LOGIC.setState(StateEnum.IDLE);
         DRAW_MANAGER.redraw();

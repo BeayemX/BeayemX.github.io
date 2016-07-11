@@ -52,6 +52,7 @@
                 return;
             }
         }
+        FILE.currentLayer.cleanUpFile();
     }
 
     // TODO should check if point is already selected 
@@ -62,10 +63,7 @@
         UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, line);
         FILE.updateStats();
     }
-    removeLine(line) {
-        UTILITIES.deleteArrayEntry(this.lines, line);
-    }
-
+    
     clearSelection() {
         FILE.currentLayer.lines = FILE.currentLayer.lines.concat(this.lines);
         FILE.currentLayer.lines = FILE.currentLayer.lines.concat(this.partialLines);
@@ -95,6 +93,7 @@
         for (var i = 0; i < this.points.length; i++) {
             this.points[i] = this.points[i].opposite;
         }
+        FILE.currentLayer.cleanUpFile();
     }
 
     deleteSelection() {
@@ -135,6 +134,7 @@
             else
                 this.addPoint(p);
         }
+        FILE.currentLayer.cleanUpFile();
     }
 
     getUnselectedPointsOfPartialLines() {

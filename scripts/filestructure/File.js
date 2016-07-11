@@ -29,8 +29,6 @@
     }
 
     updateStats() {
-        this.currentLayer.updateStats();
-
         let amountLines = 0;
         for (var i = 0; i < this.layers.length; i++)
             amountLines += this.layers[i].lines.length;
@@ -48,6 +46,8 @@
             SELECTION.addLine(line);
         else
             this.currentLayer.addLine(line);
+
+        this.updateStats();
     }
 
     // SIFU FIXME all duplicates of current object. just poltergeisting...

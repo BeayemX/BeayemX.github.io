@@ -120,7 +120,7 @@ class LineManipulator {
 
         let points = SELECTION.getAllSelectedPoints();
         UTILITIES.movePointsBy(points, delta)
-        FILE.cleanUpFile();
+        //FILE.cleanUpFile();
         DRAW_MANAGER.redraw();
     }
 
