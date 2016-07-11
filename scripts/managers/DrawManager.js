@@ -54,7 +54,10 @@
 
     batchCircle(circle) {
         if (this.screenBounds.contains(circle)) {
-            this.batchedCircles[circle.toString()] = circle;
+            if (this.batchedCircles[circle.toString()] == undefined)
+                this.batchedCircles[circle.toString()] = circle;
+            else
+                ++this.batchedCirclesCounter;
         }
         else
             ++this.culledCirclesCounter;
