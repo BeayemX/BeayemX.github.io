@@ -11,6 +11,9 @@
         this.batchedCirclesCounter = 0;
         this.copiedCirclesCounter = 0;
         this.drawnCirclesCounter = 0;
+
+        this.oldStep = 0;
+        this.requestRedraw = false;
     }
 
     drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
@@ -210,7 +213,18 @@
         ++this.drawnCirclesCounter;
     }
 
-    redraw() {
+    redraw(step) {
+        if (arguments.length == 0) {
+            if (!this.requestRedraw) {
+                this.requestRedraw = true;
+                window.requestAnimationFrame(step => DRAW_MANAGER.redraw(step));
+            }
+            return;
+        }
+        else {
+            this.requestRedraw = false;
+        }
+
         context.clearRect(0, 0, canvas.width, canvas.height);
         this.screenBounds = this.getVisibleBounds();
 
@@ -242,12 +256,13 @@
         if (LOGIC.currentState == StateEnum.GRABBING)
             this.drawMoveLinesPreview();
 
-        // console.log("redraw.");
+        //console.log("redraw." + (step - this.oldStep));
+        this.oldStep = step;
         GUI.writeToStats("Lines drawn", this.drawnLinesCounter);
         GUI.writeToStats("Culled lines", this.culledLinesCounter);
         GUI.writeToStats("Culled circles", this.culledCirclesCounter);
         GUI.writeToStats("Circles batched", this.batchedCirclesCounter);
-        GUI.writeToStats("Circles copied", this.copiedCirclesCounter);        
+        GUI.writeToStats("Circles copied", this.copiedCirclesCounter);
         GUI.writeToStats("Circles drawn", this.drawnCirclesCounter);
     }
 
