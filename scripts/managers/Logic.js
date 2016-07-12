@@ -74,7 +74,6 @@ class Logic {
         window.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
         window.addEventListener('resize', this.layoutGUI, false);
         window.addEventListener('focus', function () {
-            console.log(tmpCutLines)
             tmpCutLines = false;
         }, false);
         window.onbeforeunload = function () {
