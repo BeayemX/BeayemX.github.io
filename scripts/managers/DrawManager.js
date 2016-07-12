@@ -14,6 +14,7 @@
 
         this.oldStep = 0;
         this.requestRedraw = false;
+        this.fps = 0;
     }
 
     drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
@@ -256,8 +257,9 @@
         if (LOGIC.currentState == StateEnum.GRABBING)
             this.drawMoveLinesPreview();
 
-        //console.log("redraw." + (step - this.oldStep));
+        this.fps = 1000 / (step - this.oldStep);
         this.oldStep = step;
+        GUI.writeToStats("FPS", this.fps.toFixed(2));
         GUI.writeToStats("Lines drawn", this.drawnLinesCounter);
         GUI.writeToStats("Culled lines", this.culledLinesCounter);
         GUI.writeToStats("Culled circles", this.culledCirclesCounter);
