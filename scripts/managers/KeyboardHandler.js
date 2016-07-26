@@ -12,7 +12,10 @@ class KeyboardHandler {
                 break;
 
             case 83: // S
-                if (e.ctrlKey) {
+                if (e.shiftKey) {
+                    UTILITIES.snapSelectedPointsToGrid();
+                }
+                else if (e.ctrlKey) {                    
                     if (!EXPORTER.ExportAsSVG())
                         SAVER.autoSave();
                 }
