@@ -36,6 +36,7 @@ class Exporter {
         let svgData = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n';
         let layers = FILE.layers;
 
+        // FIXME should just also use lines in selection...
         SELECTION.clearSelection();
 
         for (let layer of layers) {
