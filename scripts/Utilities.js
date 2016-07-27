@@ -154,7 +154,7 @@ class Utilities {
         for (let i = 0; i < n; i++) {
             let points = this.intersect(cutter, lines[i]);
             if (points.length == 1) {
-                if (points[0] != lines[i].end.position && points[0] != lines[i].start.position) {
+                if (!points[0].equals(lines[i].end.position) && !points[0].equals(lines[i].start.position)) {
 
                     lines.push(new Line(points[0].copy(), lines[i].end.position.copy()));
                     lines[i].setEnd(points[0]);
@@ -217,7 +217,6 @@ class Utilities {
                 this.addPointSorted(bounds, line2.end.position.copy());
                 points.push(bounds[1]);
                 points.push(bounds[2]);
-                console.log(bounds);
             }
 
             return points;
