@@ -1,29 +1,29 @@
 ﻿class Line {
     constructor(x1, y1, x2, y2) {
         if (arguments.length == 2) {
-            this.start = new Point(x1.x, x1.y, this);
-            this.end = new Point(y1.x, y1.y, this);
+            this.start = new LineEnding(x1.x, x1.y, this);
+            this.end = new LineEnding(y1.x, y1.y, this);
         }
         else if (arguments.length == 4) {
-            this.start = new Point(x1, y1, this);
-            this.end = new Point(x2, y2, this);
+            this.start = new LineEnding(x1, y1, this);
+            this.end = new LineEnding(x2, y2, this);
         }
     }
     // TODO use vector2.equals
     static overlapping(line1, line2) {
-        return (line1.start.x == line2.start.x
-        && line1.start.y == line2.start.y
-        && line1.end.x == line2.end.x
-        && line1.end.y == line2.end.y)
+        return (line1.start.position.x == line2.start.position.x
+        && line1.start.position.y == line2.start.position.y
+        && line1.end.position.x == line2.end.position.x
+        && line1.end.position.y == line2.end.position.y)
         ||
-        (line1.start.x == line2.end.x
-        && line1.start.y == line2.end.y
-        && line1.end.x == line2.start.x
-        && line1.end.y == line2.start.y);
+        (line1.start.position.x == line2.end.position.x
+        && line1.start.position.y == line2.end.position.y
+        && line1.end.position.x == line2.start.position.x
+        && line1.end.position.y == line2.start.position.y);
     }
 
     setEnd(p) {
-        this.end = new Point(p.x, p.y, this);
+        this.end = new LineEnding(p.x, p.y, this);
     }
 
     opposite(point) {
@@ -34,6 +34,6 @@
     }
 
     toString() {
-        return "Line from " + this.start + " to " + this.end;
+        return "Line from " + this.start.position + " to " + this.end.position;
     }
 }

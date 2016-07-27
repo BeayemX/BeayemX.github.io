@@ -97,8 +97,8 @@ class MouseHandler {
                     for (let i = 0; i < lines.length; i++) {
                         if (UTILITIES.distancePointToLine(selectionCursor, lines[i]) <= cursorRange) {
                             // TODO PERFORMANCE
-                            let startDist = lines[i].start.subtractVector(selectionCursor).sqrMagnitude();
-                            let endDist = lines[i].end.subtractVector(selectionCursor).sqrMagnitude();
+                            let startDist = lines[i].start.position.subtractVector(selectionCursor).sqrMagnitude();
+                            let endDist = lines[i].end.position.subtractVector(selectionCursor).sqrMagnitude();
 
                             if (startDist < endDist * limit)
                                 pointsToChangeSelection.push(lines[i].start);

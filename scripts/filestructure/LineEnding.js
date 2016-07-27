@@ -1,14 +1,15 @@
-﻿class Point extends Vector2 {
+﻿class LineEnding {
 
     constructor(x, y, line) {
-        super(x, y);
+        this.position = new Vector2(x, y);
         this.line = line;
     }
 
     get opposite(){
         return this.line.opposite(this);
     }
+
     copy() {
-        return new Point(this.x, this.y, this.line);
+        return new LineEnding(this.position.x, this.position.y, this.line);
     }
 }

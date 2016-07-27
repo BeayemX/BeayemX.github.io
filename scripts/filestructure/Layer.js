@@ -42,8 +42,8 @@
         let deletedLinesCounter = 0;
         // lines with length 0
         for (let i = this.lines.length - 1; i >= 0; --i) {
-            if (this.lines[i].start.x == this.lines[i].end.x
-                && this.lines[i].start.y == this.lines[i].end.y) {
+            if (this.lines[i].start.position.x == this.lines[i].end.position.x
+                && this.lines[i].start.position.y == this.lines[i].end.position.y) {
                 this.removeLine(this.lines[i]);
                 ++deletedLinesCounter;
             }
@@ -70,9 +70,9 @@
         let lines = this.lines.concat(SELECTION.partialLines); // TODO maybe put function in other file? not sure if this should be in Layer...
         for (let i = 0; i < lines.length; ++i) {
             //console.log(this.pointWithinCircle(this.lines[i].start, clickPoint, withinRadius));
-            if (this.pointWithinCircle(lines[i].start, clickPoint, withinRadius))
+            if (this.pointWithinCircle(lines[i].start.position, clickPoint, withinRadius))
                 points.push(lines[i].start);
-            if (this.pointWithinCircle(lines[i].end, clickPoint, withinRadius))
+            if (this.pointWithinCircle(lines[i].end.position, clickPoint, withinRadius))
                 points.push(lines[i].end);
         }
         return points;
@@ -87,10 +87,10 @@
         var duplLines = [];
         for (var i = 0; i < selectedLines.length; ++i) {
             duplLines.push(new Line(
-                selectedLines[i].start.x,
-                selectedLines[i].start.y,
-                selectedLines[i].end.x,
-                selectedLines[i].end.y
+                selectedLines[i].start.position.x,
+                selectedLines[i].start.position.y,
+                selectedLines[i].end.position.x,
+                selectedLines[i].end.position.y
                 ));
         }
         this.addLines(duplLines);
@@ -105,7 +105,7 @@
 
     // TODO replace me with method in return line
     getAllPoints() {
-        return UTILITIES.linesToPoints(FILE.currentLayer.lines);
+        return UTILITIES.linesToLineEndings(FILE.currentLayer.lines);
     }
 
     growSelection(redraw) {
@@ -113,14 +113,14 @@
         let allSelectedPoints = [];
 
         for (let i = 0; i < selectedPoints.length; ++i)
-            allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i], 0.1)); // TODO magic number, should use Vector2.Equals-epsilon?
+            allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i].position, 0.1)); // TODO magic number, should use Vector2.Equals-epsilon?
 
         for (let i = 0; i < allSelectedPoints.length; ++i)
             SELECTION.addPoint(allSelectedPoints[i]);
 
         for (let i = 0; i < allSelectedPoints.length; ++i) {
             let p = allSelectedPoints[i].opposite;
-            let pArray = this.getAllPointsAt(p, 0);
+            let pArray = this.getAllPointsAt(p.position, 0);
 
             for (let j = 0; j < pArray.length; ++j)
                 SELECTION.addPoint(pArray[j]);

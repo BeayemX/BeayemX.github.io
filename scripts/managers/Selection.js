@@ -109,7 +109,7 @@
     }
 
     getAllSelectedPoints() {
-        return UTILITIES.linesToPoints(this.lines).concat(this.points);
+        return UTILITIES.linesToLineEndings(this.lines).concat(this.points);
     }
 
     isPointSelected(point) {

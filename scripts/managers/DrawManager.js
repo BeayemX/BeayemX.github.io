@@ -84,8 +84,8 @@
         let p2;
 
         for (let line of this.batchedLines) {
-            p1 = line.start.copy();
-            p2 = line.end.copy();
+            p1 = line.start.position.copy();
+            p2 = line.end.position.copy();
 
             if (!screenSpace) {
                 p1.x += canvasOffset.x;
@@ -275,10 +275,6 @@
         let gradient = context.createLinearGradient(start.x, start.y, end.x, end.y);
         gradient.addColorStop(0, SETTINGS.selectionColorFill);
         gradient.addColorStop(1, SETTINGS.lineColorFill);
-
-        //context.strokeStyle = gradient;
-        //context.fillStyle = gradient;
-
         return gradient;
     }
 
@@ -330,8 +326,8 @@
             if (!LOGIC.isPreviewing()) {
                 if (LOGIC.currentState != StateEnum.GRABBING) {
                     for (let p of SELECTION.points) {
-                        color = this.generateGradient(p, p.opposite);
-                        this.drawLineFromTo(p, p.opposite, thickness, color, false);
+                        color = this.generateGradient(p.position, p.opposite.position);
+                        this.drawLineFromTo(p.position, p.opposite.position, thickness, color, false);
                     }
                 }
             }
@@ -351,19 +347,19 @@
 
             }
         // not selected points
-            for (let p of UTILITIES.linesToPoints(layer.lines))
-                this.batchCircle(p);
+            for (let p of UTILITIES.linesToLineEndings(layer.lines))
+                this.batchCircle(p.position);
             this.renderBatchedCircles(radius, 0, bgColor.toString(), false, false, true);
 
         // not selected points of partially selected line
             for (let p of SELECTION.points)
-                this.batchCircle(p.opposite);
+                this.batchCircle(p.opposite.position);
             this.renderBatchedCircles(radius, 0, bgColor, false, false, true);
 
         // selected points
             if (LOGIC.currentState != StateEnum.GRABBING) {
-                for (let p of UTILITIES.linesToPoints(SELECTION.lines).concat(SELECTION.points))
-                    this.batchCircle(p);
+                for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points))
+                    this.batchCircle(p.position);
                 this.renderBatchedCircles(radius, 0, color, false, false, true);
             }
         }
@@ -389,19 +385,19 @@
 
         // selected lines
         for (let line of SELECTION.lines)
-            this.batchLine(new Line(line.start.addVector(delta), line.end.addVector(delta)));
+            this.batchLine(new Line(line.start.position.addVector(delta), line.end.position.addVector(delta)));
         this.renderBatchedLines(FILE.currentLayer.thickness, SETTINGS.selectionColor, false);
 
         // partially selected lines
         for (let point of SELECTION.points) {
-            let p = point.addVector(delta);
-            let color = this.generateGradient(p, point.opposite);
-            this.drawLineFromTo(p, point.opposite, FILE.currentLayer.thickness, color, false);
+            let p = point.position.addVector(delta);
+            let color = this.generateGradient(p, point.opposite.position);
+            this.drawLineFromTo(p, point.opposite.position, FILE.currentLayer.thickness, color, false);
         }
 
         // selected points
-        for (let p of UTILITIES.linesToPoints(SELECTION.lines).concat(SELECTION.points))
-            this.batchCircle(p.addVector(delta));
+        for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points))
+            this.batchCircle(p.position.addVector(delta));
         this.renderBatchedCircles(FILE.currentLayer.thickness * 2, 0, SETTINGS.selectionColor, false, false, true);
     }
 

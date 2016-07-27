@@ -25,7 +25,7 @@ class Utilities {
 
     movePointsBy(points, delta) {
         for (let i = 0; i < points.length; ++i) {
-            points[i].setValues(points[i].addVector(delta));
+            points[i].position = points[i].position.addVector(delta);
         }
     }
 
@@ -91,15 +91,15 @@ class Utilities {
         let max = new Vector2(-Infinity, -Infinity);
 
         for (let line of lines) {
-            min.x = Math.min(min.x, line.start.x);
-            min.y = Math.min(min.y, line.start.y);
-            max.x = Math.max(max.x, line.start.x);
-            max.y = Math.max(max.y, line.start.y);
+            min.x = Math.min(min.x, line.start.position.x);
+            min.y = Math.min(min.y, line.start.position.y);
+            max.x = Math.max(max.x, line.start.position.x);
+            max.y = Math.max(max.y, line.start.position.y);
 
-            min.x = Math.min(min.x, line.end.x);
-            min.y = Math.min(min.y, line.end.y);
-            max.x = Math.max(max.x, line.end.x);
-            max.y = Math.max(max.y, line.end.y);
+            min.x = Math.min(min.x, line.end.position.x);
+            min.y = Math.min(min.y, line.end.position.y);
+            max.x = Math.max(max.x, line.end.position.x);
+            max.y = Math.max(max.y, line.end.position.y);
         }
 
         for (let point of points) {
@@ -124,15 +124,15 @@ class Utilities {
         let selPoints = SELECTION.getAllSelectedPoints();
 
         for (let i = 0; i < selPoints.length; ++i)
-            selPoints[i].setValues(GRID.getNearestPointFor(selPoints[i]));
+            selPoints[i].position = GRID.getNearestPointFor(selPoints[i].position);
 
         DRAW_MANAGER.redraw();
     }
 
-    distancePointToLine(point, line) {
-        let se = line.end.subtractVector(line.start);
-        let sp = point.subtractVector(line.start);
-        let ep = point.subtractVector(line.end);
+    distancePointToLine(position, line) {
+        let se = line.end.position.subtractVector(line.start.position);
+        let sp = position.subtractVector(line.start.position);
+        let ep = position.subtractVector(line.end.position);
 
         if (Vector2.dot(se, sp) <= 0)
             return sp.magnitude();
@@ -146,17 +146,17 @@ class Utilities {
         let changedLines = [];
         let intersections = [];
 
-        intersections.push(cutter.start.copy());
-        this.addPointSorted(intersections, cutter.end.copy());
+        intersections.push(cutter.start.position.copy());
+        this.addPointSorted(intersections, cutter.end.position.copy());
 
         let n = lines.length;
 
         for (let i = 0; i < n; i++) {
             let points = this.intersect(cutter, lines[i]);
             if (points.length == 1) {
-                if (points[0] != lines[i].end && points[0] != lines[i].start) {
+                if (points[0] != lines[i].end.position && points[0] != lines[i].start.position) {
 
-                    lines.push(new Line(points[0].copy(), lines[i].end.copy()));
+                    lines.push(new Line(points[0].copy(), lines[i].end.position.copy()));
                     lines[i].setEnd(points[0]);
                 }
             }
@@ -174,8 +174,8 @@ class Utilities {
 
         for (let i = lines.length - 1; i >= n; i--)
             for (let j of changedLines)
-                if ((lines[i].start.equals(lines[j].start) && lines[i].end.equals(lines[j].end)) ||
-                    (lines[i].start.equals(lines[j].end) && lines[i].end.equals(lines[j].start)))
+                if ((lines[i].start.position.equals(lines[j].start.position) && lines[i].end.position.equals(lines[j].end.position)) ||
+                    (lines[i].start.position.equals(lines[j].end.position) && lines[i].end.position.equals(lines[j].start.position)))
                 lines.splice(i + 1, 1);
     }
 
@@ -194,27 +194,27 @@ class Utilities {
 
     intersect(line1, line2) {
         let points = [];
-        let v1 = line1.end.subtractVector(line1.start);
-        let v2 = line2.end.subtractVector(line2.start);
-        let ls = -v1.y * (line1.start.x - line2.start.x) + v1.x * (line1.start.y - line2.start.y);
+        let v1 = line1.end.position.subtractVector(line1.start.position);
+        let v2 = line2.end.position.subtractVector(line2.start.position);
+        let ls = -v1.y * (line1.start.position.x - line2.start.position.x) + v1.x * (line1.start.position.y - line2.start.position.y);
         let rs = -v2.x * v1.y + v1.x * v2.y;
-        let lt = v2.x * (line1.start.y - line2.start.y) - v2.y * (line1.start.x - line2.start.x);
+        let lt = v2.x * (line1.start.position.y - line2.start.position.y) - v2.y * (line1.start.position.x - line2.start.position.x);
         let rt = -v2.x * v1.y + v1.x * v2.y;
         let s = ls / rs;
         let t = lt / rt;
 
         if (eq(ls, 0) && eq(rs, 0) && eq(lt, 0) && eq(rt, 0)) {
-            let minX = Math.min(line1.start.x, line1.end.x, line2.start.x, line2.end.x);
-            let minY = Math.min(line1.start.y, line1.end.y, line2.start.y, line2.end.y);
-            let maxX = Math.max(line1.start.x, line1.end.x, line2.start.x, line2.end.x);
-            let maxY = Math.max(line1.start.y, line1.end.y, line2.start.y, line2.end.y);
+            let minX = Math.min(line1.start.position.x, line1.end.position.x, line2.start.position.x, line2.end.position.x);
+            let minY = Math.min(line1.start.position.y, line1.end.position.y, line2.start.position.y, line2.end.position.y);
+            let maxX = Math.max(line1.start.position.x, line1.end.position.x, line2.start.position.x, line2.end.position.x);
+            let maxY = Math.max(line1.start.position.y, line1.end.position.y, line2.start.position.y, line2.end.position.y);
             if (Math.abs(maxX - minX) <= Math.abs(v1.x) + Math.abs(v2.x) &&
                 Math.abs(maxY - minY) <= Math.abs(v1.y) + Math.abs(v2.y)) {
                 let bounds = [];
-                bounds.push(line1.start.copy());
-                this.addPointSorted(bounds, line1.end.copy());
-                this.addPointSorted(bounds, line2.start.copy());
-                this.addPointSorted(bounds, line2.end.copy());
+                bounds.push(line1.start.position.copy());
+                this.addPointSorted(bounds, line1.end.position.copy());
+                this.addPointSorted(bounds, line2.start.position.copy());
+                this.addPointSorted(bounds, line2.end.position.copy());
                 points.push(bounds[1]);
                 points.push(bounds[2]);
                 console.log(bounds);
@@ -222,16 +222,16 @@ class Utilities {
 
             return points;
         }
-        //float s = (-v1.y * (line1.start.x - line2.start.x) + v1.x * (line1.start.y - line2.start.y)) / (-v2.x * v1.y + v1.x * v2.y);
-        //float t = (v2.x * (line1.start.y - line2.start.y) - v2.y * (line1.start.x - line2.start.x)) / (-v2.x * v1.y + v1.x * v2.y);
+        //float s = (-v1.y * (line1.start.position.x - line2.start.position.x) + v1.x * (line1.start.position.y - line2.start.position.y)) / (-v2.x * v1.y + v1.x * v2.y);
+        //float t = (v2.x * (line1.start.position.y - line2.start.position.y) - v2.y * (line1.start.position.x - line2.start.position.x)) / (-v2.x * v1.y + v1.x * v2.y);
         // console.log("s = " + s + ", t = " + t + ", ls = " + ls + ", rs = " + rs + ", lt = " + lt + ", rt = " + rt);
         if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
-            points.push(new Vector2(line1.start.x + (t * v1.x), line1.start.y + (t * v1.y)));
+            points.push(new Vector2(line1.start.position.x + (t * v1.x), line1.start.position.y + (t * v1.y)));
 
         return points;
     }
 
-    linesToPoints(lines) {
+    linesToLineEndings(lines) {
         let points = [];
         for (let line of lines) {
             points.push(line.start);

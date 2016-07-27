@@ -13,11 +13,11 @@ class LineManipulator {
         for (var i = 0; i < selectedLines.length; ++i) {
             var midPoint =
             {
-                x: (selectedLines[i].end.x + selectedLines[i].start.x) / 2,
-                y: (selectedLines[i].end.y + selectedLines[i].start.y) / 2
+                x: (selectedLines[i].end.position.x + selectedLines[i].start.position.x) / 2,
+                y: (selectedLines[i].end.position.y + selectedLines[i].start.position.y) / 2
             }
-            newLines.push(new Line(selectedLines[i].start.x, selectedLines[i].start.y, midPoint.x, midPoint.y));
-            newLines.push(new Line(midPoint.x, midPoint.y, selectedLines[i].end.x, selectedLines[i].end.y));
+            newLines.push(new Line(selectedLines[i].start.position.x, selectedLines[i].start.position.y, midPoint.x, midPoint.y));
+            newLines.push(new Line(midPoint.x, midPoint.y, selectedLines[i].end.position.x, selectedLines[i].end.position.y));
         }
         SELECTION.lines = [];
         SELECTION.lines = newLines;
@@ -30,16 +30,16 @@ class LineManipulator {
         var selLines = SELECTION.lines;
 
         for (var i = 0; i < selLines.length; ++i) {
-            minX = Math.min(minX, selLines[i].start.x);
-            maxX = Math.max(maxX, selLines[i].start.x);
+            minX = Math.min(minX, selLines[i].start.position.x);
+            maxX = Math.max(maxX, selLines[i].start.position.x);
 
-            minX = Math.min(minX, selLines[i].end.x);
-            maxX = Math.max(maxX, selLines[i].end.x);
+            minX = Math.min(minX, selLines[i].end.position.x);
+            maxX = Math.max(maxX, selLines[i].end.position.x);
         }
 
         for (var i = 0; i < selLines.length; ++i) {
-            selLines[i].start.x -= (selLines[i].start.x - minX) * 2 - (maxX - minX);
-            selLines[i].end.x -= (selLines[i].end.x - minX) * 2 - (maxX - minX);
+            selLines[i].start.position.x -= (selLines[i].start.position.x - minX) * 2 - (maxX - minX);
+            selLines[i].end.position.x -= (selLines[i].end.position.x - minX) * 2 - (maxX - minX);
         }
         DRAW_MANAGER.redraw();
     }
@@ -50,49 +50,49 @@ class LineManipulator {
         let selLines = SELECTION.lines;
 
         for (let i = 0; i < selLines.length; ++i) {
-            minX = Math.min(minX, selLines[i].start.x);
-            minY = Math.min(minY, selLines[i].start.y);
+            minX = Math.min(minX, selLines[i].start.position.x);
+            minY = Math.min(minY, selLines[i].start.position.y);
 
-            minX = Math.min(minX, selLines[i].end.x);
-            minY = Math.min(minY, selLines[i].end.y);
+            minX = Math.min(minX, selLines[i].end.position.x);
+            minY = Math.min(minY, selLines[i].end.position.y);
         }
 
         for (let i = 0; i < selLines.length; ++i) {
-            let tmp = selLines[i].start.x;
-            selLines[i].start.x = selLines[i].start.y;
-            selLines[i].start.y = tmp;
+            let tmp = selLines[i].start.position.x;
+            selLines[i].start.position.x = selLines[i].start.position.y;
+            selLines[i].start.position.y = tmp;
 
             if (clockwise)
-                selLines[i].start.x = -selLines[i].start.x
+                selLines[i].start.position.x = -selLines[i].start.position.x
             else
-                selLines[i].start.y = -selLines[i].start.y
+                selLines[i].start.position.y = -selLines[i].start.position.y
 
-            tmp = selLines[i].end.x;
-            selLines[i].end.x = selLines[i].end.y;
-            selLines[i].end.y = tmp;
+            tmp = selLines[i].end.position.x;
+            selLines[i].end.position.x = selLines[i].end.position.y;
+            selLines[i].end.position.y = tmp;
 
             if (clockwise)
-                selLines[i].end.x = -selLines[i].end.x
+                selLines[i].end.position.x = -selLines[i].end.position.x
             else
-                selLines[i].end.y = -selLines[i].end.y
+                selLines[i].end.position.y = -selLines[i].end.position.y
         }
 
         let newMinX = Infinity;
         let newMinY = Infinity;
 
         for (let i = 0; i < selLines.length; ++i) {
-            newMinX = Math.min(newMinX, selLines[i].start.x);
-            newMinY = Math.min(newMinY, selLines[i].start.y);
+            newMinX = Math.min(newMinX, selLines[i].start.position.x);
+            newMinY = Math.min(newMinY, selLines[i].start.position.y);
 
-            newMinX = Math.min(newMinX, selLines[i].end.x);
-            newMinY = Math.min(newMinY, selLines[i].end.y);
+            newMinX = Math.min(newMinX, selLines[i].end.position.x);
+            newMinY = Math.min(newMinY, selLines[i].end.position.y);
         }
 
         for (let i = 0; i < selLines.length; ++i) {
-            selLines[i].start.x += minX - newMinX;
-            selLines[i].start.y += minY - newMinY;
-            selLines[i].end.x += minX - newMinX;
-            selLines[i].end.y += minY - newMinY;
+            selLines[i].start.position.x += minX - newMinX;
+            selLines[i].start.position.y += minY - newMinY;
+            selLines[i].end.position.x += minX - newMinX;
+            selLines[i].end.position.y += minY - newMinY;
         }
         DRAW_MANAGER.redraw();
     }
@@ -103,10 +103,10 @@ class LineManipulator {
         let center = UTILITIES.calculateCenter(selLines, selPoints);
 
         for (let line of selLines) {
-            line.start.x = line.start.x * factor;
-            line.start.y = line.start.y * factor;
-            line.end.x = line.end.x * factor;
-            line.end.y = line.end.y * factor;
+            line.start.position.x = line.start.position.x * factor;
+            line.start.position.y = line.start.position.y * factor;
+            line.end.position.x = line.end.position.x * factor;
+            line.end.position.y = line.end.position.y * factor;
         }
         for (let point of selPoints) {
             point.x = point.x * factor;

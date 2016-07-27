@@ -36,6 +36,8 @@ class Exporter {
         let svgData = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n';
         let layers = FILE.layers;
 
+        SELECTION.clearSelection();
+
         for (let layer of layers) {
             svgData +=
                 '\t<g ' +
@@ -68,10 +70,10 @@ class Exporter {
             text +=
                 indent + 
                 '<line ' +
-                'x1="' + line.start.x + '" ' +
-                'y1="' + line.start.y + '" ' +
-                'x2="' + line.end.x + '" ' +
-                'y2="' + line.end.y + '" ' +
+                'x1="' + line.start.position.x + '" ' +
+                'y1="' + line.start.position.y + '" ' +
+                'x2="' + line.end.position.x + '" ' +
+                'y2="' + line.end.position.y + '" ' +
 
                 'stroke="' + layer.color.toHexString() + '" ' +
                 'stroke-opacity="' + (layer.color.a) + '" ' +
