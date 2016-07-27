@@ -71,12 +71,12 @@ class Utilities {
             y: Math.max(this.borderSelectionStart.y, this.borderSelectionEnd.y)
         };
 
-        // TODO USE RECT and within method
+        // TODO USE RECT / BOUND and within method
         for (let i = 0; i < points.length; ++i) {
             if (
-                points[i].x >= min.x && points[i].x <= max.x
+                points[i].position.x >= min.x && points[i].position.x <= max.x
                 &&
-                points[i].y >= min.y && points[i].y <= max.y
+                points[i].position.y >= min.y && points[i].position.y <= max.y
                 ) {
                 if (this.borderSelectType)
                     SELECTION.addPoint(points[i]);
