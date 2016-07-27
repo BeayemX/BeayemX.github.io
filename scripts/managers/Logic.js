@@ -5,8 +5,6 @@ var offscreenContext;
 
 var currentPosition = new Vector2(0, 0);
 let selectionCursor = new Vector2(0, 0);
-var canvasOffset = new Vector2(0, 0);
-var zoom = 1;
 
 var drawPolyLine;
 var grabInitializedWithKeyboard = false;
@@ -15,6 +13,7 @@ let cursorRange = 9;
 
 let SAVER;
 let FILE;
+let CAMERA;
 let DRAW_MANAGER;
 let KEYBOARD_HANDLER;
 let MOUSE_HANDLER;
@@ -43,6 +42,7 @@ function onLoad() {
     LOGIC = new Logic();
     SAVER = new Saver();
     FILE = new File();
+    CAMERA = new Camera();
     DRAW_MANAGER = new DrawManager();
     GUI = new Gui();
     UTILITIES = new Utilities();
@@ -103,8 +103,8 @@ class Logic {
         canvas.style.background = SETTINGS.canvasColor;
         this.layoutGUI();
 
-        canvasOffset.x = canvas.width * 0.5;
-        canvasOffset.y = canvas.height * 0.5;
+        CAMERA.canvasOffset.x = canvas.width * 0.5;
+        CAMERA.canvasOffset.y = canvas.height * 0.5;
 
         //SAVER.loadAutoSave();
         SAVER.newFile();

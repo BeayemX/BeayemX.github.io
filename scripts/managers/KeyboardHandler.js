@@ -100,9 +100,9 @@ class KeyboardHandler {
                 if (LOGIC.currentState == StateEnum.IDLE)
                     EXPORTER.TakeScreenshot();
                 break;
-            case 70: // F // TODO improve. zoom to selection / zoom fit / etc ... 
-                MOUSE_HANDLER.setZoom(1);
-                canvasOffset = (new Vector2(canvas.width * 0.5, canvas.height * 0.5)).divide(zoom);
+            case 70: // F // TODO improve. CAMERA.zoom to selection / CAMERA.zoom fit / etc ... 
+                CAMERA.setZoom(1);
+                CAMERA.canvasOffset = (new Vector2(canvas.width * 0.5, canvas.height * 0.5)).divide(CAMERA.zoom);
                 DRAW_MANAGER.redraw();
                 break;
             case 66: // B

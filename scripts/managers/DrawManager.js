@@ -22,20 +22,20 @@
         p2 = p2.copy();
 
         if (!screenSpace) {
-            p1.x += canvasOffset.x;
-            p1.y += canvasOffset.y;
-            p2.x += canvasOffset.x;
-            p2.y += canvasOffset.y;
+            p1.x += CAMERA.canvasOffset.x;
+            p1.y += CAMERA.canvasOffset.y;
+            p2.x += CAMERA.canvasOffset.x;
+            p2.y += CAMERA.canvasOffset.y;
 
-            p1.x *= zoom;
-            p1.y *= zoom;
-            p2.x *= zoom;
-            p2.y *= zoom;
+            p1.x *= CAMERA.zoom;
+            p1.y *= CAMERA.zoom;
+            p2.x *= CAMERA.zoom;
+            p2.y *= CAMERA.zoom;
 
         }
 
         if (!screenSpaceThickness)
-            thickness *= zoom;
+            thickness *= CAMERA.zoom;
 
         context.beginPath();
         context.lineWidth = thickness;
@@ -74,7 +74,7 @@
         context.beginPath();
 
         if (!screenSpaceThickness)
-            thickness *= zoom;
+            thickness *= CAMERA.zoom;
 
 
         context.lineWidth = thickness;
@@ -88,15 +88,15 @@
             p2 = line.end.position.copy();
 
             if (!screenSpace) {
-                p1.x += canvasOffset.x;
-                p1.y += canvasOffset.y;
-                p2.x += canvasOffset.x;
-                p2.y += canvasOffset.y;
+                p1.x += CAMERA.canvasOffset.x;
+                p1.y += CAMERA.canvasOffset.y;
+                p2.x += CAMERA.canvasOffset.x;
+                p2.y += CAMERA.canvasOffset.y;
 
-                p1.x *= zoom;
-                p1.y *= zoom;
-                p2.x *= zoom;
-                p2.y *= zoom;
+                p1.x *= CAMERA.zoom;
+                p1.y *= CAMERA.zoom;
+                p2.x *= CAMERA.zoom;
+                p2.y *= CAMERA.zoom;
             }
 
             context.moveTo(p1.x, p1.y);
@@ -115,8 +115,8 @@
             return;
 
         if (!screenSpaceSize) {
-            radius *= zoom;
-            thickness *= zoom;
+            radius *= CAMERA.zoom;
+            thickness *= CAMERA.zoom;
         }
 
         let doubleRadius = radius * 2;
@@ -145,11 +145,11 @@
                 circle = this.batchedCircles[key];
                 center.setValues(circle.x, circle.y);
                 if (!screenSpace) {
-                    center.x += canvasOffset.x;
-                    center.y += canvasOffset.y;
+                    center.x += CAMERA.canvasOffset.x;
+                    center.y += CAMERA.canvasOffset.y;
 
-                    center.x *= zoom;
-                    center.y *= zoom;
+                    center.x *= CAMERA.zoom;
+                    center.y *= CAMERA.zoom;
                 }
                 context.drawImage(offscreenCanvas, center.x - radius, center.y - radius);
                 ++this.copiedCirclesCounter;
@@ -161,16 +161,16 @@
 
     drawCircle(centerX, centerY, radius, thickness, color, screenSpace, screenSpaceSize, filled) {
         if (!screenSpace) {
-            centerX += canvasOffset.x;
-            centerY += canvasOffset.y;
+            centerX += CAMERA.canvasOffset.x;
+            centerY += CAMERA.canvasOffset.y;
 
-            centerX *= zoom;
-            centerY *= zoom;
+            centerX *= CAMERA.zoom;
+            centerY *= CAMERA.zoom;
 
         }
         if (!screenSpaceSize) {
-            radius *= zoom;
-            thickness *= zoom;
+            radius *= CAMERA.zoom;
+            thickness *= CAMERA.zoom;
         }
 
         context.beginPath();
@@ -195,16 +195,16 @@
     drawRealCircle(center, radius, thickness, screenSpace, screenSpaceThickness) {
         center = center.copy();
         if (!screenSpace) {
-            center.x += canvasOffset.x;
-            center.y += canvasOffset.y;
+            center.x += CAMERA.canvasOffset.x;
+            center.y += CAMERA.canvasOffset.y;
 
-            center.x *= zoom;
-            center.y *= zoom;
+            center.x *= CAMERA.zoom;
+            center.y *= CAMERA.zoom;
 
-            radius *= zoom;
+            radius *= CAMERA.zoom;
         }
         if (!screenSpaceThickness) {
-            thickness *= zoom;
+            thickness *= CAMERA.zoom;
         }
 
         context.beginPath();
@@ -426,7 +426,7 @@
 
         let leftTop = DRAW_MANAGER.canvasSpaceToScreenSpace(UTILITIES.borderSelectionStart);
         let sizeCanvasSpace = UTILITIES.borderSelectionEnd.subtractVector(UTILITIES.borderSelectionStart);
-        let size = sizeCanvasSpace.multiply(zoom);
+        let size = sizeCanvasSpace.multiply(CAMERA.zoom);
 
         context.rect(leftTop.x, leftTop.y, size.x, size.y);
         context.fillRect(leftTop.x, leftTop.y, size.x, size.y);
@@ -435,13 +435,13 @@
 
     screenSpaceToCanvasSpace(vec2) {
         return vec2
-            .divide(zoom)
-            .subtractVector(canvasOffset);
+            .divide(CAMERA.zoom)
+            .subtractVector(CAMERA.canvasOffset);
     }
     canvasSpaceToScreenSpace(vec2) {
         return vec2
-            .addVector(canvasOffset)
-            .multiply(zoom)
+            .addVector(CAMERA.canvasOffset)
+            .multiply(CAMERA.zoom)
         ;
     }
 

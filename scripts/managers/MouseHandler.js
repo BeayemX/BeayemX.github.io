@@ -16,7 +16,7 @@ class MouseHandler {
     }
 
     start() {
-        this.zoom(1);
+        CAMERA.zoomBy(1);
         this.mouseMoved(new Vector2(0, 0));
     }
 
@@ -49,11 +49,11 @@ class MouseHandler {
         }
         else // while panning
         {
-            canvasOffset = canvasOffset.addVector(screenPosDelta.divide(zoom));
+            CAMERA.canvasOffset = CAMERA.canvasOffset.addVector(screenPosDelta.divide(CAMERA.zoom));
             DRAW_MANAGER.redraw();
         }
 
-        //GUI.writeToStats("canvasOffset", canvasOffset.toString());
+        //GUI.writeToStats("CAMERA.canvasOffset", CAMERA.canvasOffset.toString());
         this.oldPosScreenSpace = newPosScreenSpace;
     }
 
@@ -237,9 +237,9 @@ class MouseHandler {
 
         } else {
             if (e.deltaY < 0) // upscroll
-                this.zoom(1.1);
+                CAMERA.zoomBy(1.1);
             else if (e.deltaY > 0)
-                this.zoom(0.9);
+                CAMERA.zoomBy(0.9);
 
             this.MouseMove(e);
         }
@@ -254,23 +254,7 @@ class MouseHandler {
             // but doesn't work due to security reasons...
         }
     }
-
-    zoom(delta) {
-        // TODO maybe there is a better option than saving center and comparing difference?
-        let center = new Vector2(canvas.width * 0.5, canvas.height * 0.5);
-        let worldCenter = DRAW_MANAGER.screenSpaceToCanvasSpace(center);
-
-        this.setZoom(zoom * delta);
-
-        let newWorldCenter = DRAW_MANAGER.screenSpaceToCanvasSpace(center);
-        let diff = newWorldCenter.subtractVector(worldCenter);
-        canvasOffset = canvasOffset.addVector(diff);
-    }
-    setZoom(val) {
-        zoom = val;
-        GUI.writeToStats("Zoom", (zoom * 100).toFixed(2) + " %");
-    }
-
+    
     cancelLinePreview() {
         this.downPoint = undefined;
         LOGIC.setState(StateEnum.IDLE);
