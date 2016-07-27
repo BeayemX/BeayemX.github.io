@@ -333,7 +333,7 @@
             }
             else {
                 for (let p of SELECTION.points)
-                    this.batchLine(new Line(p, p.opposite));
+                    this.batchLine(new Line(p.position, p.opposite.position));
                 this.renderBatchedLines(thickness, bgColor.toString(), false);
             }
         // selected lines
