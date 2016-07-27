@@ -28,7 +28,7 @@ class MouseHandler {
         let screenPosDelta = newPosScreenSpace.subtractVector(this.oldPosScreenSpace);
 
         if (!this.isPanning) {
-            selectionCursor = DRAW_MANAGER.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
+            selectionCursor = CAMERA.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
             currentPosition = selectionCursor.copy();
 
             if ((snapToGrid && !tmpSwitchSnapToGrid) || (!snapToGrid && tmpSwitchSnapToGrid)) // TODO should also change button text

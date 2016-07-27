@@ -227,7 +227,7 @@
         }
 
         context.clearRect(0, 0, canvas.width, canvas.height);
-        this.screenBounds = this.getVisibleBounds();
+        this.screenBounds = CAMERA.getVisibleBounds();
 
         this.drawnLinesCounter = 0;
         this.culledLinesCounter = 0;
@@ -269,8 +269,8 @@
     }
 
     generateGradient(start, end) {
-        start = DRAW_MANAGER.canvasSpaceToScreenSpace(start);
-        end = DRAW_MANAGER.canvasSpaceToScreenSpace(end);
+        start = CAMERA.canvasSpaceToScreenSpace(start);
+        end = CAMERA.canvasSpaceToScreenSpace(end);
 
         let gradient = context.createLinearGradient(start.x, start.y, end.x, end.y);
         gradient.addColorStop(0, SETTINGS.selectionColorFill);
@@ -402,7 +402,7 @@
     }
 
     drawHelpers() {
-        let screenpos = this.canvasSpaceToScreenSpace(currentPosition.copy());
+        let screenpos = CAMERA.canvasSpaceToScreenSpace(currentPosition.copy());
         this.drawLineFromTo(new Vector2(0, screenpos.y), new Vector2(canvas.width, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.helperColor, true, true);
         this.drawLineFromTo(new Vector2(screenpos.x, 0), new Vector2(screenpos.x, canvas.height), SETTINGS.helperLineWidth, SETTINGS.helperColor, true, true);
     }
@@ -411,8 +411,8 @@
         context.lineWidth = SETTINGS.helperLineWidth;
         context.strokeStyle = SETTINGS.helperColor2;
 
-        let screenpos = this.canvasSpaceToScreenSpace(currentPosition);
-        let start = this.canvasSpaceToScreenSpace(MOUSE_HANDLER.grabStartPosition);
+        let screenpos = CAMERA.canvasSpaceToScreenSpace(currentPosition);
+        let start = CAMERA.canvasSpaceToScreenSpace(MOUSE_HANDLER.grabStartPosition);
 
         this.drawLineFromTo(new Vector2(start.x, start.y), new Vector2(screenpos.x, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.helperColor2, true, true);
     }
@@ -424,31 +424,12 @@
         context.strokeStyle = SETTINGS.selectionColor;
         context.fillStyle = SETTINGS.borderSelectionColor;
 
-        let leftTop = DRAW_MANAGER.canvasSpaceToScreenSpace(UTILITIES.borderSelectionStart);
+        let leftTop = CAMERA.canvasSpaceToScreenSpace(UTILITIES.borderSelectionStart);
         let sizeCanvasSpace = UTILITIES.borderSelectionEnd.subtractVector(UTILITIES.borderSelectionStart);
         let size = sizeCanvasSpace.multiply(CAMERA.zoom);
 
         context.rect(leftTop.x, leftTop.y, size.x, size.y);
         context.fillRect(leftTop.x, leftTop.y, size.x, size.y);
         context.stroke();
-    }
-
-    screenSpaceToCanvasSpace(vec2) {
-        return vec2
-            .divide(CAMERA.zoom)
-            .subtractVector(CAMERA.canvasOffset);
-    }
-    canvasSpaceToScreenSpace(vec2) {
-        return vec2
-            .addVector(CAMERA.canvasOffset)
-            .multiply(CAMERA.zoom)
-        ;
-    }
-
-    getVisibleBounds() {
-        return new Bounds(
-            this.screenSpaceToCanvasSpace(new Vector2(0, 0)),
-            this.screenSpaceToCanvasSpace(new Vector2(canvas.width, canvas.height))
-            );
     }
 }
