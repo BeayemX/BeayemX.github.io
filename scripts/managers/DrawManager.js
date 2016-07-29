@@ -366,7 +366,7 @@
         if (LOGIC.currentState != StateEnum.GRABBING) {
             for (let p of SELECTION.points.concat(SELECTION.getUnselectedPointsOfPartialLines()).concat(UTILITIES.linesToLineEndings(SELECTION.lines)))
                this.batchCircle(p.position);
-            this.renderBatchedCircles(thickness * 2, 0, 'black', false, false, true);
+            this.renderBatchedCircles((LOGIC.currentState == StateEnum.RENDERPREVIEW) ? thickness * 0.5 : thickness * 2, 0, 'black', false, false, true);
         }
 
         // selected lines. dotted if origin while moving lines
