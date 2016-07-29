@@ -15,6 +15,8 @@
         this.oldStep = 0;
         this.requestRedraw = false;
         this.fps = 0;
+
+        this.outlineFactor = 1.5;
     }
 
     drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
@@ -119,7 +121,9 @@
             thickness *= CAMERA.zoom;
         }
 
-        let doubleRadius = radius * 2;
+        // TODO margin doesnt help much. circles sometimes still seem chopped off
+        let margin = 10;
+        let doubleRadius = radius * 2 + thickness * 2 + margin;
         offscreenCanvas.width = doubleRadius;
         offscreenCanvas.height = doubleRadius;
         offscreenCanvas.style.left = -doubleRadius;
@@ -129,7 +133,7 @@
         offscreenContext.strokeStyle = color;
         offscreenContext.fillStyle = color;
         offscreenContext.lineWidth = thickness;
-        offscreenContext.arc(radius, radius, radius, 0, 2 * Math.PI);
+        offscreenContext.arc(radius + thickness + margin, radius + thickness + margin, radius, 0, 2 * Math.PI);
 
         ++this.drawnCirclesCounter;
 
@@ -151,7 +155,7 @@
                     center.x *= CAMERA.zoom;
                     center.y *= CAMERA.zoom;
                 }
-                context.drawImage(offscreenCanvas, center.x - radius, center.y - radius);
+                context.drawImage(offscreenCanvas, center.x - (radius + thickness + margin), center.y - (radius + thickness + margin));
                 ++this.copiedCirclesCounter;
             }
         }
@@ -299,6 +303,8 @@
         let thickness;
         let bgColor = new Color(0, 0, 0, 0);
 
+
+
         for (let layer of FILE.layers)
         {
         // create variables inside loop because gradient doesnt have copyValues();
@@ -315,11 +321,19 @@
             if (LOGIC.isPreviewing() || !LINE_MANIPULATOR.showHandles)
                 radius = thickness * 0.5;
 
+        // selected lines outline
+            if (LOGIC.currentState != StateEnum.RENDERPREVIEW) {
+                //context.setLineDash([15, 3]);
 
-        // not selected lines
-            for (let line of layer.lines)
-                this.batchLine(line);
-            this.renderBatchedLines(thickness, bgColor.toString(), false);
+                for (let line of SELECTION.lines)
+                    this.batchLine(line);
+
+                // not sure if line below should be outside if...
+                color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
+                this.renderBatchedLines(thickness * this.outlineFactor, color, false);
+
+                //context.setLineDash([]);
+            }
 
         // TODO no batching, stats correct?
         // partially selected lines
@@ -327,7 +341,7 @@
                 if (LOGIC.currentState != StateEnum.GRABBING) {
                     for (let p of SELECTION.points) {
                         color = this.generateGradient(p.position, p.opposite.position);
-                        this.drawLineFromTo(p.position, p.opposite.position, thickness, color, false);
+                        this.drawLineFromTo(p.position, p.opposite.position, thickness * this.outlineFactor, color, false);
                     }
                 }
             }
@@ -336,32 +350,46 @@
                     this.batchLine(new Line(p.position, p.opposite.position));
                 this.renderBatchedLines(thickness, bgColor.toString(), false);
             }
-        // selected lines
-            if (LOGIC.currentState != StateEnum.GRABBING) {
-                for (let line of SELECTION.lines)
-                    this.batchLine(line);
 
-                // not sure if line below should be outside if...
-                color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
-                this.renderBatchedLines(thickness, color, false);
-
+        // selected points
+            if (LOGIC.currentState != StateEnum.RENDERPREVIEW) {
+                for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points))
+                    this.batchCircle(p.position);
+                this.renderBatchedCircles(radius * this.outlineFactor, 1, SETTINGS.selectionColor, false, false, false);
             }
+
+
+        // all lines
+            let linez = [];
+            linez = linez.concat(layer.lines);
+            if (layer == FILE.currentLayer) {
+                linez = linez.concat(SELECTION.lines);
+                linez = linez.concat(SELECTION.partialLines);
+            }
+
+            for (let line of linez)
+                this.batchLine(line);
+            this.renderBatchedLines(thickness, bgColor.toString(), false);
+
+        // selected lines
+        //if (LOGIC.currentState != StateEnum.GRABBING) {
+        //    for (let line of SELECTION.lines)
+        //        this.batchLine(line);
+
+        //    // not sure if line below should be outside if...
+        //    color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
+        //    this.renderBatchedLines(thickness, color, false);
+
+        //}
         // not selected points
             for (let p of UTILITIES.linesToLineEndings(layer.lines))
                 this.batchCircle(p.position);
-            this.renderBatchedCircles(radius, 0, bgColor.toString(), false, false, true);
+            this.renderBatchedCircles(radius, 0, layer.color.toString(), false, false, true);
 
         // not selected points of partially selected line
-            for (let p of SELECTION.points)
-                this.batchCircle(p.opposite.position);
-            this.renderBatchedCircles(radius, 0, bgColor, false, false, true);
-
-        // selected points
-            if (LOGIC.currentState != StateEnum.GRABBING) {
-                for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points))
-                    this.batchCircle(p.position);
-                this.renderBatchedCircles(radius, 0, color, false, false, true);
-            }
+            //for (let p of SELECTION.points)
+            //    this.batchCircle(p.opposite.position);
+            //this.renderBatchedCircles(radius, 0, bgColor, false, false, true);            
         }
     }
 
