@@ -204,6 +204,13 @@
     //}
 
     drawRealCircle(center, radius, thickness, color, screenSpace, screenSpaceThickness, filled) {
+
+        if (!this.screenBounds.shrink(radius + thickness*0.5).contains(center)) {
+            ++this.culledCirclesCounter;
+            return;
+        }
+
+
         center = center.copy();
         if (!screenSpace) {
             center.x += CAMERA.canvasOffset.x;
