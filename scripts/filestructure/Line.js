@@ -9,7 +9,7 @@
             this.end = new LineEnding(x2, y2, this);
         }
 
-        this.thickness = 1;
+        this.thickness = currentLineThickness;
     }
     // TODO use vector2.equals
     static overlapping(line1, line2) {

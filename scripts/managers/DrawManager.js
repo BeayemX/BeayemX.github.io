@@ -196,7 +196,7 @@
         ++this.drawnCirclesCounter;
     }
 
-    drawRealCircle(center, radius, thickness, screenSpace, screenSpaceThickness) {
+    drawRealCircle(center, radius, thickness, color, screenSpace, screenSpaceThickness) {
         center = center.copy();
         if (!screenSpace) {
             center.x += CAMERA.canvasOffset.x;
@@ -212,6 +212,7 @@
         }
 
         context.beginPath();
+        context.strokeStyle = color;
         context.lineWidth = thickness;
         context.arc(center.x, center.y, radius, 0, 2 * Math.PI);
         context.stroke();
@@ -335,8 +336,7 @@
         let thickness;
         let bgColor = new Color(0, 0, 0, 0);
 
-        for (let layer of FILE.layers)
-        {
+        for (let layer of FILE.layers) {
         // create variables inside loop because gradient doesnt have copyValues();
             let color = new Color(0, 0, 0, 0);
             color.copyValues(layer.color);
@@ -391,9 +391,9 @@
             let end = currentPosition;
             this.drawLineFromTo(start, end, SETTINGS.previewLineWidth, SETTINGS.previewLineColor, false);
         }
-        let p = currentPosition.copy();
-        this.drawCircle(p.x, p.y, 5, 1, SETTINGS.previewLineColor, false, true); // SIFU grid stuff TODO magic number
-        this.drawRealCircle(selectionCursor, cursorRange, 2, false, true);
+
+        this.drawRealCircle(currentPosition, currentLineThickness * 0.5, 1, currentLineColor.toString(), false, true);
+        this.drawRealCircle(selectionCursor, cursorRange, 2, SETTINGS.selectionColor, false, true);
     }
 
     // SIFU FIXME XXX TODO performance killer. for each selected point iterating over all other points + all other selected points...

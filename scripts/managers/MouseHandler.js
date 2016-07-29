@@ -36,8 +36,7 @@ class MouseHandler {
 
 
             //if (!currentPosition.equals(this.oldPos)) 
-            if (!LOGIC.isPreviewing())
-            {
+            if (!LOGIC.isPreviewing()) {
                 let gridDelta = currentPosition.subtractVector(this.oldPos) // TODO maybe not used anymore after grabbing reworked?
                 this.cursorPositionChanged(gridDelta, screenPosDelta);
 
@@ -228,14 +227,23 @@ class MouseHandler {
     }
 
     MouseScroll(e) {
+        if (e.ctrlKey) {
+            let step = 1;
+            if (e.deltaY < 0)
+                currentLineThickness += step;
+            else if (e.deltaY > 0)
+                currentLineThickness = Math.max(currentLineThickness - step, 1);
+        }
+
         if (e.shiftKey) {
             let step = 1;
             if (e.deltaX < 0)
                 cursorRange += step;
             else if (e.deltaX > 0)
                 cursorRange = Math.max(cursorRange - step, 1);
+        } 
 
-        } else {
+        if (!e.shiftKey && !e.ctrlKey) {
             if (e.deltaY < 0) // upscroll
                 CAMERA.zoomBy(1.1);
             else if (e.deltaY > 0)
@@ -254,7 +262,7 @@ class MouseHandler {
             // but doesn't work due to security reasons...
         }
     }
-    
+
     cancelLinePreview() {
         this.downPoint = undefined;
         LOGIC.setState(StateEnum.IDLE);
