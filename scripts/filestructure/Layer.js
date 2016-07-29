@@ -4,6 +4,7 @@
         this.color = new Color(0, 0, 0, 1);
         this.thickness = 1;
         this.id = "New Layer";
+        this.visible = true;
     }
 
     addLine(line) {

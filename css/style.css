@@ -31,7 +31,7 @@ p {
 
 button, select {
     width: 80%;
-    margin-top: 10px;
+    margin-top: 5px;
     margin-left: 10%;
     margin-right: 10%;
     padding: 5px;
@@ -134,4 +134,16 @@ div {
 
 #stats table {
     width: 100%;
+}
+
+.toolcategory table{
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+}
+
+.toolcategory table button {
+    margin: 0px;
+    width: 100%;
+
 }

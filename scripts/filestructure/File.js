@@ -55,6 +55,13 @@
         DRAW_MANAGER.redraw();
     }
 
+    toggleVisibilityOfLayerWithID(id)
+    {
+        this.layers[id].visible = !this.layers[id].visible;
+        GUI.objectHierarchyChanged();
+        DRAW_MANAGER.redraw();
+    }
+
     updateStats() {
         let amountLines = 0;
         for (var i = 0; i < this.layers.length; i++)

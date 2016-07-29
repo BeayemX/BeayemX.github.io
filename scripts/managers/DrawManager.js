@@ -368,6 +368,8 @@
     }
 
     drawLayer(layer) {
+        if (!layer.visible)
+            return;
         let thickness;
 
         if (!LOGIC.isPreviewing() && layer != FILE.currentLayer) {

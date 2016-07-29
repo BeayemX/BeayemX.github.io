@@ -57,23 +57,63 @@
         }
 
         let layers = FILE.layers;
+        let table = document.createElement("table");
+
+
+        // hide layer button
+        let col = document.createElement("col");
+        col.setAttribute("width", "15%");
+        table.appendChild(col);
+
+        // select layer button
+        col = document.createElement("col");
+        col.setAttribute("width", "50");
+        table.appendChild(col);
+
+        // delete layer button
+        col = document.createElement("col");
+        col.setAttribute("width", "15%");
+        table.appendChild(col);
 
         for (let i = 0; i < layers.length; i++) {
+            let tr = document.createElement("tr");
+            table.appendChild(tr);
+
+
+            // hide layer button
+            let td = document.createElement("td");
+            tr.appendChild(td);
             let button = document.createElement("button");
+            button.setAttribute("type", "button");
+            button.setAttribute("onclick", "FILE.toggleVisibilityOfLayerWithID(" + i + ")");
+            if (layers[i].visible)
+                button.innerHTML = "O";
+            else 
+                button.innerHTML = "_";
+            td.appendChild(button);
+            
+            // select layer button
+            td = document.createElement("td");
+            tr.appendChild(td);
+            button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("onclick", "FILE.selectLayerWithID(" + i + ")");
             if (FILE.currentLayer == layers[i])
                 button.innerHTML = "<b><i>L a y e r &nbsp &nbsp" + i + "</i></b>";
             else 
                 button.innerHTML = "Layer" + i;
-            this.layersDiv.appendChild(button);
+            td.appendChild(button);
             
+            // delete layer button
+            td = document.createElement("td");
+            tr.appendChild(td);
             button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("onclick", "FILE.deleteLayerWithID(" + i + ")");
-            button.innerHTML = "delete Layer " + i;
-            this.layersDiv.appendChild(button);
+            button.innerHTML = "<font color='red'>X</font>";
+            td.appendChild(button);
         }
+        this.layersDiv.appendChild(table);
     }
 
     // TODO rework notifications. put somewhere in statusbar
