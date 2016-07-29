@@ -371,7 +371,7 @@
 
         // selected lines. dotted if origin while moving lines
         if (LOGIC.currentState == StateEnum.GRABBING) {
-            context.setLineDash([15, 15]);
+            context.setLineDash([6 * CAMERA.zoom, 4 * CAMERA.zoom]);
             thickness *= 0.5;
         }
 
