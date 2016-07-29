@@ -16,4 +16,10 @@
             return this.contains(pos.start.position) || this.contains(pos.end.position);
         
     }
+
+    shrink(margin) {
+        let b = new Bounds((new Vector2(this.left, this.top)).subtract(margin), (new Vector2(this.right, this.bottom)).add(margin));
+        return b;
+
+    }
 }
