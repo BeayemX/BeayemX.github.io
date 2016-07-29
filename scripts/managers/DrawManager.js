@@ -16,7 +16,7 @@
         this.requestRedraw = false;
         this.fps = 0;
 
-        this.outlineFactor = 1.5;
+        this.outlineFactor = 2;
     }
 
     drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
@@ -253,6 +253,7 @@
         if (!LOGIC.isPreviewing())
             this.drawHelpers();
 
+        this.drawSelection();
         this.drawObjects();
 
         if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.DRAWING)
@@ -272,13 +273,16 @@
         GUI.writeToStats("Circles drawn", this.drawnCirclesCounter);
     }
 
-    generateGradient(start, end) {
+    generateGradient(start, end, intoTransparency) {
         start = CAMERA.canvasSpaceToScreenSpace(start);
         end = CAMERA.canvasSpaceToScreenSpace(end);
 
         let gradient = context.createLinearGradient(start.x, start.y, end.x, end.y);
         gradient.addColorStop(0, SETTINGS.selectionColorFill);
-        gradient.addColorStop(1, SETTINGS.lineColorFill);
+        if (intoTransparency)
+            gradient.addColorStop(1, 'transparent');
+        else
+            gradient.addColorStop(1, SETTINGS.lineColorFill);
         return gradient;
     }
 
@@ -298,12 +302,38 @@
         this.renderBatchedLines(1, 'darkred', false, true);
     }
 
+    drawSelection() {
+        if (LOGIC.currentState == StateEnum.RENDERPREVIEW || LOGIC.currentState == StateEnum.GRABBING)
+            return;
+
+        // SIFU TODO use line thickness
+        let thickness = 1;
+
+        // selected lines outline
+        //context.setLineDash([15, 3]);
+        for (let line of SELECTION.lines)
+            this.batchLine(line);
+        this.renderBatchedLines(thickness * this.outlineFactor, SETTINGS.selectionColor, false);
+        //context.setLineDash([]);
+
+
+        // TODO no batching, stats correct?
+        // partially selected lines
+        for (let p of SELECTION.points) {
+            let color = this.generateGradient(p.position, p.opposite.position, true);
+            this.drawLineFromTo(p.position, p.opposite.position, p.line.thickness * this.outlineFactor, color, false, false);
+        }
+
+        // selected points
+        for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points))
+            this.batchCircle(p.position);
+        this.renderBatchedCircles(thickness * this.outlineFactor, 1, SETTINGS.selectionColor, false, false, false);
+    }
+
     drawObjects() {
         // caching
         let thickness;
         let bgColor = new Color(0, 0, 0, 0);
-
-
 
         for (let layer of FILE.layers)
         {
@@ -321,76 +351,36 @@
             if (LOGIC.isPreviewing() || !LINE_MANIPULATOR.showHandles)
                 radius = thickness * 0.5;
 
-        // selected lines outline
-            if (LOGIC.currentState != StateEnum.RENDERPREVIEW) {
-                //context.setLineDash([15, 3]);
-
-                for (let line of SELECTION.lines)
-                    this.batchLine(line);
-
-                // not sure if line below should be outside if...
-                color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
-                this.renderBatchedLines(thickness * this.outlineFactor, color, false);
-
-                //context.setLineDash([]);
-            }
-
-        // TODO no batching, stats correct?
-        // partially selected lines
-            if (!LOGIC.isPreviewing()) {
-                if (LOGIC.currentState != StateEnum.GRABBING) {
-                    for (let p of SELECTION.points) {
-                        color = this.generateGradient(p.position, p.opposite.position);
-                        this.drawLineFromTo(p.position, p.opposite.position, thickness * this.outlineFactor, color, false);
-                    }
-                }
-            }
-            else {
-                for (let p of SELECTION.points)
-                    this.batchLine(new Line(p.position, p.opposite.position));
-                this.renderBatchedLines(thickness, bgColor.toString(), false);
-            }
-
-        // selected points
-            if (LOGIC.currentState != StateEnum.RENDERPREVIEW) {
-                for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points))
-                    this.batchCircle(p.position);
-                this.renderBatchedCircles(radius * this.outlineFactor, 1, SETTINGS.selectionColor, false, false, false);
-            }
-
-
         // all lines
-            let linez = [];
-            linez = linez.concat(layer.lines);
-            if (layer == FILE.currentLayer) {
-                linez = linez.concat(SELECTION.lines);
-                linez = linez.concat(SELECTION.partialLines);
-            }
-
-            for (let line of linez)
+            for (let line of layer.lines)
                 this.batchLine(line);
             this.renderBatchedLines(thickness, bgColor.toString(), false);
 
-        // selected lines
-        //if (LOGIC.currentState != StateEnum.GRABBING) {
-        //    for (let line of SELECTION.lines)
-        //        this.batchLine(line);
-
-        //    // not sure if line below should be outside if...
-        //    color = LOGIC.isPreviewing() ? color : SETTINGS.selectionColor;
-        //    this.renderBatchedLines(thickness, color, false);
-
-        //}
-        // not selected points
+        // line endings
             for (let p of UTILITIES.linesToLineEndings(layer.lines))
                 this.batchCircle(p.position);
             this.renderBatchedCircles(radius, 0, layer.color.toString(), false, false, true);
-
-        // not selected points of partially selected line
-            //for (let p of SELECTION.points)
-            //    this.batchCircle(p.opposite.position);
-            //this.renderBatchedCircles(radius, 0, bgColor, false, false, true);            
         }
+
+        // selected points
+        if (LOGIC.currentState != StateEnum.GRABBING) {
+            for (let p of SELECTION.points.concat(SELECTION.getUnselectedPointsOfPartialLines()).concat(UTILITIES.linesToLineEndings(SELECTION.lines)))
+               this.batchCircle(p.position);
+            this.renderBatchedCircles(thickness * 2, 0, 'black', false, false, true);
+        }
+
+        // selected lines. dotted if origin while moving lines
+        if (LOGIC.currentState == StateEnum.GRABBING) {
+            context.setLineDash([15, 15]);
+            thickness *= 0.5;
+        }
+
+        for (let line of SELECTION.lines.concat(SELECTION.partialLines))
+            this.batchLine(line);
+        this.renderBatchedLines(thickness, bgColor.toString(), false);
+
+        if (LOGIC.currentState == StateEnum.GRABBING)
+            context.setLineDash([]);
     }
 
     drawPreviewLine() {
