@@ -103,10 +103,10 @@ class Utilities {
         }
 
         for (let point of points) {
-            min.x = Math.min(min.x, point.x);
-            min.y = Math.min(min.y, point.y);
-            max.x = Math.max(max.x, point.x);
-            max.y = Math.max(max.y, point.y);
+            min.x = Math.min(min.x, point.position.x);
+            min.y = Math.min(min.y, point.position.y);
+            max.x = Math.max(max.x, point.position.x);
+            max.y = Math.max(max.y, point.position.y);
         }
 
         let center = new Vector2(

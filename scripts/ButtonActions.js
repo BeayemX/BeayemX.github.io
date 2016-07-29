@@ -103,23 +103,19 @@ class LineManipulator {
         let center = UTILITIES.calculateCenter(selLines, selPoints);
 
         for (let line of selLines) {
-            line.start.position.x = line.start.position.x * factor;
-            line.start.position.y = line.start.position.y * factor;
-            line.end.position.x = line.end.position.x * factor;
-            line.end.position.y = line.end.position.y * factor;
+            line.start.position = line.start.position.multiply(factor);
+            line.end.position = line.end.position.multiply(factor);
         }
-        for (let point of selPoints) {
-            point.x = point.x * factor;
-            point.y = point.y * factor;
-        }
+
+        for (let point of selPoints) 
+            point.position = point.position.multiply(factor);
 
 
         let newCenter = UTILITIES.calculateCenter(selLines, selPoints);
-        let delta = new Vector2(center.x - newCenter.x,
-            center.y - newCenter.y);
+        let delta = center.subtractVector(newCenter); 
 
         let points = SELECTION.getAllSelectedPoints();
-        UTILITIES.movePointsBy(points, delta)
+        UTILITIES.movePointsBy(points, delta);
         //FILE.cleanUpFile();
         DRAW_MANAGER.redraw();
     }
