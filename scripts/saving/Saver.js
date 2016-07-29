@@ -114,7 +114,7 @@
         ACTION_HISTORY = new ActionHistory();
         FILE = new File();
         SELECTION = new Selection();
-        FILE.createNewLayer(true);
+        //FILE.createNewLayer(true);
         FILE.updateStats();
         DRAW_MANAGER.redraw();
         // END copy paste
