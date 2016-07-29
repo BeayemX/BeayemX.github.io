@@ -48,6 +48,13 @@
         return hex;
     }
 
+    static black() {
+        return new Color(0, 0, 0, 1);
+    }
+    static transparent() {
+        return new Color(0, 0, 0, 0);
+    }
+
     static rgbaToColor(rgba)
     {
         let c = new Color(0, 0, 0, 0);

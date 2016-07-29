@@ -11,7 +11,7 @@ var grabInitializedWithKeyboard = false;
 
 let cursorRange = 9;
 let currentLineThickness = 1;
-let currentLineColor = new Color(0, 0, 0, 1);
+let currentLineColor = Color.black();
 
 let SAVER;
 let FILE;

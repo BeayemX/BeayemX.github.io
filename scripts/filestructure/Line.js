@@ -10,6 +10,7 @@
         }
 
         this.thickness = currentLineThickness;
+        this.color = currentLineColor.copy();
     }
     // TODO use vector2.equals
     static overlapping(line1, line2) {

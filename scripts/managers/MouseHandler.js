@@ -227,19 +227,19 @@ class MouseHandler {
     }
 
     MouseScroll(e) {
-        if (e.ctrlKey) {
-            let step = 1;
-            if (e.deltaY < 0)
-                currentLineThickness += step;
-            else if (e.deltaY > 0)
-                currentLineThickness = Math.max(currentLineThickness - step, 1);
-        }
-
         if (e.shiftKey) {
             let step = 1;
             if (e.deltaX < 0)
-                cursorRange += step;
+                currentLineThickness += step;
             else if (e.deltaX > 0)
+                currentLineThickness = Math.max(currentLineThickness - step, 1);
+        }
+
+        if (e.ctrlKey) {
+            let step = 1;
+            if (e.deltaY < 0)
+                cursorRange += step;
+            else if (e.deltaY > 0)
                 cursorRange = Math.max(cursorRange - step, 1);
         } 
 
