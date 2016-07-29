@@ -43,11 +43,11 @@ class Exporter {
             svgData +=
                 '\t<g ' +
                 'id="' + layer.id + '" ' +
-                'opacity="' + layer.color.a + '" ' +
+                //'opacity="' + layer.color.a + '" ' +
 
-                'stroke="' + layer.color.toHexString() + '" ' +
-                'stroke-opacity="' + (layer.color.a) + '" ' +
-                'stroke-width="' + layer.thickness + '" ' +
+                //'stroke="' + layer.color.toHexString() + '" ' +
+                //'stroke-opacity="' + (layer.color.a) + '" ' +
+                //'stroke-width="' + layer.thickness + '" ' +
 
                 '>\n';
 
@@ -61,7 +61,7 @@ class Exporter {
         return svgData;
     }
 
-    generateSVGStringForLines(lines, layer, indentations) {
+    generateSVGStringForLines(lines, indentations) {
         let text = "";
         let indent = "";
         for (var i = 0; i < indentations; i++) {
@@ -76,9 +76,9 @@ class Exporter {
                 'x2="' + line.end.position.x + '" ' +
                 'y2="' + line.end.position.y + '" ' +
 
-                'stroke="' + layer.color.toHexString() + '" ' +
-                'stroke-opacity="' + (layer.color.a) + '" ' +
-                'stroke-width="' + layer.thickness + '" ' +
+                'stroke="' + line.color.toHexString() + '" ' +
+                'stroke-opacity="' + (line.color.a) + '" ' +
+                'stroke-width="' + line.thickness + '" ' +
                 'stroke-linecap="round"' +
 
                 '/> \n'

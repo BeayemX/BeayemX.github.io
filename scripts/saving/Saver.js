@@ -125,8 +125,7 @@
                 continue;
 
             let layer = FILE.createNewLayer(true);
-            layer.color = Color.hexToColor(g.getAttribute('stroke'));
-            layer.thickness = Number(g.getAttribute('stroke-width'));
+
             let lines = [];
             for (let line of g.childNodes) {
                 if (line.nodeType != 1)
@@ -136,7 +135,10 @@
                     Number(line.getAttribute("x1")),
                     Number(line.getAttribute("y1")),
                     Number(line.getAttribute("x2")),
-                    Number(line.getAttribute("y2"))));
+                    Number(line.getAttribute("y2")),
+                    Color.hexToColor(line.getAttribute('stroke')),
+                    Number(line.getAttribute('stroke-width'))
+                    ));
             }
         // not using addLine() because due to 'cutLines' it could lead to unwanted results
             layer.lines = lines;

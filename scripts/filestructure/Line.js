@@ -1,16 +1,16 @@
 ﻿class Line {
-    constructor(x1, y1, x2, y2) {
-        if (arguments.length == 2) {
+    constructor(x1, y1, x2, y2, color, thickness) {
+        if (x1 instanceof Vector2) {
             this.start = new LineEnding(x1.x, x1.y, this);
             this.end = new LineEnding(y1.x, y1.y, this);
         }
-        else if (arguments.length == 4) {
+        else {
             this.start = new LineEnding(x1, y1, this);
             this.end = new LineEnding(x2, y2, this);
         }
 
-        this.thickness = currentLineThickness;
-        this.color = currentLineColor.copy();
+        this.color = (color) ? color : currentLineColor.copy();
+        this.thickness = (thickness) ? thickness : currentLineThickness;
     }
     // TODO use vector2.equals
     static overlapping(line1, line2) {

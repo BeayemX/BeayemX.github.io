@@ -78,6 +78,7 @@ class Logic {
         window.addEventListener('resize', this.layoutGUI, false);
         window.addEventListener('focus', function () {
             tmpCutLines = false;
+            GUI.notify("received focus");
         }, false);
         window.onbeforeunload = function () {
             SAVER.autoSave();
