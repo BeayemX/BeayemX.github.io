@@ -62,7 +62,16 @@
             let button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("onclick", "FILE.selectLayerWithID(" + i + ")");
-            button.innerHTML = "Layer" + i;
+            if (FILE.currentLayer == layers[i])
+                button.innerHTML = "<b><i>L a y e r &nbsp &nbsp" + i + "</i></b>";
+            else 
+                button.innerHTML = "Layer" + i;
+            this.layersDiv.appendChild(button);
+            
+            button = document.createElement("button");
+            button.setAttribute("type", "button");
+            button.setAttribute("onclick", "FILE.deleteLayerWithID(" + i + ")");
+            button.innerHTML = "delete Layer " + i;
             this.layersDiv.appendChild(button);
         }
     }

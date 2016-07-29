@@ -210,7 +210,6 @@
             return;
         }
 
-
         center = center.copy();
         if (!screenSpace) {
             center.x += CAMERA.canvasOffset.x;

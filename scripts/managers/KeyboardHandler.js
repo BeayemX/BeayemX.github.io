@@ -142,6 +142,10 @@ class KeyboardHandler {
                 cutLines = !cutLines;
                 break;
 
+            case 77: // M
+                FILE.createNewLayer(true);
+                break;
+
             case 37: // ARROW LEFT
                 KEYBOARD_HANDLER.arrowMovement(-1, 0, e.shiftKey, e.ctrlKey);
                 break;

@@ -17,6 +17,32 @@
         return layer;
     }
 
+    deleteLayerWithID(id) {
+        if (id < 0 || id >= this.layers.length)
+            return;
+
+        if (this.currentLayer)
+            SELECTION.clearSelection();
+
+        let wasCurrentLayer = this.currentLayer == this.layers[id];
+
+        UTILITIES.deleteArrayEntry(this.layers, this.layers[id]);
+
+        if (wasCurrentLayer) {
+            if (this.layers.length == 0)
+                this.createNewLayer(true);
+            else {
+                if (id < this.layers.length)
+                    this.currentLayer = this.layers[id];
+                else
+                    this.currentLayer = this.layers[id - 1];
+            }
+        }
+
+        GUI.objectHierarchyChanged();
+        DRAW_MANAGER.redraw();
+    }
+
     selectLayerWithID(id) {
         if (id < 0 || id >= this.layers.length)
             return;
@@ -25,6 +51,7 @@
             SELECTION.clearSelection();
 
         this.currentLayer = this.layers[id];
+        GUI.objectHierarchyChanged();
         DRAW_MANAGER.redraw();
     }
 
@@ -58,7 +85,7 @@
     cleanUpFile() {
         this.currentLayer.cleanUpFile();
     }
-    
+
     selectAllToggle() {
         this.currentLayer.selectAllToggle();
     }
