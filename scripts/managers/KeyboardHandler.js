@@ -4,6 +4,10 @@ class KeyboardHandler {
     }
     KeyDown(e) {
         switch (e.keyCode) {
+            case 32: // Space
+                spaceDown = true;
+                DRAW_MANAGER.redraw();
+                break;
             case 82: // R
                 if (e.shiftKey)
                     LINE_MANIPULATOR.rotate(false);
@@ -173,6 +177,11 @@ class KeyboardHandler {
 
     KeyUp(e) {
         switch (e.keyCode) {
+            case 32: // Space
+                spaceDown = false;
+                DRAW_MANAGER.redraw();
+                break;
+
             case 9: // TAB
                 if (LOGIC.currentState == StateEnum.RENDERPREVIEW) {
                     LOGIC.setState(LOGIC.previousState);

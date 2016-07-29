@@ -20,7 +20,13 @@
         this.handleSizeFactor = 1.5;
     }
 
-    drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness) {
+    drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness, ignoreCulling) {
+        if (!ignoreCulling && !this.screenBounds.contains(p1) && !this.screenBounds.contains(p2))
+        {
+            ++this.culledLinesCounter;
+            return;
+        }
+
         p1 = p1.copy();
         p2 = p2.copy();
 
@@ -253,15 +259,10 @@
         if (!LOGIC.isPreviewing()) {
             this.drawGrid();
             this.drawAxis();
-            if (LOGIC.currentState == StateEnum.BORDERSELECTION)
-                this.drawHelpers();
-            else if (grabInitializedWithKeyboard)
-                this.drawHelpers2();
+            if (LOGIC.currentState == StateEnum.BORDERSELECTION || spaceDown)
+                this.drawCrosshair();
             this.drawBorderSelection();
         }
-
-        if (!LOGIC.isPreviewing())
-            this.drawHelpers();
 
         this.drawObjects();
 
@@ -412,20 +413,10 @@
         }
     }
 
-    drawHelpers() {
-        let screenpos = CAMERA.canvasSpaceToScreenSpace(currentPosition.copy());
-        this.drawLineFromTo(new Vector2(0, screenpos.y), new Vector2(canvas.width, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.helperColor, true, true);
-        this.drawLineFromTo(new Vector2(screenpos.x, 0), new Vector2(screenpos.x, canvas.height), SETTINGS.helperLineWidth, SETTINGS.helperColor, true, true);
-    }
-
-    drawHelpers2() { // for grabbing
-        context.lineWidth = SETTINGS.helperLineWidth;
-        context.strokeStyle = SETTINGS.helperColor2;
-
-        let screenpos = CAMERA.canvasSpaceToScreenSpace(currentPosition);
-        let start = CAMERA.canvasSpaceToScreenSpace(MOUSE_HANDLER.grabStartPosition);
-
-        this.drawLineFromTo(new Vector2(start.x, start.y), new Vector2(screenpos.x, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.helperColor2, true, true);
+    drawCrosshair() {
+        let screenpos = CAMERA.canvasSpaceToScreenSpace(selectionCursor.copy());
+        this.drawLineFromTo(new Vector2(0, screenpos.y), new Vector2(canvas.width, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.selectionColor, true, true, true);
+        this.drawLineFromTo(new Vector2(screenpos.x, 0), new Vector2(screenpos.x, canvas.height), SETTINGS.helperLineWidth, SETTINGS.selectionColor, true, true, true);
     }
 
     drawBorderSelection() {

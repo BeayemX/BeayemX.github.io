@@ -12,7 +12,7 @@ class Settings {
 
         this.helperColor = "#5bb";
         this.helperColor2 = "#090";
-        this.helperLineWidth = 1.5;
+        this.helperLineWidth = 1;
 
         this.selectionColor = "#f90"; 
         this.selectionColorFill = 'rgba(255, 127, 0, 1)'; // gradient
