@@ -51,13 +51,67 @@
             SELECTION.clearSelection();
 
         this.currentLayer = this.layers[id];
+        this.layers[id].visible = true;
+
         GUI.objectHierarchyChanged();
         DRAW_MANAGER.redraw();
     }
 
-    toggleVisibilityOfLayerWithID(id)
-    {
+    toggleVisibilityOfLayerWithID(id) {
+        if (this.currentLayer)
+            SELECTION.clearSelection();
+
         this.layers[id].visible = !this.layers[id].visible;
+
+        if (!this.layers[id].visible) {
+            if (this.currentLayer == this.layers[id]) {
+
+                if (this.layers.length == 1)
+                    this.createNewLayer(true);
+                else {
+                    let i = 1;
+                    let upperOut = false;
+                    let lowerOut = false;
+                    while (i <= this.layers.length) {
+
+                        if (id + i < this.layers.length) {
+                            if (this.layers[id + i].visible) {
+                                this.currentLayer = this.layers[id + i];
+                                break;
+                            }
+
+                        }
+                        else {
+                            upperOut = true;
+                            console.log("upperOut " + (id + i));
+                        }
+
+                        if (id - i >= 0) {
+                            if (this.layers[id - i].visible) {
+                                this.currentLayer = this.layers[id - i];
+                                break;
+                            }
+                        }
+                        else {
+                            lowerOut = true;
+                            console.log("lowerOut " + (id + i));
+                        }
+
+
+                        if (upperOut && lowerOut) {
+                            this.createNewLayer(true);
+                            console.log("shoud create new layer")
+                            break;
+                        }
+                        ++i;
+                    }
+                }
+
+
+
+            }
+        }
+
         GUI.objectHierarchyChanged();
         DRAW_MANAGER.redraw();
     }
