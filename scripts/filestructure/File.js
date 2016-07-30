@@ -102,6 +102,15 @@
         }
     }
 
+    renameLayerWithID(id) {
+        let name = prompt("New name for layer: ");
+
+        if (name) {
+            this.layers[id].name = name;
+        }
+        GUI.objectHierarchyChanged();
+    }
+
     updateStats() {
         let amountLines = 0;
         for (var i = 0; i < this.layers.length; i++)

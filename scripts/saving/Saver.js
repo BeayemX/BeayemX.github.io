@@ -125,6 +125,7 @@
                 continue;
 
             let layer = FILE.createNewLayer(true);
+            layer.name = g.getAttribute("name");
 
             let lines = [];
             for (let line of g.childNodes) {
@@ -143,6 +144,7 @@
         // not using addLine() because due to 'cutLines' it could lead to unwanted results
             layer.lines = lines;
         }
+        GUI.objectHierarchyChanged();
         DRAW_MANAGER.redraw();
         FILE.updateStats();
     }

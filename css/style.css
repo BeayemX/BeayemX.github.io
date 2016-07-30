@@ -1,3 +1,7 @@
+::selection {
+    background-color: Transparent;
+}
+
 * {
     margin: 0;
     padding: 0;

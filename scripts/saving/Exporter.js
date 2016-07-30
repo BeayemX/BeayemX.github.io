@@ -42,7 +42,7 @@ class Exporter {
         for (let layer of layers) {
             svgData +=
                 '\t<g ' +
-                'id="' + layer.id + '" ' +
+                'name="' + layer.name + '" ' +
                 //'opacity="' + layer.color.a + '" ' +
 
                 //'stroke="' + layer.color.toHexString() + '" ' +

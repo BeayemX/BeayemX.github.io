@@ -98,11 +98,12 @@
             button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("onclick", "FILE.selectLayerWithID(" + i + ")");
+            button.setAttribute("oncontextmenu", "FILE.renameLayerWithID(" + i + ")");
             if (FILE.currentLayer == layers[i]) {
                 button.setAttribute("id", "selectedButton");
                 tr.setAttribute("id", "selectedLayer");
             }
-            button.innerHTML = "Layer " + i;
+            button.innerHTML = layers[i].name;
             td.appendChild(button);
 
             // delete layer button
