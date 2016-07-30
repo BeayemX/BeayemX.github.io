@@ -88,22 +88,23 @@
             button.setAttribute("onclick", "FILE.toggleVisibilityOfLayerWithID(" + i + ")");
             if (layers[i].visible)
                 button.innerHTML = "O";
-            else 
-                button.innerHTML = "_";
+            else
+                button.innerHTML = "-";
             td.appendChild(button);
-            
+
             // select layer button
             td = document.createElement("td");
             tr.appendChild(td);
             button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("onclick", "FILE.selectLayerWithID(" + i + ")");
-            if (FILE.currentLayer == layers[i])
-                button.innerHTML = "<b><i>L a y e r &nbsp &nbsp" + i + "</i></b>";
-            else 
-                button.innerHTML = "Layer " + i;
+            if (FILE.currentLayer == layers[i]) {
+                button.setAttribute("id", "selectedButton");
+                tr.setAttribute("id", "selectedLayer");
+            }
+            button.innerHTML = "Layer " + i;
             td.appendChild(button);
-            
+
             // delete layer button
             td = document.createElement("td");
             tr.appendChild(td);

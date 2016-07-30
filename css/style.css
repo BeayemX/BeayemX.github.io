@@ -132,18 +132,30 @@ div {
     visibility: visible;
 }
 
-#stats table {
-    width: 100%;
-}
+    #stats table {
+        width: 100%;
+    }
 
-.toolcategory table{
+.toolcategory table {
     margin-left: 10%;
     margin-right: 10%;
     width: 80%;
+    border-collapse: collapse;
 }
 
-.toolcategory table button {
-    margin: 0px;
-    width: 100%;
+    .toolcategory table button {
+        margin: 0px;
+        width: 100%;
+    }
 
+#selectedButton {
+    color: #a4a4a4;
+}
+
+table #selectedLayer {
+    background-color: lightblue;
+    border-left: 1px lightblue solid;
+    border-right: 1px lightblue solid;
+    border-top: 1px lightblue solid;
+    border-bottom: 1px lightblue solid;
 }
