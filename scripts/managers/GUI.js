@@ -101,7 +101,7 @@
             if (FILE.currentLayer == layers[i])
                 button.innerHTML = "<b><i>L a y e r &nbsp &nbsp" + i + "</i></b>";
             else 
-                button.innerHTML = "Layer" + i;
+                button.innerHTML = "Layer " + i;
             td.appendChild(button);
             
             // delete layer button
