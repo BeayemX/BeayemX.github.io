@@ -13,8 +13,8 @@ class LineManipulator {
         for (var i = 0; i < selectedLines.length; ++i) {
             let midPoint = selectedLines[i].end.position.addVector(selectedLines[i].start.position).multiply(0.5);
 
-            newLines.push(new Line(selectedLines[i].start.position.x, selectedLines[i].start.position.y, midPoint.x, midPoint.y));
-            newLines.push(new Line(midPoint.x, midPoint.y, selectedLines[i].end.position.x, selectedLines[i].end.position.y));
+            newLines.push(new Line(selectedLines[i].start.position.x, selectedLines[i].start.position.y, midPoint.x, midPoint.y, selectedLines[i].color, selectedLines[i].thickness));
+            newLines.push(new Line(midPoint.x, midPoint.y, selectedLines[i].end.position.x, selectedLines[i].end.position.y, selectedLines[i].color, selectedLines[i].thickness));
         }
         SELECTION.lines = [];
         SELECTION.lines = newLines;
