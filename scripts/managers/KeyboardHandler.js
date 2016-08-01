@@ -1,8 +1,22 @@
 class KeyboardHandler {
     constructor() {
         console.log("KeyboardHandler created.");
+
+        this.recordInput = false;
+
+        this.axisLock = "";
+        this.digitsBeforeComma = "";
+        this.digitsAfterComma = "";
+        this.comma = false;
+        this.callback = null;
     }
+
     KeyDown(e) {
+        if (KEYBOARD_HANDLER.recordInput) {
+            e.preventDefault();
+            KEYBOARD_HANDLER.record(e.code + "", String.fromCharCode(e.keyCode));
+            return;
+        }
         switch (e.keyCode) {
             case 32: // Space
                 spaceDown = true;
@@ -19,7 +33,7 @@ class KeyboardHandler {
                 if (e.shiftKey) {
                     UTILITIES.snapSelectedPointsToGrid();
                 }
-                else if (e.ctrlKey) {                    
+                else if (e.ctrlKey) {
                     if (!EXPORTER.ExportAsSVG())
                         SAVER.autoSave();
                 }
@@ -78,8 +92,7 @@ class KeyboardHandler {
                 break;
 
             case 9: // TAB
-                if (!LOGIC.isPreviewing())
-                {
+                if (!LOGIC.isPreviewing()) {
                     LOGIC.setState(StateEnum.RENDERPREVIEW);
                     canvas.style.background = 'white'; // TODO settings?
                     DRAW_MANAGER.redraw();
@@ -162,14 +175,18 @@ class KeyboardHandler {
                 tmpCutLines = true;
                 break;
 
+                /*
+                case 69: // E
+                KEYBOARD_HANDLER.startRecordingInput(KEYBOARD_HANDLER.testCallBack);
+                break;
+                // */
+
             default:
-                console.log("KeyDown(): \n"
-                    + "keyCode: " + e.keyCode + "\n"
-                    + "ctrlKey: " + e.ctrlKey + "\n"
-                    + "altKey: " + e.altKey + "\n"
-                    + "shiftKey: " + e.shiftKey + "\n"
-                    );
+                console.log(e);
+                GUI.notify(String.fromCharCode(e.keyCode) + " (" + e.keyCode + ") pressed.");
+                break;
         }
+        
 
         if (e.keyCode != 123 // F12
 	    && !(e.keyCode == 76 && e.ctrlKey) // ctrl+L, 
@@ -180,6 +197,11 @@ class KeyboardHandler {
     }
 
     KeyUp(e) {
+        if (KEYBOARD_HANDLER.recordInput) {
+            e.preventDefault();
+            return;
+        }
+
         switch (e.keyCode) {
             case 32: // Space
                 spaceDown = false;
@@ -223,5 +245,81 @@ class KeyboardHandler {
             UTILITIES.moveSelectionBy(selPoints, delta);
             DRAW_MANAGER.redraw();
         }
+    }
+
+    record(code, char) {
+        //48 - 57
+        if (code.includes("Digit")) {
+            //if (!isNaN(char)) {
+            if (KEYBOARD_HANDLER.comma)
+                KEYBOARD_HANDLER.digitsAfterComma += char;
+            else
+                KEYBOARD_HANDLER.digitsBeforeComma += char;
+        }
+        else if (code.includes("Key")) {
+            if (char == "X") {
+                if (KEYBOARD_HANDLER.axisLock == "X")
+                    KEYBOARD_HANDLER.axisLock = "";
+                else
+                    KEYBOARD_HANDLER.axisLock = char;
+            }
+            else if (char == "Y") {
+                if (KEYBOARD_HANDLER.axisLock == "Y")
+                    KEYBOARD_HANDLER.axisLock = "";
+                else
+                    KEYBOARD_HANDLER.axisLock = char;
+            }
+        }
+        else if (code == "Comma" || code == "Period")
+        {
+            KEYBOARD_HANDLER.comma = true;
+        }
+        else if (code == "Enter") {
+
+            KEYBOARD_HANDLER.callback(KEYBOARD_HANDLER.getRecordedInputNumberAsString(), KEYBOARD_HANDLER.axisLock);
+            KEYBOARD_HANDLER.callback = null;
+
+            KEYBOARD_HANDLER.recordInput = false;
+            KEYBOARD_HANDLER.axisLock = "";
+            KEYBOARD_HANDLER.digitsBeforeComma = "";
+            KEYBOARD_HANDLER.digitsAfterComma = "";
+            KEYBOARD_HANDLER.comma = false;
+
+            return;
+        }
+        else if (code == "Backspace")
+        {
+            if (KEYBOARD_HANDLER.digitsAfterComma.length > 0)
+                KEYBOARD_HANDLER.digitsAfterComma = KEYBOARD_HANDLER.digitsAfterComma.slice(0, KEYBOARD_HANDLER.digitsAfterComma.length - 1);
+            else if (KEYBOARD_HANDLER.comma)
+                KEYBOARD_HANDLER.comma = false;
+            else if (KEYBOARD_HANDLER.digitsBeforeComma.length > 0)
+                KEYBOARD_HANDLER.digitsBeforeComma = KEYBOARD_HANDLER.digitsBeforeComma.slice(0, KEYBOARD_HANDLER.digitsBeforeComma.length - 1);
+        }
+        
+        console.log(code + ", " + char);
+
+        GUI.writeToStatusbarLeft(KEYBOARD_HANDLER.getRecordedInputNumberAsString());
+        //GUI.writeToStats("recordInput", KEYBOARD_HANDLER.recordInput);
+        //GUI.writeToStats("axisLock", KEYBOARD_HANDLER.axisLock);
+        //GUI.writeToStats("digitsBeforeComma", KEYBOARD_HANDLER.digitsBeforeComma);
+        //GUI.writeToStats("digitsAfterComma", KEYBOARD_HANDLER.digitsAfterComma);
+        //GUI.writeToStats("comma", KEYBOARD_HANDLER.comma);
+    }
+
+    getRecordedInputNumberAsString() {
+        return +(KEYBOARD_HANDLER.digitsBeforeComma + "." + KEYBOARD_HANDLER.digitsAfterComma);
+    }
+
+    startRecordingInput(callback)
+    {
+        KEYBOARD_HANDLER.callback = callback
+        KEYBOARD_HANDLER.recordInput = true;
+    }
+
+    testCallBack(num, axisLock)
+    {
+        console.log(num);
+        console.log(axisLock);
     }
 }
