@@ -16,7 +16,7 @@
         this.requestRedraw = false;
         this.fps = 0;
 
-        this.outlineSize = 1;
+        this.outlineSize = 3;
         this.handleSizeFactor = 1.5;
     }
 
@@ -320,18 +320,18 @@
             return;
 
         for (let line of SELECTION.lines)
-            this.drawLineFromTo(line.start.position.addVector(delta), line.end.position.addVector(delta), line.thickness + this.outlineSize, SETTINGS.selectionColor);
+            this.drawLineFromTo(line.start.position.addVector(delta), line.end.position.addVector(delta), line.thickness + this.outlineSize / CAMERA.zoom, SETTINGS.selectionColor);
 
         for (let p of SELECTION.points) {
             let color = this.generateGradient(p.position.addVector(delta), p.opposite.position, Color.transparent());
-            this.drawLineFromTo(p.position.addVector(delta), p.opposite.position, p.line.thickness + this.outlineSize, color, false, false);
+            this.drawLineFromTo(p.position.addVector(delta), p.opposite.position, p.line.thickness + this.outlineSize / CAMERA.zoom, color, false, false);
         }
 
         // selected points
         for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points))
         {
             let radius = (LINE_MANIPULATOR.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
-            this.drawRealCircle(p.position.addVector(delta), radius + this.outlineSize * 0.5, this.outlineSize, SETTINGS.selectionColor, false, false, true)
+            this.drawRealCircle(p.position.addVector(delta), radius + this.outlineSize * 0.5 / CAMERA.zoom, this.outlineSize / CAMERA.zoom, SETTINGS.selectionColor, false, false, true)
         }
     }
 
