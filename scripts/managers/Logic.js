@@ -72,8 +72,8 @@ class Logic {
     }
 
     start() {
-        window.addEventListener("keydown", KEYBOARD_HANDLER.KeyDown, false)
-        window.addEventListener("keyup", KEYBOARD_HANDLER.KeyUp, false)
+        window.addEventListener("keydown", evt => KEYBOARD_HANDLER.KeyDown(evt), false);
+        window.addEventListener("keyup", evt => KEYBOARD_HANDLER.KeyUp(evt), false);
         window.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
         window.addEventListener('resize', this.layoutGUI, false);
         window.addEventListener('focus', function () {

@@ -12,9 +12,9 @@ class KeyboardHandler {
     }
 
     KeyDown(e) {
-        if (KEYBOARD_HANDLER.recordInput) {
+        if (this.recordInput) {
             e.preventDefault();
-            KEYBOARD_HANDLER.record(e.code + "", String.fromCharCode(e.keyCode));
+            this.record(e.code + "", String.fromCharCode(e.keyCode));
             return;
         }
         switch (e.keyCode) {
@@ -160,16 +160,16 @@ class KeyboardHandler {
                 break;
 
             case 37: // ARROW LEFT
-                KEYBOARD_HANDLER.arrowMovement(-1, 0, e.shiftKey, e.ctrlKey);
+                this.arrowMovement(-1, 0, e.shiftKey, e.ctrlKey);
                 break;
             case 38: // ARROW UP
-                KEYBOARD_HANDLER.arrowMovement(0, -1, e.shiftKey, e.ctrlKey);
+                this.arrowMovement(0, -1, e.shiftKey, e.ctrlKey);
                 break;
             case 39: // ARROW RIGHT
-                KEYBOARD_HANDLER.arrowMovement(1, 0, e.shiftKey, e.ctrlKey);
+                this.arrowMovement(1, 0, e.shiftKey, e.ctrlKey);
                 break;
             case 40: // ARROW DOWN
-                KEYBOARD_HANDLER.arrowMovement(0, 1, e.shiftKey, e.ctrlKey);
+                this.arrowMovement(0, 1, e.shiftKey, e.ctrlKey);
                 break;
             case 18: // ALT
                 tmpCutLines = true;
@@ -177,7 +177,7 @@ class KeyboardHandler {
 
                 /*
                 case 69: // E
-                KEYBOARD_HANDLER.startRecordingInput(KEYBOARD_HANDLER.testCallBack);
+                this.startRecordingInput(this.testCallBack);
                 break;
                 // */
 
@@ -197,7 +197,7 @@ class KeyboardHandler {
     }
 
     KeyUp(e) {
-        if (KEYBOARD_HANDLER.recordInput) {
+        if (this.recordInput) {
             e.preventDefault();
             return;
         }
@@ -251,70 +251,70 @@ class KeyboardHandler {
         //48 - 57
         if (code.includes("Digit")) {
             //if (!isNaN(char)) {
-            if (KEYBOARD_HANDLER.comma)
-                KEYBOARD_HANDLER.digitsAfterComma += char;
+            if (this.comma)
+                this.digitsAfterComma += char;
             else
-                KEYBOARD_HANDLER.digitsBeforeComma += char;
+                this.digitsBeforeComma += char;
         }
         else if (code.includes("Key")) {
             if (char == "X") {
-                if (KEYBOARD_HANDLER.axisLock == "X")
-                    KEYBOARD_HANDLER.axisLock = "";
+                if (this.axisLock == "X")
+                    this.axisLock = "";
                 else
-                    KEYBOARD_HANDLER.axisLock = char;
+                    this.axisLock = char;
             }
             else if (char == "Y") {
-                if (KEYBOARD_HANDLER.axisLock == "Y")
-                    KEYBOARD_HANDLER.axisLock = "";
+                if (this.axisLock == "Y")
+                    this.axisLock = "";
                 else
-                    KEYBOARD_HANDLER.axisLock = char;
+                    this.axisLock = char;
             }
         }
         else if (code == "Comma" || code == "Period")
         {
-            KEYBOARD_HANDLER.comma = true;
+            this.comma = true;
         }
         else if (code == "Enter") {
 
-            KEYBOARD_HANDLER.callback(KEYBOARD_HANDLER.getRecordedInputNumberAsString(), KEYBOARD_HANDLER.axisLock);
-            KEYBOARD_HANDLER.callback = null;
+            this.callback(this.getRecordedInputNumberAsString(), this.axisLock);
+            this.callback = null;
 
-            KEYBOARD_HANDLER.recordInput = false;
-            KEYBOARD_HANDLER.axisLock = "";
-            KEYBOARD_HANDLER.digitsBeforeComma = "";
-            KEYBOARD_HANDLER.digitsAfterComma = "";
-            KEYBOARD_HANDLER.comma = false;
+            this.recordInput = false;
+            this.axisLock = "";
+            this.digitsBeforeComma = "";
+            this.digitsAfterComma = "";
+            this.comma = false;
 
             return;
         }
         else if (code == "Backspace")
         {
-            if (KEYBOARD_HANDLER.digitsAfterComma.length > 0)
-                KEYBOARD_HANDLER.digitsAfterComma = KEYBOARD_HANDLER.digitsAfterComma.slice(0, KEYBOARD_HANDLER.digitsAfterComma.length - 1);
-            else if (KEYBOARD_HANDLER.comma)
-                KEYBOARD_HANDLER.comma = false;
-            else if (KEYBOARD_HANDLER.digitsBeforeComma.length > 0)
-                KEYBOARD_HANDLER.digitsBeforeComma = KEYBOARD_HANDLER.digitsBeforeComma.slice(0, KEYBOARD_HANDLER.digitsBeforeComma.length - 1);
+            if (this.digitsAfterComma.length > 0)
+                this.digitsAfterComma = this.digitsAfterComma.slice(0, this.digitsAfterComma.length - 1);
+            else if (this.comma)
+                this.comma = false;
+            else if (this.digitsBeforeComma.length > 0)
+                this.digitsBeforeComma = this.digitsBeforeComma.slice(0, this.digitsBeforeComma.length - 1);
         }
         
         console.log(code + ", " + char);
 
-        GUI.writeToStatusbarLeft(KEYBOARD_HANDLER.getRecordedInputNumberAsString());
-        //GUI.writeToStats("recordInput", KEYBOARD_HANDLER.recordInput);
-        //GUI.writeToStats("axisLock", KEYBOARD_HANDLER.axisLock);
-        //GUI.writeToStats("digitsBeforeComma", KEYBOARD_HANDLER.digitsBeforeComma);
-        //GUI.writeToStats("digitsAfterComma", KEYBOARD_HANDLER.digitsAfterComma);
-        //GUI.writeToStats("comma", KEYBOARD_HANDLER.comma);
+        GUI.writeToStatusbarLeft(this.getRecordedInputNumberAsString());
+        //GUI.writeToStats("recordInput", this.recordInput);
+        //GUI.writeToStats("axisLock", this.axisLock);
+        //GUI.writeToStats("digitsBeforeComma", this.digitsBeforeComma);
+        //GUI.writeToStats("digitsAfterComma", this.digitsAfterComma);
+        //GUI.writeToStats("comma", this.comma);
     }
 
     getRecordedInputNumberAsString() {
-        return +(KEYBOARD_HANDLER.digitsBeforeComma + "." + KEYBOARD_HANDLER.digitsAfterComma);
+        return +(this.digitsBeforeComma + "." + this.digitsAfterComma);
     }
 
     startRecordingInput(callback)
     {
-        KEYBOARD_HANDLER.callback = callback
-        KEYBOARD_HANDLER.recordInput = true;
+        this.callback = callback
+        this.recordInput = true;
     }
 
     testCallBack(num, axisLock)
