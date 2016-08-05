@@ -66,7 +66,9 @@
                     Number(line.getAttribute("x1")),
                     Number(line.getAttribute("y1")),
                     Number(line.getAttribute("x2")),
-                    Number(line.getAttribute("y2"))
+                    Number(line.getAttribute("y2")),
+                    Color.hexToColor(line.getAttribute('stroke')),
+                    Number(line.getAttribute('stroke-width'))
                 ),
                 true
                 );
