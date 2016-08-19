@@ -1,4 +1,4 @@
-﻿class DrawManager {
+﻿class Renderer {
     constructor() {
         console.log("DrawManager created.");
         this.batchedLines = [];
@@ -244,7 +244,7 @@
         if (arguments.length == 0) {
             if (!this.requestRedraw) {
                 this.requestRedraw = true;
-                window.requestAnimationFrame(step => DRAW_MANAGER.redraw(step));
+                window.requestAnimationFrame(step => RENDERER.redraw(step));
             }
             return;
         }

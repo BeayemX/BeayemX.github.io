@@ -51,7 +51,7 @@ class Utilities {
 
         LOGIC.setState(StateEnum.IDLE);
 
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     selectWithinBorderSelection() {
@@ -126,7 +126,7 @@ class Utilities {
         for (let i = 0; i < selPoints.length; ++i)
             selPoints[i].position = GRID.getNearestPointFor(selPoints[i].position);
 
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     distancePointToLine(position, line) {

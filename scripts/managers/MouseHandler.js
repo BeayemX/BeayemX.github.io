@@ -49,7 +49,7 @@ class MouseHandler {
         else // while panning
         {
             CAMERA.canvasOffset = CAMERA.canvasOffset.addVector(screenPosDelta.divide(CAMERA.zoom));
-            DRAW_MANAGER.redraw();
+            RENDERER.redraw();
         }
 
         //GUI.writeToStats("CAMERA.canvasOffset", CAMERA.canvasOffset.toString());
@@ -63,7 +63,7 @@ class MouseHandler {
             }
         }
 
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     MouseDown(e) {
@@ -126,7 +126,7 @@ class MouseHandler {
                     this.cancelLinePreview();
                 }
 
-                DRAW_MANAGER.redraw();
+                RENDERER.redraw();
             }
             else if (e.button == 1) // MMB
             {
@@ -221,7 +221,7 @@ class MouseHandler {
                 this.grabInitializedWithRMBDown = false;
                 grabInitializedWithKeyboard = false;
                 LOGIC.setState(StateEnum.IDLE);
-                DRAW_MANAGER.redraw();
+                RENDERER.redraw();
             }
         }
     }
@@ -252,7 +252,7 @@ class MouseHandler {
             this.MouseMove(e);
         }
 
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
 
         e.preventDefault();
     }
@@ -279,7 +279,7 @@ class MouseHandler {
 
         grabInitializedWithKeyboard = false;
         LOGIC.setState(StateEnum.IDLE);
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     cancelMoveLinesPreview() {

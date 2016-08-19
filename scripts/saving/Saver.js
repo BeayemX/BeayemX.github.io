@@ -20,7 +20,7 @@
         }
 
         this.createFileFromSVGString(autoSaveFile);
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     newFile() {
@@ -29,7 +29,7 @@
         SELECTION = new Selection();
         FILE.createNewLayer(true);
         FILE.updateStats();
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     copyLinesToClipboard() // session storage
@@ -76,7 +76,7 @@
         FILE.currentLayer.addLines(lines);
         GUI.notify("Lines pasted from clipboard!");
 
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
         FILE.updateStats();
         return true;
     }
@@ -118,7 +118,7 @@
         SELECTION = new Selection();
         //FILE.createNewLayer(true);
         FILE.updateStats();
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
         // END copy paste
 
         for (let g of svg.childNodes) {
@@ -147,7 +147,7 @@
             layer.lines = lines;
         }
         GUI.objectHierarchyChanged();
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
         FILE.updateStats();
     }
 }

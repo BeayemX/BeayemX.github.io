@@ -10,11 +10,11 @@ class Exporter {
         w.document.write("<img src='" + canvas.toDataURL("image/png") + "' alt='from canvas'/>");
 
         LOGIC.setState(StateEnum.RENDERPREVIEW);
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
         w.document.write("<img src='" + canvas.toDataURL("image/png") + "' alt='from canvas'/>");
 
         LOGIC.setState(StateEnum.IDLE);
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
         GUI.notify("Picture saved!");
     }
 

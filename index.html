@@ -29,7 +29,7 @@
     <script src="scripts/saving/Saver.js"></script>
     <script src="scripts/saving/FileSaver.js"></script>
 
-    <script src="scripts/managers/DrawManager.js"></script>
+    <script src="scripts/managers/Renderer.js"></script>
     <script src="scripts/managers/GUI.js"></script>
 
     <script src="scripts/saving/Exporter.js"></script>
@@ -74,7 +74,7 @@
             <p>Toggles</p>
             <button type="button" 
                     onload="console.log('button'); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
-                    onclick=" LINE_MANIPULATOR.showHandles=!LINE_MANIPULATOR.showHandles; DRAW_MANAGER.redraw(); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
+                    onclick=" LINE_MANIPULATOR.showHandles=!LINE_MANIPULATOR.showHandles; RENDERER.redraw(); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
                     enabledText="Hide line handles" 
                     disabledText="Show line handles">Hide line handles</button>
             <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, cutLines)" onclick="cutLines = !cutLines; LOGIC.adjustButtonText(this, cutLines)" enabledText="Deactivate line cutting" disabledText="Activate line cutting">Activate line cutting</button>
@@ -84,8 +84,8 @@
         
         <div class="toolcategory">
             <p>Dev</p>
-            <button type="button" onclick="mirrorX = !mirrorX; DRAW_MANAGER.redraw();">MirrorX</button>
-            <button type="button" onclick="mirrorY = !mirrorY; DRAW_MANAGER.redraw();">MirrorY</button>
+            <button type="button" onclick="mirrorX = !mirrorX; RENDERER.redraw();">MirrorX</button>
+            <button type="button" onclick="mirrorY = !mirrorY; RENDERER.redraw();">MirrorY</button>
 
         </div>
 

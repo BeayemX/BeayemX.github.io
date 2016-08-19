@@ -20,7 +20,7 @@ class KeyboardHandler {
         switch (e.keyCode) {
             case 32: // Space
                 spaceDown = true;
-                DRAW_MANAGER.redraw();
+                RENDERER.redraw();
                 break;
             case 82: // R
                 if (e.shiftKey)
@@ -49,7 +49,7 @@ class KeyboardHandler {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
                         MOUSE_HANDLER.startMoveLinesPreview();
-                        DRAW_MANAGER.redraw();
+                        RENDERER.redraw();
                     }
                 }
                 break;
@@ -57,7 +57,7 @@ class KeyboardHandler {
             case 65: // A
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     FILE.selectAllToggle();
-                    DRAW_MANAGER.redraw();
+                    RENDERER.redraw();
                 }
 
                 break;
@@ -67,14 +67,14 @@ class KeyboardHandler {
             case 8: // BACKSPACE
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     SELECTION.deleteSelection();
-                    DRAW_MANAGER.redraw();
+                    RENDERER.redraw();
                 }
 
                 break;
             case 73: // I
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     SELECTION.invertSelection();
-                    DRAW_MANAGER.redraw();
+                    RENDERER.redraw();
                 }
                 break;
             case 68: // D
@@ -95,7 +95,7 @@ class KeyboardHandler {
                 if (!LOGIC.isPreviewing()) {
                     LOGIC.setState(StateEnum.RENDERPREVIEW);
                     canvas.style.background = 'white'; // TODO settings?
-                    DRAW_MANAGER.redraw();
+                    RENDERER.redraw();
                 }
                 break;
 
@@ -120,11 +120,11 @@ class KeyboardHandler {
             case 70: // F // TODO improve. CAMERA.zoom to selection / CAMERA.zoom fit / etc ... 
                 CAMERA.setZoom(1);
                 CAMERA.canvasOffset = (new Vector2(canvas.width * 0.5, canvas.height * 0.5)).divide(CAMERA.zoom);
-                DRAW_MANAGER.redraw();
+                RENDERER.redraw();
                 break;
             case 66: // B
                 LOGIC.setState(StateEnum.BORDERSELECTION);
-                DRAW_MANAGER.redraw();
+                RENDERER.redraw();
                 break;
             case 187: // +
                 LINE_MANIPULATOR.increaseSize(2);
@@ -205,14 +205,14 @@ class KeyboardHandler {
         switch (e.keyCode) {
             case 32: // Space
                 spaceDown = false;
-                DRAW_MANAGER.redraw();
+                RENDERER.redraw();
                 break;
 
             case 9: // TAB
                 if (LOGIC.currentState == StateEnum.RENDERPREVIEW) {
                     LOGIC.setState(LOGIC.previousState);
                     canvas.style.background = SETTINGS.canvasColor;
-                    DRAW_MANAGER.redraw();
+                    RENDERER.redraw();
                 }
                 break;
 
@@ -243,7 +243,7 @@ class KeyboardHandler {
             let delta = new Vector2(x * stepSize, y * stepSize);
             let selPoints = SELECTION.getAllSelectedPoints();
             UTILITIES.moveSelectionBy(selPoints, delta);
-            DRAW_MANAGER.redraw();
+            RENDERER.redraw();
         }
     }
 

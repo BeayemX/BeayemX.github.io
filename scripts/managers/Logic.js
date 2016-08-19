@@ -16,7 +16,7 @@ let currentLineColor = Color.black();
 let SAVER;
 let FILE;
 let CAMERA;
-let DRAW_MANAGER;
+let RENDERER;
 let KEYBOARD_HANDLER;
 let MOUSE_HANDLER;
 let LOGIC;
@@ -49,7 +49,7 @@ function onLoad() {
     SAVER = new Saver();
     FILE = new File();
     CAMERA = new Camera();
-    DRAW_MANAGER = new DrawManager();
+    RENDERER = new Renderer();
     GUI = new Gui();
     UTILITIES = new Utilities();
     EXPORTER = new Exporter();
@@ -117,7 +117,7 @@ class Logic {
         SAVER.newFile();
 
         FILE.updateStats();
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
 
         for (var i = 0; i < waitingForStart.length; i++) {
             waitingForStart[i].start();
@@ -138,7 +138,7 @@ class Logic {
         offscreenCanvas.style.left = canvas.width - 50;
         offscreenCanvas.style.top= canvas.height - 50;
         */
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     setState(state) {
@@ -158,7 +158,7 @@ class Logic {
     toggleGridVisiblity(senderButton) {
         showGrid = !showGrid;
         senderButton.innerHTML = showGrid ? "Hide grid" : "Show grid";
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     toggleGrid() {
@@ -167,7 +167,7 @@ class Logic {
         else
             GRID = new Grid();
 
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     adjustButtonText(button, val) {

@@ -18,7 +18,7 @@ class LineManipulator {
         }
         SELECTION.lines = [];
         SELECTION.lines = newLines;
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     mirror() {
@@ -38,7 +38,7 @@ class LineManipulator {
             selLines[i].start.position.x -= (selLines[i].start.position.x - minX) * 2 - (maxX - minX);
             selLines[i].end.position.x -= (selLines[i].end.position.x - minX) * 2 - (maxX - minX);
         }
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     rotate(clockwise) {
@@ -91,7 +91,7 @@ class LineManipulator {
             selLines[i].end.position.x += minX - newMinX;
             selLines[i].end.position.y += minY - newMinY;
         }
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     increaseSize(factor) {
@@ -114,7 +114,7 @@ class LineManipulator {
         let points = SELECTION.getAllSelectedPoints();
         UTILITIES.movePointsBy(points, delta);
         //FILE.cleanUpFile();
-        DRAW_MANAGER.redraw();
+        RENDERER.redraw();
     }
 
     growSelection() {
