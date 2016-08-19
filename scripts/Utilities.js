@@ -156,7 +156,7 @@ class Utilities {
             if (points.length == 1) {
                 if (!points[0].equals(lines[i].end.position) && !points[0].equals(lines[i].start.position)) {
 
-                    lines.push(new Line(points[0].copy(), lines[i].end.position.copy()));
+                    lines.push(new Line(points[0].copy(), lines[i].end.position.copy(),lines[i].color, lines[i].thickness));
                     lines[i].setEnd(points[0]);
                 }
             }
