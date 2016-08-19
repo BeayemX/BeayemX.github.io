@@ -111,6 +111,14 @@
         GUI.objectHierarchyChanged();
     }
 
+    changeNameForLayerWithID(text)
+    {
+        console.log(arguments);
+        //window.addEventListener("keydown", evt => KEYBOARD_HANDLER.KeyDown(evt), false)
+        //window.addEventListener("keyup", evt => KEYBOARD_HANDLER.KeyUp(evt), false)
+
+    }
+
     updateStats() {
         let amountLines = 0;
         for (var i = 0; i < this.layers.length; i++)
