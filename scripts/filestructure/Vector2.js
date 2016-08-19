@@ -77,6 +77,14 @@ class Vector2 {
         return new Vector2(-this.x, -this.y);
     }
 
+    mirrorX() {
+        return new Vector2(-this.x, this.y);
+    }
+
+    mirrorY() {
+        return new Vector2(this.x, -this.y);
+    }
+
     setValues(x, y) {
         if (arguments.length == 1) {
             y = x.y;

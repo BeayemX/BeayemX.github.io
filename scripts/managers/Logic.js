@@ -39,6 +39,9 @@ let cutLines = false;
 let tmpCutLines = false;
 let waitingForStart = [];
 
+let mirrorX = false;
+let mirrorY = false;
+
 function onLoad() {
     KEYBOARD_HANDLER = new KeyboardHandler();
     MOUSE_HANDLER = new MouseHandler();

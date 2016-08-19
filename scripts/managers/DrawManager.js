@@ -358,7 +358,21 @@
             if (movingLines)
                 context.setLineDash([line.thickness * 6 * CAMERA.zoom, line.thickness * 4 * CAMERA.zoom]);
 
-            this.drawLineFromTo(line.start.position, line.end.position, movingLines ? line.thickness * 0.5 : line.thickness, line.color);
+
+            let thickness = movingLines ? line.thickness * 0.5 : line.thickness;
+            let color = line.color.copy();
+
+            this.drawLineFromTo(line.start.position, line.end.position, thickness, line.color);
+
+            if (!LOGIC.isPreviewing())
+                color.a = 0.3;
+
+            if (mirrorX)
+                this.drawLineFromTo(line.start.position.mirrorX(), line.end.position.mirrorX(), thickness, color);
+            if (mirrorY)
+                this.drawLineFromTo(line.start.position.mirrorY(), line.end.position.mirrorY(), thickness, color);
+            if (mirrorX && mirrorY)
+                this.drawLineFromTo(line.start.position.flipped(), line.end.position.flipped(), thickness, color);
 
             if (movingLines)
                 context.setLineDash([]);
@@ -378,7 +392,23 @@
 
         
         for (let line of layer.lines)
-            this.drawLineFromTo(line.start.position, line.end.position, line.thickness, line.color);
+        {
+
+            let thickness = line.thickness;
+            let color = line.color.copy();
+
+            this.drawLineFromTo(line.start.position, line.end.position, thickness, color);
+
+            if (!LOGIC.isPreviewing())
+                color.a = 0.3;
+
+            if (mirrorX)
+                this.drawLineFromTo(line.start.position.mirrorX(), line.end.position.mirrorX(), thickness, color);
+            if (mirrorY)
+                this.drawLineFromTo(line.start.position.mirrorY(), line.end.position.mirrorY(), thickness, color);
+            if (mirrorX && mirrorY)
+                this.drawLineFromTo(line.start.position.flipped(), line.end.position.flipped(), thickness, color);
+        }
 
         for (let p of UTILITIES.linesToLineEndings(layer.lines))
         {
@@ -406,12 +436,41 @@
 
         // selected lines
         for (let line of SELECTION.lines)
-            this.drawLineFromTo(line.start.position.addVector(delta), line.end.position.addVector(delta), line.thickness, line.color);
+        {
+            let thickness = line.thickness;
+            let color = line.color.copy();
+
+            this.drawLineFromTo(line.start.position.addVector(delta), line.end.position.addVector(delta), thickness, color);
+
+            if (!LOGIC.isPreviewing()) 
+                color.a = 0.3;
+
+            if (mirrorX)
+                this.drawLineFromTo(line.start.position.addVector(delta).mirrorX(), line.end.position.addVector(delta).mirrorX(), thickness, color);
+            if (mirrorY)
+                this.drawLineFromTo(line.start.position.addVector(delta).mirrorY(), line.end.position.addVector(delta).mirrorY(), thickness, color);
+            if (mirrorX && mirrorY)
+                this.drawLineFromTo(line.start.position.addVector(delta).flipped(), line.end.position.addVector(delta).flipped(), thickness, color);
+        }
 
         // partially selected lines
         for (let point of SELECTION.points) {
             let p = point.position.addVector(delta);
-            this.drawLineFromTo(p, point.opposite.position, point.line.thickness, point.line.color, false);
+
+            let thickness = point.line.thickness;
+            let color = point.line.color.copy();
+
+            this.drawLineFromTo(p, point.opposite.position, thickness, color, false);
+
+            if (!LOGIC.isPreviewing())
+                color.a = 0.3;
+
+            if (mirrorX)
+                this.drawLineFromTo(p.mirrorX(), point.opposite.position.mirrorX(), thickness, color);
+            if (mirrorY)
+                this.drawLineFromTo(p.mirrorY(), point.opposite.position.mirrorY(), thickness, color);
+            if (mirrorX && mirrorY)
+                this.drawLineFromTo(p.flipped(), point.opposite.position.flipped(), thickness, color);
         }
 
         // selected points
