@@ -123,7 +123,7 @@ class KeyboardHandler {
                     EXPORTER.TakeScreenshot();
                 break;
             case 70: // F // TODO improve. CAMERA.zoom to selection / CAMERA.zoom fit / etc ... 
-                CAMERA.setZoom(1);
+                CAMERA.setZoom(1, false);
                 CAMERA.canvasOffset = (new Vector2(canvas.width * 0.5, canvas.height * 0.5)).divide(CAMERA.zoom);
                 RENDERER.redraw();
                 break;

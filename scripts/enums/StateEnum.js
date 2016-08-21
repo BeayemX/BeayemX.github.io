@@ -4,5 +4,7 @@ var StateEnum = {
 	GRABBING: "grabbing",
 	RENDERPREVIEW: "renderpreview",
 	BORDERSELECTION: "borderselection",
-    CONTINOUSDRAWING: "continousdrawing"
+	CONTINOUSDRAWING: "continousdrawing",
+	PANNING: "panning",
+    ZOOMING: "zooming"
 }

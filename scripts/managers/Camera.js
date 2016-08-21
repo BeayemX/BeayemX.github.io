@@ -3,24 +3,49 @@
         console.log("Camera created.");
 
         this.zoom = 1;
+        this.minZoom = 0.1;
+        this.maxZoom = 1000;
         this.canvasOffset = new Vector2(0, 0);
     }
 
-    zoomBy(delta) {
-        // TODO maybe there is a better option than saving center and comparing difference?
-        let center = new Vector2(canvas.width * 0.5, canvas.height * 0.5);
-        let worldCenter = this.screenSpaceToCanvasSpace(center);
+    zoomBy(delta, keepCenter) {
+        if (keepCenter)
+            this.pushCameraCenter();
 
-        this.setZoom(this.zoom * delta);
+        this.setZoom(this.zoom * delta, false);
 
-        let newWorldCenter = this.screenSpaceToCanvasSpace(center);
-        let diff = newWorldCenter.subtractVector(worldCenter);
-        this.canvasOffset = this.canvasOffset.addVector(diff);
+        if (keepCenter)
+            this.popCameraCenter();
+        RENDERER.redraw();
     }
 
-    setZoom(val) {
-        this.zoom = val;
+    setZoom(val, keepCenter) {
+        if (keepCenter)
+            this.pushCameraCenter();
+
+        this.zoom = Math.min(this.maxZoom, Math.max(this.minZoom, val));
+
+        if (keepCenter)
+            this.popCameraCenter();
+
+        RENDERER.redraw();
+
         GUI.writeToStats("Zoom", (this.zoom * 100).toFixed(2) + " %");
+    }
+
+    pushCameraCenter() {
+        // TODO maybe there is a better option than saving center and comparing difference?
+        this.center = new Vector2(canvas.width * 0.5, canvas.height * 0.5);
+        this.worldCenter = this.screenSpaceToCanvasSpace(this.center);
+    }
+
+    popCameraCenter() {
+        let newWorldCenter = this.screenSpaceToCanvasSpace(this.center);
+        let diff = newWorldCenter.subtractVector(this.worldCenter);
+        this.canvasOffset = this.canvasOffset.addVector(diff);
+
+        this.center = undefined;
+        this.worldCenter = undefined;
     }
 
 

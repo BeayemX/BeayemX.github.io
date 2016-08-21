@@ -8,7 +8,6 @@ class MouseHandler {
         this.oldPos = new Vector2(-1, -1);
         this.oldPosScreenSpace = new Vector2(0, 0);
         this.grabInitializedWithRMBDown = false;
-        this.isPanning = false;
 
         this.grabStartPosition;
 
@@ -16,7 +15,7 @@ class MouseHandler {
     }
 
     start() {
-        CAMERA.zoomBy(1);
+        CAMERA.zoomBy(1, true);
         this.mouseMoved(new Vector2(0, 0));
     }
 
@@ -27,7 +26,16 @@ class MouseHandler {
     mouseMoved(newPosScreenSpace) {
         let screenPosDelta = newPosScreenSpace.subtractVector(this.oldPosScreenSpace);
 
-        if (!this.isPanning) {
+
+        if (LOGIC.currentState == StateEnum.ZOOMING) {
+            // SIFU mmb zoom, values and behaviour is weird
+            CAMERA.setZoom(this.startZoom + (newPosScreenSpace.y - this.zoomInitScreenPos.y) / canvas.height * 4, true);
+        }
+        else if (LOGIC.currentState == StateEnum.PANNING) {
+            CAMERA.canvasOffset = CAMERA.canvasOffset.addVector(screenPosDelta.divide(CAMERA.zoom));
+            RENDERER.redraw();
+        }
+        else {
             selectionCursor = CAMERA.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
             currentPosition = selectionCursor.copy();
 
@@ -48,7 +56,7 @@ class MouseHandler {
                     let gridLineStart = this.continousDrawingOldPos.copy();
                     // let gridLineEnd = currentPosition.copy(); // snap to grid
                     let gridLineEnd = selectionCursor.copy();
-                    
+
 
                     if (gridLineStart.x != gridLineEnd.x || gridLineStart.y != gridLineEnd.y)
                         FILE.addLine(
@@ -66,11 +74,6 @@ class MouseHandler {
             }
 
             GUI.writeToStatusbarLeft(currentPosition.toString());
-        }
-        else // while panning
-        {
-            CAMERA.canvasOffset = CAMERA.canvasOffset.addVector(screenPosDelta.divide(CAMERA.zoom));
-            RENDERER.redraw();
         }
 
         //GUI.writeToStats("CAMERA.canvasOffset", CAMERA.canvasOffset.toString());
@@ -172,9 +175,14 @@ class MouseHandler {
                 if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
                     UTILITIES.startAreaSelection(false);
                 }
+                else if (e.ctrlKey) {
+                    this.zoomInitScreenPos = UTILITIES.getMousePos(e);
+                    this.startZoom = CAMERA.zoom;
+                    LOGIC.setState(StateEnum.ZOOMING);
+                }
                 else {
                     var screenPos = UTILITIES.getMousePos(e);
-                    this.isPanning = true;
+                    LOGIC.setState(StateEnum.PANNING);
                 }
             }
             else {
@@ -244,8 +252,13 @@ class MouseHandler {
             if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
                 UTILITIES.endAreaSelection(true);
             }
+            else if (LOGIC.currentState == StateEnum.ZOOMING) {
+                LOGIC.setState(LOGIC.previousState);
+                this.zoomInitScreenPos = undefined;
+                this.startZoom = undefined;
+            }
             else {
-                this.isPanning = false;
+                LOGIC.setState(LOGIC.previousState);
             }
         }
         else if (e.button == 2) // RMB
@@ -289,9 +302,9 @@ class MouseHandler {
 
         if (!e.shiftKey && !e.ctrlKey) {
             if (e.deltaY < 0) // upscroll
-                CAMERA.zoomBy(1.1);
+                CAMERA.zoomBy(1.1, true);
             else if (e.deltaY > 0)
-                CAMERA.zoomBy(0.9);
+                CAMERA.zoomBy(0.9, true);
 
             this.MouseMove(e);
         }
