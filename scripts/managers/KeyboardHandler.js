@@ -224,9 +224,11 @@ class KeyboardHandler {
                 break;
 
             case 16: // Shift
-                if (drawPolyLine) {
-                    drawPolyLine = false;
-                    MOUSE_HANDLER.cancelLinePreview();
+                if (LOGIC.currentState == StateEnum.IDLE) {
+                    if (drawPolyLine) {
+                        drawPolyLine = false;
+                        MOUSE_HANDLER.cancelLinePreview();
+                    }
                 }
                 break;
             case 17: // Ctrl
