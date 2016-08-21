@@ -5,7 +5,7 @@
         this.height = 25;
         this.uniform = true;
         this.swapXAndYForTriangles = false;
-        this.gridThickness = 1;
+        this.gridThickness = 0.33;
         this.gridColor = '#444';
         this.bigGridColor = '#222';
         this.bigGridSteps = 4;
