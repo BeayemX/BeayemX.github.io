@@ -188,6 +188,11 @@ class KeyboardHandler {
                 break;
                 // */
 
+            case 27: // ESC
+                LOGIC.setState(StateEnum.IDLE);
+                // TODO also reset ctrlDown and so on?
+                break;
+
             default:
                 console.log(e);
                 GUI.notify(String.fromCharCode(e.keyCode) + " (" + e.keyCode + ") pressed.");
