@@ -34,7 +34,6 @@ class MouseHandler {
             if ((snapToGrid && !tmpSwitchSnapToGrid) || (!snapToGrid && tmpSwitchSnapToGrid)) // TODO should also change button text
                 currentPosition = GRID.getNearestPointFor(currentPosition);
 
-
             //if (!currentPosition.equals(this.oldPos)) 
             if (!LOGIC.isPreviewing()) {
                 let gridDelta = currentPosition.subtractVector(this.oldPos) // TODO maybe not used anymore after grabbing reworked?
@@ -43,7 +42,29 @@ class MouseHandler {
                 this.oldPos = currentPosition;
             }
 
-            ;
+            if (this.LMBDown && LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
+
+                if (this.continousDrawingOldPos != undefined) {
+                    let gridLineStart = this.continousDrawingOldPos.copy();
+                    // let gridLineEnd = currentPosition.copy(); // snap to grid
+                    let gridLineEnd = selectionCursor.copy();
+                    
+
+                    if (gridLineStart.x != gridLineEnd.x || gridLineStart.y != gridLineEnd.y)
+                        FILE.addLine(
+                            new Line(
+                                gridLineStart.x,
+                                gridLineStart.y,
+                                gridLineEnd.x,
+                                gridLineEnd.y
+                                ));
+                }
+
+                // this.continousDrawingOldPos = currentPosition.copy(); // snap to grid
+                this.continousDrawingOldPos = selectionCursor.copy();
+
+            }
+
             GUI.writeToStatusbarLeft(currentPosition.toString());
         }
         else // while panning
@@ -66,7 +87,22 @@ class MouseHandler {
         RENDERER.redraw();
     }
 
+    adjustMouseDownButtonBools(e, state) {
+        if (e.button == 0)
+            this.LMBDown = state;
+        if (e.button == 1)
+            this.MMBDown = state;
+        if (e.button == 2)
+            this.RMBDown = state;
+
+        GUI.writeToStats("LMB down", this.LMBDown);
+        GUI.writeToStats("MMB down", this.MMBDown);
+        GUI.writeToStats("RMB down", this.RMBDown);
+    }
+
     MouseDown(e) {
+        this.adjustMouseDownButtonBools(e, true);
+
         if (e.detail == 1) {
             if (e.button == 0) // LMB
             {
@@ -79,6 +115,9 @@ class MouseHandler {
                 }
                 else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
                     UTILITIES.startAreaSelection(true);
+                }
+                else if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
+                    this.continousDrawingOldPos = selectionCursor.copy();
                 }
             }
             else if (e.button == 2) // RMB
@@ -170,6 +209,8 @@ class MouseHandler {
     }
 
     MouseUp(e) {
+        this.adjustMouseDownButtonBools(e, false);
+
         if (e.button == 0) // LMB
         {
             if (LOGIC.currentState == StateEnum.DRAWING) {
@@ -192,6 +233,9 @@ class MouseHandler {
             }
             else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
                 UTILITIES.endAreaSelection(true);
+            }
+            else if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
+                this.continousDrawingOldPos = undefined;
             }
         }
 
@@ -241,7 +285,7 @@ class MouseHandler {
                 cursorRange += step;
             else if (e.deltaX > 0)
                 cursorRange = Math.max(cursorRange - step, 1);
-        } 
+        }
 
         if (!e.shiftKey && !e.ctrlKey) {
             if (e.deltaY < 0) // upscroll

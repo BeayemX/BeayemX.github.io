@@ -78,16 +78,21 @@ class KeyboardHandler {
                 }
                 break;
             case 68: // D
-                if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
-                    if (!SELECTION.noSelection()) {
+                if (e.shiftKey) {
+                    if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
+                        if (!SELECTION.noSelection()) {
 
-                        if (LOGIC.currentState == StateEnum.GRABBING)
-                            MOUSE_HANDLER.endMoveLinesPreview();
+                            if (LOGIC.currentState == StateEnum.GRABBING)
+                                MOUSE_HANDLER.endMoveLinesPreview();
 
-                        FILE.duplicateLines();
-                        MOUSE_HANDLER.startMoveLinesPreview();
-                        LOGIC.setState(StateEnum.GRABBING);
+                            FILE.duplicateLines();
+                            MOUSE_HANDLER.startMoveLinesPreview();
+                            LOGIC.setState(StateEnum.GRABBING);
+                        }
                     }
+                }
+                else {
+                    LOGIC.setState(StateEnum.CONTINOUSDRAWING);
                 }
                 break;
 
@@ -134,7 +139,8 @@ class KeyboardHandler {
                 break;
 
             case 16: // Shift
-                drawPolyLine = true;
+                if (LOGIC.currentState == StateEnum.IDLE)
+                    drawPolyLine = true;
                 break;
             case 17: // Ctrl
                 tmpSwitchSnapToGrid = true;
@@ -187,7 +193,7 @@ class KeyboardHandler {
                 GUI.notify(String.fromCharCode(e.keyCode) + " (" + e.keyCode + ") pressed.");
                 break;
         }
-        
+
 
         if (e.keyCode != 123 // F12
 	    && !(e.keyCode == 76 && e.ctrlKey) // ctrl+L, 
@@ -230,6 +236,11 @@ class KeyboardHandler {
             case 18: // ALT
                 tmpCutLines = false;
                 break;
+
+            case 68: // D
+                if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING)
+                    LOGIC.setState(StateEnum.IDLE);
+                break;
         }
     }
 
@@ -271,8 +282,7 @@ class KeyboardHandler {
                     this.axisLock = char;
             }
         }
-        else if (code == "Comma" || code == "Period")
-        {
+        else if (code == "Comma" || code == "Period") {
             this.comma = true;
         }
         else if (code == "Enter") {
@@ -288,8 +298,7 @@ class KeyboardHandler {
 
             return;
         }
-        else if (code == "Backspace")
-        {
+        else if (code == "Backspace") {
             if (this.digitsAfterComma.length > 0)
                 this.digitsAfterComma = this.digitsAfterComma.slice(0, this.digitsAfterComma.length - 1);
             else if (this.comma)
@@ -297,7 +306,7 @@ class KeyboardHandler {
             else if (this.digitsBeforeComma.length > 0)
                 this.digitsBeforeComma = this.digitsBeforeComma.slice(0, this.digitsBeforeComma.length - 1);
         }
-        
+
         console.log(code + ", " + char);
 
         GUI.writeToStatusbarLeft(this.getRecordedInputNumberAsString());
@@ -312,14 +321,12 @@ class KeyboardHandler {
         return +(this.digitsBeforeComma + "." + this.digitsAfterComma);
     }
 
-    startRecordingInput(callback)
-    {
+    startRecordingInput(callback) {
         this.callback = callback
         this.recordInput = true;
     }
 
-    testCallBack(num, axisLock)
-    {
+    testCallBack(num, axisLock) {
         console.log(num);
         console.log(axisLock);
     }
