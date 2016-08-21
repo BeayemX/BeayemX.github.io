@@ -8,11 +8,23 @@
         this.canvasOffset = new Vector2(0, 0);
     }
 
-    zoomBy(delta, keepCenter) {
+    multiplyZoomBy(delta, keepCenter)
+    {
         if (keepCenter)
             this.pushCameraCenter();
 
         this.setZoom(this.zoom * delta, false);
+
+        if (keepCenter)
+            this.popCameraCenter();
+        RENDERER.redraw();
+    }
+
+    zoomBy(delta, keepCenter) {
+        if (keepCenter)
+            this.pushCameraCenter();
+
+        this.setZoom(this.zoom + delta, false);
 
         if (keepCenter)
             this.popCameraCenter();

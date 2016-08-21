@@ -15,7 +15,7 @@ class MouseHandler {
     }
 
     start() {
-        CAMERA.zoomBy(1, true);
+        CAMERA.multiplyZoomBy(1, true);
         this.mouseMoved(new Vector2(0, 0));
     }
 
@@ -28,8 +28,16 @@ class MouseHandler {
 
 
         if (LOGIC.currentState == StateEnum.ZOOMING) {
-            // SIFU mmb zoom, values and behaviour is weird
-            CAMERA.setZoom(this.startZoom + (newPosScreenSpace.y - this.zoomInitScreenPos.y) / canvas.height * 4, true);
+            // TODO ctrl+mmb zoom is MAGIC
+            //CAMERA.setZoom(this.startZoom + (newPosScreenSpace.y - this.zoomInitScreenPos.y) / canvas.height * 4, true);
+            CAMERA.zoomBy(
+                (newPosScreenSpace.y - this.zoomInitScreenPos.y)
+                / canvas.height
+                * CAMERA.zoom
+                * 4
+                ,
+                true);
+            this.zoomInitScreenPos = newPosScreenSpace;
         }
         else if (LOGIC.currentState == StateEnum.PANNING) {
             CAMERA.canvasOffset = CAMERA.canvasOffset.addVector(screenPosDelta.divide(CAMERA.zoom));
@@ -302,9 +310,9 @@ class MouseHandler {
 
         if (!e.shiftKey && !e.ctrlKey) {
             if (e.deltaY < 0) // upscroll
-                CAMERA.zoomBy(1.1, true);
+                CAMERA.multiplyZoomBy(1.1, true);
             else if (e.deltaY > 0)
-                CAMERA.zoomBy(0.9, true);
+                CAMERA.multiplyZoomBy(0.9, true);
 
             this.MouseMove(e);
         }
