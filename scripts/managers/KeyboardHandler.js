@@ -241,7 +241,7 @@ class KeyboardHandler {
 
             case 68: // D
                 if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING)
-                    LOGIC.setState(StateEnum.IDLE);
+                    LOGIC.setState(LOGIC.previousState);
                 break;
         }
     }
