@@ -156,7 +156,8 @@ class KeyboardHandler {
                 break;
 
             case 77: // M
-                FILE.createNewLayer(true);
+                // FILE.createNewLayer(true);
+                UTILITIES.mergeSelectedPoints();
                 break;
 
             case 37: // ARROW LEFT

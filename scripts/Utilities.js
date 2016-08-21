@@ -86,20 +86,23 @@ class Utilities {
         }
     }
 
+    // TODO lines needed? i could always use points, maybe...
     calculateCenter(lines, points) {
         let min = new Vector2(Infinity, Infinity);
         let max = new Vector2(-Infinity, -Infinity);
 
-        for (let line of lines) {
-            min.x = Math.min(min.x, line.start.position.x);
-            min.y = Math.min(min.y, line.start.position.y);
-            max.x = Math.max(max.x, line.start.position.x);
-            max.y = Math.max(max.y, line.start.position.y);
+        if (lines != null){
+            for (let line of lines) {
+                min.x = Math.min(min.x, line.start.position.x);
+                min.y = Math.min(min.y, line.start.position.y);
+                max.x = Math.max(max.x, line.start.position.x);
+                max.y = Math.max(max.y, line.start.position.y);
 
-            min.x = Math.min(min.x, line.end.position.x);
-            min.y = Math.min(min.y, line.end.position.y);
-            max.x = Math.max(max.x, line.end.position.x);
-            max.y = Math.max(max.y, line.end.position.y);
+                min.x = Math.min(min.x, line.end.position.x);
+                min.y = Math.min(min.y, line.end.position.y);
+                max.x = Math.max(max.x, line.end.position.x);
+                max.y = Math.max(max.y, line.end.position.y);
+            }
         }
 
         for (let point of points) {
@@ -237,6 +240,17 @@ class Utilities {
             points.push(line.end);
         }
         return points;
+    }
+
+    mergeSelectedPoints()
+    {
+        let endings = SELECTION.getAllSelectedPoints();
+        let center = this.calculateCenter(null, endings);
+
+        for (let ending of endings)
+            ending.position = center.copy();
+
+        RENDERER.redraw();
     }
 }
 
