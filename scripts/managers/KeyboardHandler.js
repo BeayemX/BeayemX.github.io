@@ -92,7 +92,10 @@ class KeyboardHandler {
                     }
                 }
                 else {
-                    LOGIC.setState(StateEnum.CONTINOUSDRAWING);
+                    if (LOGIC.currentState != StateEnum.CONTINOUSDRAWING) {
+                        MOUSE_HANDLER.cancelLinePreview();
+                        LOGIC.setState(StateEnum.CONTINOUSDRAWING);
+                    }
                 }
                 break;
 
