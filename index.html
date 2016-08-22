@@ -111,12 +111,16 @@
         </div>
 
         <div class="toolcategory" id="linesettings">
-            <input type="number" name="Line thickness" min="1" max="25" value="1" onchange="currentLineThickness = value;">
-            <input type="color" name="Line color" onchange="currentLineColor = Color.hexToColor(value);">
-            <input type="range" name="r" min="0" max="255" value="0" onchange="currentLineColor.r = value">
-            <input type="range" name="g" min="0" max="255" value="0" onchange="currentLineColor.g = value">
-            <input type="range" name="b" min="0" max="255" value="0" onchange="currentLineColor.b = value">
-            <input type="number" name="a" min="0" max="1" step="0.05" value="1" onchange="currentLineColor.a = value">
+            <p>Line Settings</p>
+
+            <br />thickness: <input type="number" name="Line thickness" min="1" max="25" value="1" onchange="currentLineThickness = value;">
+            <!--
+                <br />Color: <input type="color" name="Line color" onchange="currentLineColor = Color.hexToColor(value);">
+                -->
+            <br />r: <input type="range" name="r" min="0" max="255" value="0" onchange="currentLineColor.r = value">
+            <br />g: <input type="range" name="g" min="0" max="255" value="0" onchange="currentLineColor.g = value">
+            <br />b: <input type="range" name="b" min="0" max="255" value="0" onchange="currentLineColor.b = value">
+            <br />a: <input type="number" name="a" min="0" max="1" step="0.05" value="1" onchange="currentLineColor.a = value">
         </div>
 
 

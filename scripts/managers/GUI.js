@@ -24,6 +24,8 @@
         }
 
         if (GRID.grid instanceof RectangleGrid) {
+
+            this.gridSettings.appendChild(document.createTextNode("gridSize"));
             let input = document.createElement("input");
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
@@ -32,6 +34,7 @@
             input.setAttribute("onchange", "GRID.grid.gridSize = value; RENDERER.redraw()");
             this.gridSettings.appendChild(input);
 
+            this.gridSettings.appendChild(document.createTextNode("cellNumber"));
             input = document.createElement("input");
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
@@ -40,6 +43,7 @@
             this.gridSettings.appendChild(input);
         }
         else if (GRID.grid instanceof TriangleGrid) {
+            this.gridSettings.appendChild(document.createTextNode("cells"));
             let input = document.createElement("input");
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
@@ -48,6 +52,7 @@
             input.setAttribute("onchange", "GRID.grid.cells = value; RENDERER.redraw()");
             this.gridSettings.appendChild(input);
 
+            this.gridSettings.appendChild(document.createTextNode("width"));
             input = document.createElement("input");
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
@@ -55,6 +60,7 @@
             input.setAttribute("onchange", "GRID.grid.width = value; RENDERER.redraw()");
             this.gridSettings.appendChild(input);
 
+            this.gridSettings.appendChild(document.createTextNode("height"));
             input = document.createElement("input");
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
