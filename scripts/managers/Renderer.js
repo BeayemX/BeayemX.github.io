@@ -304,7 +304,7 @@
         if (!showGrid)
             return;
 
-        GRID.drawGrid();
+        GRID.grid.drawGrid();
         return;
     }
 

@@ -1,4 +1,4 @@
-﻿class Grid {
+﻿class RectangleGrid {
     constructor() {
         this.gridSize = 10;
         this.gridCellNumber = 32;

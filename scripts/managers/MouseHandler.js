@@ -48,7 +48,7 @@ class MouseHandler {
             currentPosition = selectionCursor.copy();
 
             if ((snapToGrid && !tmpSwitchSnapToGrid) || (!snapToGrid && tmpSwitchSnapToGrid)) // TODO should also change button text
-                currentPosition = GRID.getNearestPointFor(currentPosition);
+                currentPosition = GRID.grid.getNearestPointFor(currentPosition);
 
             //if (!currentPosition.equals(this.oldPos)) 
             if (!LOGIC.isPreviewing()) {

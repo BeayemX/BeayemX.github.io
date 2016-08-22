@@ -14,6 +14,67 @@
         this.layersDiv = document.getElementById('layers')
 
         this.statsDict = [];
+
+        this.gridSettings = document.getElementById("gridSettings");
+    }
+
+    genereateGridSettings() {
+        while (this.gridSettings.firstChild) {
+            this.gridSettings.removeChild(this.gridSettings.firstChild);
+        }
+
+        if (GRID.grid instanceof RectangleGrid) {
+            let input = document.createElement("input");
+            input.setAttribute("type", "number");
+            input.setAttribute("min", "1");
+            input.setAttribute("max", "100");
+            input.setAttribute("value", "10");
+            input.setAttribute("onchange", "GRID.grid.gridSize = value; RENDERER.redraw()");
+            this.gridSettings.appendChild(input);
+
+            input = document.createElement("input");
+            input.setAttribute("type", "number");
+            input.setAttribute("min", "1");
+            input.setAttribute("value", "32");
+            input.setAttribute("onchange", "GRID.grid.gridCellNumber= value; RENDERER.redraw()");
+            this.gridSettings.appendChild(input);
+        }
+        else if (GRID.grid instanceof TriangleGrid) {
+            let input = document.createElement("input");
+            input.setAttribute("type", "number");
+            input.setAttribute("min", "1");
+            input.setAttribute("max", "100");
+            input.setAttribute("value", "20");
+            input.setAttribute("onchange", "GRID.grid.cells = value; RENDERER.redraw()");
+            this.gridSettings.appendChild(input);
+
+            input = document.createElement("input");
+            input.setAttribute("type", "number");
+            input.setAttribute("min", "1");
+            input.setAttribute("value", "32");
+            input.setAttribute("onchange", "GRID.grid.width = value; RENDERER.redraw()");
+            this.gridSettings.appendChild(input);
+
+            input = document.createElement("input");
+            input.setAttribute("type", "number");
+            input.setAttribute("min", "1");
+            input.setAttribute("value", "32");
+            input.setAttribute("onchange", "GRID.grid.height = value; RENDERER.redraw()");
+            this.gridSettings.appendChild(input);
+
+
+            input = document.createElement("input");
+            input.setAttribute("type", "button");
+            input.setAttribute("onclick", "GRID.grid.uniformHeight(); RENDERER.redraw()");
+            input.value = "Uniform Height";
+            this.gridSettings.appendChild(input);
+
+            input = document.createElement("input");
+            input.setAttribute("type", "button");
+            input.setAttribute("onclick", "GRID.grid.swapXAndYForTriangles = !GRID.grid.swapXAndYForTriangles ; RENDERER.redraw()");
+            input.value = "Swap X and Y for triangles";
+            this.gridSettings.appendChild(input);
+        }
     }
 
     writeToStatusbarLeft(text) {

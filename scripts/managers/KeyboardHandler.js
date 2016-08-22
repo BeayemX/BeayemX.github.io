@@ -192,7 +192,9 @@ class KeyboardHandler {
                 // */
 
             case 27: // ESC
+                LOGIC.previousState = StateEnum.IDLE;
                 LOGIC.setState(StateEnum.IDLE);
+                console.log("cleared States");
                 // TODO also reset ctrlDown and so on?
                 break;
 

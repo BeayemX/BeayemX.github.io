@@ -127,7 +127,7 @@ class Utilities {
         let selPoints = SELECTION.getAllSelectedPoints();
 
         for (let i = 0; i < selPoints.length; ++i)
-            selPoints[i].position = GRID.getNearestPointFor(selPoints[i].position);
+            selPoints[i].position = GRID.grid.getNearestPointFor(selPoints[i].position);
 
         RENDERER.redraw();
     }

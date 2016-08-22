@@ -39,7 +39,8 @@
     <script src="scripts/managers/Logic.js"></script>
     <script src="scripts/managers/Selection.js"></script>
 
-    <script src="scripts/grids/Grid.js"></script>
+    <script src="scripts/grids/GridManager.js"></script>
+    <script src="scripts/grids/RectangleGrid.js"></script>
     <script src="scripts/grids/TriangleGrid.js"></script>
 </head>
 <body onload="onLoad();">
@@ -96,16 +97,29 @@
     <div id="rightarea" class="toolarea" width="150">
         <div class="toolcategory">
             <p>Grid</p>
-            <button type="button" onclick="LOGIC.toggleGrid()">Toggle Grid</button>
+            <button type="button" onclick="GRID.toggleGrid()">Toggle Grid</button>
             <button type="button" onclick="LOGIC.toggleGridVisiblity(this)">Hide grid</button>
+            <div id="gridSettings"></div>
         </div>
 
         <div class="toolcategory">
             <p>Layers</p>
             <button type="button" onclick="FILE.createNewLayer(true)">Create new Layer</button>
         </div>
+
         <div class="toolcategory" id="layers">
         </div>
+
+        <div class="toolcategory" id="linesettings">
+            <input type="number" name="Line thickness" min="1" max="25" value="1" onchange="currentLineThickness = value;">
+            <input type="color" name="Line color" onchange="currentLineColor = Color.hexToColor(value);">
+            <input type="range" name="r" min="0" max="255" value="0" onchange="currentLineColor.r = value">
+            <input type="range" name="g" min="0" max="255" value="0" onchange="currentLineColor.g = value">
+            <input type="range" name="b" min="0" max="255" value="0" onchange="currentLineColor.b = value">
+            <input type="number" name="a" min="0" max="1" step="0.05" value="1" onchange="currentLineColor.a = value">
+        </div>
+
+
 
     </div>
     <div id="statusbar">

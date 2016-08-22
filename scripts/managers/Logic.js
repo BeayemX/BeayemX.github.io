@@ -57,12 +57,8 @@ function onLoad() {
     LINE_MANIPULATOR = new LineManipulator();
     SETTINGS = new Settings();
     SELECTION = new Selection();
-    //*/
-    GRID = new Grid();
-    /*/
-    GRID = new TriangleGrid();
-    // */
-
+    GRID = new GridManager();
+    GUI.genereateGridSettings();
     LOGIC.start();
 }
 
@@ -158,15 +154,6 @@ class Logic {
     toggleGridVisiblity(senderButton) {
         showGrid = !showGrid;
         senderButton.innerHTML = showGrid ? "Hide grid" : "Show grid";
-        RENDERER.redraw();
-    }
-
-    toggleGrid() {
-        if (GRID instanceof Grid)
-            GRID = new TriangleGrid();
-        else
-            GRID = new Grid();
-
         RENDERER.redraw();
     }
 
