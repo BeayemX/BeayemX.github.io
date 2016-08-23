@@ -236,10 +236,10 @@ class KeyboardHandler {
             case 16: // Shift
                 if (LOGIC.currentState == StateEnum.DRAWING) {
                     if (drawPolyLine) {
-                        drawPolyLine = false;
                         MOUSE_HANDLER.cancelLinePreview();
                     }
                 }
+                drawPolyLine = false;
                 break;
             case 17: // Ctrl
                 tmpSwitchSnapToGrid = false;
