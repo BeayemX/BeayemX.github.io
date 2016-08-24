@@ -62,8 +62,7 @@ class MouseHandler {
 
                 if (this.continousDrawingOldPos != undefined) {
                     let gridLineStart = this.continousDrawingOldPos.copy();
-                    // let gridLineEnd = currentPosition.copy(); // snap to grid
-                    let gridLineEnd = selectionCursor.copy();
+                    let gridLineEnd = continousDrawingInstantSnap ? currentPosition.copy() : selectionCursor.copy();
 
 
                     if (gridLineStart.x != gridLineEnd.x || gridLineStart.y != gridLineEnd.y)
@@ -76,8 +75,10 @@ class MouseHandler {
                                 ));
                 }
 
-                // this.continousDrawingOldPos = currentPosition.copy(); // snap to grid
-                this.continousDrawingOldPos = selectionCursor.copy();
+                if (continousDrawingInstantSnap)
+                    this.continousDrawingOldPos = currentPosition.copy();
+                else 
+                    this.continousDrawingOldPos = selectionCursor.copy();
 
             }
 
@@ -128,7 +129,7 @@ class MouseHandler {
                     UTILITIES.startAreaSelection(true);
                 }
                 else if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
-                    this.continousDrawingOldPos = selectionCursor.copy();
+                    this.continousDrawingOldPos = continousDrawingInstantSnap ? currentPosition.copy() : selectionCursor.copy();
                 }
             }
             else if (e.button == 2) // RMB

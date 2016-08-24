@@ -42,6 +42,8 @@ let waitingForStart = [];
 let mirrorX = false;
 let mirrorY = false;
 
+let continousDrawingInstantSnap = false;
+
 function onLoad() {
     KEYBOARD_HANDLER = new KeyboardHandler();
     MOUSE_HANDLER = new MouseHandler();
