@@ -316,7 +316,7 @@
     }
 
     drawSelectionOutline(delta) {
-        if (LOGIC.currentState == StateEnum.RENDERPREVIEW)
+        if (LOGIC.isPreviewing())
             return;
 
         for (let line of SELECTION.lines)

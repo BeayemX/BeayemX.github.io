@@ -70,6 +70,7 @@ class Logic {
 
         this.currentState = StateEnum.IDLE;
         this.previousState = StateEnum.IDLE;
+        this.isRenderPreviewing = false;
     }
 
     start() {
@@ -149,8 +150,7 @@ class Logic {
     }
 
     isPreviewing() {
-        return this.currentState == StateEnum.RENDERPREVIEW; // ||
-        //(currentState == StateEnum.PANNING && previousState == StateEnum.RENDERPREVIEW);
+        return LOGIC.isRenderPreviewing;
     }
 
     toggleGridVisiblity(senderButton) {

@@ -101,7 +101,7 @@ class KeyboardHandler {
 
             case 9: // TAB
                 if (!LOGIC.isPreviewing()) {
-                    LOGIC.setState(StateEnum.RENDERPREVIEW);
+                    LOGIC.isRenderPreviewing = true;
                     canvas.style.background = 'white'; // TODO settings?
                     RENDERER.redraw();
                 }
@@ -226,8 +226,9 @@ class KeyboardHandler {
                 break;
 
             case 9: // TAB
-                if (LOGIC.currentState == StateEnum.RENDERPREVIEW) {
-                    LOGIC.setState(LOGIC.previousState);
+                if (LOGIC.isPreviewing()) {
+                    //LOGIC.setState(LOGIC.previousState);
+                    LOGIC.isRenderPreviewing = false;
                     canvas.style.background = SETTINGS.canvasColor;
                     RENDERER.redraw();
                 }
