@@ -50,13 +50,10 @@ class MouseHandler {
             if ((snapToGrid && !tmpSwitchSnapToGrid) || (!snapToGrid && tmpSwitchSnapToGrid)) // TODO should also change button text
                 currentPosition = GRID.grid.getNearestPointFor(currentPosition);
 
-            //if (!currentPosition.equals(this.oldPos)) 
-            if (!LOGIC.isPreviewing()) {
-                let gridDelta = currentPosition.subtractVector(this.oldPos) // TODO maybe not used anymore after grabbing reworked?
-                this.cursorPositionChanged(gridDelta, screenPosDelta);
+            let gridDelta = currentPosition.subtractVector(this.oldPos) // TODO maybe not used anymore after grabbing reworked?
+            this.cursorPositionChanged(gridDelta, screenPosDelta);
 
-                this.oldPos = currentPosition;
-            }
+            this.oldPos = currentPosition;
 
             if (this.LMBDown && LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
 
