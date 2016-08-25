@@ -28,7 +28,7 @@
         UTILITIES.deleteArrayEntry(this.layers, this.layers[id]);
 
         GUI.objectHierarchyChanged();
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 
     selectLayerWithID(id) {
@@ -42,7 +42,7 @@
         this.layers[id].visible = true;
 
         GUI.objectHierarchyChanged();
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 
     toggleVisibilityOfLayerWithID(id) {
@@ -56,7 +56,7 @@
         }
 
         GUI.objectHierarchyChanged();
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 
     selectNextVisibleLayer(id) {

@@ -14,6 +14,6 @@
             this.grid = new RectangleGrid();
 
         GUI.genereateGridSettings();
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 }

@@ -72,6 +72,6 @@
     }
 
     drawLine(p1, p2, color) {
-        RENDERER.drawLineFromTo(p1, p2, this.gridThickness, color, false, true, true);
+        Renderer.drawLineFromTo(p1, p2, this.gridThickness, color, false, true, true);
     }
 }

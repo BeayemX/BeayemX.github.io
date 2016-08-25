@@ -1,10 +1,10 @@
 class KeyboardHandler {
-    constructor() {
+    static init() {
         console.log("KeyboardHandler created.");
         this.inputRecorder = null;
     }
 
-    KeyDown(e) {
+    static keyDown(e) {
         if (this.inputRecorder != null) {
             e.preventDefault();
             this.inputRecorder.record(e.code + "", String.fromCharCode(e.keyCode));
@@ -31,7 +31,7 @@ class KeyboardHandler {
             e.preventDefault();
     }
 
-    KeyUp(e) {
+    static keyUp(e) {
         if (this.inputRecorder != null) {
             e.preventDefault();
             return;
@@ -48,11 +48,11 @@ class KeyboardHandler {
             CanvasKeyHandler.KeyUp(e);
     }
 
-    testCallBack(num, axisLock) {
+    static testCallBack(num, axisLock) {
         console.log(num);
         console.log(axisLock);
         // TODO? stupid javascript-this behaviour, therefore have to call "this" with class name...
-        KEYBOARD_HANDLER.inputRecorder = null;
+        KeyboardHandler.inputRecorder = null;
     }
 }
 
@@ -65,7 +65,7 @@ class CanvasKeyHandler {
         switch (e.keyCode) {
             case 32: // Space
                 spaceDown = true;
-                RENDERER.redraw();
+                Renderer.redraw();
                 break;
             case 82: // R
                 if (e.shiftKey)
@@ -94,7 +94,7 @@ class CanvasKeyHandler {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
                         MOUSE_HANDLER.startMoveLinesPreview();
-                        RENDERER.redraw();
+                        Renderer.redraw();
                     }
                 }
                 break;
@@ -102,7 +102,7 @@ class CanvasKeyHandler {
             case 65: // A
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     FILE.selectAllToggle();
-                    RENDERER.redraw();
+                    Renderer.redraw();
                 }
 
                 break;
@@ -112,14 +112,14 @@ class CanvasKeyHandler {
             case 8: // BACKSPACE
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     SELECTION.deleteSelection();
-                    RENDERER.redraw();
+                    Renderer.redraw();
                 }
 
                 break;
             case 73: // I
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     SELECTION.invertSelection();
-                    RENDERER.redraw();
+                    Renderer.redraw();
                 }
                 break;
             case 68: // D
@@ -148,7 +148,7 @@ class CanvasKeyHandler {
                 if (!LOGIC.isPreviewing()) {
                     LOGIC.isRenderPreviewing = true;
                     canvas.style.background = 'white'; // TODO settings?
-                    RENDERER.redraw();
+                    Renderer.redraw();
                 }
                 break;
 
@@ -173,11 +173,11 @@ class CanvasKeyHandler {
             case 70: // F // TODO improve. CAMERA.zoom to selection / CAMERA.zoom fit / etc ... 
                 CAMERA.setZoom(1, false);
                 CAMERA.canvasOffset = (new Vector2(canvas.width * 0.5, canvas.height * 0.5)).divide(CAMERA.zoom);
-                RENDERER.redraw();
+                Renderer.redraw();
                 break;
             case 66: // B
                 LOGIC.setState(StateEnum.BORDERSELECTION);
-                RENDERER.redraw();
+                Renderer.redraw();
                 break;
             case 187: // +
                 LINE_MANIPULATOR.increaseSize(2);
@@ -261,7 +261,7 @@ class CanvasKeyHandler {
         switch (e.keyCode) {
             case 32: // Space
                 spaceDown = false;
-                RENDERER.redraw();
+                Renderer.redraw();
                 break;
 
             case 9: // TAB
@@ -269,7 +269,7 @@ class CanvasKeyHandler {
                     //LOGIC.setState(LOGIC.previousState);
                     LOGIC.isRenderPreviewing = false;
                     canvas.style.background = SETTINGS.canvasColor;
-                    RENDERER.redraw();
+                    Renderer.redraw();
                 }
                 break;
 
@@ -307,7 +307,7 @@ class CanvasKeyHandler {
             let delta = new Vector2(x * stepSize, y * stepSize);
             let selPoints = SELECTION.getAllSelectedPoints();
             UTILITIES.moveSelectionBy(selPoints, delta);
-            RENDERER.redraw();
+            Renderer.redraw();
         }
     }
 }

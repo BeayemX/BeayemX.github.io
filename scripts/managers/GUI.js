@@ -31,7 +31,7 @@
             input.setAttribute("min", "1");
             input.setAttribute("max", "100");
             input.setAttribute("value", "10");
-            input.setAttribute("onchange", "GRID.grid.gridSize = value; RENDERER.redraw()");
+            input.setAttribute("onchange", "GRID.grid.gridSize = value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
 
             this.gridSettings.appendChild(document.createTextNode("cellNumber"));
@@ -39,7 +39,7 @@
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
             input.setAttribute("value", "32");
-            input.setAttribute("onchange", "GRID.grid.gridCellNumber= value; RENDERER.redraw()");
+            input.setAttribute("onchange", "GRID.grid.gridCellNumber= value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
         }
         else if (GRID.grid instanceof TriangleGrid) {
@@ -49,7 +49,7 @@
             input.setAttribute("min", "1");
             input.setAttribute("max", "100");
             input.setAttribute("value", "20");
-            input.setAttribute("onchange", "GRID.grid.cells = value; RENDERER.redraw()");
+            input.setAttribute("onchange", "GRID.grid.cells = value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
 
             this.gridSettings.appendChild(document.createTextNode("width"));
@@ -57,7 +57,7 @@
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
             input.setAttribute("value", "32");
-            input.setAttribute("onchange", "GRID.grid.width = value; RENDERER.redraw()");
+            input.setAttribute("onchange", "GRID.grid.width = value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
 
             this.gridSettings.appendChild(document.createTextNode("height"));
@@ -65,19 +65,19 @@
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
             input.setAttribute("value", "32");
-            input.setAttribute("onchange", "GRID.grid.height = value; RENDERER.redraw()");
+            input.setAttribute("onchange", "GRID.grid.height = value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
 
 
             input = document.createElement("input");
             input.setAttribute("type", "button");
-            input.setAttribute("onclick", "GRID.grid.uniformHeight(); RENDERER.redraw()");
+            input.setAttribute("onclick", "GRID.grid.uniformHeight(); Renderer.redraw()");
             input.value = "Uniform Height";
             this.gridSettings.appendChild(input);
 
             input = document.createElement("input");
             input.setAttribute("type", "button");
-            input.setAttribute("onclick", "GRID.grid.swapXAndYForTriangles = !GRID.grid.swapXAndYForTriangles ; RENDERER.redraw()");
+            input.setAttribute("onclick", "GRID.grid.swapXAndYForTriangles = !GRID.grid.swapXAndYForTriangles ; Renderer.redraw()");
             input.value = "Swap X and Y for triangles";
             this.gridSettings.appendChild(input);
         }

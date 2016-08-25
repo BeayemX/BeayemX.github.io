@@ -128,7 +128,7 @@
         }
 
         if (redraw)
-            RENDERER.redraw();
+            Renderer.redraw();
     }
 
     selectLinked() {
@@ -148,6 +148,6 @@
         if (i == maxIterations)
             GUI.notify("Max Iteration Depth reached!");
 
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 }

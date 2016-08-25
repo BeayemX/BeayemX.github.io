@@ -33,7 +33,7 @@
     Undo()
     {
         this.PopAction();
-        RENDERER.redraw();
+        Renderer.redraw();
     }
     Redo()
     {
@@ -41,6 +41,6 @@
 
         if (action)
             this.PushAction(action, true);
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 }

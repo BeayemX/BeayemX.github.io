@@ -16,8 +16,6 @@ let currentLineColor = Color.black();
 let SAVER;
 let FILE;
 let CAMERA;
-let RENDERER;
-let KEYBOARD_HANDLER;
 let MOUSE_HANDLER;
 let LOGIC;
 let GUI;
@@ -45,13 +43,13 @@ let mirrorY = false;
 let continousDrawingInstantSnap = false;
 
 function onLoad() {
-    KEYBOARD_HANDLER = new KeyboardHandler();
+    KeyboardHandler.init();
     MOUSE_HANDLER = new MouseHandler();
     LOGIC = new Logic();
     SAVER = new Saver();
     FILE = new File();
     CAMERA = new Camera();
-    RENDERER = new Renderer();
+    Renderer.init();
     GUI = new Gui();
     UTILITIES = new Utilities();
     EXPORTER = new Exporter();
@@ -74,8 +72,8 @@ class Logic {
     }
 
     start() {
-        window.addEventListener("keydown", evt => KEYBOARD_HANDLER.KeyDown(evt), false);
-        window.addEventListener("keyup", evt => KEYBOARD_HANDLER.KeyUp(evt), false);
+        window.addEventListener("keydown", evt => KeyboardHandler.keyDown(evt), false);
+        window.addEventListener("keyup", evt => KeyboardHandler.keyUp(evt), false);
 
         // window.addEventListener("keydown", evt => CanvasKeyHandler.KeyDown(evt), false);
         // window.addEventListener("keyup", evt => CanvasKeyHandler.KeyUp(evt), false);
@@ -122,7 +120,7 @@ class Logic {
         SAVER.newFile();
 
         FILE.updateStats();
-        RENDERER.redraw();
+        Renderer.redraw();
 
         for (var i = 0; i < waitingForStart.length; i++) {
             waitingForStart[i].start();
@@ -143,7 +141,7 @@ class Logic {
         offscreenCanvas.style.left = canvas.width - 50;
         offscreenCanvas.style.top= canvas.height - 50;
         */
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 
     setState(state) {
@@ -162,7 +160,7 @@ class Logic {
     toggleGridVisiblity(senderButton) {
         showGrid = !showGrid;
         senderButton.innerHTML = showGrid ? "Hide grid" : "Show grid";
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 
     adjustButtonText(button, val) {

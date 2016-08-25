@@ -1,5 +1,5 @@
 ﻿class Renderer {
-    constructor() {
+    static init() {
         console.log("DrawManager created.");
         this.batchedLines = [];
         this.batchedCircles = [];
@@ -20,7 +20,7 @@
         this.handleSizeFactor = 1.5;
     }
 
-    drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness, ignoreCulling) {
+    static drawLineFromTo(p1, p2, thickness, color, screenSpace, screenSpaceThickness, ignoreCulling) {
         if (!ignoreCulling && !this.screenBounds.contains(p1) && !this.screenBounds.contains(p2))
         {
             ++this.culledLinesCounter;
@@ -57,7 +57,7 @@
         ++this.drawnLinesCounter;
     }
 
-    batchLine(line, ignoreCulling) { // TODO remove me if lines outside of screen rect get drawn
+    static batchLine(line, ignoreCulling) { // TODO remove me if lines outside of screen rect get drawn
         if (ignoreCulling || this.screenBounds.contains(line))
             this.batchedLines.push(line);
         else
@@ -65,7 +65,7 @@
 
     }
 
-    batchCircle(circle) {
+    static batchCircle(circle) {
         if (this.screenBounds.contains(circle)) {
             if (this.batchedCircles[circle.toString()] == undefined)
                 this.batchedCircles[circle.toString()] = circle;
@@ -76,7 +76,7 @@
             ++this.culledCirclesCounter;
     }
 
-    renderBatchedLines(thickness, color, screenSpace, screenSpaceThickness) {
+    static renderBatchedLines(thickness, color, screenSpace, screenSpaceThickness) {
         if (this.batchedLines.length == 0)
             return;
 
@@ -118,7 +118,7 @@
         this.batchedLines = [];
     }
 
-    renderBatchedCircles(radius, thickness, color, screenSpace, screenSpaceSize, filled) {
+    static renderBatchedCircles(radius, thickness, color, screenSpace, screenSpaceSize, filled) {
 
         if (Object.keys(this.batchedCircles).length == 0)
             return;
@@ -203,7 +203,7 @@
     //    ++this.drawnCirclesCounter;
     //}
 
-    drawRealCircle(center, radius, thickness, color, screenSpace, screenSpaceThickness, filled) {
+    static drawRealCircle(center, radius, thickness, color, screenSpace, screenSpaceThickness, filled) {
 
         if (!this.screenBounds.shrink(radius + thickness*0.5).contains(center)) {
             ++this.culledCirclesCounter;
@@ -240,11 +240,11 @@
         ++this.drawnCirclesCounter;
     }
 
-    redraw(step) {
+    static redraw(step) {
         if (arguments.length == 0) {
             if (!this.requestRedraw) {
                 this.requestRedraw = true;
-                window.requestAnimationFrame(step => RENDERER.redraw(step));
+                window.requestAnimationFrame(step => Renderer.redraw(step));
             }
             return;
         }
@@ -289,7 +289,7 @@
         GUI.writeToStats("Circles drawn", this.drawnCirclesCounter);
     }
 
-    generateGradient(start, end, toColor) {
+    static generateGradient(start, end, toColor) {
         start = CAMERA.canvasSpaceToScreenSpace(start);
         end = CAMERA.canvasSpaceToScreenSpace(end);
 
@@ -300,7 +300,7 @@
     }
 
     // TODO settings in SETTINGS und GRID verteilt...
-    drawGrid() {
+    static drawGrid() {
         if (!showGrid)
             return;
 
@@ -308,14 +308,14 @@
         return;
     }
 
-    drawAxis() {
+    static drawAxis() {
         let axisSize = 500;
         this.batchLine(new Line(new Vector2(-axisSize, 0), new Vector2(axisSize, 0)), true);
         this.batchLine(new Line(new Vector2(0, -axisSize), new Vector2(0, axisSize)), true);
         this.renderBatchedLines(1, 'darkred', false, true);
     }
 
-    drawSelectionOutline(delta) {
+    static drawSelectionOutline(delta) {
         if (LOGIC.isPreviewing())
             return;
 
@@ -335,7 +335,7 @@
         }
     }
 
-    drawObjects() {
+    static drawObjects() {
         if (LOGIC.currentState != StateEnum.GRABBING) 
             this.drawSelectionOutline(new Vector2(0, 0));
 
@@ -381,7 +381,7 @@
 
     }
 
-    drawLayer(layer) {
+    static drawLayer(layer) {
         if (!layer.visible)
             return;
         let thickness;
@@ -417,7 +417,7 @@
         }
     }
 
-    drawPreviewLine() {
+    static drawPreviewLine() {
         if (LOGIC.currentState == StateEnum.DRAWING) {
             let start = MOUSE_HANDLER.downPoint;
             let end = currentPosition;
@@ -428,7 +428,7 @@
         this.drawRealCircle(selectionCursor, cursorRange, 2, SETTINGS.selectionColor, false, true);
     }
 
-    drawMoveLinesPreview() {
+    static drawMoveLinesPreview() {
         let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
         this.drawSelectionOutline(delta);
 
@@ -480,13 +480,13 @@
         }
     }
 
-    drawCrosshair() {
+    static drawCrosshair() {
         let screenpos = CAMERA.canvasSpaceToScreenSpace(selectionCursor.copy());
         this.drawLineFromTo(new Vector2(0, screenpos.y), new Vector2(canvas.width, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.selectionColor, true, true, true);
         this.drawLineFromTo(new Vector2(screenpos.x, 0), new Vector2(screenpos.x, canvas.height), SETTINGS.helperLineWidth, SETTINGS.selectionColor, true, true, true);
     }
 
-    drawBorderSelection() {
+    static drawBorderSelection() {
         if (LOGIC.currentState != StateEnum.BORDERSELECTION || !UTILITIES.borderSelectionStart || !UTILITIES.borderSelectionEnd)
             return;
 

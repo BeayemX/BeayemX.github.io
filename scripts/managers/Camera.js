@@ -17,7 +17,7 @@
 
         if (keepCenter)
             this.popCameraCenter();
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 
     zoomBy(delta, keepCenter) {
@@ -28,7 +28,7 @@
 
         if (keepCenter)
             this.popCameraCenter();
-        RENDERER.redraw();
+        Renderer.redraw();
     }
 
     setZoom(val, keepCenter) {
@@ -40,7 +40,7 @@
         if (keepCenter)
             this.popCameraCenter();
 
-        RENDERER.redraw();
+        Renderer.redraw();
 
         GUI.writeToStats("Zoom", (this.zoom * 100).toFixed(2) + " %");
     }

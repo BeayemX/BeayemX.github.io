@@ -34,26 +34,26 @@
         //context.setLineDash([this.dashSize * CAMERA.zoom, this.dashSpaceSize * CAMERA.zoom]);
 
         for (let i = -size; i <= size; i += this.bigGridSize) {
-            RENDERER.batchLine(new Line(new Vector2(-size * this.gridSize, i * this.gridSize), new Vector2(size * this.gridSize, i * this.gridSize)), true);
-            RENDERER.batchLine(new Line(new Vector2(i * this.gridSize, -size * this.gridSize), new Vector2(i * this.gridSize, size * this.gridSize)), true);
+            Renderer.batchLine(new Line(new Vector2(-size * this.gridSize, i * this.gridSize), new Vector2(size * this.gridSize, i * this.gridSize)), true);
+            Renderer.batchLine(new Line(new Vector2(i * this.gridSize, -size * this.gridSize), new Vector2(i * this.gridSize, size * this.gridSize)), true);
         }
-        RENDERER.renderBatchedLines(this.bigGridThickness, this.gridBigLineColor, false, true);
+        Renderer.renderBatchedLines(this.bigGridThickness, this.gridBigLineColor, false, true);
 
         for (let i = -size; i <= size; i += this.bigGridSize * 0.5) {
             if (Math.round(i % (this.bigGridSize) == 0))
                 continue;
-            RENDERER.batchLine(new Line(new Vector2(-size * this.gridSize, i * this.gridSize), new Vector2(size * this.gridSize, i * this.gridSize)), true);
-            RENDERER.batchLine(new Line(new Vector2(i * this.gridSize, -size * this.gridSize), new Vector2(i * this.gridSize, size * this.gridSize)), true);
+            Renderer.batchLine(new Line(new Vector2(-size * this.gridSize, i * this.gridSize), new Vector2(size * this.gridSize, i * this.gridSize)), true);
+            Renderer.batchLine(new Line(new Vector2(i * this.gridSize, -size * this.gridSize), new Vector2(i * this.gridSize, size * this.gridSize)), true);
         }
-        RENDERER.renderBatchedLines(this.bigGridThickness, this.gridLineColor, false, true);
+        Renderer.renderBatchedLines(this.bigGridThickness, this.gridLineColor, false, true);
 
         for (let i = -size; i <= size; ++i) {
             if (Math.round(i % (this.bigGridSize * 0.5) == 0))
                 continue;
-            RENDERER.batchLine(new Line(new Vector2(-size * this.gridSize, i * this.gridSize), new Vector2(size * this.gridSize, i * this.gridSize)), true);
-            RENDERER.batchLine(new Line(new Vector2(i * this.gridSize, -size * this.gridSize), new Vector2(i * this.gridSize, size * this.gridSize)), true);
+            Renderer.batchLine(new Line(new Vector2(-size * this.gridSize, i * this.gridSize), new Vector2(size * this.gridSize, i * this.gridSize)), true);
+            Renderer.batchLine(new Line(new Vector2(i * this.gridSize, -size * this.gridSize), new Vector2(i * this.gridSize, size * this.gridSize)), true);
         }
-        RENDERER.renderBatchedLines(this.thickness, this.gridLineColor, false, true);
+        Renderer.renderBatchedLines(this.thickness, this.gridLineColor, false, true);
 
         //context.setLineDash([]);
     }

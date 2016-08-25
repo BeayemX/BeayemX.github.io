@@ -75,7 +75,7 @@
             <p>Toggles</p>
             <button type="button" 
                     onload="console.log('button'); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
-                    onclick=" LINE_MANIPULATOR.showHandles=!LINE_MANIPULATOR.showHandles; RENDERER.redraw(); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
+                    onclick=" LINE_MANIPULATOR.showHandles=!LINE_MANIPULATOR.showHandles; Renderer.redraw(); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
                     enabledText="Hide line handles" 
                     disabledText="Show line handles">Hide line handles</button>
             <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, cutLines)" onclick="cutLines = !cutLines; LOGIC.adjustButtonText(this, cutLines)" enabledText="Deactivate line cutting" disabledText="Activate line cutting">Activate line cutting</button>
@@ -85,8 +85,8 @@
         
         <div class="toolcategory">
             <p>Dev</p>
-            <button type="button" onclick="mirrorX = !mirrorX; RENDERER.redraw();">MirrorX</button>
-            <button type="button" onclick="mirrorY = !mirrorY; RENDERER.redraw();">MirrorY</button>
+            <button type="button" onclick="mirrorX = !mirrorX; Renderer.redraw();">MirrorX</button>
+            <button type="button" onclick="mirrorY = !mirrorY; Renderer.redraw();">MirrorY</button>
 
         </div>
 
