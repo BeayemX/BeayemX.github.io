@@ -164,19 +164,11 @@
             tr.appendChild(td);
             button = document.createElement("button");
             button.setAttribute("type", "button");
-            button.setAttribute("onclick", "FILE.selectLayerWithID(" + i + ")");
-            //*
-            button.setAttribute("oncontextmenu", "FILE.renameLayerWithID(" + i + ")");
-            /*/
-            // TODO rename layer inside button. keyboard hanlder should be disabled / listener removed... or sth like that..
-            button.setAttribute("oncontextmenu", function () {
-                window.removeEventListener("keydown", KEYBOARD_HANDLER.KeyDown);
-                window.removeEventListener("keyup", KEYBOARD_HANDLER.KeyUp);
-            }
-            );
-            //*/
-            //button.setAttribute("contenteditable", "true");
-            //button.setAttribute("oninput", "FILE.changeNameForLayerWithID(" + i + ")");
+            button.setAttribute("class", "layerbutton");
+            button.setAttribute("onmousedown", "FILE.selectLayerWithID(" + i + ")");
+            button.setAttribute("oncontextmenu", "this.focus(); document.execCommand('selectAll',false,null);");
+            button.setAttribute("contenteditable", "true");
+            button.setAttribute("oninput", "FILE.changeNameForLayerWithID(" + i + ", this.innerHTML)");
 
             if (FILE.currentLayer == layers[i]) {
                 button.setAttribute("id", "selectedButton");

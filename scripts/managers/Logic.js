@@ -77,8 +77,8 @@ class Logic {
         window.addEventListener("keydown", evt => KEYBOARD_HANDLER.KeyDown(evt), false);
         window.addEventListener("keyup", evt => KEYBOARD_HANDLER.KeyUp(evt), false);
 
-        window.addEventListener("keydown", evt => CanvasKeyHandler.KeyDown(evt), false);
-        window.addEventListener("keyup", evt => CanvasKeyHandler.KeyUp(evt), false);
+        // window.addEventListener("keydown", evt => CanvasKeyHandler.KeyDown(evt), false);
+        // window.addEventListener("keyup", evt => CanvasKeyHandler.KeyUp(evt), false);
 
         window.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
         window.addEventListener('resize', this.layoutGUI, false);

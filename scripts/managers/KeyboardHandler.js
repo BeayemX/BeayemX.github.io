@@ -1,23 +1,67 @@
 class KeyboardHandler {
     constructor() {
         console.log("KeyboardHandler created.");
-
-        this.recordInput = false;
-
-        this.axisLock = "";
-        this.digitsBeforeComma = "";
-        this.digitsAfterComma = "";
-        this.comma = false;
-        this.callback = null;
+        this.inputRecorder = null;
     }
 
     KeyDown(e) {
-        if (this.recordInput) {
+        if (this.inputRecorder != null) {
             e.preventDefault();
-            this.record(e.code + "", String.fromCharCode(e.keyCode));
+            this.inputRecorder.record(e.code + "", String.fromCharCode(e.keyCode));
             return;
         }
 
+        switch (e.keyCode) {
+            case 13: // Enter
+                break;
+            case 81: // Q
+                this.inputRecorder = new InputRecorder(this.testCallBack);
+                break;
+            default:
+                break;
+        }
+
+        if (MOUSE_HANDLER.canvasFocused)
+            CanvasKeyHandler.KeyDown(e);
+
+
+        if (
+            e.keyCode == 9 // Tab
+        )
+            e.preventDefault();
+    }
+
+    KeyUp(e) {
+        if (this.inputRecorder != null) {
+            e.preventDefault();
+            return;
+        }
+
+        switch (e.keyCode) {
+            case 32: // Space
+                break;
+            default:
+                break;
+        }
+
+        if (MOUSE_HANDLER.canvasFocused)
+            CanvasKeyHandler.KeyUp(e);
+    }
+
+    testCallBack(num, axisLock) {
+        console.log(num);
+        console.log(axisLock);
+        // TODO? stupid javascript-this behaviour, therefore have to call "this" with class name...
+        KEYBOARD_HANDLER.inputRecorder = null;
+    }
+}
+
+class CanvasKeyHandler {
+    constructor() {
+        console.log("CanvasKeyHandler created.");
+    }
+
+    static KeyDown(e) {        
         switch (e.keyCode) {
             case 32: // Space
                 spaceDown = true;
@@ -205,7 +249,6 @@ class KeyboardHandler {
                 break;
         }
 
-
         if (e.keyCode != 123 // F12
 	    && !(e.keyCode == 76 && e.ctrlKey) // ctrl+L, 
 	    && e.keyCode != 117 // F6
@@ -214,12 +257,7 @@ class KeyboardHandler {
             e.preventDefault();
     }
 
-    KeyUp(e) {
-        if (this.recordInput) {
-            e.preventDefault();
-            return;
-        }
-
+    static KeyUp(e) {
         switch (e.keyCode) {
             case 32: // Space
                 spaceDown = false;
@@ -258,7 +296,7 @@ class KeyboardHandler {
         }
     }
 
-    arrowMovement(x, y, shiftDown, ctrlDown) {
+    static arrowMovement(x, y, shiftDown, ctrlDown) {
         if (!SELECTION.noSelection()) {
             let stepSize = 10;
             if (shiftDown)
@@ -271,6 +309,23 @@ class KeyboardHandler {
             UTILITIES.moveSelectionBy(selPoints, delta);
             RENDERER.redraw();
         }
+    }
+}
+
+class InputRecorder {
+    constructor(callback) {
+        // capture keys
+        // how to return value?
+
+        this.axisLock = "";
+        this.digitsBeforeComma = "";
+        this.digitsAfterComma = "";
+        this.comma = false;
+        this.callback = callback;
+    }
+
+    getRecordedInputNumberAsString() {
+        return +(this.digitsBeforeComma + "." + this.digitsAfterComma);
     }
 
     record(code, char) {
@@ -302,14 +357,12 @@ class KeyboardHandler {
         else if (code == "Enter") {
 
             this.callback(this.getRecordedInputNumberAsString(), this.axisLock);
-            this.callback = null;
-
-            this.recordInput = false;
-            this.axisLock = "";
-            this.digitsBeforeComma = "";
-            this.digitsAfterComma = "";
-            this.comma = false;
-
+            //this.callback = null;
+            //this.recordInput = false;
+            //this.axisLock = "";
+            //this.digitsBeforeComma = "";
+            //this.digitsAfterComma = "";
+            //this.comma = false;
             return;
         }
         else if (code == "Backspace") {
@@ -321,7 +374,7 @@ class KeyboardHandler {
                 this.digitsBeforeComma = this.digitsBeforeComma.slice(0, this.digitsBeforeComma.length - 1);
         }
 
-        console.log(code + ", " + char);
+        //console.log(code + ", " + char);
 
         GUI.writeToStatusbarLeft(this.getRecordedInputNumberAsString());
         //GUI.writeToStats("recordInput", this.recordInput);
@@ -329,40 +382,5 @@ class KeyboardHandler {
         //GUI.writeToStats("digitsBeforeComma", this.digitsBeforeComma);
         //GUI.writeToStats("digitsAfterComma", this.digitsAfterComma);
         //GUI.writeToStats("comma", this.comma);
-    }
-
-    getRecordedInputNumberAsString() {
-        return +(this.digitsBeforeComma + "." + this.digitsAfterComma);
-    }
-
-    startRecordingInput(callback) {
-        this.callback = callback
-        this.recordInput = true;
-    }
-
-    testCallBack(num, axisLock) {
-        console.log(num);
-        console.log(axisLock);
-    }
-}
-
-class CanvasKeyHandler {
-    constructor () {
-        console.log("CanvasKeyHandler created.");
-    }
-
-    static KeyDown(e) {
-        if (!MOUSE_HANDLER.canvasFocused) 
-            return;
-
-        console.log("canvas keydown: " + e.keyCode);
-        this.i = 4
-    }
-
-    static KeyUp(e) {
-        if (!MOUSE_HANDLER.canvasFocused)
-            return;
-
-        console.log("canvas keyup: " + e.keyCode);
-    }
+    }    
 }

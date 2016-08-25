@@ -111,12 +111,8 @@
         GUI.objectHierarchyChanged();
     }
 
-    changeNameForLayerWithID(text)
-    {
-        console.log(arguments);
-        //window.addEventListener("keydown", evt => KEYBOARD_HANDLER.KeyDown(evt), false)
-        //window.addEventListener("keyup", evt => KEYBOARD_HANDLER.KeyUp(evt), false)
-
+    changeNameForLayerWithID(id, name) {
+        this.layers[id].name = name;
     }
 
     updateStats() {

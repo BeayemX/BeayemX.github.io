@@ -1,4 +1,4 @@
-::selection {
+*:not(.layerbutton)::selection {
     background-color: Transparent;
 }
 
