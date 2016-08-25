@@ -170,9 +170,9 @@ class CanvasKeyHandler {
                 if (LOGIC.currentState == StateEnum.IDLE)
                     EXPORTER.TakeScreenshot();
                 break;
-            case 70: // F // TODO improve. CAMERA.zoom to selection / CAMERA.zoom fit / etc ... 
-                CAMERA.setZoom(1, false);
-                CAMERA.canvasOffset = (new Vector2(canvas.width * 0.5, canvas.height * 0.5)).divide(CAMERA.zoom);
+            case 70: // F // TODO improve. Camera.zoom to selection / Camera.zoom fit / etc ... 
+                Camera.setZoom(1, false);
+                Camera.canvasOffset = (new Vector2(canvas.width * 0.5, canvas.height * 0.5)).divide(Camera.zoom);
                 Renderer.redraw();
                 break;
             case 66: // B

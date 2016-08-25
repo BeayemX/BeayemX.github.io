@@ -15,7 +15,7 @@ class MouseHandler {
     }
 
     static start() {
-        CAMERA.multiplyZoomBy(1, true);
+        Camera.multiplyZoomBy(1, true);
         this.mouseMoved(new Vector2(0, 0));
     }
 
@@ -29,22 +29,22 @@ class MouseHandler {
 
         if (LOGIC.currentState == StateEnum.ZOOMING) {
             // TODO ctrl+mmb zoom is MAGIC
-            //CAMERA.setZoom(this.startZoom + (newPosScreenSpace.y - this.zoomInitScreenPos.y) / canvas.height * 4, true);
-            CAMERA.zoomBy(
+            //Camera.setZoom(this.startZoom + (newPosScreenSpace.y - this.zoomInitScreenPos.y) / canvas.height * 4, true);
+            Camera.zoomBy(
                 (newPosScreenSpace.y - this.zoomInitScreenPos.y)
                 / canvas.height
-                * CAMERA.zoom
+                * Camera.zoom
                 * 4
                 ,
                 true);
             this.zoomInitScreenPos = newPosScreenSpace;
         }
         else if (LOGIC.currentState == StateEnum.PANNING) {
-            CAMERA.canvasOffset = CAMERA.canvasOffset.addVector(screenPosDelta.divide(CAMERA.zoom));
+            Camera.canvasOffset = Camera.canvasOffset.addVector(screenPosDelta.divide(Camera.zoom));
             Renderer.redraw();
         }
         else {
-            selectionCursor = CAMERA.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
+            selectionCursor = Camera.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
             currentPosition = selectionCursor.copy();
 
             if ((snapToGrid && !tmpSwitchSnapToGrid) || (!snapToGrid && tmpSwitchSnapToGrid)) // TODO should also change button text
@@ -82,7 +82,7 @@ class MouseHandler {
             GUI.writeToStatusbarLeft(currentPosition.toString());
         }
 
-        //GUI.writeToStats("CAMERA.canvasOffset", CAMERA.canvasOffset.toString());
+        //GUI.writeToStats("Camera.canvasOffset", Camera.canvasOffset.toString());
         this.oldPosScreenSpace = newPosScreenSpace;
     }
 
@@ -183,7 +183,7 @@ class MouseHandler {
                 }
                 else if (e.ctrlKey) {
                     this.zoomInitScreenPos = UTILITIES.getMousePos(e);
-                    this.startZoom = CAMERA.zoom;
+                    this.startZoom = Camera.zoom;
                     LOGIC.setState(StateEnum.ZOOMING);
                 }
                 else {
@@ -308,11 +308,11 @@ class MouseHandler {
 
         if (!e.shiftKey && !e.ctrlKey) {
             if (e.deltaY < 0) // upscroll
-                CAMERA.multiplyZoomBy(1.1, true);
+                Camera.multiplyZoomBy(1.1, true);
             else if (e.deltaY > 0)
-                CAMERA.multiplyZoomBy(0.9, true);
+                Camera.multiplyZoomBy(0.9, true);
 
-            this.MouseMove(e);
+            this.mouseMove(e);
         }
 
         Renderer.redraw();

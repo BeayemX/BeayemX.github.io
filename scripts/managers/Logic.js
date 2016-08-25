@@ -13,7 +13,6 @@ let cursorRange = 9;
 let currentLineThickness = 1;
 let currentLineColor = Color.black();
 
-let CAMERA;
 let LOGIC;
 let GUI;
 let UTILITIES;
@@ -45,7 +44,7 @@ function onLoad() {
     LOGIC = new Logic();
     Saver.init();
     File.init();
-    CAMERA = new Camera();
+    Camera.init();
     Renderer.init();
     GUI = new Gui();
     UTILITIES = new Utilities();
@@ -110,8 +109,8 @@ class Logic {
         canvas.style.background = SETTINGS.canvasColor;
         this.layoutGUI();
 
-        CAMERA.canvasOffset.x = canvas.width * 0.5;
-        CAMERA.canvasOffset.y = canvas.height * 0.5;
+        Camera.canvasOffset.x = canvas.width * 0.5;
+        Camera.canvasOffset.y = canvas.height * 0.5;
 
         //Saver.loadAutoSave();
         Saver.newFile();

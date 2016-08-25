@@ -31,7 +31,7 @@
         let color;
         let thickness;
 
-        //context.setLineDash([this.dashSize * CAMERA.zoom, this.dashSpaceSize * CAMERA.zoom]);
+        //context.setLineDash([this.dashSize * Camera.zoom, this.dashSpaceSize * Camera.zoom]);
 
         for (let i = -size; i <= size; i += this.bigGridSize) {
             Renderer.batchLine(new Line(new Vector2(-size * this.gridSize, i * this.gridSize), new Vector2(size * this.gridSize, i * this.gridSize)), true);

@@ -31,20 +31,20 @@
         p2 = p2.copy();
 
         if (!screenSpace) {
-            p1.x += CAMERA.canvasOffset.x;
-            p1.y += CAMERA.canvasOffset.y;
-            p2.x += CAMERA.canvasOffset.x;
-            p2.y += CAMERA.canvasOffset.y;
+            p1.x += Camera.canvasOffset.x;
+            p1.y += Camera.canvasOffset.y;
+            p2.x += Camera.canvasOffset.x;
+            p2.y += Camera.canvasOffset.y;
 
-            p1.x *= CAMERA.zoom;
-            p1.y *= CAMERA.zoom;
-            p2.x *= CAMERA.zoom;
-            p2.y *= CAMERA.zoom;
+            p1.x *= Camera.zoom;
+            p1.y *= Camera.zoom;
+            p2.x *= Camera.zoom;
+            p2.y *= Camera.zoom;
 
         }
 
         if (!screenSpaceThickness)
-            thickness *= CAMERA.zoom;
+            thickness *= Camera.zoom;
 
         context.beginPath();
         context.lineWidth = thickness;
@@ -83,7 +83,7 @@
         context.beginPath();
 
         if (!screenSpaceThickness)
-            thickness *= CAMERA.zoom;
+            thickness *= Camera.zoom;
 
 
         context.lineWidth = thickness;
@@ -97,15 +97,15 @@
             p2 = line.end.position.copy();
 
             if (!screenSpace) {
-                p1.x += CAMERA.canvasOffset.x;
-                p1.y += CAMERA.canvasOffset.y;
-                p2.x += CAMERA.canvasOffset.x;
-                p2.y += CAMERA.canvasOffset.y;
+                p1.x += Camera.canvasOffset.x;
+                p1.y += Camera.canvasOffset.y;
+                p2.x += Camera.canvasOffset.x;
+                p2.y += Camera.canvasOffset.y;
 
-                p1.x *= CAMERA.zoom;
-                p1.y *= CAMERA.zoom;
-                p2.x *= CAMERA.zoom;
-                p2.y *= CAMERA.zoom;
+                p1.x *= Camera.zoom;
+                p1.y *= Camera.zoom;
+                p2.x *= Camera.zoom;
+                p2.y *= Camera.zoom;
             }
 
             context.moveTo(p1.x, p1.y);
@@ -124,8 +124,8 @@
             return;
 
         if (!screenSpaceSize) {
-            radius *= CAMERA.zoom;
-            thickness *= CAMERA.zoom;
+            radius *= Camera.zoom;
+            thickness *= Camera.zoom;
         }
 
         // TODO margin doesnt help much. circles sometimes still seem chopped off
@@ -156,11 +156,11 @@
                 circle = this.batchedCircles[key];
                 center.setValues(circle.x, circle.y);
                 if (!screenSpace) {
-                    center.x += CAMERA.canvasOffset.x;
-                    center.y += CAMERA.canvasOffset.y;
+                    center.x += Camera.canvasOffset.x;
+                    center.y += Camera.canvasOffset.y;
 
-                    center.x *= CAMERA.zoom;
-                    center.y *= CAMERA.zoom;
+                    center.x *= Camera.zoom;
+                    center.y *= Camera.zoom;
                 }
                 context.drawImage(offscreenCanvas, center.x - (radius + thickness + margin), center.y - (radius + thickness + margin));
                 ++this.copiedCirclesCounter;
@@ -172,16 +172,16 @@
 
     //drawCircle(centerX, centerY, radius, thickness, color, screenSpace, screenSpaceSize, filled) {
     //    if (!screenSpace) {
-    //        centerX += CAMERA.canvasOffset.x;
-    //        centerY += CAMERA.canvasOffset.y;
+    //        centerX += Camera.canvasOffset.x;
+    //        centerY += Camera.canvasOffset.y;
 
-    //        centerX *= CAMERA.zoom;
-    //        centerY *= CAMERA.zoom;
+    //        centerX *= Camera.zoom;
+    //        centerY *= Camera.zoom;
 
     //    }
     //    if (!screenSpaceSize) {
-    //        radius *= CAMERA.zoom;
-    //        thickness *= CAMERA.zoom;
+    //        radius *= Camera.zoom;
+    //        thickness *= Camera.zoom;
     //    }
 
     //    context.beginPath();
@@ -212,16 +212,16 @@
 
         center = center.copy();
         if (!screenSpace) {
-            center.x += CAMERA.canvasOffset.x;
-            center.y += CAMERA.canvasOffset.y;
+            center.x += Camera.canvasOffset.x;
+            center.y += Camera.canvasOffset.y;
 
-            center.x *= CAMERA.zoom;
-            center.y *= CAMERA.zoom;
+            center.x *= Camera.zoom;
+            center.y *= Camera.zoom;
 
-            radius *= CAMERA.zoom;
+            radius *= Camera.zoom;
         }
         if (!screenSpaceThickness) {
-            thickness *= CAMERA.zoom;
+            thickness *= Camera.zoom;
         }
 
         context.beginPath();
@@ -253,7 +253,7 @@
         }
 
         context.clearRect(0, 0, canvas.width, canvas.height);
-        this.screenBounds = CAMERA.getVisibleBounds();
+        this.screenBounds = Camera.getVisibleBounds();
 
         this.drawnLinesCounter = 0;
         this.culledLinesCounter = 0;
@@ -290,8 +290,8 @@
     }
 
     static generateGradient(start, end, toColor) {
-        start = CAMERA.canvasSpaceToScreenSpace(start);
-        end = CAMERA.canvasSpaceToScreenSpace(end);
+        start = Camera.canvasSpaceToScreenSpace(start);
+        end = Camera.canvasSpaceToScreenSpace(end);
 
         let gradient = context.createLinearGradient(start.x, start.y, end.x, end.y);
         gradient.addColorStop(0, SETTINGS.selectionColorFill);
@@ -320,18 +320,18 @@
             return;
 
         for (let line of SELECTION.lines)
-            this.drawLineFromTo(line.start.position.addVector(delta), line.end.position.addVector(delta), line.thickness + this.outlineSize / CAMERA.zoom, SETTINGS.selectionColor);
+            this.drawLineFromTo(line.start.position.addVector(delta), line.end.position.addVector(delta), line.thickness + this.outlineSize / Camera.zoom, SETTINGS.selectionColor);
 
         for (let p of SELECTION.points) {
             let color = this.generateGradient(p.position.addVector(delta), p.opposite.position, Color.transparent());
-            this.drawLineFromTo(p.position.addVector(delta), p.opposite.position, p.line.thickness + this.outlineSize / CAMERA.zoom, color, false, false);
+            this.drawLineFromTo(p.position.addVector(delta), p.opposite.position, p.line.thickness + this.outlineSize / Camera.zoom, color, false, false);
         }
 
         // selected points
         for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points))
         {
             let radius = (LINE_MANIPULATOR.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
-            this.drawRealCircle(p.position.addVector(delta), radius + this.outlineSize * 0.5 / CAMERA.zoom, this.outlineSize / CAMERA.zoom, SETTINGS.selectionColor, false, false, true)
+            this.drawRealCircle(p.position.addVector(delta), radius + this.outlineSize * 0.5 / Camera.zoom, this.outlineSize / Camera.zoom, SETTINGS.selectionColor, false, false, true)
         }
     }
 
@@ -356,7 +356,7 @@
         for (let line of SELECTION.lines.concat(SELECTION.partialLines))
         {
             if (movingLines)
-                context.setLineDash([line.thickness * 6 * CAMERA.zoom, line.thickness * 4 * CAMERA.zoom]);
+                context.setLineDash([line.thickness * 6 * Camera.zoom, line.thickness * 4 * Camera.zoom]);
 
 
             let thickness = movingLines ? line.thickness * 0.5 : line.thickness;
@@ -481,7 +481,7 @@
     }
 
     static drawCrosshair() {
-        let screenpos = CAMERA.canvasSpaceToScreenSpace(selectionCursor.copy());
+        let screenpos = Camera.canvasSpaceToScreenSpace(selectionCursor.copy());
         this.drawLineFromTo(new Vector2(0, screenpos.y), new Vector2(canvas.width, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.selectionColor, true, true, true);
         this.drawLineFromTo(new Vector2(screenpos.x, 0), new Vector2(screenpos.x, canvas.height), SETTINGS.helperLineWidth, SETTINGS.selectionColor, true, true, true);
     }
@@ -493,9 +493,9 @@
         context.strokeStyle = SETTINGS.selectionColor;
         context.fillStyle = SETTINGS.borderSelectionColor;
 
-        let leftTop = CAMERA.canvasSpaceToScreenSpace(UTILITIES.borderSelectionStart);
+        let leftTop = Camera.canvasSpaceToScreenSpace(UTILITIES.borderSelectionStart);
         let sizeCanvasSpace = UTILITIES.borderSelectionEnd.subtractVector(UTILITIES.borderSelectionStart);
-        let size = sizeCanvasSpace.multiply(CAMERA.zoom);
+        let size = sizeCanvasSpace.multiply(Camera.zoom);
 
         context.rect(leftTop.x, leftTop.y, size.x, size.y);
         context.fillRect(leftTop.x, leftTop.y, size.x, size.y);
