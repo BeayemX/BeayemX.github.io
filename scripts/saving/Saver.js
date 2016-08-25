@@ -114,9 +114,10 @@
         let svg = doc.getElementsByTagName('svg')[0];
 
         // TODO just copied from Saver.newFile(). should be unified
-        ActionHistory = new ActionHistory();
-        File = new File();
-        Selection = new Selection();
+        ActionHistory.init();
+        File.init();
+        Selection.init();
+
         //File.createNewLayer(true);
         File.updateStats();
         Renderer.redraw();
