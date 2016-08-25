@@ -47,7 +47,7 @@ class MouseHandler {
             selectionCursor = Camera.screenSpaceToCanvasSpace(newPosScreenSpace.copy());
             currentPosition = selectionCursor.copy();
 
-            if ((snapToGrid && !tmpSwitchSnapToGrid) || (!snapToGrid && tmpSwitchSnapToGrid)) // TODO should also change button text
+            if (Logic.shouldSnap()) // TODO should also change button text
                 currentPosition = GridManager.grid.getNearestPointFor(currentPosition);
 
             let gridDelta = currentPosition.subtractVector(this.oldPos) // TODO maybe not used anymore after grabbing reworked?
@@ -59,7 +59,7 @@ class MouseHandler {
 
                 if (this.continousDrawingOldPos != undefined) {
                     let gridLineStart = this.continousDrawingOldPos.copy();
-                    let gridLineEnd = continousDrawingInstantSnap ? currentPosition.copy() : selectionCursor.copy();
+                    let gridLineEnd = Logic.shouldSnap() ? currentPosition.copy() : selectionCursor.copy();
 
 
                     if (gridLineStart.x != gridLineEnd.x || gridLineStart.y != gridLineEnd.y)
@@ -72,7 +72,7 @@ class MouseHandler {
                                 ));
                 }
 
-                if (continousDrawingInstantSnap)
+                if (Logic.shouldSnap())
                     this.continousDrawingOldPos = currentPosition.copy();
                 else
                     this.continousDrawingOldPos = selectionCursor.copy();
@@ -126,7 +126,7 @@ class MouseHandler {
                     Utilities.startAreaSelection(true);
                 }
                 else if (Logic.currentState == StateEnum.CONTINOUSDRAWING) {
-                    this.continousDrawingOldPos = continousDrawingInstantSnap ? currentPosition.copy() : selectionCursor.copy();
+                    this.continousDrawingOldPos = Logic.shouldSnap() ? currentPosition.copy() : selectionCursor.copy();
                 }
             }
             else if (e.button == 2) // RMB

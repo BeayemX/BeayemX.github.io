@@ -26,8 +26,6 @@ let waitingForStart = [];
 let mirrorX = false;
 let mirrorY = false;
 
-let continousDrawingInstantSnap = false;
-
 function onLoad() {
     KeyboardHandler.init();
     MouseHandler.init();
@@ -154,5 +152,9 @@ class Logic {
 
     static adjustButtonText(button, val) {
         button.innerHTML = val ? button.getAttribute("enabledText") : button.getAttribute("disabledText");
+    }
+
+    static shouldSnap() {
+        return (snapToGrid && !tmpSwitchSnapToGrid) || (!snapToGrid && tmpSwitchSnapToGrid);
     }
 }
