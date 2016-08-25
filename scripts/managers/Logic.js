@@ -76,6 +76,10 @@ class Logic {
     start() {
         window.addEventListener("keydown", evt => KEYBOARD_HANDLER.KeyDown(evt), false);
         window.addEventListener("keyup", evt => KEYBOARD_HANDLER.KeyUp(evt), false);
+
+        window.addEventListener("keydown", evt => CanvasKeyHandler.KeyDown(evt), false);
+        window.addEventListener("keyup", evt => CanvasKeyHandler.KeyUp(evt), false);
+
         window.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
         window.addEventListener('resize', this.layoutGUI, false);
         window.addEventListener('focus', function () {
@@ -99,8 +103,10 @@ class Logic {
         canvas.addEventListener("mouseup", evt => MOUSE_HANDLER.MouseUp(evt));
         canvas.addEventListener("mousedown", evt => MOUSE_HANDLER.MouseDown(evt));
         canvas.addEventListener("mousewheel", evt => MOUSE_HANDLER.MouseScroll(evt));
-        canvas.addEventListener("mouseleave", evt => MOUSE_HANDLER.MouseLeave(evt));
 
+        canvas.addEventListener("mouseenter", evt => MOUSE_HANDLER.canvasMouseEnter(evt));
+        canvas.addEventListener("mouseleave", evt => MOUSE_HANDLER.canvasMouseLeave(evt));
+        
         // Setup the dnd listeners.
         let dropZone = document.body;
         dropZone.addEventListener('dragover', SAVER.handleDragOver, false);

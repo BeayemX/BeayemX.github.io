@@ -17,6 +17,7 @@ class KeyboardHandler {
             this.record(e.code + "", String.fromCharCode(e.keyCode));
             return;
         }
+
         switch (e.keyCode) {
             case 32: // Space
                 spaceDown = true;
@@ -342,5 +343,26 @@ class KeyboardHandler {
     testCallBack(num, axisLock) {
         console.log(num);
         console.log(axisLock);
+    }
+}
+
+class CanvasKeyHandler {
+    constructor () {
+        console.log("CanvasKeyHandler created.");
+    }
+
+    static KeyDown(e) {
+        if (!MOUSE_HANDLER.canvasFocused) 
+            return;
+
+        console.log("canvas keydown: " + e.keyCode);
+        this.i = 4
+    }
+
+    static KeyUp(e) {
+        if (!MOUSE_HANDLER.canvasFocused)
+            return;
+
+        console.log("canvas keyup: " + e.keyCode);
     }
 }

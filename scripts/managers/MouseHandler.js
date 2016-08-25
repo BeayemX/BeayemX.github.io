@@ -74,7 +74,7 @@ class MouseHandler {
 
                 if (continousDrawingInstantSnap)
                     this.continousDrawingOldPos = currentPosition.copy();
-                else 
+                else
                     this.continousDrawingOldPos = selectionCursor.copy();
 
             }
@@ -320,11 +320,14 @@ class MouseHandler {
         e.preventDefault();
     }
 
-    MouseLeave() {
-        if (LOGIC.currentState == StateEnum.GRABBING) {
-            // TODO should place cursor on other side of the canvas... 
-            // but doesn't work due to security reasons...
-        }
+    canvasMouseEnter() {
+        this.canvasFocused = true;
+        GUI.writeToStats("Canvas focused", this.canvasFocused);
+    }
+
+    canvasMouseLeave() {
+        this.canvasFocused = false;
+        GUI.writeToStats("Canvas focused", this.canvasFocused);
     }
 
     cancelLinePreview() {
