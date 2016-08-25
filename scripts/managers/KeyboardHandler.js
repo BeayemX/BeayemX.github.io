@@ -89,9 +89,9 @@ class CanvasKeyHandler {
                 break;
 
             case 71: // G
-                if (LOGIC.currentState == StateEnum.IDLE) {
+                if (Logic.currentState == StateEnum.IDLE) {
                     if (!Selection.noSelection()) {
-                        LOGIC.setState(StateEnum.GRABBING);
+                        Logic.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
                         MouseHandler.startMoveLinesPreview();
                         Renderer.redraw();
@@ -100,7 +100,7 @@ class CanvasKeyHandler {
                 break;
 
             case 65: // A
-                if (LOGIC.currentState == StateEnum.IDLE) {
+                if (Logic.currentState == StateEnum.IDLE) {
                     File.selectAllToggle();
                     Renderer.redraw();
                 }
@@ -110,64 +110,64 @@ class CanvasKeyHandler {
             case 88: // X
             case 46: // DEL
             case 8: // BACKSPACE
-                if (LOGIC.currentState == StateEnum.IDLE) {
+                if (Logic.currentState == StateEnum.IDLE) {
                     Selection.deleteSelection();
                     Renderer.redraw();
                 }
 
                 break;
             case 73: // I
-                if (LOGIC.currentState == StateEnum.IDLE) {
+                if (Logic.currentState == StateEnum.IDLE) {
                     Selection.invertSelection();
                     Renderer.redraw();
                 }
                 break;
             case 68: // D
                 if (e.shiftKey) {
-                    if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
+                    if (Logic.currentState == StateEnum.IDLE || Logic.currentState == StateEnum.GRABBING) {
                         if (!Selection.noSelection()) {
 
-                            if (LOGIC.currentState == StateEnum.GRABBING)
+                            if (Logic.currentState == StateEnum.GRABBING)
                                 MouseHandler.endMoveLinesPreview();
 
                             File.duplicateLines();
                             MouseHandler.startMoveLinesPreview();
-                            LOGIC.setState(StateEnum.GRABBING);
+                            Logic.setState(StateEnum.GRABBING);
                         }
                     }
                 }
                 else {
-                    if (LOGIC.currentState != StateEnum.CONTINOUSDRAWING) {
+                    if (Logic.currentState != StateEnum.CONTINOUSDRAWING) {
                         MouseHandler.cancelLinePreview();
-                        LOGIC.setState(StateEnum.CONTINOUSDRAWING);
+                        Logic.setState(StateEnum.CONTINOUSDRAWING);
                     }
                 }
                 break;
 
             case 9: // TAB
-                if (!LOGIC.isPreviewing()) {
-                    LOGIC.isRenderPreviewing = true;
+                if (!Logic.isPreviewing()) {
+                    Logic.isRenderPreviewing = true;
                     canvas.style.background = 'white'; // TODO settings?
                     Renderer.redraw();
                 }
                 break;
 
             case 67: // C
-                if (LOGIC.currentState == StateEnum.IDLE)
+                if (Logic.currentState == StateEnum.IDLE)
                     Saver.copyLinesToClipboard();
                 break;
 
             case 86: // V
-                if (LOGIC.currentState == StateEnum.IDLE) {
+                if (Logic.currentState == StateEnum.IDLE) {
                     if (Saver.pasteLines()) {
                         MouseHandler.startMoveLinesPreview();
-                        LOGIC.setState(StateEnum.GRABBING);
+                        Logic.setState(StateEnum.GRABBING);
                     }
                 }
                 break;
 
             case 13: // Enter
-                if (LOGIC.currentState == StateEnum.IDLE)
+                if (Logic.currentState == StateEnum.IDLE)
                     Exporter.TakeScreenshot();
                 break;
             case 70: // F // TODO improve. Camera.zoom to selection / Camera.zoom fit / etc ... 
@@ -176,7 +176,7 @@ class CanvasKeyHandler {
                 Renderer.redraw();
                 break;
             case 66: // B
-                LOGIC.setState(StateEnum.BORDERSelection);
+                Logic.setState(StateEnum.BORDERSelection);
                 Renderer.redraw();
                 break;
             case 187: // +
@@ -187,7 +187,7 @@ class CanvasKeyHandler {
                 break;
 
             case 16: // Shift
-                if (LOGIC.currentState == StateEnum.IDLE)
+                if (Logic.currentState == StateEnum.IDLE)
                     drawPolyLine = true;
                 break;
             case 17: // Ctrl
@@ -237,8 +237,8 @@ class CanvasKeyHandler {
                 // */
 
             case 27: // ESC
-                LOGIC.previousState = StateEnum.IDLE;
-                LOGIC.setState(StateEnum.IDLE);
+                Logic.previousState = StateEnum.IDLE;
+                Logic.setState(StateEnum.IDLE);
                 console.log("cleared States");
                 // TODO also reset ctrlDown and so on?
                 break;
@@ -265,16 +265,16 @@ class CanvasKeyHandler {
                 break;
 
             case 9: // TAB
-                if (LOGIC.isPreviewing()) {
-                    //LOGIC.setState(LOGIC.previousState);
-                    LOGIC.isRenderPreviewing = false;
+                if (Logic.isPreviewing()) {
+                    //Logic.setState(Logic.previousState);
+                    Logic.isRenderPreviewing = false;
                     canvas.style.background = Settings.canvasColor;
                     Renderer.redraw();
                 }
                 break;
 
             case 16: // Shift
-                if (LOGIC.currentState == StateEnum.DRAWING) {
+                if (Logic.currentState == StateEnum.DRAWING) {
                     if (drawPolyLine) {
                         MouseHandler.cancelLinePreview();
                     }
@@ -290,8 +290,8 @@ class CanvasKeyHandler {
                 break;
 
             case 68: // D
-                if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING)
-                    LOGIC.setState(LOGIC.previousState);
+                if (Logic.currentState == StateEnum.CONTINOUSDRAWING)
+                    Logic.setState(Logic.previousState);
                 break;
         }
     }

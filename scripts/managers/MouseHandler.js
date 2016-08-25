@@ -27,7 +27,7 @@ class MouseHandler {
         let screenPosDelta = newPosScreenSpace.subtractVector(this.oldPosScreenSpace);
 
 
-        if (LOGIC.currentState == StateEnum.ZOOMING) {
+        if (Logic.currentState == StateEnum.ZOOMING) {
             // TODO ctrl+mmb zoom is MAGIC
             //Camera.setZoom(this.startZoom + (newPosScreenSpace.y - this.zoomInitScreenPos.y) / canvas.height * 4, true);
             Camera.zoomBy(
@@ -39,7 +39,7 @@ class MouseHandler {
                 true);
             this.zoomInitScreenPos = newPosScreenSpace;
         }
-        else if (LOGIC.currentState == StateEnum.PANNING) {
+        else if (Logic.currentState == StateEnum.PANNING) {
             Camera.canvasOffset = Camera.canvasOffset.addVector(screenPosDelta.divide(Camera.zoom));
             Renderer.redraw();
         }
@@ -55,7 +55,7 @@ class MouseHandler {
 
             this.oldPos = currentPosition;
 
-            if (this.LMBDown && LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
+            if (this.LMBDown && Logic.currentState == StateEnum.CONTINOUSDRAWING) {
 
                 if (this.continousDrawingOldPos != undefined) {
                     let gridLineStart = this.continousDrawingOldPos.copy();
@@ -87,7 +87,7 @@ class MouseHandler {
     }
 
     static cursorPositionChanged(gridDelta, screenPosDelta) {
-        if (LOGIC.currentState == StateEnum.BORDERSelection) {
+        if (Logic.currentState == StateEnum.BORDERSelection) {
             if (Utilities.borderSelectionStart) {
                 Utilities.borderSelectionEnd = selectionCursor.copy();
             }
@@ -115,23 +115,23 @@ class MouseHandler {
         if (e.detail == 1) {
             if (e.button == 0) // LMB
             {
-                if (LOGIC.currentState == StateEnum.IDLE) {
-                    LOGIC.setState(StateEnum.DRAWING);
+                if (Logic.currentState == StateEnum.IDLE) {
+                    Logic.setState(StateEnum.DRAWING);
                     this.downPoint = currentPosition.copy();
                 }
-                else if (LOGIC.currentState == StateEnum.GRABBING) {
+                else if (Logic.currentState == StateEnum.GRABBING) {
                     this.endMoveLinesPreview();
                 }
-                else if (LOGIC.currentState == StateEnum.BORDERSelection) {
+                else if (Logic.currentState == StateEnum.BORDERSelection) {
                     Utilities.startAreaSelection(true);
                 }
-                else if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
+                else if (Logic.currentState == StateEnum.CONTINOUSDRAWING) {
                     this.continousDrawingOldPos = continousDrawingInstantSnap ? currentPosition.copy() : selectionCursor.copy();
                 }
             }
             else if (e.button == 2) // RMB
             {
-                if (LOGIC.currentState == StateEnum.IDLE) {
+                if (Logic.currentState == StateEnum.IDLE) {
                     if (!e.shiftKey)
                         Selection.clearSelection();
 
@@ -163,14 +163,14 @@ class MouseHandler {
                     if (pointsToChangeSelection != null) {
                         MouseHandler.startMoveLinesPreview();
 
-                        LOGIC.setState(StateEnum.GRABBING);
+                        Logic.setState(StateEnum.GRABBING);
                         this.grabInitializedWithRMBDown = true;
                     }
                 }
-                else if (LOGIC.currentState == StateEnum.BORDERSelection) {
+                else if (Logic.currentState == StateEnum.BORDERSelection) {
                     Utilities.endAreaSelection();
                 }
-                else if (LOGIC.currentState == StateEnum.DRAWING) {
+                else if (Logic.currentState == StateEnum.DRAWING) {
                     this.cancelLinePreview();
                 }
 
@@ -178,17 +178,17 @@ class MouseHandler {
             }
             else if (e.button == 1) // MMB
             {
-                if (LOGIC.currentState == StateEnum.BORDERSelection) {
+                if (Logic.currentState == StateEnum.BORDERSelection) {
                     Utilities.startAreaSelection(false);
                 }
                 else if (e.ctrlKey) {
                     this.zoomInitScreenPos = Utilities.getMousePos(e);
                     this.startZoom = Camera.zoom;
-                    LOGIC.setState(StateEnum.ZOOMING);
+                    Logic.setState(StateEnum.ZOOMING);
                 }
                 else {
                     var screenPos = Utilities.getMousePos(e);
-                    LOGIC.setState(StateEnum.PANNING);
+                    Logic.setState(StateEnum.PANNING);
                 }
             }
             else {
@@ -227,7 +227,7 @@ class MouseHandler {
 
         if (e.button == 0) // LMB
         {
-            if (LOGIC.currentState == StateEnum.DRAWING) {
+            if (Logic.currentState == StateEnum.DRAWING) {
                 this.gridLineStart = this.downPoint;
                 this.gridLineEnd = currentPosition.copy();
 
@@ -245,31 +245,31 @@ class MouseHandler {
                 else
                     this.cancelLinePreview();
             }
-            else if (LOGIC.currentState == StateEnum.BORDERSelection) {
+            else if (Logic.currentState == StateEnum.BORDERSelection) {
                 Utilities.endAreaSelection(true);
             }
-            else if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
+            else if (Logic.currentState == StateEnum.CONTINOUSDRAWING) {
                 this.continousDrawingOldPos = undefined;
             }
         }
 
         else if (e.button == 1) // MMB
         {
-            if (LOGIC.currentState == StateEnum.BORDERSelection) {
+            if (Logic.currentState == StateEnum.BORDERSelection) {
                 Utilities.endAreaSelection(true);
             }
-            else if (LOGIC.currentState == StateEnum.ZOOMING) {
-                LOGIC.setState(LOGIC.previousState);
+            else if (Logic.currentState == StateEnum.ZOOMING) {
+                Logic.setState(Logic.previousState);
                 this.zoomInitScreenPos = undefined;
                 this.startZoom = undefined;
             }
             else {
-                LOGIC.setState(LOGIC.previousState);
+                Logic.setState(Logic.previousState);
             }
         }
         else if (e.button == 2) // RMB
         {
-            if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
+            if (Logic.currentState == StateEnum.GRABBING) // cancel grab
             {
                 let delta = currentPosition.subtractVector(this.grabStartPosition);
                 let points = Selection.getAllSelectedPoints();
@@ -283,7 +283,7 @@ class MouseHandler {
 
                 this.grabInitializedWithRMBDown = false;
                 grabInitializedWithKeyboard = false;
-                LOGIC.setState(StateEnum.IDLE);
+                Logic.setState(StateEnum.IDLE);
                 Renderer.redraw();
             }
         }
@@ -332,7 +332,7 @@ class MouseHandler {
 
     static cancelLinePreview() {
         this.downPoint = undefined;
-        LOGIC.setState(StateEnum.IDLE);
+        Logic.setState(StateEnum.IDLE);
     }
 
     static startMoveLinesPreview() {
@@ -344,7 +344,7 @@ class MouseHandler {
         Utilities.moveSelectionBy(Selection.getAllSelectedPoints(), delta);
 
         grabInitializedWithKeyboard = false;
-        LOGIC.setState(StateEnum.IDLE);
+        Logic.setState(StateEnum.IDLE);
         Renderer.redraw();
     }
 

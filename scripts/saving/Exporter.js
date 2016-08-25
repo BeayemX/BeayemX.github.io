@@ -9,11 +9,11 @@ class Exporter {
         // also save blueprint
         w.document.write("<img src='" + canvas.toDataURL("image/png") + "' alt='from canvas'/>");
 
-        LOGIC.setState(StateEnum.RENDERPREVIEW);
+        Logic.setState(StateEnum.RENDERPREVIEW);
         Renderer.redraw();
         w.document.write("<img src='" + canvas.toDataURL("image/png") + "' alt='from canvas'/>");
 
-        LOGIC.setState(StateEnum.IDLE);
+        Logic.setState(StateEnum.IDLE);
         Renderer.redraw();
         GUI.notify("Picture saved!");
     }

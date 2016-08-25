@@ -262,20 +262,20 @@
         this.copiedCirclesCounter = 0;
         this.drawnCirclesCounter = 0;
 
-        if (!LOGIC.isPreviewing()) {
+        if (!Logic.isPreviewing()) {
             this.drawGrid();
             this.drawAxis();
-            if (LOGIC.currentState == StateEnum.BORDERSelection || spaceDown)
+            if (Logic.currentState == StateEnum.BORDERSelection || spaceDown)
                 this.drawCrosshair();
             this.drawBorderSelection();
         }
 
         this.drawObjects();
 
-        if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.DRAWING)
+        if (Logic.currentState == StateEnum.IDLE || Logic.currentState == StateEnum.DRAWING)
             this.drawPreviewLine();
 
-        if (LOGIC.currentState == StateEnum.GRABBING)
+        if (Logic.currentState == StateEnum.GRABBING)
             this.drawMoveLinesPreview();
 
         this.fps = 1000 / (step - this.oldStep);
@@ -316,7 +316,7 @@
     }
 
     static drawSelectionOutline(delta) {
-        if (LOGIC.isPreviewing())
+        if (Logic.isPreviewing())
             return;
 
         for (let line of Selection.lines)
@@ -336,7 +336,7 @@
     }
 
     static drawObjects() {
-        if (LOGIC.currentState != StateEnum.GRABBING) 
+        if (Logic.currentState != StateEnum.GRABBING) 
             this.drawSelectionOutline(new Vector2(0, 0));
 
         for (let layer of File.layers)
@@ -344,15 +344,15 @@
 
 
         // selected points
-        if (LOGIC.currentState != StateEnum.GRABBING) {
+        if (Logic.currentState != StateEnum.GRABBING) {
             for (let p of Selection.points.concat(Selection.getUnselectedPointsOfPartialLines()).concat(Utilities.linesToLineEndings(Selection.lines))) {
-                let radius = (!LOGIC.isPreviewing() && LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
+                let radius = (!Logic.isPreviewing() && LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
                 this.drawRealCircle(p.position, radius, 0, p.line.color, false, false, true);
             }
         }
 
         // selected lines. dotted if origin while moving lines
-        let movingLines = LOGIC.currentState == StateEnum.GRABBING;
+        let movingLines = Logic.currentState == StateEnum.GRABBING;
         for (let line of Selection.lines.concat(Selection.partialLines))
         {
             if (movingLines)
@@ -364,7 +364,7 @@
 
             this.drawLineFromTo(line.start.position, line.end.position, thickness, line.color);
 
-            if (!LOGIC.isPreviewing())
+            if (!Logic.isPreviewing())
                 color.a = 0.3;
 
             if (mirrorX)
@@ -386,7 +386,7 @@
             return;
         let thickness;
 
-        if (!LOGIC.isPreviewing() && layer != File.currentLayer) {
+        if (!Logic.isPreviewing() && layer != File.currentLayer) {
             thickness *= 0.5;
         }
 
@@ -399,7 +399,7 @@
 
             this.drawLineFromTo(line.start.position, line.end.position, thickness, color);
 
-            if (!LOGIC.isPreviewing())
+            if (!Logic.isPreviewing())
                 color.a = 0.3;
 
             if (mirrorX)
@@ -412,13 +412,13 @@
 
         for (let p of Utilities.linesToLineEndings(layer.lines))
         {
-            let radius = (layer == File.currentLayer && !LOGIC.isPreviewing() && LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
+            let radius = (layer == File.currentLayer && !Logic.isPreviewing() && LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
             this.drawRealCircle(p.position, radius, 0, p.line.color, false, false, true)
         }
     }
 
     static drawPreviewLine() {
-        if (LOGIC.currentState == StateEnum.DRAWING) {
+        if (Logic.currentState == StateEnum.DRAWING) {
             let start = MouseHandler.downPoint;
             let end = currentPosition;
             this.drawLineFromTo(start, end, currentLineThickness, Settings.previewLineColor, false);
@@ -442,7 +442,7 @@
 
             this.drawLineFromTo(line.start.position.addVector(delta), line.end.position.addVector(delta), thickness, color);
 
-            if (!LOGIC.isPreviewing()) 
+            if (!Logic.isPreviewing()) 
                 color.a = 0.3;
 
             if (mirrorX)
@@ -462,7 +462,7 @@
 
             this.drawLineFromTo(p, point.opposite.position, thickness, color, false);
 
-            if (!LOGIC.isPreviewing())
+            if (!Logic.isPreviewing())
                 color.a = 0.3;
 
             if (mirrorX)
@@ -475,7 +475,7 @@
 
         // selected points
         for (let p of Utilities.linesToLineEndings(Selection.lines).concat(Selection.points)) {
-            let radius = (!LOGIC.isPreviewing() && LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
+            let radius = (!Logic.isPreviewing() && LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
             this.drawRealCircle(p.position.addVector(delta), radius, 0, p.line.color, false, false, true);
         }
     }
@@ -487,7 +487,7 @@
     }
 
     static drawBorderSelection() {
-        if (LOGIC.currentState != StateEnum.BORDERSelection || !Utilities.borderSelectionStart || !Utilities.borderSelectionEnd)
+        if (Logic.currentState != StateEnum.BORDERSelection || !Utilities.borderSelectionStart || !Utilities.borderSelectionEnd)
             return;
 
         context.strokeStyle = Settings.selectionColor;

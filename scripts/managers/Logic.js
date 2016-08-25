@@ -31,7 +31,7 @@ let continousDrawingInstantSnap = false;
 function onLoad() {
     KeyboardHandler.init();
     MouseHandler.init();
-    LOGIC = new Logic();
+    Logic.init();
     Saver.init();
     File.init();
     Camera.init();
@@ -48,11 +48,11 @@ function onLoad() {
 
     GUI.genereateGridSettings();
 
-    LOGIC.start();
+    Logic.start();
 }
 
 class Logic {
-    constructor() {
+    static init() {
         console.log("Logic created.");
 
         this.currentState = StateEnum.IDLE;
@@ -60,7 +60,7 @@ class Logic {
         this.isRenderPreviewing = false;
     }
 
-    start() {
+    static start() {
         window.addEventListener("keydown", evt => KeyboardHandler.keyDown(evt), false);
         window.addEventListener("keyup", evt => KeyboardHandler.keyUp(evt), false);
 
@@ -116,7 +116,7 @@ class Logic {
         }
     }
 
-    layoutGUI() {
+    static layoutGUI() {
         canvas.width = window.innerWidth - leftarea.offsetWidth - rightarea.offsetWidth;
         canvas.height = window.innerHeight - GUI.menubar.offsetHeight - GUI.statusbar.offsetHeight;
         canvas.style.left = leftarea.offsetWidth;
@@ -133,7 +133,7 @@ class Logic {
         Renderer.redraw();
     }
 
-    setState(state) {
+    static setState(state) {
         if (this.currentState == state)
             return;
 
@@ -142,17 +142,17 @@ class Logic {
         // console.log(this.previousState  + " --> " + this.currentState);
     }
 
-    isPreviewing() {
-        return LOGIC.isRenderPreviewing;
+    static isPreviewing() {
+        return Logic.isRenderPreviewing;
     }
 
-    toggleGridVisiblity(senderButton) {
+    static toggleGridVisiblity(senderButton) {
         showGrid = !showGrid;
         senderButton.innerHTML = showGrid ? "Hide grid" : "Show grid";
         Renderer.redraw();
     }
 
-    adjustButtonText(button, val) {
+    static adjustButtonText(button, val) {
         button.innerHTML = val ? button.getAttribute("enabledText") : button.getAttribute("disabledText");
     }
 }

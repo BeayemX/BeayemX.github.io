@@ -74,13 +74,13 @@
         <div class="toolcategory">
             <p>Toggles</p>
             <button type="button" 
-                    onload="console.log('button'); LOGIC.adjustButtonText(this, LineManipulator.showHandles)" 
-                    onclick=" LineManipulator.showHandles=!LineManipulator.showHandles; Renderer.redraw(); LOGIC.adjustButtonText(this, LineManipulator.showHandles)" 
+                    onload="console.log('button'); Logic.adjustButtonText(this, LineManipulator.showHandles)" 
+                    onclick=" LineManipulator.showHandles=!LineManipulator.showHandles; Renderer.redraw(); Logic.adjustButtonText(this, LineManipulator.showHandles)" 
                     enabledText="Hide line handles" 
                     disabledText="Show line handles">Hide line handles</button>
-            <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, cutLines)" onclick="cutLines = !cutLines; LOGIC.adjustButtonText(this, cutLines)" enabledText="Deactivate line cutting" disabledText="Activate line cutting">Activate line cutting</button>
-            <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, snapToGrid)" onclick="snapToGrid=!snapToGrid; LOGIC.adjustButtonText(this, snapToGrid)" enabledText="Deactivate snapping" disabledText="Activate snapping">Deactivate snapping</button>
-            <button type="button" onclick="GUI.toggleStatsVisibility(); LOGIC.adjustButtonText(this, GUI.stats.style.visibility == 'visible')" enabledText="Hide stats" disabledText="Show stats">Hide stats</button>
+            <button type="button" onload="console.log('button'); Logic.adjustButtonText(this, cutLines)" onclick="cutLines = !cutLines; Logic.adjustButtonText(this, cutLines)" enabledText="Deactivate line cutting" disabledText="Activate line cutting">Activate line cutting</button>
+            <button type="button" onload="console.log('button'); Logic.adjustButtonText(this, snapToGrid)" onclick="snapToGrid=!snapToGrid; Logic.adjustButtonText(this, snapToGrid)" enabledText="Deactivate snapping" disabledText="Activate snapping">Deactivate snapping</button>
+            <button type="button" onclick="GUI.toggleStatsVisibility(); Logic.adjustButtonText(this, GUI.stats.style.visibility == 'visible')" enabledText="Hide stats" disabledText="Show stats">Hide stats</button>
         </div>
         
         <div class="toolcategory">
@@ -98,7 +98,7 @@
         <div class="toolcategory">
             <p>Grid</p>
             <button type="button" onclick="GridManager.toggleGrid()">Toggle Grid</button>
-            <button type="button" onclick="LOGIC.toggleGridVisiblity(this)">Hide grid</button>
+            <button type="button" onclick="Logic.toggleGridVisiblity(this)">Hide grid</button>
             <div id="gridSettings"></div>
         </div>
 

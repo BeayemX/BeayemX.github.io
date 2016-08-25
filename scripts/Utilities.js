@@ -49,7 +49,7 @@ class Utilities {
         this.borderSelectionEnd = null;
         this.borderSelectType = null;
 
-        LOGIC.setState(StateEnum.IDLE);
+        Logic.setState(StateEnum.IDLE);
 
         Renderer.redraw();
     }
