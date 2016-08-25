@@ -1,8 +1,6 @@
 ﻿class Layer {
     constructor() {
         this.lines = [];
-        this.color = new Color(0, 0, 0, 1);
-        this.thickness = 1;
         this.name = "New Layer";
         this.visible = true;
     }
