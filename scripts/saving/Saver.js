@@ -1,21 +1,21 @@
 ﻿class Saver {
-    constructor() {
+    static init() {
         console.log("Saver created. ");
 
         this.autosaveFileName = "AutoSave";
         this.clipboardFileName = "Clipboard";
     }
 
-    autoSave() {
+    static autoSave() {
         localStorage.setItem(this.autosaveFileName, EXPORTER.generateSVGString());
         console.log("Saved to local storage.")
     }
 
-    loadAutoSave() // SIFU TODO combine with loading from file
+    static loadAutoSave() // SIFU TODO combine with loading from file
     {
         let autoSaveFile = localStorage.getItem(this.autosaveFileName);
         if (!autoSaveFile) {
-            SAVER.newFile();
+            Saver.newFile();
             return;
         }
 
@@ -23,7 +23,7 @@
         Renderer.redraw();
     }
 
-    newFile() {
+    static newFile() {
         ACTION_HISTORY = new ActionHistory();
         FILE = new File();
         SELECTION = new Selection();
@@ -32,7 +32,7 @@
         Renderer.redraw();
     }
 
-    copyLinesToClipboard() // session storage
+    static copyLinesToClipboard() // session storage
     {
         let selectedLines = SELECTION.lines;
         let layer = FILE.currentLayer;
@@ -46,7 +46,7 @@
         GUI.notify("Lines copied to clipboard!");
     }
 
-    pasteLines() // session storage
+    static pasteLines() // session storage
     {
         let logo = sessionStorage.getItem(this.clipboardFileName);
         if (!logo)
@@ -81,13 +81,13 @@
         return true;
     }
 
-    handleDragOver(evt) {
+    static handleDragOver(evt) {
         evt.stopPropagation();
         evt.preventDefault();
         evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
 
-    handleFileSelect(evt) {
+    static handleFileSelect(evt) {
         evt.stopPropagation();
         evt.preventDefault();
 
@@ -97,22 +97,22 @@
 
             let reader = new FileReader();
             reader.readAsText(files[i]);
-            //reader.onload = (evt) => SAVER.dndloaded(evt);
-            reader.onload = (evt) => SAVER.dndloadedSVG(evt);
+            //reader.onload = (evt) => Saver.dndloaded(evt);
+            reader.onload = (evt) => Saver.dndloadedSVG(evt);
 
 
         }
     }
-    dndloadedSVG(evt) {
+    static dndloadedSVG(evt) {
         this.createFileFromSVGString(evt.target.result);
     }
 
-    createFileFromSVGString(svgString) {
+    static createFileFromSVGString(svgString) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(svgString, "image/svg+xml");
         let svg = doc.getElementsByTagName('svg')[0];
 
-        // TODO just copied from SAVER.newFile(). should be unified
+        // TODO just copied from Saver.newFile(). should be unified
         ACTION_HISTORY = new ActionHistory();
         FILE = new File();
         SELECTION = new Selection();

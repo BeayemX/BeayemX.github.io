@@ -80,7 +80,7 @@ class CanvasKeyHandler {
                 }
                 else if (e.ctrlKey) {
                     if (!EXPORTER.ExportAsSVG())
-                        SAVER.autoSave();
+                        Saver.autoSave();
                 }
                 else
                     LINE_MANIPULATOR.mirror();
@@ -154,12 +154,12 @@ class CanvasKeyHandler {
 
             case 67: // C
                 if (LOGIC.currentState == StateEnum.IDLE)
-                    SAVER.copyLinesToClipboard();
+                    Saver.copyLinesToClipboard();
                 break;
 
             case 86: // V
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    if (SAVER.pasteLines()) {
+                    if (Saver.pasteLines()) {
                         MouseHandler.startMoveLinesPreview();
                         LOGIC.setState(StateEnum.GRABBING);
                     }

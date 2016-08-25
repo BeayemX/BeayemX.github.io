@@ -13,7 +13,6 @@ let cursorRange = 9;
 let currentLineThickness = 1;
 let currentLineColor = Color.black();
 
-let SAVER;
 let FILE;
 let CAMERA;
 let LOGIC;
@@ -45,7 +44,7 @@ function onLoad() {
     KeyboardHandler.init();
     MouseHandler.init();
     LOGIC = new Logic();
-    SAVER = new Saver();
+    Saver.init();
     FILE = new File();
     CAMERA = new Camera();
     Renderer.init();
@@ -84,7 +83,7 @@ class Logic {
             GUI.notify("received focus");
         }, false);
         window.onbeforeunload = function () {
-            SAVER.autoSave();
+            Saver.autoSave();
         };
 
         window.onerror = function () {
@@ -106,8 +105,8 @@ class Logic {
         
         // Setup the dnd listeners.
         let dropZone = document.body;
-        dropZone.addEventListener('dragover', SAVER.handleDragOver, false);
-        dropZone.addEventListener('drop', SAVER.handleFileSelect, false);
+        dropZone.addEventListener('dragover', Saver.handleDragOver, false);
+        dropZone.addEventListener('drop', Saver.handleFileSelect, false);
 
         canvas.style.background = SETTINGS.canvasColor;
         this.layoutGUI();
@@ -115,8 +114,8 @@ class Logic {
         CAMERA.canvasOffset.x = canvas.width * 0.5;
         CAMERA.canvasOffset.y = canvas.height * 0.5;
 
-        //SAVER.loadAutoSave();
-        SAVER.newFile();
+        //Saver.loadAutoSave();
+        Saver.newFile();
 
         FILE.updateStats();
         Renderer.redraw();
