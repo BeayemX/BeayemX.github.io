@@ -1,11 +1,11 @@
 ﻿class File {
-    constructor() {
+    static init() {
         console.log("File created.");
         this.layers = [];
         this.currentLayer = null;
     }
 
-    createNewLayer(selectNewLayer) {
+    static createNewLayer(selectNewLayer) {
         let layer = new Layer();
         this.layers.push(layer);
 
@@ -17,7 +17,7 @@
         return layer;
     }
 
-    deleteLayerWithID(id) {
+    static deleteLayerWithID(id) {
         if (id < 0 || id >= this.layers.length)
             return;
 
@@ -31,7 +31,7 @@
         Renderer.redraw();
     }
 
-    selectLayerWithID(id) {
+    static selectLayerWithID(id) {
         if (id < 0 || id >= this.layers.length)
             return;
 
@@ -45,7 +45,7 @@
         Renderer.redraw();
     }
 
-    toggleVisibilityOfLayerWithID(id) {
+    static toggleVisibilityOfLayerWithID(id) {
         if (this.currentLayer)
             SELECTION.clearSelection();
 
@@ -59,7 +59,7 @@
         Renderer.redraw();
     }
 
-    selectNextVisibleLayer(id) {
+    static selectNextVisibleLayer(id) {
         if (this.currentLayer == this.layers[id]) {
             if (this.layers.length == 1) {
                 this.createNewLayer(true);
@@ -102,7 +102,7 @@
         }
     }
 
-    renameLayerWithID(id) {
+    static renameLayerWithID(id) {
         let name = prompt("New name for layer: ");
 
         if (name) {
@@ -111,11 +111,11 @@
         GUI.objectHierarchyChanged();
     }
 
-    changeNameForLayerWithID(id, name) {
+    static changeNameForLayerWithID(id, name) {
         this.layers[id].name = name;
     }
 
-    updateStats() {
+    static updateStats() {
         let amountLines = 0;
         for (var i = 0; i < this.layers.length; i++)
             amountLines += this.layers[i].lines.length;
@@ -124,7 +124,7 @@
         GUI.writeToStats("Lines in File", amountLines);
     }
 
-    addLine(line, select) {
+    static addLine(line, select) {
         if (!this.currentLayer) {
             console.log("There was no layer, so there has been created one.");
             this.createNewLayer(true);
@@ -138,27 +138,27 @@
     }
 
     // SIFU FIXME all duplicates of current object. just poltergeisting...
-    getAllPointsAt(point, cursorRange) {
+    static getAllPointsAt(point, cursorRange) {
         return this.currentLayer.getAllPointsAt(point, cursorRange);
     }
 
-    cleanUpFile() {
+    static cleanUpFile() {
         this.currentLayer.cleanUpFile();
     }
 
-    selectAllToggle() {
+    static selectAllToggle() {
         this.currentLayer.selectAllToggle();
     }
-    duplicateLines() {
+    static duplicateLines() {
         this.currentLayer.duplicateLines();
     }
-    growSelection(redraw) {
+    static growSelection(redraw) {
         this.currentLayer.growSelection(redraw);
     }
-    selectLinked() {
+    static selectLinked() {
         this.currentLayer.selectLinked();
     }
-    removeLine(line) {
+    static removeLine(line) {
         this.currentLayer.removeLine(line);
     }
 }

@@ -101,7 +101,7 @@ class CanvasKeyHandler {
 
             case 65: // A
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    FILE.selectAllToggle();
+                    File.selectAllToggle();
                     Renderer.redraw();
                 }
 
@@ -130,7 +130,7 @@ class CanvasKeyHandler {
                             if (LOGIC.currentState == StateEnum.GRABBING)
                                 MouseHandler.endMoveLinesPreview();
 
-                            FILE.duplicateLines();
+                            File.duplicateLines();
                             MouseHandler.startMoveLinesPreview();
                             LOGIC.setState(StateEnum.GRABBING);
                         }
@@ -202,7 +202,7 @@ class CanvasKeyHandler {
                 ACTION_HISTORY.Redo();
                 break;
             case 76: // L
-                FILE.selectLinked();
+                File.selectLinked();
                 break;
             case 75: // K
                 // TODO doesn't change button text...
@@ -210,7 +210,7 @@ class CanvasKeyHandler {
                 break;
 
             case 77: // M
-                // FILE.createNewLayer(true);
+                // File.createNewLayer(true);
                 UTILITIES.mergeSelectedPoints();
                 break;
 

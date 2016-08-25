@@ -113,15 +113,15 @@ class LineManipulator {
 
         let points = SELECTION.getAllSelectedPoints();
         UTILITIES.movePointsBy(points, delta);
-        //FILE.cleanUpFile();
+        //File.cleanUpFile();
         Renderer.redraw();
     }
 
     growSelection() {
-        FILE.growSelection(true);
+        File.growSelection(true);
     }
 
     selectLinked() {
-        FILE.selectLinked();
+        File.selectLinked();
     }
 }

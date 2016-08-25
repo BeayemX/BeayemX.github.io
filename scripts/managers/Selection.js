@@ -29,7 +29,7 @@
         // oppsite isn't included
         this.points.push(point);
         this.partialLines.push(point.line)
-        UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, point.line)
+        UTILITIES.deleteArrayEntry(File.currentLayer.lines, point.line)
     }
 
     removePoint(point) {
@@ -38,7 +38,7 @@
             if (p === point) {
                 UTILITIES.deleteArrayEntry(this.points, point);
                 UTILITIES.deleteArrayEntry(this.partialLines, point.line);
-                FILE.currentLayer.lines.push(point.line);
+                File.currentLayer.lines.push(point.line);
                 return;
             }
         }
@@ -52,7 +52,7 @@
                 return;
             }
         }
-        FILE.currentLayer.cleanUpFile();
+        File.currentLayer.cleanUpFile();
     }
 
     // TODO should check if point is already selected 
@@ -60,25 +60,25 @@
     addLine(line) {
         console.log("Dangerous use!");
         this.lines.push(line);
-        UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, line);
-        FILE.updateStats();
+        UTILITIES.deleteArrayEntry(File.currentLayer.lines, line);
+        File.updateStats();
     }
     
     clearSelection() {
-        FILE.currentLayer.lines = FILE.currentLayer.lines.concat(this.lines);
-        FILE.currentLayer.lines = FILE.currentLayer.lines.concat(this.partialLines);
+        File.currentLayer.lines = File.currentLayer.lines.concat(this.lines);
+        File.currentLayer.lines = File.currentLayer.lines.concat(this.partialLines);
 
         this.points = [];
         this.partialLines = [];
         this.lines = [];
 
-        FILE.currentLayer.cleanUpFile();
+        File.currentLayer.cleanUpFile();
     }
 
     selectEverything() {
         this.clearSelection();
-        this.lines = FILE.currentLayer.lines;
-        FILE.currentLayer.lines = [];
+        this.lines = File.currentLayer.lines;
+        File.currentLayer.lines = [];
     }
 
     noSelection() {
@@ -87,13 +87,13 @@
 
     invertSelection() {
         let tmp = this.lines;
-        this.lines = FILE.currentLayer.lines;
-        FILE.currentLayer.lines = tmp;
+        this.lines = File.currentLayer.lines;
+        File.currentLayer.lines = tmp;
 
         for (var i = 0; i < this.points.length; i++) {
             this.points[i] = this.points[i].opposite;
         }
-        FILE.currentLayer.cleanUpFile();
+        File.currentLayer.cleanUpFile();
     }
 
     deleteSelection() {
@@ -102,10 +102,10 @@
 
         // TODO PERFORMANCE maybe use slice here, becaus 'deleteArrayEntry iterates over whole array for every delete...
         for (let point of this.points)
-            UTILITIES.deleteArrayEntry(FILE.currentLayer.lines, point.line);
+            UTILITIES.deleteArrayEntry(File.currentLayer.lines, point.line);
 
         this.points = [];
-        FILE.updateStats();
+        File.updateStats();
     }
 
     getAllSelectedPoints() {
@@ -134,7 +134,7 @@
             else
                 this.addPoint(p);
         }
-        FILE.currentLayer.cleanUpFile();
+        File.currentLayer.cleanUpFile();
     }
 
     getUnselectedPointsOfPartialLines() {

@@ -339,7 +339,7 @@
         if (LOGIC.currentState != StateEnum.GRABBING) 
             this.drawSelectionOutline(new Vector2(0, 0));
 
-        for (let layer of FILE.layers)
+        for (let layer of File.layers)
             this.drawLayer(layer);
 
 
@@ -386,7 +386,7 @@
             return;
         let thickness;
 
-        if (!LOGIC.isPreviewing() && layer != FILE.currentLayer) {
+        if (!LOGIC.isPreviewing() && layer != File.currentLayer) {
             thickness *= 0.5;
         }
 
@@ -412,7 +412,7 @@
 
         for (let p of UTILITIES.linesToLineEndings(layer.lines))
         {
-            let radius = (layer == FILE.currentLayer && !LOGIC.isPreviewing() && LINE_MANIPULATOR.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
+            let radius = (layer == File.currentLayer && !LOGIC.isPreviewing() && LINE_MANIPULATOR.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
             this.drawRealCircle(p.position, radius, 0, p.line.color, false, false, true)
         }
     }

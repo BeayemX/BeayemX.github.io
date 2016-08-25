@@ -13,7 +13,6 @@ let cursorRange = 9;
 let currentLineThickness = 1;
 let currentLineColor = Color.black();
 
-let FILE;
 let CAMERA;
 let LOGIC;
 let GUI;
@@ -45,7 +44,7 @@ function onLoad() {
     MouseHandler.init();
     LOGIC = new Logic();
     Saver.init();
-    FILE = new File();
+    File.init();
     CAMERA = new Camera();
     Renderer.init();
     GUI = new Gui();
@@ -117,7 +116,7 @@ class Logic {
         //Saver.loadAutoSave();
         Saver.newFile();
 
-        FILE.updateStats();
+        File.updateStats();
         Renderer.redraw();
 
         for (var i = 0; i < waitingForStart.length; i++) {

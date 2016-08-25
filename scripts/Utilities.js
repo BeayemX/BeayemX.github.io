@@ -58,7 +58,7 @@ class Utilities {
         let points =
             this.borderSelectType
             ?
-            FILE.currentLayer.getAllPoints().concat(SELECTION.getUnselectedPointsOfPartialLines())
+            File.currentLayer.getAllPoints().concat(SELECTION.getUnselectedPointsOfPartialLines())
             :
             SELECTION.getAllSelectedPoints();
 

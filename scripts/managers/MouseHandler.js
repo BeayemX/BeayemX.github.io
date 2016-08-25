@@ -63,7 +63,7 @@ class MouseHandler {
 
 
                     if (gridLineStart.x != gridLineEnd.x || gridLineStart.y != gridLineEnd.y)
-                        FILE.addLine(
+                        File.addLine(
                             new Line(
                                 gridLineStart.x,
                                 gridLineStart.y,
@@ -135,7 +135,7 @@ class MouseHandler {
                     if (!e.shiftKey)
                         SELECTION.clearSelection();
 
-                    let lines = FILE.currentLayer.lines.concat(SELECTION.lines).concat(SELECTION.partialLines);
+                    let lines = File.currentLayer.lines.concat(SELECTION.lines).concat(SELECTION.partialLines);
                     let pointsToChangeSelection = [];
 
                     // TODO weird number but should be a third?
@@ -232,7 +232,7 @@ class MouseHandler {
                 this.gridLineEnd = currentPosition.copy();
 
                 if (this.gridLineStart.x != this.gridLineEnd.x || this.gridLineStart.y != this.gridLineEnd.y)
-                    FILE.addLine(
+                    File.addLine(
 					    new Line(
 						    this.gridLineStart.x,
 						    this.gridLineStart.y,
@@ -279,7 +279,7 @@ class MouseHandler {
                 else
                     this.cancelMoveLinesPreview();
 
-                //FILE.cleanUpFile();
+                //File.cleanUpFile();
 
                 this.grabInitializedWithRMBDown = false;
                 grabInitializedWithKeyboard = false;

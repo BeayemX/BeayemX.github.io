@@ -36,7 +36,7 @@
             }
         }
 
-        FILE.updateStats();
+        File.updateStats();
     }
 
     cleanUpFile() {
@@ -63,7 +63,7 @@
 
         if (deletedLinesCounter > 0)
             GUI.notify("Cleaned up " + deletedLinesCounter + " lines.");
-        FILE.updateStats();
+        File.updateStats();
     }
 
     getAllPointsAt(clickPoint, withinRadius) {
@@ -106,7 +106,7 @@
 
     // TODO replace me with method in return line
     getAllPoints() {
-        return UTILITIES.linesToLineEndings(FILE.currentLayer.lines);
+        return UTILITIES.linesToLineEndings(File.currentLayer.lines);
     }
 
     growSelection(redraw) {

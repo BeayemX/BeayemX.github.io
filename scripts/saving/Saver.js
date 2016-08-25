@@ -25,17 +25,17 @@
 
     static newFile() {
         ACTION_HISTORY = new ActionHistory();
-        FILE = new File();
+        File.init();
         SELECTION = new Selection();
-        FILE.createNewLayer(true);
-        FILE.updateStats();
+        File.createNewLayer(true);
+        File.updateStats();
         Renderer.redraw();
     }
 
     static copyLinesToClipboard() // session storage
     {
         let selectedLines = SELECTION.lines;
-        let layer = FILE.currentLayer;
+        let layer = File.currentLayer;
         let svgData = "";
         svgData += "<svg>\n";
         svgData += EXPORTER.generateSVGStringForLines(selectedLines, layer, 0);
@@ -62,7 +62,7 @@
             if (line.nodeType != 1)
                 continue;
 
-            FILE.addLine(new Line(
+            File.addLine(new Line(
                     Number(line.getAttribute("x1")),
                     Number(line.getAttribute("y1")),
                     Number(line.getAttribute("x2")),
@@ -73,11 +73,11 @@
                 true
                 );
         }
-        FILE.currentLayer.addLines(lines);
+        File.currentLayer.addLines(lines);
         GUI.notify("Lines pasted from clipboard!");
 
         Renderer.redraw();
-        FILE.updateStats();
+        File.updateStats();
         return true;
     }
 
@@ -114,10 +114,10 @@
 
         // TODO just copied from Saver.newFile(). should be unified
         ACTION_HISTORY = new ActionHistory();
-        FILE = new File();
+        File = new File();
         SELECTION = new Selection();
-        //FILE.createNewLayer(true);
-        FILE.updateStats();
+        //File.createNewLayer(true);
+        File.updateStats();
         Renderer.redraw();
         // END copy paste
 
@@ -126,7 +126,7 @@
             if (g.nodeType != 1)
                 continue;
 
-            let layer = FILE.createNewLayer(true);
+            let layer = File.createNewLayer(true);
             layer.name = g.getAttribute("name");
 
             let lines = [];
@@ -148,6 +148,6 @@
         }
         GUI.objectHierarchyChanged();
         Renderer.redraw();
-        FILE.updateStats();
+        File.updateStats();
     }
 }

@@ -123,7 +123,7 @@
             this.layersDiv.removeChild(this.layersDiv.firstChild);
         }
 
-        let layers = FILE.layers;
+        let layers = File.layers;
         let table = document.createElement("table");
 
 
@@ -152,7 +152,7 @@
             tr.appendChild(td);
             let button = document.createElement("button");
             button.setAttribute("type", "button");
-            button.setAttribute("onclick", "FILE.toggleVisibilityOfLayerWithID(" + i + ")");
+            button.setAttribute("onclick", "File.toggleVisibilityOfLayerWithID(" + i + ")");
             if (layers[i].visible)
                 button.innerHTML = "O";
             else
@@ -165,12 +165,12 @@
             button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("class", "layerbutton");
-            button.setAttribute("onmousedown", "FILE.selectLayerWithID(" + i + ")");
+            button.setAttribute("onmousedown", "File.selectLayerWithID(" + i + ")");
             button.setAttribute("oncontextmenu", "this.focus(); document.execCommand('selectAll',false,null);");
             button.setAttribute("contenteditable", "true");
-            button.setAttribute("oninput", "FILE.changeNameForLayerWithID(" + i + ", this.innerHTML)");
+            button.setAttribute("oninput", "File.changeNameForLayerWithID(" + i + ", this.innerHTML)");
 
-            if (FILE.currentLayer == layers[i]) {
+            if (File.currentLayer == layers[i]) {
                 button.setAttribute("id", "selectedButton");
                 tr.setAttribute("id", "selectedLayer");
             }
@@ -182,7 +182,7 @@
             tr.appendChild(td);
             button = document.createElement("button");
             button.setAttribute("type", "button");
-            button.setAttribute("onclick", "FILE.deleteLayerWithID(" + i + ")");
+            button.setAttribute("onclick", "File.deleteLayerWithID(" + i + ")");
             button.innerHTML = "<font color='red'>X</font>";
             td.appendChild(button);
         }
