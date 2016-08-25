@@ -8,7 +8,7 @@
         console.log("CreateLineAction Do()");
     }
 
-    Undo() {
-        console.log("CreateLineAction Undo()");
+    undo() {
+        console.log("CreateLineAction undo()");
     }
 }

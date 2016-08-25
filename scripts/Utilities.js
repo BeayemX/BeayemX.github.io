@@ -31,7 +31,7 @@ class Utilities {
 
     static moveSelectionBy(points, delta) {
         if (delta.x != 0 || delta.y != 0) {
-            ActionHistory.PushAction(new MoveAction(points, delta));
+            ActionHistory.pushAction(new MoveAction(points, delta));
         }
     }
 

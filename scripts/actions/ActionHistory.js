@@ -8,7 +8,7 @@
         this.undoneActions = [];
     }
 
-    static PushAction(action, redoAction)
+    static pushAction(action, redoAction)
     {
         this.actions.push(action)
 
@@ -20,27 +20,27 @@
         action.Do();
     }
 
-    static PopAction()
+    static popAction()
     {
         var action = this.actions.pop();
         if (action)
         {
-            action.Undo();
+            action.undo();
             this.undoneActions.push(action);
         }
     }
 
-    static Undo()
+    static undo()
     {
-        this.PopAction();
+        this.popAction();
         Renderer.redraw();
     }
-    static Redo()
+    static redo()
     {
         var action = this.undoneActions.pop();
 
         if (action)
-            this.PushAction(action, true);
+            this.pushAction(action, true);
         Renderer.redraw();
     }
 }

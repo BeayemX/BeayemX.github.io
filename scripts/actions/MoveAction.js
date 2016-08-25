@@ -9,7 +9,7 @@
         Utilities.movePointsBy(this.points, this.delta);
     }
 
-    Undo() {
+    undo() {
         Utilities.movePointsBy(this.points, this.delta.flipped());
     }
 }

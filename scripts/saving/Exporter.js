@@ -3,7 +3,7 @@ class Exporter {
         console.log("Exporter created. ");
     }
 
-    static TakeScreenshot() // img
+    static takeScreenshot() // img
     {
         let w = window.open('about:blank', 'image from canvas');
         // also save blueprint
@@ -18,7 +18,7 @@ class Exporter {
         GUI.notify("Picture saved!");
     }
 
-    static ExportAsSVG() {
+    static exportAsSVG() {
         var name = prompt("Save as: ");
 
         if (name) {

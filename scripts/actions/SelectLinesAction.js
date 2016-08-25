@@ -8,7 +8,7 @@
         console.log("SelectLinesAction Do()");
     }
 
-    Undo() {
-        console.log("SelectLinesAction Undo()");
+    undo() {
+        console.log("SelectLinesAction undo()");
     }
 }

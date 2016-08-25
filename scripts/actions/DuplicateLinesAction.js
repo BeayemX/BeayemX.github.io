@@ -8,7 +8,7 @@
         console.log("DuplicateLinesAction Do()");
     }
 
-    Undo() {
-        console.log("DuplicateLinesAction Undo()");
+    undo() {
+        console.log("DuplicateLinesAction undo()");
     }
 }

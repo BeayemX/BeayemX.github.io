@@ -79,7 +79,7 @@ class CanvasKeyHandler {
                     Utilities.snapSelectedPointsToGrid();
                 }
                 else if (e.ctrlKey) {
-                    if (!Exporter.ExportAsSVG())
+                    if (!Exporter.exportAsSVG())
                         Saver.autoSave();
                 }
                 else
@@ -168,7 +168,7 @@ class CanvasKeyHandler {
 
             case 13: // Enter
                 if (Logic.currentState == StateEnum.IDLE)
-                    Exporter.TakeScreenshot();
+                    Exporter.takeScreenshot();
                 break;
             case 70: // F // TODO improve. Camera.zoom to selection / Camera.zoom fit / etc ... 
                 Camera.setZoom(1, false);
@@ -195,11 +195,11 @@ class CanvasKeyHandler {
                 break;
 
             case 90: // Z
-                ActionHistory.Undo();
+                ActionHistory.undo();
                 break;
 
             case 89: // Y
-                ActionHistory.Redo();
+                ActionHistory.redo();
                 break;
             case 76: // L
                 File.selectLinked();
