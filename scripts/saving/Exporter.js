@@ -1,9 +1,9 @@
 class Exporter {
-    constructor() {
+    static init() {
         console.log("Exporter created. ");
     }
 
-    TakeScreenshot() // img
+    static TakeScreenshot() // img
     {
         let w = window.open('about:blank', 'image from canvas');
         // also save blueprint
@@ -18,7 +18,7 @@ class Exporter {
         GUI.notify("Picture saved!");
     }
 
-    ExportAsSVG() {
+    static ExportAsSVG() {
         var name = prompt("Save as: ");
 
         if (name) {
@@ -32,12 +32,12 @@ class Exporter {
         return false;
     }
 
-    generateSVGString() {
+    static generateSVGString() {
         let svgData = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">\n';
         let layers = File.layers;
 
         // FIXME should just also use lines in selection...
-        SELECTION.clearSelection();
+        Selection.clearSelection();
 
         for (let layer of layers) {
             svgData +=
@@ -61,7 +61,7 @@ class Exporter {
         return svgData;
     }
 
-    generateSVGStringForLines(lines, indentations) {
+    static generateSVGStringForLines(lines, indentations) {
         let text = "";
         let indent = "";
         for (var i = 0; i < indentations; i++) {

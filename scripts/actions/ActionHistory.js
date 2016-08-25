@@ -1,6 +1,6 @@
 ﻿class ActionHistory
 {
-    constructor()
+    static init()
     {
         console.log("ActionHistory created.");
 
@@ -8,7 +8,7 @@
         this.undoneActions = [];
     }
 
-    PushAction(action, redoAction)
+    static PushAction(action, redoAction)
     {
         this.actions.push(action)
 
@@ -20,7 +20,7 @@
         action.Do();
     }
 
-    PopAction()
+    static PopAction()
     {
         var action = this.actions.pop();
         if (action)
@@ -30,12 +30,12 @@
         }
     }
 
-    Undo()
+    static Undo()
     {
         this.PopAction();
         Renderer.redraw();
     }
-    Redo()
+    static Redo()
     {
         var action = this.undoneActions.pop();
 

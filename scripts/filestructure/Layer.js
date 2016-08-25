@@ -9,12 +9,12 @@
 
     addLine(line) {
         if (tmpCutLines) {
-            SELECTION.clearSelection();
-            UTILITIES.cutLines(line, this.lines, false);
+            Selection.clearSelection();
+            Utilities.cutLines(line, this.lines, false);
         }
         else if (cutLines) {
-            SELECTION.clearSelection();
-            UTILITIES.cutLines(line, this.lines, true);
+            Selection.clearSelection();
+            Utilities.cutLines(line, this.lines, true);
         }
         else
             this.lines.push(line);
@@ -68,7 +68,7 @@
 
     getAllPointsAt(clickPoint, withinRadius) {
         let points = [];
-        let lines = this.lines.concat(SELECTION.partialLines); // TODO maybe put function in other file? not sure if this should be in Layer...
+        let lines = this.lines.concat(Selection.partialLines); // TODO maybe put function in other file? not sure if this should be in Layer...
         for (let i = 0; i < lines.length; ++i) {
             //console.log(this.pointWithinCircle(this.lines[i].start, clickPoint, withinRadius));
             if (this.pointWithinCircle(lines[i].start.position, clickPoint, withinRadius))
@@ -84,7 +84,7 @@
     }
 
     duplicateLines() {
-        var selectedLines = SELECTION.lines.concat(SELECTION.partialLines);
+        var selectedLines = Selection.lines.concat(Selection.partialLines);
         var duplLines = [];
         for (var i = 0; i < selectedLines.length; ++i) {
             duplLines.push(new Line(
@@ -98,33 +98,33 @@
     }
 
     selectAllToggle() {
-        if (SELECTION.noSelection())
-            SELECTION.selectEverything();
+        if (Selection.noSelection())
+            Selection.selectEverything();
         else
-            SELECTION.clearSelection();
+            Selection.clearSelection();
     }
 
     // TODO replace me with method in return line
     getAllPoints() {
-        return UTILITIES.linesToLineEndings(File.currentLayer.lines);
+        return Utilities.linesToLineEndings(File.currentLayer.lines);
     }
 
     growSelection(redraw) {
-        let selectedPoints = SELECTION.getAllSelectedPoints();
+        let selectedPoints = Selection.getAllSelectedPoints();
         let allSelectedPoints = [];
 
         for (let i = 0; i < selectedPoints.length; ++i)
             allSelectedPoints = allSelectedPoints.concat(this.getAllPointsAt(selectedPoints[i].position, 0.1)); // TODO magic number, should use Vector2.Equals-epsilon?
 
         for (let i = 0; i < allSelectedPoints.length; ++i)
-            SELECTION.addPoint(allSelectedPoints[i]);
+            Selection.addPoint(allSelectedPoints[i]);
 
         for (let i = 0; i < allSelectedPoints.length; ++i) {
             let p = allSelectedPoints[i].opposite;
             let pArray = this.getAllPointsAt(p.position, 0);
 
             for (let j = 0; j < pArray.length; ++j)
-                SELECTION.addPoint(pArray[j]);
+                Selection.addPoint(pArray[j]);
         }
 
         if (redraw)
@@ -138,7 +138,7 @@
         for (var i = 0; i < maxIterations; i++) {
             this.growSelection(false);
 
-            let selPointsNum = SELECTION.getAllSelectedPoints().length;
+            let selPointsNum = Selection.getAllSelectedPoints().length;
 
             if (selPointsNumOld == selPointsNum)
                 break;

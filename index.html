@@ -54,28 +54,28 @@
             <p>File</p>
             <button type="button" onclick="Saver.newFile()">New file</button>
             <button type="button" onclick="Saver.loadAutoSave()">Restore last session</button>
-            <button type="button" onclick="EXPORTER.ExportAsSVG()">Save as SVG</button>
+            <button type="button" onclick="Exporter.ExportAsSVG()">Save as SVG</button>
         </div>
 
         <div class="toolcategory">
             <p>Tools</p>
-            <button type="button" onclick="LINE_MANIPULATOR.subdivide()">Subdivide</button>
-            <button type="button" onclick="LINE_MANIPULATOR.mirror()">Mirror [s]</button>
-            <button type="button" onclick="LINE_MANIPULATOR.rotate(true)">Rotate Clockwise [r]</button>
-            <button type="button" onclick="LINE_MANIPULATOR.rotate(false)">Rotate Counter-Clockwise [R]</button>
-            <button type="button" onclick="LINE_MANIPULATOR.increaseSize(2)">Double Size [+]</button>
-            <button type="button" onclick="LINE_MANIPULATOR.increaseSize(0.5)">Half Size [-]</button>
-            <button type="button" onclick="LINE_MANIPULATOR.growSelection()">Grow Selection</button>
-            <button type="button" onclick="LINE_MANIPULATOR.selectLinked()">Select Linked [L]</button>
-            <button type="button" onclick="UTILITIES.snapSelectedPointsToGrid()">Snap selction to grid</button>
+            <button type="button" onclick="LineManipulator.subdivide()">Subdivide</button>
+            <button type="button" onclick="LineManipulator.mirror()">Mirror [s]</button>
+            <button type="button" onclick="LineManipulator.rotate(true)">Rotate Clockwise [r]</button>
+            <button type="button" onclick="LineManipulator.rotate(false)">Rotate Counter-Clockwise [R]</button>
+            <button type="button" onclick="LineManipulator.increaseSize(2)">Double Size [+]</button>
+            <button type="button" onclick="LineManipulator.increaseSize(0.5)">Half Size [-]</button>
+            <button type="button" onclick="LineManipulator.growSelection()">Grow Selection</button>
+            <button type="button" onclick="LineManipulator.selectLinked()">Select Linked [L]</button>
+            <button type="button" onclick="Utilities.snapSelectedPointsToGrid()">Snap selction to grid</button>
         </div>
 
 
         <div class="toolcategory">
             <p>Toggles</p>
             <button type="button" 
-                    onload="console.log('button'); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
-                    onclick=" LINE_MANIPULATOR.showHandles=!LINE_MANIPULATOR.showHandles; Renderer.redraw(); LOGIC.adjustButtonText(this, LINE_MANIPULATOR.showHandles)" 
+                    onload="console.log('button'); LOGIC.adjustButtonText(this, LineManipulator.showHandles)" 
+                    onclick=" LineManipulator.showHandles=!LineManipulator.showHandles; Renderer.redraw(); LOGIC.adjustButtonText(this, LineManipulator.showHandles)" 
                     enabledText="Hide line handles" 
                     disabledText="Show line handles">Hide line handles</button>
             <button type="button" onload="console.log('button'); LOGIC.adjustButtonText(this, cutLines)" onclick="cutLines = !cutLines; LOGIC.adjustButtonText(this, cutLines)" enabledText="Deactivate line cutting" disabledText="Activate line cutting">Activate line cutting</button>
@@ -97,7 +97,7 @@
     <div id="rightarea" class="toolarea" width="150">
         <div class="toolcategory">
             <p>Grid</p>
-            <button type="button" onclick="GRID.toggleGrid()">Toggle Grid</button>
+            <button type="button" onclick="GridManager.toggleGrid()">Toggle Grid</button>
             <button type="button" onclick="LOGIC.toggleGridVisiblity(this)">Hide grid</button>
             <div id="gridSettings"></div>
         </div>

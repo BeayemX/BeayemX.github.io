@@ -6,10 +6,10 @@
     }
 
     Do() {
-        UTILITIES.movePointsBy(this.points, this.delta);
+        Utilities.movePointsBy(this.points, this.delta);
     }
 
     Undo() {
-        UTILITIES.movePointsBy(this.points, this.delta.flipped());
+        Utilities.movePointsBy(this.points, this.delta.flipped());
     }
 }

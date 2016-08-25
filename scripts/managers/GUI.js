@@ -1,5 +1,5 @@
-﻿class Gui {
-    constructor() {
+﻿class GUI {
+    static init() {
         console.log("GUI created.");
 
         this.menubar = document.getElementById("menubar");
@@ -18,12 +18,12 @@
         this.gridSettings = document.getElementById("gridSettings");
     }
 
-    genereateGridSettings() {
+    static genereateGridSettings() {
         while (this.gridSettings.firstChild) {
             this.gridSettings.removeChild(this.gridSettings.firstChild);
         }
 
-        if (GRID.grid instanceof RectangleGrid) {
+        if (GridManager.grid instanceof RectangleGrid) {
 
             this.gridSettings.appendChild(document.createTextNode("gridSize"));
             let input = document.createElement("input");
@@ -31,7 +31,7 @@
             input.setAttribute("min", "1");
             input.setAttribute("max", "100");
             input.setAttribute("value", "10");
-            input.setAttribute("onchange", "GRID.grid.gridSize = value; Renderer.redraw()");
+            input.setAttribute("onchange", "GridManager.grid.gridSize = value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
 
             this.gridSettings.appendChild(document.createTextNode("cellNumber"));
@@ -39,17 +39,17 @@
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
             input.setAttribute("value", "32");
-            input.setAttribute("onchange", "GRID.grid.gridCellNumber= value; Renderer.redraw()");
+            input.setAttribute("onchange", "GridManager.grid.gridCellNumber= value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
         }
-        else if (GRID.grid instanceof TriangleGrid) {
+        else if (GridManager.grid instanceof TriangleGrid) {
             this.gridSettings.appendChild(document.createTextNode("cells"));
             let input = document.createElement("input");
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
             input.setAttribute("max", "100");
             input.setAttribute("value", "20");
-            input.setAttribute("onchange", "GRID.grid.cells = value; Renderer.redraw()");
+            input.setAttribute("onchange", "GridManager.grid.cells = value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
 
             this.gridSettings.appendChild(document.createTextNode("width"));
@@ -57,7 +57,7 @@
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
             input.setAttribute("value", "32");
-            input.setAttribute("onchange", "GRID.grid.width = value; Renderer.redraw()");
+            input.setAttribute("onchange", "GridManager.grid.width = value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
 
             this.gridSettings.appendChild(document.createTextNode("height"));
@@ -65,33 +65,33 @@
             input.setAttribute("type", "number");
             input.setAttribute("min", "1");
             input.setAttribute("value", "32");
-            input.setAttribute("onchange", "GRID.grid.height = value; Renderer.redraw()");
+            input.setAttribute("onchange", "GridManager.grid.height = value; Renderer.redraw()");
             this.gridSettings.appendChild(input);
 
 
             input = document.createElement("input");
             input.setAttribute("type", "button");
-            input.setAttribute("onclick", "GRID.grid.uniformHeight(); Renderer.redraw()");
+            input.setAttribute("onclick", "GridManager.grid.uniformHeight(); Renderer.redraw()");
             input.value = "Uniform Height";
             this.gridSettings.appendChild(input);
 
             input = document.createElement("input");
             input.setAttribute("type", "button");
-            input.setAttribute("onclick", "GRID.grid.swapXAndYForTriangles = !GRID.grid.swapXAndYForTriangles ; Renderer.redraw()");
+            input.setAttribute("onclick", "GridManager.grid.swapXAndYForTriangles = !GridManager.grid.swapXAndYForTriangles ; Renderer.redraw()");
             input.value = "Swap X and Y for triangles";
             this.gridSettings.appendChild(input);
         }
     }
 
-    writeToStatusbarLeft(text) {
+    static writeToStatusbarLeft(text) {
         statusbarentryleft.innerHTML = text;
     }
 
-    writeToStatusbarRight(text) {
+    static writeToStatusbarRight(text) {
         statusbarentryright.innerHTML = text;
     }
 
-    writeToStats(k, v) {
+    static writeToStats(k, v) {
         this.statsDict[k] = v;
         let text = "<table>";
         for (let key in this.statsDict) {
@@ -114,11 +114,11 @@
         stats.innerHTML = text;
     }
 
-    removeEntryFromStats(k) {
+    static removeEntryFromStats(k) {
         delete this.statstDict[k];
     }
 
-    objectHierarchyChanged() {
+    static objectHierarchyChanged() {
         while (this.layersDiv.firstChild) {
             this.layersDiv.removeChild(this.layersDiv.firstChild);
         }
@@ -190,12 +190,12 @@
     }
 
     // TODO rework notifications. put somewhere in statusbar
-    notify(text) {
+    static notify(text) {
         this.writeToStatusbarRight(text);
         //console.log(text);
     }
 
-    toggleStatsVisibility() {
+    static toggleStatsVisibility() {
         console.log(this.stats.style);
         if (this.stats.style.visibility == "hidden")
             this.stats.style.visibility = "visible"

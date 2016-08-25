@@ -1,13 +1,13 @@
 ﻿class GridManager {
 
-    constructor() {
+    static init() {
         console.log("GridManager created.");
 
         //this.grid = new TriangleGrid();
         this.grid = new RectangleGrid();
     }
 
-    toggleGrid() {
+    static toggleGrid() {
         if (this.grid instanceof RectangleGrid)
             this.grid = new TriangleGrid();
         else

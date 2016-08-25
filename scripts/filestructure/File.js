@@ -22,10 +22,10 @@
             return;
 
         if (this.currentLayer)
-            SELECTION.clearSelection();
+            Selection.clearSelection();
 
         this.selectNextVisibleLayer(id);
-        UTILITIES.deleteArrayEntry(this.layers, this.layers[id]);
+        Utilities.deleteArrayEntry(this.layers, this.layers[id]);
 
         GUI.objectHierarchyChanged();
         Renderer.redraw();
@@ -36,7 +36,7 @@
             return;
 
         if (this.currentLayer)
-            SELECTION.clearSelection();
+            Selection.clearSelection();
 
         this.currentLayer = this.layers[id];
         this.layers[id].visible = true;
@@ -47,7 +47,7 @@
 
     static toggleVisibilityOfLayerWithID(id) {
         if (this.currentLayer)
-            SELECTION.clearSelection();
+            Selection.clearSelection();
 
         this.layers[id].visible = !this.layers[id].visible;
 
@@ -120,7 +120,7 @@
         for (var i = 0; i < this.layers.length; i++)
             amountLines += this.layers[i].lines.length;
 
-        amountLines += SELECTION.lines.length + SELECTION.partialLines.length;
+        amountLines += Selection.lines.length + Selection.partialLines.length;
         GUI.writeToStats("Lines in File", amountLines);
     }
 
@@ -130,7 +130,7 @@
             this.createNewLayer(true);
         }
         if (select)
-            SELECTION.addLine(line);
+            Selection.addLine(line);
         else
             this.currentLayer.addLine(line);
 

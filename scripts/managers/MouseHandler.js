@@ -20,7 +20,7 @@ class MouseHandler {
     }
 
     static mouseMove(e) {
-        this.mouseMoved(UTILITIES.getMousePos(e));
+        this.mouseMoved(Utilities.getMousePos(e));
     }
 
     static mouseMoved(newPosScreenSpace) {
@@ -48,7 +48,7 @@ class MouseHandler {
             currentPosition = selectionCursor.copy();
 
             if ((snapToGrid && !tmpSwitchSnapToGrid) || (!snapToGrid && tmpSwitchSnapToGrid)) // TODO should also change button text
-                currentPosition = GRID.grid.getNearestPointFor(currentPosition);
+                currentPosition = GridManager.grid.getNearestPointFor(currentPosition);
 
             let gridDelta = currentPosition.subtractVector(this.oldPos) // TODO maybe not used anymore after grabbing reworked?
             this.cursorPositionChanged(gridDelta, screenPosDelta);
@@ -87,9 +87,9 @@ class MouseHandler {
     }
 
     static cursorPositionChanged(gridDelta, screenPosDelta) {
-        if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
-            if (UTILITIES.borderSelectionStart) {
-                UTILITIES.borderSelectionEnd = selectionCursor.copy();
+        if (LOGIC.currentState == StateEnum.BORDERSelection) {
+            if (Utilities.borderSelectionStart) {
+                Utilities.borderSelectionEnd = selectionCursor.copy();
             }
         }
 
@@ -122,8 +122,8 @@ class MouseHandler {
                 else if (LOGIC.currentState == StateEnum.GRABBING) {
                     this.endMoveLinesPreview();
                 }
-                else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
-                    UTILITIES.startAreaSelection(true);
+                else if (LOGIC.currentState == StateEnum.BORDERSelection) {
+                    Utilities.startAreaSelection(true);
                 }
                 else if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
                     this.continousDrawingOldPos = continousDrawingInstantSnap ? currentPosition.copy() : selectionCursor.copy();
@@ -133,16 +133,16 @@ class MouseHandler {
             {
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     if (!e.shiftKey)
-                        SELECTION.clearSelection();
+                        Selection.clearSelection();
 
-                    let lines = File.currentLayer.lines.concat(SELECTION.lines).concat(SELECTION.partialLines);
+                    let lines = File.currentLayer.lines.concat(Selection.lines).concat(Selection.partialLines);
                     let pointsToChangeSelection = [];
 
                     // TODO weird number but should be a third?
                     let limit = 0.25;
 
                     for (let i = 0; i < lines.length; i++) {
-                        if (UTILITIES.distancePointToLine(selectionCursor, lines[i]) <= cursorRange) {
+                        if (Utilities.distancePointToLine(selectionCursor, lines[i]) <= cursorRange) {
                             // TODO PERFORMANCE
                             let startDist = lines[i].start.position.subtractVector(selectionCursor).sqrMagnitude();
                             let endDist = lines[i].end.position.subtractVector(selectionCursor).sqrMagnitude();
@@ -158,7 +158,7 @@ class MouseHandler {
                         }
                     }
 
-                    SELECTION.changeSelectionForPoints(pointsToChangeSelection);
+                    Selection.changeSelectionForPoints(pointsToChangeSelection);
 
                     if (pointsToChangeSelection != null) {
                         MouseHandler.startMoveLinesPreview();
@@ -167,8 +167,8 @@ class MouseHandler {
                         this.grabInitializedWithRMBDown = true;
                     }
                 }
-                else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
-                    UTILITIES.endAreaSelection();
+                else if (LOGIC.currentState == StateEnum.BORDERSelection) {
+                    Utilities.endAreaSelection();
                 }
                 else if (LOGIC.currentState == StateEnum.DRAWING) {
                     this.cancelLinePreview();
@@ -178,16 +178,16 @@ class MouseHandler {
             }
             else if (e.button == 1) // MMB
             {
-                if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
-                    UTILITIES.startAreaSelection(false);
+                if (LOGIC.currentState == StateEnum.BORDERSelection) {
+                    Utilities.startAreaSelection(false);
                 }
                 else if (e.ctrlKey) {
-                    this.zoomInitScreenPos = UTILITIES.getMousePos(e);
+                    this.zoomInitScreenPos = Utilities.getMousePos(e);
                     this.startZoom = Camera.zoom;
                     LOGIC.setState(StateEnum.ZOOMING);
                 }
                 else {
-                    var screenPos = UTILITIES.getMousePos(e);
+                    var screenPos = Utilities.getMousePos(e);
                     LOGIC.setState(StateEnum.PANNING);
                 }
             }
@@ -208,14 +208,14 @@ class MouseHandler {
 
             }
             else if (e.button == 2) {// RMB
-                LINE_MANIPULATOR.growSelection(true);
+                LineManipulator.growSelection(true);
             }
 
         }
         else if (e.detail == 3) {
 
             if (e.button == 2) {// RMB
-                LINE_MANIPULATOR.selectLinked();
+                LineManipulator.selectLinked();
             }
         }
 
@@ -245,8 +245,8 @@ class MouseHandler {
                 else
                     this.cancelLinePreview();
             }
-            else if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
-                UTILITIES.endAreaSelection(true);
+            else if (LOGIC.currentState == StateEnum.BORDERSelection) {
+                Utilities.endAreaSelection(true);
             }
             else if (LOGIC.currentState == StateEnum.CONTINOUSDRAWING) {
                 this.continousDrawingOldPos = undefined;
@@ -255,8 +255,8 @@ class MouseHandler {
 
         else if (e.button == 1) // MMB
         {
-            if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
-                UTILITIES.endAreaSelection(true);
+            if (LOGIC.currentState == StateEnum.BORDERSelection) {
+                Utilities.endAreaSelection(true);
             }
             else if (LOGIC.currentState == StateEnum.ZOOMING) {
                 LOGIC.setState(LOGIC.previousState);
@@ -272,10 +272,10 @@ class MouseHandler {
             if (LOGIC.currentState == StateEnum.GRABBING) // cancel grab
             {
                 let delta = currentPosition.subtractVector(this.grabStartPosition);
-                let points = SELECTION.getAllSelectedPoints();
+                let points = Selection.getAllSelectedPoints();
 
                 if (this.grabInitializedWithRMBDown)
-                    UTILITIES.moveSelectionBy(points, delta);
+                    Utilities.moveSelectionBy(points, delta);
                 else
                     this.cancelMoveLinesPreview();
 
@@ -341,7 +341,7 @@ class MouseHandler {
 
     static endMoveLinesPreview() {
         let delta = currentPosition.subtractVector(MouseHandler.grabStartPosition);
-        UTILITIES.moveSelectionBy(SELECTION.getAllSelectedPoints(), delta);
+        Utilities.moveSelectionBy(Selection.getAllSelectedPoints(), delta);
 
         grabInitializedWithKeyboard = false;
         LOGIC.setState(StateEnum.IDLE);

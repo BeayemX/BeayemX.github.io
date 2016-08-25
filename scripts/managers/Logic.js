@@ -13,16 +13,6 @@ let cursorRange = 9;
 let currentLineThickness = 1;
 let currentLineColor = Color.black();
 
-let LOGIC;
-let GUI;
-let UTILITIES;
-let EXPORTER;
-let ACTION_HISTORY;
-let LINE_MANIPULATOR;
-let SETTINGS;
-let SELECTION;
-
-let GRID;
 let snapToGrid = true;
 let tmpSwitchSnapToGrid = false;
 
@@ -46,15 +36,18 @@ function onLoad() {
     File.init();
     Camera.init();
     Renderer.init();
-    GUI = new Gui();
-    UTILITIES = new Utilities();
-    EXPORTER = new Exporter();
-    ACTION_HISTORY = new ActionHistory();
-    LINE_MANIPULATOR = new LineManipulator();
-    SETTINGS = new Settings();
-    SELECTION = new Selection();
-    GRID = new GridManager();
+
+    GUI.init();
+    Utilities.init();
+    Exporter.init();
+    ActionHistory.init();
+    LineManipulator.init();
+    Settings.init();
+    Selection.init();
+    GridManager.init();
+
     GUI.genereateGridSettings();
+
     LOGIC.start();
 }
 
@@ -106,7 +99,7 @@ class Logic {
         dropZone.addEventListener('dragover', Saver.handleDragOver, false);
         dropZone.addEventListener('drop', Saver.handleFileSelect, false);
 
-        canvas.style.background = SETTINGS.canvasColor;
+        canvas.style.background = Settings.canvasColor;
         this.layoutGUI();
 
         Camera.canvasOffset.x = canvas.width * 0.5;

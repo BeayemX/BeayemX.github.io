@@ -7,7 +7,7 @@
     }
 
     static autoSave() {
-        localStorage.setItem(this.autosaveFileName, EXPORTER.generateSVGString());
+        localStorage.setItem(this.autosaveFileName, Exporter.generateSVGString());
         console.log("Saved to local storage.")
     }
 
@@ -24,9 +24,10 @@
     }
 
     static newFile() {
-        ACTION_HISTORY = new ActionHistory();
+        ActionHistory.init();
         File.init();
-        SELECTION = new Selection();
+        Selection.init();
+
         File.createNewLayer(true);
         File.updateStats();
         Renderer.redraw();
@@ -34,11 +35,11 @@
 
     static copyLinesToClipboard() // session storage
     {
-        let selectedLines = SELECTION.lines;
+        let selectedLines = Selection.lines;
         let layer = File.currentLayer;
         let svgData = "";
         svgData += "<svg>\n";
-        svgData += EXPORTER.generateSVGStringForLines(selectedLines, layer, 0);
+        svgData += Exporter.generateSVGStringForLines(selectedLines, layer, 0);
         svgData += "</svg>";
 
         sessionStorage.setItem(this.clipboardFileName, svgData);
@@ -55,7 +56,7 @@
         var parser = new DOMParser();
         var doc = parser.parseFromString(logo, "image/svg+xml");
         let svg = doc.getElementsByTagName('svg')[0];
-        SELECTION.clearSelection();
+        Selection.clearSelection();
 
         let lines = [];
         for (let line of svg.childNodes) {
@@ -113,9 +114,9 @@
         let svg = doc.getElementsByTagName('svg')[0];
 
         // TODO just copied from Saver.newFile(). should be unified
-        ACTION_HISTORY = new ActionHistory();
+        ActionHistory = new ActionHistory();
         File = new File();
-        SELECTION = new Selection();
+        Selection = new Selection();
         //File.createNewLayer(true);
         File.updateStats();
         Renderer.redraw();

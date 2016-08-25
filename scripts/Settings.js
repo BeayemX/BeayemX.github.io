@@ -1,6 +1,6 @@
 // TODO check which variables are not used and remove them
 class Settings {
-    constructor() {
+    static init() {
         this.canvasColor = "#666";
 
         this.previewLineWidth = 1;

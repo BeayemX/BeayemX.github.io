@@ -265,7 +265,7 @@
         if (!LOGIC.isPreviewing()) {
             this.drawGrid();
             this.drawAxis();
-            if (LOGIC.currentState == StateEnum.BORDERSELECTION || spaceDown)
+            if (LOGIC.currentState == StateEnum.BORDERSelection || spaceDown)
                 this.drawCrosshair();
             this.drawBorderSelection();
         }
@@ -294,17 +294,17 @@
         end = Camera.canvasSpaceToScreenSpace(end);
 
         let gradient = context.createLinearGradient(start.x, start.y, end.x, end.y);
-        gradient.addColorStop(0, SETTINGS.selectionColorFill);
+        gradient.addColorStop(0, Settings.selectionColorFill);
         gradient.addColorStop(1, toColor.toString());
         return gradient;
     }
 
-    // TODO settings in SETTINGS und GRID verteilt...
+    // TODO settings in Settings und GridManager verteilt...
     static drawGrid() {
         if (!showGrid)
             return;
 
-        GRID.grid.drawGrid();
+        GridManager.grid.drawGrid();
         return;
     }
 
@@ -319,19 +319,19 @@
         if (LOGIC.isPreviewing())
             return;
 
-        for (let line of SELECTION.lines)
-            this.drawLineFromTo(line.start.position.addVector(delta), line.end.position.addVector(delta), line.thickness + this.outlineSize / Camera.zoom, SETTINGS.selectionColor);
+        for (let line of Selection.lines)
+            this.drawLineFromTo(line.start.position.addVector(delta), line.end.position.addVector(delta), line.thickness + this.outlineSize / Camera.zoom, Settings.selectionColor);
 
-        for (let p of SELECTION.points) {
+        for (let p of Selection.points) {
             let color = this.generateGradient(p.position.addVector(delta), p.opposite.position, Color.transparent());
             this.drawLineFromTo(p.position.addVector(delta), p.opposite.position, p.line.thickness + this.outlineSize / Camera.zoom, color, false, false);
         }
 
         // selected points
-        for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points))
+        for (let p of Utilities.linesToLineEndings(Selection.lines).concat(Selection.points))
         {
-            let radius = (LINE_MANIPULATOR.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
-            this.drawRealCircle(p.position.addVector(delta), radius + this.outlineSize * 0.5 / Camera.zoom, this.outlineSize / Camera.zoom, SETTINGS.selectionColor, false, false, true)
+            let radius = (LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
+            this.drawRealCircle(p.position.addVector(delta), radius + this.outlineSize * 0.5 / Camera.zoom, this.outlineSize / Camera.zoom, Settings.selectionColor, false, false, true)
         }
     }
 
@@ -345,15 +345,15 @@
 
         // selected points
         if (LOGIC.currentState != StateEnum.GRABBING) {
-            for (let p of SELECTION.points.concat(SELECTION.getUnselectedPointsOfPartialLines()).concat(UTILITIES.linesToLineEndings(SELECTION.lines))) {
-                let radius = (!LOGIC.isPreviewing() && LINE_MANIPULATOR.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
+            for (let p of Selection.points.concat(Selection.getUnselectedPointsOfPartialLines()).concat(Utilities.linesToLineEndings(Selection.lines))) {
+                let radius = (!LOGIC.isPreviewing() && LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
                 this.drawRealCircle(p.position, radius, 0, p.line.color, false, false, true);
             }
         }
 
         // selected lines. dotted if origin while moving lines
         let movingLines = LOGIC.currentState == StateEnum.GRABBING;
-        for (let line of SELECTION.lines.concat(SELECTION.partialLines))
+        for (let line of Selection.lines.concat(Selection.partialLines))
         {
             if (movingLines)
                 context.setLineDash([line.thickness * 6 * Camera.zoom, line.thickness * 4 * Camera.zoom]);
@@ -410,9 +410,9 @@
                 this.drawLineFromTo(line.start.position.flipped(), line.end.position.flipped(), thickness, color);
         }
 
-        for (let p of UTILITIES.linesToLineEndings(layer.lines))
+        for (let p of Utilities.linesToLineEndings(layer.lines))
         {
-            let radius = (layer == File.currentLayer && !LOGIC.isPreviewing() && LINE_MANIPULATOR.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
+            let radius = (layer == File.currentLayer && !LOGIC.isPreviewing() && LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
             this.drawRealCircle(p.position, radius, 0, p.line.color, false, false, true)
         }
     }
@@ -421,11 +421,11 @@
         if (LOGIC.currentState == StateEnum.DRAWING) {
             let start = MouseHandler.downPoint;
             let end = currentPosition;
-            this.drawLineFromTo(start, end, currentLineThickness, SETTINGS.previewLineColor, false);
+            this.drawLineFromTo(start, end, currentLineThickness, Settings.previewLineColor, false);
         }
 
         this.drawRealCircle(currentPosition, currentLineThickness * 0.5, 1, currentLineColor.toString(), false, true, true);
-        this.drawRealCircle(selectionCursor, cursorRange, 2, SETTINGS.selectionColor, false, true);
+        this.drawRealCircle(selectionCursor, cursorRange, 2, Settings.selectionColor, false, true);
     }
 
     static drawMoveLinesPreview() {
@@ -435,7 +435,7 @@
         let other;
 
         // selected lines
-        for (let line of SELECTION.lines)
+        for (let line of Selection.lines)
         {
             let thickness = line.thickness;
             let color = line.color.copy();
@@ -454,7 +454,7 @@
         }
 
         // partially selected lines
-        for (let point of SELECTION.points) {
+        for (let point of Selection.points) {
             let p = point.position.addVector(delta);
 
             let thickness = point.line.thickness;
@@ -474,27 +474,27 @@
         }
 
         // selected points
-        for (let p of UTILITIES.linesToLineEndings(SELECTION.lines).concat(SELECTION.points)) {
-            let radius = (!LOGIC.isPreviewing() && LINE_MANIPULATOR.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
+        for (let p of Utilities.linesToLineEndings(Selection.lines).concat(Selection.points)) {
+            let radius = (!LOGIC.isPreviewing() && LineManipulator.showHandles) ? p.line.thickness * this.handleSizeFactor : p.line.thickness * 0.5;
             this.drawRealCircle(p.position.addVector(delta), radius, 0, p.line.color, false, false, true);
         }
     }
 
     static drawCrosshair() {
         let screenpos = Camera.canvasSpaceToScreenSpace(selectionCursor.copy());
-        this.drawLineFromTo(new Vector2(0, screenpos.y), new Vector2(canvas.width, screenpos.y), SETTINGS.helperLineWidth, SETTINGS.selectionColor, true, true, true);
-        this.drawLineFromTo(new Vector2(screenpos.x, 0), new Vector2(screenpos.x, canvas.height), SETTINGS.helperLineWidth, SETTINGS.selectionColor, true, true, true);
+        this.drawLineFromTo(new Vector2(0, screenpos.y), new Vector2(canvas.width, screenpos.y), Settings.helperLineWidth, Settings.selectionColor, true, true, true);
+        this.drawLineFromTo(new Vector2(screenpos.x, 0), new Vector2(screenpos.x, canvas.height), Settings.helperLineWidth, Settings.selectionColor, true, true, true);
     }
 
     static drawBorderSelection() {
-        if (LOGIC.currentState != StateEnum.BORDERSELECTION || !UTILITIES.borderSelectionStart || !UTILITIES.borderSelectionEnd)
+        if (LOGIC.currentState != StateEnum.BORDERSelection || !Utilities.borderSelectionStart || !Utilities.borderSelectionEnd)
             return;
 
-        context.strokeStyle = SETTINGS.selectionColor;
-        context.fillStyle = SETTINGS.borderSelectionColor;
+        context.strokeStyle = Settings.selectionColor;
+        context.fillStyle = Settings.borderSelectionColor;
 
-        let leftTop = Camera.canvasSpaceToScreenSpace(UTILITIES.borderSelectionStart);
-        let sizeCanvasSpace = UTILITIES.borderSelectionEnd.subtractVector(UTILITIES.borderSelectionStart);
+        let leftTop = Camera.canvasSpaceToScreenSpace(Utilities.borderSelectionStart);
+        let sizeCanvasSpace = Utilities.borderSelectionEnd.subtractVector(Utilities.borderSelectionStart);
         let size = sizeCanvasSpace.multiply(Camera.zoom);
 
         context.rect(leftTop.x, leftTop.y, size.x, size.y);

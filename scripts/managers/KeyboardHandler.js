@@ -69,28 +69,28 @@ class CanvasKeyHandler {
                 break;
             case 82: // R
                 if (e.shiftKey)
-                    LINE_MANIPULATOR.rotate(false);
+                    LineManipulator.rotate(false);
                 else
-                    LINE_MANIPULATOR.rotate(true);
+                    LineManipulator.rotate(true);
                 break;
 
             case 83: // S
                 if (e.shiftKey) {
-                    UTILITIES.snapSelectedPointsToGrid();
+                    Utilities.snapSelectedPointsToGrid();
                 }
                 else if (e.ctrlKey) {
-                    if (!EXPORTER.ExportAsSVG())
+                    if (!Exporter.ExportAsSVG())
                         Saver.autoSave();
                 }
                 else
-                    LINE_MANIPULATOR.mirror();
+                    LineManipulator.mirror();
                 break;
             case 79: // O
                 break;
 
             case 71: // G
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    if (!SELECTION.noSelection()) {
+                    if (!Selection.noSelection()) {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
                         MouseHandler.startMoveLinesPreview();
@@ -111,21 +111,21 @@ class CanvasKeyHandler {
             case 46: // DEL
             case 8: // BACKSPACE
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    SELECTION.deleteSelection();
+                    Selection.deleteSelection();
                     Renderer.redraw();
                 }
 
                 break;
             case 73: // I
                 if (LOGIC.currentState == StateEnum.IDLE) {
-                    SELECTION.invertSelection();
+                    Selection.invertSelection();
                     Renderer.redraw();
                 }
                 break;
             case 68: // D
                 if (e.shiftKey) {
                     if (LOGIC.currentState == StateEnum.IDLE || LOGIC.currentState == StateEnum.GRABBING) {
-                        if (!SELECTION.noSelection()) {
+                        if (!Selection.noSelection()) {
 
                             if (LOGIC.currentState == StateEnum.GRABBING)
                                 MouseHandler.endMoveLinesPreview();
@@ -168,7 +168,7 @@ class CanvasKeyHandler {
 
             case 13: // Enter
                 if (LOGIC.currentState == StateEnum.IDLE)
-                    EXPORTER.TakeScreenshot();
+                    Exporter.TakeScreenshot();
                 break;
             case 70: // F // TODO improve. Camera.zoom to selection / Camera.zoom fit / etc ... 
                 Camera.setZoom(1, false);
@@ -176,14 +176,14 @@ class CanvasKeyHandler {
                 Renderer.redraw();
                 break;
             case 66: // B
-                LOGIC.setState(StateEnum.BORDERSELECTION);
+                LOGIC.setState(StateEnum.BORDERSelection);
                 Renderer.redraw();
                 break;
             case 187: // +
-                LINE_MANIPULATOR.increaseSize(2);
+                LineManipulator.increaseSize(2);
                 break;
             case 189: // -
-                LINE_MANIPULATOR.increaseSize(0.5);
+                LineManipulator.increaseSize(0.5);
                 break;
 
             case 16: // Shift
@@ -195,11 +195,11 @@ class CanvasKeyHandler {
                 break;
 
             case 90: // Z
-                ACTION_HISTORY.Undo();
+                ActionHistory.Undo();
                 break;
 
             case 89: // Y
-                ACTION_HISTORY.Redo();
+                ActionHistory.Redo();
                 break;
             case 76: // L
                 File.selectLinked();
@@ -211,7 +211,7 @@ class CanvasKeyHandler {
 
             case 77: // M
                 // File.createNewLayer(true);
-                UTILITIES.mergeSelectedPoints();
+                Utilities.mergeSelectedPoints();
                 break;
 
             case 37: // ARROW LEFT
@@ -268,7 +268,7 @@ class CanvasKeyHandler {
                 if (LOGIC.isPreviewing()) {
                     //LOGIC.setState(LOGIC.previousState);
                     LOGIC.isRenderPreviewing = false;
-                    canvas.style.background = SETTINGS.canvasColor;
+                    canvas.style.background = Settings.canvasColor;
                     Renderer.redraw();
                 }
                 break;
@@ -297,7 +297,7 @@ class CanvasKeyHandler {
     }
 
     static arrowMovement(x, y, shiftDown, ctrlDown) {
-        if (!SELECTION.noSelection()) {
+        if (!Selection.noSelection()) {
             let stepSize = 10;
             if (shiftDown)
                 stepSize = 1;
@@ -305,8 +305,8 @@ class CanvasKeyHandler {
                 stepSize = 100;
 
             let delta = new Vector2(x * stepSize, y * stepSize);
-            let selPoints = SELECTION.getAllSelectedPoints();
-            UTILITIES.moveSelectionBy(selPoints, delta);
+            let selPoints = Selection.getAllSelectedPoints();
+            Utilities.moveSelectionBy(selPoints, delta);
             Renderer.redraw();
         }
     }

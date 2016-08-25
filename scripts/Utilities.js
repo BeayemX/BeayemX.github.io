@@ -1,12 +1,12 @@
 // TODO rename border select to area select
 class Utilities {
-    constructor() {
+    static init() {
         this.borderSelectionStart = null;
         this.borderSelectionEnd = null;
         this.borderSelectType = null;
     }
 
-    getMousePos(e) {
+    static getMousePos(e) {
         let rect = canvas.getBoundingClientRect();
         return new Vector2(
 		    e.clientX - rect.left,
@@ -14,7 +14,7 @@ class Utilities {
 	    );
     }
 
-    deleteArrayEntry(array, entry) {
+    static deleteArrayEntry(array, entry) {
         for (var i = 0; i < array.length; ++i) {
             if (array[i] == entry) {
                 return array.splice(i, 1)[0];
@@ -23,25 +23,25 @@ class Utilities {
         return null;
     }
 
-    movePointsBy(points, delta) {
+    static movePointsBy(points, delta) {
         for (let i = 0; i < points.length; ++i) {
             points[i].position = points[i].position.addVector(delta);
         }
     }
 
-    moveSelectionBy(points, delta) {
+    static moveSelectionBy(points, delta) {
         if (delta.x != 0 || delta.y != 0) {
-            ACTION_HISTORY.PushAction(new MoveAction(points, delta));
+            ActionHistory.PushAction(new MoveAction(points, delta));
         }
     }
 
-    startAreaSelection(selectType) {
+    static startAreaSelection(selectType) {
         this.borderSelectType = selectType
         this.borderSelectionStart = selectionCursor.copy();
         this.borderSelectionEnd = selectionCursor.copy();
     }
 
-    endAreaSelection(performSelection) {
+    static endAreaSelection(performSelection) {
         if (performSelection)
             this.selectWithinBorderSelection();
 
@@ -54,13 +54,13 @@ class Utilities {
         Renderer.redraw();
     }
 
-    selectWithinBorderSelection() {
+    static selectWithinBorderSelection() {
         let points =
             this.borderSelectType
             ?
-            File.currentLayer.getAllPoints().concat(SELECTION.getUnselectedPointsOfPartialLines())
+            File.currentLayer.getAllPoints().concat(Selection.getUnselectedPointsOfPartialLines())
             :
-            SELECTION.getAllSelectedPoints();
+            Selection.getAllSelectedPoints();
 
         let min = {
             x: Math.min(this.borderSelectionStart.x, this.borderSelectionEnd.x),
@@ -79,15 +79,15 @@ class Utilities {
                 points[i].position.y >= min.y && points[i].position.y <= max.y
                 ) {
                 if (this.borderSelectType)
-                    SELECTION.addPoint(points[i]);
+                    Selection.addPoint(points[i]);
                 else
-                    SELECTION.removePoint(points[i]);
+                    Selection.removePoint(points[i]);
             }
         }
     }
 
     // TODO lines needed? i could always use points, maybe...
-    calculateCenter(lines, points) {
+    static calculateCenter(lines, points) {
         let min = new Vector2(Infinity, Infinity);
         let max = new Vector2(-Infinity, -Infinity);
 
@@ -120,19 +120,19 @@ class Utilities {
         return center;
     }
 
-    snapSelectedPointsToGrid() {
+    static snapSelectedPointsToGrid() {
         if (!showGrid)
             return;
 
-        let selPoints = SELECTION.getAllSelectedPoints();
+        let selPoints = Selection.getAllSelectedPoints();
 
         for (let i = 0; i < selPoints.length; ++i)
-            selPoints[i].position = GRID.grid.getNearestPointFor(selPoints[i].position);
+            selPoints[i].position = GridManager.grid.getNearestPointFor(selPoints[i].position);
 
         Renderer.redraw();
     }
 
-    distancePointToLine(position, line) {
+    static distancePointToLine(position, line) {
         let se = line.end.position.subtractVector(line.start.position);
         let sp = position.subtractVector(line.start.position);
         let ep = position.subtractVector(line.end.position);
@@ -144,8 +144,7 @@ class Utilities {
         return Math.abs((se.x * sp.y - se.y * sp.x) / se.magnitude());
     }
 
-
-    cutLines(cutter, lines, useDrawnLineAsRealLine) {
+    static cutLines(cutter, lines, useDrawnLineAsRealLine) {
         let changedLines = [];
         let intersections = [];
 
@@ -182,7 +181,7 @@ class Utilities {
                 lines.splice(i + 1, 1);
     }
 
-    addPointSorted(points, point) {
+    static addPointSorted(points, point) {
         for (let i = 0; i < points.length; i++) {
             if (eq(point.y, points[i].y) && eq(point.x, points[i].x))
                 return;
@@ -195,7 +194,7 @@ class Utilities {
         points.push(point);
     }
 
-    intersect(line1, line2) {
+    static intersect(line1, line2) {
         let points = [];
         let v1 = line1.end.position.subtractVector(line1.start.position);
         let v2 = line2.end.position.subtractVector(line2.start.position);
@@ -233,7 +232,7 @@ class Utilities {
         return points;
     }
 
-    linesToLineEndings(lines) {
+    static linesToLineEndings(lines) {
         let points = [];
         for (let line of lines) {
             points.push(line.start);
@@ -242,9 +241,9 @@ class Utilities {
         return points;
     }
 
-    mergeSelectedPoints()
+    static mergeSelectedPoints()
     {
-        let endings = SELECTION.getAllSelectedPoints();
+        let endings = Selection.getAllSelectedPoints();
         let center = this.calculateCenter(null, endings);
 
         for (let ending of endings)
@@ -254,6 +253,7 @@ class Utilities {
     }
 }
 
+// TODO put into class
 function eq(a, b) {
     let margin = 0.1;
     let diff = Math.abs(a - b)

@@ -2,13 +2,13 @@
 // TODO if not other file name
 class LineManipulator {
 
-    constructor() {
+    static init() {
         console.log("LineManipulator created.");
         this.showHandles = true;
     }
 
-    subdivide() {
-        var selectedLines = SELECTION.lines;
+    static subdivide() {
+        var selectedLines = Selection.lines;
         var newLines = [];
         for (var i = 0; i < selectedLines.length; ++i) {
             let midPoint = selectedLines[i].end.position.addVector(selectedLines[i].start.position).multiply(0.5);
@@ -16,15 +16,15 @@ class LineManipulator {
             newLines.push(new Line(selectedLines[i].start.position.x, selectedLines[i].start.position.y, midPoint.x, midPoint.y, selectedLines[i].color, selectedLines[i].thickness));
             newLines.push(new Line(midPoint.x, midPoint.y, selectedLines[i].end.position.x, selectedLines[i].end.position.y, selectedLines[i].color, selectedLines[i].thickness));
         }
-        SELECTION.lines = [];
-        SELECTION.lines = newLines;
+        Selection.lines = [];
+        Selection.lines = newLines;
         Renderer.redraw();
     }
 
-    mirror() {
+    static mirror() {
         var minX = Infinity;
         var maxX = -Infinity;
-        var selLines = SELECTION.lines;
+        var selLines = Selection.lines;
 
         for (var i = 0; i < selLines.length; ++i) {
             minX = Math.min(minX, selLines[i].start.position.x);
@@ -41,10 +41,10 @@ class LineManipulator {
         Renderer.redraw();
     }
 
-    rotate(clockwise) {
+    static rotate(clockwise) {
         let minX = Infinity;
         let minY = Infinity;
-        let selLines = SELECTION.lines;
+        let selLines = Selection.lines;
 
         for (let i = 0; i < selLines.length; ++i) {
             minX = Math.min(minX, selLines[i].start.position.x);
@@ -94,10 +94,10 @@ class LineManipulator {
         Renderer.redraw();
     }
 
-    increaseSize(factor) {
-        let selLines = SELECTION.lines;
-        let selPoints= SELECTION.points;
-        let center = UTILITIES.calculateCenter(selLines, selPoints);
+    static increaseSize(factor) {
+        let selLines = Selection.lines;
+        let selPoints= Selection.points;
+        let center = Utilities.calculateCenter(selLines, selPoints);
 
         for (let line of selLines) {
             line.start.position = line.start.position.multiply(factor);
@@ -108,20 +108,20 @@ class LineManipulator {
             point.position = point.position.multiply(factor);
 
 
-        let newCenter = UTILITIES.calculateCenter(selLines, selPoints);
+        let newCenter = Utilities.calculateCenter(selLines, selPoints);
         let delta = center.subtractVector(newCenter); 
 
-        let points = SELECTION.getAllSelectedPoints();
-        UTILITIES.movePointsBy(points, delta);
+        let points = Selection.getAllSelectedPoints();
+        Utilities.movePointsBy(points, delta);
         //File.cleanUpFile();
         Renderer.redraw();
     }
 
-    growSelection() {
+    static growSelection() {
         File.growSelection(true);
     }
 
-    selectLinked() {
+    static selectLinked() {
         File.selectLinked();
     }
 }
