@@ -1,5 +1,5 @@
 class MouseHandler {
-    constructor() {
+    static init() {
         console.log("MouseHandler created.");
 
         this.downPoint = new Vector2(-1, -1); // TODO rename downPointScreenpos
@@ -14,16 +14,16 @@ class MouseHandler {
         waitingForStart.push(this);
     }
 
-    start() {
+    static start() {
         CAMERA.multiplyZoomBy(1, true);
         this.mouseMoved(new Vector2(0, 0));
     }
 
-    MouseMove(e) {
+    static mouseMove(e) {
         this.mouseMoved(UTILITIES.getMousePos(e));
     }
 
-    mouseMoved(newPosScreenSpace) {
+    static mouseMoved(newPosScreenSpace) {
         let screenPosDelta = newPosScreenSpace.subtractVector(this.oldPosScreenSpace);
 
 
@@ -86,7 +86,7 @@ class MouseHandler {
         this.oldPosScreenSpace = newPosScreenSpace;
     }
 
-    cursorPositionChanged(gridDelta, screenPosDelta) {
+    static cursorPositionChanged(gridDelta, screenPosDelta) {
         if (LOGIC.currentState == StateEnum.BORDERSELECTION) {
             if (UTILITIES.borderSelectionStart) {
                 UTILITIES.borderSelectionEnd = selectionCursor.copy();
@@ -96,7 +96,7 @@ class MouseHandler {
         Renderer.redraw();
     }
 
-    adjustMouseDownButtonBools(e, state) {
+    static adjustMouseDownButtonBools(e, state) {
         if (e.button == 0)
             this.LMBDown = state;
         if (e.button == 1)
@@ -109,7 +109,7 @@ class MouseHandler {
         GUI.writeToStats("RMB down", this.RMBDown);
     }
 
-    MouseDown(e) {
+    static mouseDown(e) {
         this.adjustMouseDownButtonBools(e, true);
 
         if (e.detail == 1) {
@@ -161,7 +161,7 @@ class MouseHandler {
                     SELECTION.changeSelectionForPoints(pointsToChangeSelection);
 
                     if (pointsToChangeSelection != null) {
-                        MOUSE_HANDLER.startMoveLinesPreview();
+                        MouseHandler.startMoveLinesPreview();
 
                         LOGIC.setState(StateEnum.GRABBING);
                         this.grabInitializedWithRMBDown = true;
@@ -222,7 +222,7 @@ class MouseHandler {
         e.preventDefault();
     }
 
-    MouseUp(e) {
+    static mouseUp(e) {
         this.adjustMouseDownButtonBools(e, false);
 
         if (e.button == 0) // LMB
@@ -289,7 +289,7 @@ class MouseHandler {
         }
     }
 
-    MouseScroll(e) {
+    static mouseScroll(e) {
         if (e.ctrlKey) {
             let step = 1;
             if (e.deltaY < 0)
@@ -320,27 +320,27 @@ class MouseHandler {
         e.preventDefault();
     }
 
-    canvasMouseEnter() {
+    static canvasMouseEnter() {
         this.canvasFocused = true;
         GUI.writeToStats("Canvas focused", this.canvasFocused);
     }
 
-    canvasMouseLeave() {
+    static canvasMouseLeave() {
         this.canvasFocused = false;
         GUI.writeToStats("Canvas focused", this.canvasFocused);
     }
 
-    cancelLinePreview() {
+    static cancelLinePreview() {
         this.downPoint = undefined;
         LOGIC.setState(StateEnum.IDLE);
     }
 
-    startMoveLinesPreview() {
+    static startMoveLinesPreview() {
         this.grabStartPosition = currentPosition.copy();
     }
 
-    endMoveLinesPreview() {
-        let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
+    static endMoveLinesPreview() {
+        let delta = currentPosition.subtractVector(MouseHandler.grabStartPosition);
         UTILITIES.moveSelectionBy(SELECTION.getAllSelectedPoints(), delta);
 
         grabInitializedWithKeyboard = false;
@@ -348,6 +348,6 @@ class MouseHandler {
         Renderer.redraw();
     }
 
-    cancelMoveLinesPreview() {
+    static cancelMoveLinesPreview() {
     }
 }

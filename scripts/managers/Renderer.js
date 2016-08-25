@@ -419,7 +419,7 @@
 
     static drawPreviewLine() {
         if (LOGIC.currentState == StateEnum.DRAWING) {
-            let start = MOUSE_HANDLER.downPoint;
+            let start = MouseHandler.downPoint;
             let end = currentPosition;
             this.drawLineFromTo(start, end, currentLineThickness, SETTINGS.previewLineColor, false);
         }
@@ -429,7 +429,7 @@
     }
 
     static drawMoveLinesPreview() {
-        let delta = currentPosition.subtractVector(MOUSE_HANDLER.grabStartPosition);
+        let delta = currentPosition.subtractVector(MouseHandler.grabStartPosition);
         this.drawSelectionOutline(delta);
 
         let other;

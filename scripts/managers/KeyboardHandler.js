@@ -21,7 +21,7 @@ class KeyboardHandler {
                 break;
         }
 
-        if (MOUSE_HANDLER.canvasFocused)
+        if (MouseHandler.canvasFocused)
             CanvasKeyHandler.KeyDown(e);
 
 
@@ -44,7 +44,7 @@ class KeyboardHandler {
                 break;
         }
 
-        if (MOUSE_HANDLER.canvasFocused)
+        if (MouseHandler.canvasFocused)
             CanvasKeyHandler.KeyUp(e);
     }
 
@@ -93,7 +93,7 @@ class CanvasKeyHandler {
                     if (!SELECTION.noSelection()) {
                         LOGIC.setState(StateEnum.GRABBING);
                         grabInitializedWithKeyboard = true;
-                        MOUSE_HANDLER.startMoveLinesPreview();
+                        MouseHandler.startMoveLinesPreview();
                         Renderer.redraw();
                     }
                 }
@@ -128,17 +128,17 @@ class CanvasKeyHandler {
                         if (!SELECTION.noSelection()) {
 
                             if (LOGIC.currentState == StateEnum.GRABBING)
-                                MOUSE_HANDLER.endMoveLinesPreview();
+                                MouseHandler.endMoveLinesPreview();
 
                             FILE.duplicateLines();
-                            MOUSE_HANDLER.startMoveLinesPreview();
+                            MouseHandler.startMoveLinesPreview();
                             LOGIC.setState(StateEnum.GRABBING);
                         }
                     }
                 }
                 else {
                     if (LOGIC.currentState != StateEnum.CONTINOUSDRAWING) {
-                        MOUSE_HANDLER.cancelLinePreview();
+                        MouseHandler.cancelLinePreview();
                         LOGIC.setState(StateEnum.CONTINOUSDRAWING);
                     }
                 }
@@ -160,7 +160,7 @@ class CanvasKeyHandler {
             case 86: // V
                 if (LOGIC.currentState == StateEnum.IDLE) {
                     if (SAVER.pasteLines()) {
-                        MOUSE_HANDLER.startMoveLinesPreview();
+                        MouseHandler.startMoveLinesPreview();
                         LOGIC.setState(StateEnum.GRABBING);
                     }
                 }
@@ -276,7 +276,7 @@ class CanvasKeyHandler {
             case 16: // Shift
                 if (LOGIC.currentState == StateEnum.DRAWING) {
                     if (drawPolyLine) {
-                        MOUSE_HANDLER.cancelLinePreview();
+                        MouseHandler.cancelLinePreview();
                     }
                 }
                 drawPolyLine = false;

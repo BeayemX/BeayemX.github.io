@@ -16,7 +16,6 @@ let currentLineColor = Color.black();
 let SAVER;
 let FILE;
 let CAMERA;
-let MOUSE_HANDLER;
 let LOGIC;
 let GUI;
 let UTILITIES;
@@ -44,7 +43,7 @@ let continousDrawingInstantSnap = false;
 
 function onLoad() {
     KeyboardHandler.init();
-    MOUSE_HANDLER = new MouseHandler();
+    MouseHandler.init();
     LOGIC = new Logic();
     SAVER = new Saver();
     FILE = new File();
@@ -97,13 +96,13 @@ class Logic {
         offscreenCanvas = document.getElementById('offscreenCanvas');
         offscreenContext = offscreenCanvas.getContext('2d');
 
-        canvas.addEventListener("mousemove", evt => MOUSE_HANDLER.MouseMove(evt));
-        canvas.addEventListener("mouseup", evt => MOUSE_HANDLER.MouseUp(evt));
-        canvas.addEventListener("mousedown", evt => MOUSE_HANDLER.MouseDown(evt));
-        canvas.addEventListener("mousewheel", evt => MOUSE_HANDLER.MouseScroll(evt));
+        canvas.addEventListener("mousemove", evt => MouseHandler.mouseMove(evt));
+        canvas.addEventListener("mouseup", evt => MouseHandler.mouseUp(evt));
+        canvas.addEventListener("mousedown", evt => MouseHandler.mouseDown(evt));
+        canvas.addEventListener("mousewheel", evt => MouseHandler.mouseScroll(evt));
 
-        canvas.addEventListener("mouseenter", evt => MOUSE_HANDLER.canvasMouseEnter(evt));
-        canvas.addEventListener("mouseleave", evt => MOUSE_HANDLER.canvasMouseLeave(evt));
+        canvas.addEventListener("mouseenter", evt => MouseHandler.canvasMouseEnter(evt));
+        canvas.addEventListener("mouseleave", evt => MouseHandler.canvasMouseLeave(evt));
         
         // Setup the dnd listeners.
         let dropZone = document.body;
