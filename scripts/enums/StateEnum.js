@@ -2,7 +2,7 @@ var StateEnum = {
 	IDLE: "idle",
 	DRAWING: "drawing", 
 	GRABBING: "grabbing",
-	BORDERSelection: "borderselection",
+	BORDERSELECTION: "borderselection",
 	CONTINOUSDRAWING: "continousdrawing",
 	PANNING: "panning",
     ZOOMING: "zooming"

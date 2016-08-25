@@ -87,7 +87,7 @@ class MouseHandler {
     }
 
     static cursorPositionChanged(gridDelta, screenPosDelta) {
-        if (Logic.currentState == StateEnum.BORDERSelection) {
+        if (Logic.currentState == StateEnum.BORDERSELECTION) {
             if (Utilities.borderSelectionStart) {
                 Utilities.borderSelectionEnd = selectionCursor.copy();
             }
@@ -122,7 +122,7 @@ class MouseHandler {
                 else if (Logic.currentState == StateEnum.GRABBING) {
                     this.endMoveLinesPreview();
                 }
-                else if (Logic.currentState == StateEnum.BORDERSelection) {
+                else if (Logic.currentState == StateEnum.BORDERSELECTION) {
                     Utilities.startAreaSelection(true);
                 }
                 else if (Logic.currentState == StateEnum.CONTINOUSDRAWING) {
@@ -167,7 +167,7 @@ class MouseHandler {
                         this.grabInitializedWithRMBDown = true;
                     }
                 }
-                else if (Logic.currentState == StateEnum.BORDERSelection) {
+                else if (Logic.currentState == StateEnum.BORDERSELECTION) {
                     Utilities.endAreaSelection();
                 }
                 else if (Logic.currentState == StateEnum.DRAWING) {
@@ -178,7 +178,7 @@ class MouseHandler {
             }
             else if (e.button == 1) // MMB
             {
-                if (Logic.currentState == StateEnum.BORDERSelection) {
+                if (Logic.currentState == StateEnum.BORDERSELECTION) {
                     Utilities.startAreaSelection(false);
                 }
                 else if (e.ctrlKey) {
@@ -245,7 +245,7 @@ class MouseHandler {
                 else
                     this.cancelLinePreview();
             }
-            else if (Logic.currentState == StateEnum.BORDERSelection) {
+            else if (Logic.currentState == StateEnum.BORDERSELECTION) {
                 Utilities.endAreaSelection(true);
             }
             else if (Logic.currentState == StateEnum.CONTINOUSDRAWING) {
@@ -255,7 +255,7 @@ class MouseHandler {
 
         else if (e.button == 1) // MMB
         {
-            if (Logic.currentState == StateEnum.BORDERSelection) {
+            if (Logic.currentState == StateEnum.BORDERSELECTION) {
                 Utilities.endAreaSelection(true);
             }
             else if (Logic.currentState == StateEnum.ZOOMING) {

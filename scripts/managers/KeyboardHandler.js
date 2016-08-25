@@ -176,7 +176,7 @@ class CanvasKeyHandler {
                 Renderer.redraw();
                 break;
             case 66: // B
-                Logic.setState(StateEnum.BORDERSelection);
+                Logic.setState(StateEnum.BORDERSELECTION);
                 Renderer.redraw();
                 break;
             case 187: // +

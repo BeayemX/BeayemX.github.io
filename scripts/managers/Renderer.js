@@ -265,7 +265,7 @@
         if (!Logic.isPreviewing()) {
             this.drawGrid();
             this.drawAxis();
-            if (Logic.currentState == StateEnum.BORDERSelection || spaceDown)
+            if (Logic.currentState == StateEnum.BORDERSELECTION || spaceDown)
                 this.drawCrosshair();
             this.drawBorderSelection();
         }
@@ -487,7 +487,7 @@
     }
 
     static drawBorderSelection() {
-        if (Logic.currentState != StateEnum.BORDERSelection || !Utilities.borderSelectionStart || !Utilities.borderSelectionEnd)
+        if (Logic.currentState != StateEnum.BORDERSELECTION || !Utilities.borderSelectionStart || !Utilities.borderSelectionEnd)
             return;
 
         context.strokeStyle = Settings.selectionColor;
