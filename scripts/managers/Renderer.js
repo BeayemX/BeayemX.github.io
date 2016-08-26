@@ -272,8 +272,11 @@
 
         this.drawObjects();
 
-        if (Logic.currentState == StateEnum.IDLE || Logic.currentState == StateEnum.DRAWING)
+        if (Logic.currentState == StateEnum.DRAWING)
             this.drawPreviewLine();
+
+        // if (Logic.currentState == StateEnum.IDLE || Logic.currentState == StateEnum.DRAWING || Logic.currentState == StateEnum.CONTINOUSDRAWING) 
+            this.drawCursor();
 
         if (Logic.currentState == StateEnum.GRABBING)
             this.drawMoveLinesPreview();
@@ -377,8 +380,6 @@
             if (movingLines)
                 context.setLineDash([]);
         }
-
-
     }
 
     static drawLayer(layer) {
@@ -423,7 +424,9 @@
             let end = currentPosition;
             this.drawLineFromTo(start, end, currentLineThickness, Settings.previewLineColor, false);
         }
+    }
 
+    static drawCursor(){
         this.drawRealCircle(currentPosition, currentLineThickness * 0.5, 1, currentLineColor.toString(), false, true, true);
         this.drawRealCircle(selectionCursor, cursorRange, 2, Settings.selectionColor, false, true);
     }

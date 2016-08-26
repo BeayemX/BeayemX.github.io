@@ -26,6 +26,9 @@ canvas {
     margin: 0;
     padding: 0;
 }
+canvas:hover{
+    cursor:none;
+}
 
 p {
     font-size: 14pt;
